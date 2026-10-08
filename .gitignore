@@ -1,0 +1,7 @@
+node_modules/
+scratch/
+.DS_Store
+__pycache__/
+*.pyc
+_site/
+_public/

@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "playwright": "^1.62.1"
+  },
+  "scripts": {
+    "test": "node scripts/test-all.cjs",
+    "verify:release": "node scripts/verify-release.js",
+    "verify:release:report": "node scripts/verify-release.js --write-report"
+  }
+}

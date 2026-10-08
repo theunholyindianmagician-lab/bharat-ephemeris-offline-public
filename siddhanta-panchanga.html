@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#03060e">
+  <title>सिद्धान्त-पञ्चाङ्ग · Siddhānta Pañcāṅga — Bharat Ephemeris</title>
+  <meta name="description" content="The Sūrya-Siddhānta's pañcāṅga for your place and day — tithi, nakṣatra, yoga, karaṇa, the month, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā — computed on your device. Nothing leaves it.">
+  <meta property="og:title" content="सिद्धान्त-पञ्चाङ्ग · Siddhānta Pañcāṅga — Bharat Ephemeris">
+  <meta property="og:description" content="The Sūrya-Siddhānta's pañcāṅga for your place and day — tithi, nakṣatra, yoga, karaṇa, the month, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā — computed on your device. Nothing leaves it.">
+  <meta property="og:image" content="https://offline.bharatephemeris.com/og/siddhanta-panchanga.png">
+  <meta property="og:url" content="https://offline.bharatephemeris.com/siddhanta-panchanga.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="सिद्धान्त-पञ्चाङ्ग · Siddhānta Pañcāṅga — Bharat Ephemeris">
+  <meta name="twitter:description" content="The Sūrya-Siddhānta's pañcāṅga for your place and day — tithi, nakṣatra, yoga, karaṇa, the month, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā — computed on your device. Nothing leaves it.">
+  <meta name="twitter:image" content="https://offline.bharatephemeris.com/og/siddhanta-panchanga.png">
+  <link rel="stylesheet" href="global.css?v=107">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <style>
+    /* Night sky with brass by default; by day, slate paper with copper — the same tokens as vedha.html. */
+    :root { --vb: #0d1220; --vp: #141b30; --vl: #2a3456; --vi: #e6e8ee; --vm: #a3abc4; --va: #e0a458; --vg: #6fd39b; --vr: #ff8a7a; --vh: rgba(224, 164, 88, 0.16);
+      --font-body: system-ui, "Noto Sans Devanagari", sans-serif; --font-display: var(--font-body); --font-num: ui-monospace, Menlo, Consolas, monospace;
+      /* the shared nav's measures, which global.css leaves unset outside its narrow-screen query */
+      --layer-nav: 40; --nav-height: 4rem; --page-gutter: clamp(0.875rem, 3vw, 2.5rem); --safe-top: env(safe-area-inset-top, 0px);
+      --safe-right: env(safe-area-inset-right, 0px); --safe-left: env(safe-area-inset-left, 0px);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --radius-sm: 0.375rem; --touch-target: 2.75rem;
+      color-scheme: dark; }
+    @media (max-width: 43.75rem) { :root { --nav-height: 3.75rem; --page-gutter: 0.75rem; } }
+    @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --vb: #f3f5f7; --vp: #ffffff; --vl: #d3d9e2; --vi: #17202b; --vm: #4f5b6b; --va: #9b4a22; --vg: #1d7a45; --vr: #b3261e; --vh: rgba(155, 74, 34, 0.1); color-scheme: light; } }
+    :root[data-theme="light"] { --vb: #f3f5f7; --vp: #ffffff; --vl: #d3d9e2; --vi: #17202b; --vm: #4f5b6b; --va: #9b4a22; --vg: #1d7a45; --vr: #b3261e; --vh: rgba(155, 74, 34, 0.1); color-scheme: light; }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html, body { margin: 0; background: var(--vb); color: var(--vi); font: 15px/1.55 var(--font-body); overflow-x: clip; }
+    h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; }
+    main a, main a:link, main a:visited { color: var(--va) !important; text-decoration: underline; text-shadow: none; }
+    main a:hover, main a:focus { color: var(--vi) !important; text-shadow: none; }
+    button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--va); outline-offset: 1px; box-shadow: none; }
+    main { max-width: 1040px; margin: 0 auto; padding: 16px; }
+    header h1 { font-size: 1.6rem; margin: 0.2em 0; }
+    header p { color: var(--vm); margin: 0.3em 0; }
+    .toprow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+    .toc { display: flex; flex-wrap: wrap; gap: 4px 6px; margin: 8px 0 0; font-size: 0.85rem; }
+    .toc a { padding: 2px 8px; border: 1px solid var(--vl); border-radius: 12px; text-decoration: none !important; }
+    section { background: var(--vp); border: 1px solid var(--vl); border-radius: 10px; padding: 14px 16px; margin: 14px 0; scroll-margin-top: calc(var(--nav-height) + 8px); }
+    section h2 { font-size: 1.15rem; margin: 0 0 8px; }
+    section h3 { font-size: 1rem; margin: 14px 0 6px; }
+    label { display: inline-flex; flex-direction: column; gap: 2px; margin: 4px 10px 4px 0; font-size: 0.85rem; color: var(--vm); max-width: 100%; }
+    input, select, button { font: inherit; color: var(--vi); background: var(--vb); border: 1px solid var(--vl); border-radius: 6px; padding: 5px 8px; min-height: 2.25rem; width: auto; max-width: 100%; }
+    input[type=number] { width: 7.5em; }
+    input[type=radio] { min-height: 0; }
+    select { max-width: 100%; }
+    button { cursor: pointer; background: var(--vl); }
+    button.primary { background: var(--va); color: #111; border-color: var(--va); font-weight: 600; }
+    .row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 4px; }
+    .radio { flex-direction: row; align-items: center; gap: 6px; }
+    fieldset { border: 1px solid var(--vl); border-radius: 8px; margin: 6px 0; padding: 4px 10px 8px; min-width: 0; }
+    legend { color: var(--vm); font-size: 0.85rem; padding: 0 4px; }
+    details { margin: 6px 0; }
+    summary { cursor: pointer; color: var(--vm); }
+    .muted { color: var(--vm); font-size: 0.88rem; }
+    .small { font-size: 0.8rem; }
+    .ok { color: var(--vg); } .bad { color: var(--vr); }
+    #msg { min-height: 1.4em; margin: 6px 0 0; }
+    .num, td, .gh, .t { font-variant-numeric: tabular-nums; }
+    .gh { color: var(--vm); font-size: 0.84em; white-space: nowrap; }
+    .t { font-family: var(--font-num); font-size: 0.95em; white-space: nowrap; }
+    .nd { color: var(--vm); font-size: 0.8em; white-space: nowrap; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.88rem; margin: 6px 0; color: var(--vi); }
+    th, td { border-bottom: 1px solid var(--vl); padding: 4px 6px; text-align: left; vertical-align: top; font-family: var(--font-body); font-size: inherit; letter-spacing: 0; text-transform: none; white-space: normal; line-height: 1.4; }
+    th { color: var(--vm); font-weight: 600; }
+    tr:hover td { background: transparent; }
+    caption { caption-side: top; text-align: left; color: var(--vm); font-family: var(--font-body); font-size: 0.85rem; padding: 2px 0; }
+    .scroll { overflow-x: auto; max-width: 100%; }
+    .tag { display: inline-block; padding: 0 6px; border-radius: 8px; border: 1px solid; font-size: 0.72rem; line-height: 1.5; vertical-align: 1px; }
+    .tag.text { color: var(--vg); border-color: var(--vg); }
+    .tag.cp { color: var(--va); border-color: var(--va); }
+    .tag.mixed { color: var(--vm); border-color: var(--vm); }
+    .src { color: var(--vm); font-size: 0.78rem; }
+    /* today */
+    dl.pan { display: grid; grid-template-columns: minmax(9em, max-content) 1fr; gap: 0; margin: 0; }
+    dl.pan dt { color: var(--vm); padding: 6px 10px 6px 0; border-bottom: 1px solid var(--vl); font-size: 0.9rem; }
+    dl.pan dd { margin: 0; padding: 6px 0; border-bottom: 1px solid var(--vl); min-width: 0; overflow-wrap: anywhere; }
+    ul.seq { list-style: none; margin: 0; padding: 0; }
+    ul.seq li { margin: 0 0 2px; }
+    .polar { border: 1px solid var(--va); border-radius: 8px; padding: 10px 12px; background: var(--vh); }
+    /* muhūrtas */
+    .chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5em, 1fr)); gap: 4px; margin: 6px 0; }
+    .chip { border: 1px solid var(--vl); border-radius: 6px; padding: 2px 6px; font-size: 0.8rem; }
+    .chip.hi { border-color: var(--va); background: var(--vh); }
+    /* month grid: seven columns of days, a list on a narrow screen */
+    .mgrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+    .mhead { text-align: center; font-size: 0.75rem; color: var(--vm); padding: 2px 0; }
+    .mday { display: flex; flex-direction: column; align-items: stretch; gap: 1px; width: 100%; min-height: 7.2em; padding: 4px 5px; text-align: left;
+      background: var(--vb); color: var(--vi); border: 1px solid var(--vl); border-radius: 6px; font-size: 0.74rem; line-height: 1.3; overflow-wrap: anywhere; }
+    .mday > span { display: block; min-width: 0; }
+    .mday .dn { font-weight: 700; font-size: 0.95rem; }
+    .mday .wd { display: none; font-weight: 400; font-size: 0.75rem; color: var(--vm); }
+    .mday .nk { color: var(--vm); }
+    .mday .mk { color: var(--va); font-weight: 600; }
+    .mday .fx { color: var(--vg); }
+    .mday .sk { color: var(--va); }
+    .mday.today { border-color: var(--vg); }
+    .mday.sel { border-color: var(--va); background: var(--vh); }
+    .mday.polar-day { color: var(--vm); }
+    @media (max-width: 640px) {
+      .mgrid { grid-template-columns: 1fr; }
+      .mhead, .mblank { display: none; }
+      .mday { flex-direction: row; flex-wrap: wrap; min-height: 0; gap: 0 10px; padding: 6px 8px; font-size: 0.82rem; }
+      .mday .dn { flex: 0 0 100%; }
+      .mday .wd { display: inline; }
+    }
+    /* festivals and eclipses */
+    ul.flist { list-style: none; margin: 0; padding: 0; }
+    ul.flist > li { padding: 6px 0; border-bottom: 1px solid var(--vl); }
+    .fdate { display: inline-block; min-width: 6.5em; font-variant-numeric: tabular-nums; color: var(--va); }
+    .ecard { border: 1px solid var(--vl); border-radius: 8px; padding: 8px 10px; margin: 8px 0; }
+    .ecard h3 { margin: 0 0 4px; }
+    .fate { font-weight: 600; color: var(--va); }
+    .caution { border-left: 3px solid var(--vr); padding: 4px 10px; margin: 8px 0; font-size: 0.88rem; }
+    .dasha tr.cur > td { background: var(--vh); }
+    .dasha td.sub { padding: 0 0 4px 12px; }
+    .dasha td.sub table { margin: 0; font-size: 0.84rem; }
+    @media (max-width: 480px) {
+      main { padding: 10px; }
+      section { padding: 12px 10px; }
+      dl.pan { grid-template-columns: 1fr; }
+      dl.pan dt { border-bottom: 0; padding-bottom: 0; }
+      th, td { padding: 4px 4px; }
+    }
+  </style>
+</head>
+<body>
+<nav class="bharat-nav" aria-label="Primary navigation">
+  <a href="index.html" class="bharat-brand" aria-label="Bharat Ephemeris Home">BHARAT EPHEMERIS</a>
+  <div class="bharat-links">
+    <a href="index.html" id="nav-home">HOME</a>
+    <a href="museum.html" id="nav-museum">MUSEUM</a>
+    <a href="library.html" id="nav-library">LIBRARY</a>
+    <a href="panchang.html" id="nav-panchang">PANCHANG</a>
+    <a href="siddhanta-panchanga.html" id="nav-siddhanta" class="active" aria-current="page">सिद्धान्त-पञ्चाङ्ग</a>
+    <a href="shunyabheda.html" id="nav-engine">ENGINE</a>
+    <a href="shoonya_sovereign_dashboard.html" id="nav-dashboard">DASHBOARD</a>
+    <a href="vedha.html" id="nav-vedha">VEDHA</a>
+  </div>
+</nav>
+<main>
+  <header>
+    <div class="toprow">
+      <h1>सिद्धान्त-पञ्चाङ्ग · Siddhānta Pañcāṅga</h1>
+      <button id="theme" type="button">रंग · theme: auto</button>
+    </div>
+    <p>The Sūrya-Siddhānta's pañcāṅga for your place and day: its own true Sun and Moon, its own rules, computed here on your device. Nothing is fetched and nothing leaves it.</p>
+    <nav class="toc" aria-label="On this page">
+      <a href="#sthana">१ स्थान</a><a href="#aaj">२ आज</a><a href="#kala">३ काल</a><a href="#masa">४ मास</a><a href="#utsava">५ उत्सव</a><a href="#grahana">६ ग्रहण</a><a href="#dasha">७ दशा</a><a href="#parichaya">८ परिचय</a>
+    </nav>
+    <p id="msg" role="status" aria-live="polite"></p>
+  </header>
+
+  <section id="sthana" aria-labelledby="h-sthana">
+    <h2 id="h-sthana">१ · स्थान · दिन — place and day</h2>
+    <div class="row">
+      <label>नगर · city (approximate; enter your own)
+        <select id="city"></select></label>
+      <label>अक्षांश · latitude ° (north +) <input id="lat" type="number" step="any" min="-90" max="90" inputmode="decimal"></label>
+      <label>रेखांश · longitude ° (east +) <input id="lon" type="number" step="any" min="-180" max="180" inputmode="decimal"></label>
+      <label>UTC offset, hours <input id="off" type="number" step="any" min="-12" max="14" inputmode="decimal"></label>
+      <button id="geo" type="button">मेरा स्थान · use my location</button>
+    </div>
+    <p id="geo-note" class="muted small">The position stays on this device: the page sends nothing anywhere (your browser finds the position itself). The UTC offset is fixed; enter a summer-time offset yourself.</p>
+    <div class="row">
+      <label>दिन · date <input id="date" type="date"></label>
+      <button id="prev" type="button" aria-label="Previous day">← दिन</button>
+      <button id="today-btn" type="button">आज · today</button>
+      <button id="next" type="button" aria-label="Next day">दिन →</button>
+      <fieldset>
+        <legend>मास-गणना · month reckoning</legend>
+        <label class="radio"><input type="radio" name="scheme" value="amanta" checked> अमान्त · amānta</label>
+        <label class="radio"><input type="radio" name="scheme" value="purnimanta"> पूर्णिमान्त · pūrṇimānta</label>
+      </fieldset>
+    </div>
+    <details>
+      <summary>उन्नत · advanced: the Ujjayinī meridian</summary>
+      <p class="muted">The engine counts days from midnight on the Laṅkā–Ujjayinī meridian. 75.7885° E is the modern position of Ujjain (the value the rest of this product uses), not a figure from the text; change it here if you hold another. A place's deśāntara is its longitude less this.</p>
+      <label>Ujjayinī meridian ° east <input id="mer" type="number" step="any" min="-180" max="180" inputmode="decimal"></label>
+    </details>
+    <p id="place-state" class="muted"></p>
+    <p class="muted small">Clock times: the instant the engine gives, less the meridian's longitude (÷ 360 of a day), plus your UTC offset. The Sūrya-Siddhānta's civil day is a turn of the Earth, sunrise to sunrise, so no ΔT enters. Beside each time is its count from sunrise in ghaṭī (घ) and vināḍī (वि) of the star-wheel's turn (SS 1.11-1.12), as the engine returns it.</p>
+  </section>
+
+  <section id="aaj" aria-labelledby="h-aaj">
+    <h2 id="h-aaj">२ · आज का पञ्चाङ्ग — the day's pañcāṅga</h2>
+    <div id="today"><p class="muted">Computing…</p></div>
+    <p id="t-today" class="muted small"></p>
+  </section>
+
+  <section id="kala" aria-labelledby="h-kala">
+    <h2 id="h-kala">३ · काल-खण्ड — the parts of the day</h2>
+    <div id="kala-out"><p class="muted">—</p></div>
+    <p id="t-kala" class="muted small"></p>
+  </section>
+
+  <section id="masa" aria-labelledby="h-masa">
+    <h2 id="h-masa">४ · मास — the month, day by day</h2>
+    <p class="muted small">Each day shows the tithi and nakṣatra at its sunrise. A tithi that begins and ends between two sunrises is marked kṣaya; one that runs through two sunrises, vṛddhi. Choose a day to see its pañcāṅga.</p>
+    <div id="month"><p class="muted">—</p></div>
+    <p id="t-month" class="muted small"></p>
+  </section>
+
+  <section id="utsava" aria-labelledby="h-utsava">
+    <h2 id="h-utsava">५ · वर्ष के उत्सव — the year's festivals, saṅkrāntis and ayanas</h2>
+    <div id="year"><p class="muted">—</p></div>
+    <p id="t-year" class="muted small"></p>
+  </section>
+
+  <section id="grahana" aria-labelledby="h-grahana">
+    <h2 id="h-grahana">६ · ग्रहण — eclipses in the next 400 days</h2>
+    <p class="muted small">The text's eclipses at this place (SS chapters 4, 5 and 6.13), from the chosen day: this is the text's eclipse, not the sky's, until the vedha says how far apart they are.</p>
+    <p class="caution" id="eclipse-caution">सूर्य-ग्रहण को कभी भी नंगी आँखों, धूप के चश्मे या कैमरे से सीधे न देखें; केवल प्रमाणित सौर-फ़िल्टर या पिनहोल-प्रक्षेपण से। · Never look at a solar eclipse with the naked eye, sunglasses or through a camera; use only a certified solar filter or pinhole projection. The text's magnitude is the text's prediction, not a safety guide.</p>
+    <div id="ecl"><p class="muted">—</p></div>
+    <p id="t-ecl" class="muted small"></p>
+  </section>
+
+  <section id="dasha" aria-labelledby="h-dasha">
+    <h2 id="h-dasha">७ · विंशोत्तरी दशा — Vimśottarī daśā</h2>
+    <form id="dasha-form" class="row">
+      <label>जन्म-दिन · birth date <input id="b-date" type="date" required></label>
+      <label>समय · time (your clock) <input id="b-time" type="time" value="12:00" required></label>
+      <label>जन्म-स्थान · birth place
+        <select id="b-city"></select></label>
+      <label>its clock: UTC offset <input id="b-off" type="number" step="any" min="-12" max="14" inputmode="decimal"></label>
+      <label>वर्ष · year of the daśā
+        <select id="b-year"></select></label>
+      <label>भोग्य · balance
+        <select id="b-bal"><option value="time">by time in the nakṣatra (BPHS 46.16)</option><option value="arc">by the Moon's arc in it</option></select></label>
+      <button type="submit" class="primary" id="b-go">दशा निकालें · compute</button>
+    </form>
+    <p class="muted small">Only the birth instant matters: the Moon's nakṣatra then. The place gives the clock's UTC offset (enter the offset in force at the birth, summer time included); its latitude and longitude are not used. Birth details are not stored.</p>
+    <div id="dasha-out"></div>
+  </section>
+
+  <section id="parichaya" aria-labelledby="h-parichaya">
+    <h2 id="h-parichaya">८ · परिचय — about these numbers</h2>
+    <ul>
+      <li>These are the Sūrya-Siddhānta's numbers: its own revolutions, true Sun and Moon (chapter 2, with Mādhava's sine), ayanāṃśa (3.9-3.10) and eclipse rules (chapters 4-6). They are computed on your device by the engine's files, and nothing is fetched.</li>
+      <li>They are not yet checked against the sky. Observations are what correct them: that is the work of the observation companion, <a href="vedha.html">वेध · vedha</a>.</li>
+      <li>Printed pañcāṅgas use other models and other ayanāṃśas, so a tithi's end can differ by hours, and a festival or a saṅkrānti can fall a day apart.</li>
+      <li>Festival rules (which tithi, in which part of the day, which of two days) are simplified common practice and are marked unverified, unless a row is marked as from the text: there is no Rohiṇī check for Janmāṣṭamī and no daśamī-vedha for Ekādaśī. The names of most yogas, of the movable karaṇas after Bava and of the tithis are the standard lists; no text in this repository states them.</li>
+    </ul>
+    <h3>मान्यताएँ · conventions</h3>
+    <ul>
+      <li>Months come from the engine as amānta (new moon to new moon), named by the saṅkrānti in them. The pūrṇimānta name is derived on this page — the dark half takes the next month's name, and an adhika month stays adhika — and is labelled common practice.</li>
+      <li>The karaṇas around amāvāsyā follow SS 2.67's order: Śakuni, Nāga, Catuṣpada, Kiṃstughna (Nāga before Catuṣpada; the later common order differs).</li>
+      <li>panchanga.js does not flag kṣaya or vṛddhi tithis. The month grid derives them by comparing the tithis at two sunrises.</li>
+      <li>The daśā year is the Sūrya-Siddhānta's solar year, 365.2587565 civil days (SS 14.10 with 1.37), and the balance at birth is by the time gone in the birth nakṣatra (BPHS 46.16); the other choices dasha.js offers are in the form.</li>
+      <li>Clock times use 75.7885° E for Ujjain's meridian, its modern position, not a figure from the text.</li>
+    </ul>
+  </section>
+</main>
+
+<script src="kala-dvara.js"></script>
+<script src="sphuta.js"></script>
+<script src="dhruva.js"></script>
+<script src="ss-udaya.js"></script>
+<script src="spanda-ganita.js"></script>
+<script src="ss-grahana.js"></script>
+<script src="panchanga.js"></script>
+<script src="utsava.js"></script>
+<script src="muhurta.js"></script>
+<script src="dasha.js"></script>
+<script src="siddhanta-panchanga-page.js"></script>
+</body>
+</html>

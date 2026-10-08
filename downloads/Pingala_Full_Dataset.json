@@ -1,0 +1,51 @@
+{
+  "title": "Chandas Shastra & Binary Mathematics",
+  "subtitlePrefix": "छन्दःशास्त्रम् · Meru Prastāra & Binary Sequences (Pingala)",
+  "badge": "Research Digest · 1 Chapter",
+  "price": "HTML · 1 chapter · not the classical manuscript",
+  "chapters": [
+    {
+      "num": 1,
+      "nameSa": "द्विक-गणित एवं मेरु-प्रस्तार",
+      "nameEn": "Binary Sequences, Pascal's Triangle & Fibonacci (Matrameru)",
+      "shortTitle": "1. Meru Prastara & Binary",
+      "verseRange": "Chandas Shastra Adhyaya 8",
+      "readingTime": "15 min study",
+      "overview": "Pingala (c. 3rd century BCE) developed a binary number system (Laghu/Guru) to compute all possible poetic meters. His algorithms (Prastara, Nashta, Uddishta) represent early combinatorics, Pascal's Triangle (Meru), and Fibonacci numbers.",
+      "slokas": [
+        {
+          "deva": "द्विरर्धे ।\nरूपे शून्यम् ।\nद्विः शून्ये ।\nतावदर्धे तद्गुणितम् ॥",
+          "meter": "सूत्र शैली (Pingala 8.28-31)",
+          "translit": "dvir ardhe |\nrūpe śūnyam |\ndviḥ śūnye |\ntāvad ardhe tadguṇitam ||",
+          "anvaya": [
+            {
+              "sa": "द्विः अर्धे",
+              "en": "When (the count) can be halved: halve it and write two (dvi)"
+            },
+            {
+              "sa": "रूपे शून्यम्",
+              "en": "When one (rūpa) has to be subtracted (odd count): write zero (śūnya)"
+            },
+            {
+              "sa": "द्विः शून्ये",
+              "en": "Reading the marks back: at a zero, double"
+            },
+            {
+              "sa": "तावदर्धे तद्गुणितम्",
+              "en": "At a \"half\" mark, multiply by itself (square)"
+            }
+          ],
+          "translation": "If the count is halvable, halve it and write \"two\"; if not, subtract one and write \"zero\". Reading the marks back, double at a zero and square at a two — Piṅgala's fast-exponentiation for 2ⁿ. The halve/subtract sequence is the binary expansion of n, which the snippet reproduces (modern reading: 0 ↔ halved, 1 ↔ one subtracted).",
+          "source": "स्रोत अपरीक्षित · source unverified — editions/pingala-full-edition.html (१.२) carries «द्विरर्धे । रूपे शून्यम् ।»; the sūtras «द्विः शून्ये» and «तावदर्धे तद्गुणितम्» and the numbering 8.28–31 have no witness in this repository."
+        }
+      ],
+      "formula": {
+        "title": "Pingala's Binary Conversion Algorithm (Nashta)",
+        "latex": "2^n = \\sum_{k=0}^{n} \\binom{n}{k}, \\quad F_n = F_{n-1} + F_{n-2} \\text{ (Mātrāmeru)}",
+        "notes": "Combinatorics of Laghu (0/1) and Guru (1/2) beats forming the exact binary sequence and Fibonacci series."
+      },
+      "codeSnippet": "def pingala_binary(n):\n    # Converts decimal to binary string (Pingala's method reversed)\n    if n == 0: return \"\"\n    if n % 2 == 0:\n        return pingala_binary(n // 2) + \"0\"\n    else:\n        return pingala_binary((n - 1) // 2) + \"1\" ",
+      "codeOutput": "pingala_binary(13) → '1101'\nComputed by executing this snippet (Python 3)."
+    }
+  ]
+}
