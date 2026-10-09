@@ -173,7 +173,24 @@
   function valuationTable(entries) {
     return entries.map((e) => { const v = typeof e.value === "bigint" ? e.value : BigInt(e.value); const k = nu3(v); return { ...e, value: v.toString(), nu3: k, threeFreePart: (v / (3n ** BigInt(k))).toString(), unitMod3: k === 0 }; });
   }
+  /** The cycles of x ↦ g·x on ℤ/modulus (g = 2 by default): structure only — no daśā or transit rule is derived from it.
+   *  On ℤ/9 the cycle lengths are 1, 6, 2 and on ℤ/27 they are 1, 18, 6, 2 [theorem]; so no order that runs through all 9 lords
+   *  or all 27 nakṣatras in one cycle (the Vimśottarī order, the nakṣatra succession) is a doubling orbit: those are the orbits of x ↦ x + 1. */
+  function generatorOrbits(modulus, g = 2) {
+    const M = fin(modulus, "the modulus"), G = fin(g, "the generator");
+    if (!Number.isInteger(M) || M < 2 || !Number.isInteger(G)) throw new RangeError("sukshma-kala: generatorOrbits needs an integer modulus ≥ 2 and an integer generator");
+    const seen = new Set(), out = [];
+    for (let s = 0; s < M; s++) {
+      if (seen.has(s)) continue;
+      const cycle = []; let x = s;
+      do { cycle.push(x); seen.add(x); x = ((G * x) % M + M) % M; } while (x !== s && !seen.has(x));
+      if (x !== s) throw new RangeError(`sukshma-kala: x ↦ ${G}·x is not a permutation of ℤ/${M} (${G} shares a factor with ${M})`);
+      out.push(cycle);
+    }
+    return out;
+  }
+  const GENERATOR_NOTE = "2 is a primitive root of every ℤ/3^k (its orbit is all the units, 2·3^(k−1) of them), so the generator of the tower is right; but x ↦ 2x on ℤ/9 has cycles of lengths 1, 6, 2 and on ℤ/27 of lengths 1, 18, 6, 2, never 8, 9 or 27, and on ℤ/8 or ℤ/12 it is not a permutation. Every daśā and transit order the texts give is one cycle through all its members — the orbit of x ↦ x + 1. The doubling action is kept as structure; no rule is built on it [theorem].";
   const TOWER_NOTE = "ν₃ of a count is the level k of (ℤ/3^k ℤ, 2, k) at which it sits: a count with ν₃ = 0 is a unit of every ℤ/3^k and the kuṭṭaka on it always solves; a count with ν₃ = k lies in the nilpotent ideal (3)^k. The text's civil days (both canons' day counts) are units; the Sun's revolutions, the yuga's years, the day's prāṇas, the 27 nakṣatras and the 108 cells all sit at k = 3 [theorem on the printed numbers].";
 
-  return Object.freeze({ VARGAS, LATTICE, LORDS, LORD_YEARS, TOWER_NOTE, microOf, partWidth, index, margin, resolution, assess, chart, cell, dashaDaysPerArcmin, nu3, valuationTable });
+  return Object.freeze({ VARGAS, LATTICE, LORDS, LORD_YEARS, TOWER_NOTE, GENERATOR_NOTE, microOf, partWidth, index, margin, resolution, assess, chart, cell, dashaDaysPerArcmin, nu3, valuationTable, generatorOrbits });
 });

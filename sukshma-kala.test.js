@@ -121,13 +121,27 @@ test('the ring tower in the text\'s numbers: ν₃ of every count the texts give
   assert.match(SK.TOWER_NOTE, /units/);
 });
 
-test('the generator of the owner\'s tower: 2 is a primitive root of every ℤ/3^k (its orbit is all the units, 2·3^(k-1) of them); the lord map ℤ/27 → ℤ/9 has kernel {1, 10, 19} (all Ketu); the text\'s day count is the identity of ℤ/27', () => {
+test('the generator of the owner\'s tower: 2 is a primitive root of every ℤ/3^k (its orbit is all the units, 2·3^(k-1) of them); in the zero-based ring ℤ/27 (Aśvinī = 0) the ideal (3) carries Ketu, Candra, Guru and the ideal (9) = the kernel {0, 9, 18} all Ketu; the text\'s day count is the identity', () => {
   const K = require('./kala-dvara.js'); const m = K.mana('surya');
   for (const k of [1, 2, 3, 4, 5]) { const M = 3n ** BigInt(k); let x = 1n, ord = 0; do { x = (x * 2n) % M; ord++; } while (x !== 1n); assert.equal(ord, 2 * 3 ** (k - 1), `ord(2) mod 3^${k}`); }
   // 2 is a primitive root mod 3 and 2² = 4 ≢ 1 (mod 9), so it is one for every power of 3 [theorem]: the units of ℤ/27 (18) and ℤ/9 (6) are one orbit each
   const lords = SK.LORDS; assert.equal(lords.length, 9);
-  for (const n of [1, 10, 19]) assert.equal(lords[(n - 1) % 9], 'Ketu');                       // the kernel of n ↦ n mod 9: the three gaṇḍānta nakṣatras share the lord
-  assert.deepEqual([3, 6, 9, 12, 15, 18, 21, 24, 27].map((n) => lords[(n - 1) % 9]), ['Sūrya', 'Rāhu', 'Budha', 'Sūrya', 'Rāhu', 'Budha', 'Sūrya', 'Rāhu', 'Budha']);
+  // the ring is zero-based: Aśvinī = 0 … Revatī = 26; the lord map n ↦ n mod 9 is the quotient ℤ/27 → ℤ/9 and the lords of a coset of (3) are the three lords of one residue class mod 3
+  const ideal3 = [0, 3, 6, 9, 12, 15, 18, 21, 24], coset1 = ideal3.map((n) => n + 1), coset2 = ideal3.map((n) => n + 2);
+  assert.deepEqual([...new Set(ideal3.map((n) => lords[n % 9]))], ['Ketu', 'Candra', 'Guru']);       // the nilpotent ideal (3): Aśvinī, Rohiṇī, Punarvasu, Maghā, …
+  assert.deepEqual([...new Set(coset1.map((n) => lords[n % 9]))], ['Śukra', 'Maṅgala', 'Śani']);
+  assert.deepEqual([...new Set(coset2.map((n) => lords[n % 9]))], ['Sūrya', 'Rāhu', 'Budha']);       // the coset 2 + (3): Kṛttikā, Ārdrā, Āśleṣā, … — the ONE-based multiples of 3, not the ideal
+  for (const n of [0, 9, 18]) assert.equal(lords[n % 9], 'Ketu');                               // the ideal (9) = kernel of ℤ/27 → ℤ/9: Aśvinī, Maghā, Mūla
+  // the doubling action, structure only: its cycle lengths on ℤ/9 are 1, 6, 2 and on ℤ/27 are 1, 18, 6, 2 — never 8, 9 or 27 [theorem]
+  const o9 = SK.generatorOrbits(9), o27 = SK.generatorOrbits(27);
+  assert.deepEqual(o9.map((c) => c.length), [1, 6, 2]); assert.deepEqual(o27.map((c) => c.length), [1, 18, 6, 2]);
+  assert.deepEqual(o9[1], [1, 2, 4, 8, 7, 5]); assert.deepEqual(o9[1].map((i) => lords[i]), ['Śukra', 'Sūrya', 'Maṅgala', 'Budha', 'Śani', 'Rāhu']); assert.deepEqual(o9[2].map((i) => lords[i]), ['Candra', 'Guru']);
+  assert.deepEqual(o27[2], [3, 6, 12, 24, 21, 15]); assert.deepEqual(o27[3], [9, 18]);
+  assert.throws(() => SK.generatorOrbits(8), /not a permutation/); assert.throws(() => SK.generatorOrbits(12), /not a permutation/);   // 8-lord and 12-sign cycles cannot be doubling orbits at all
+  // the Vimśottarī order through all nine lords is the orbit of x ↦ x + 1 (one 9-cycle), the nakṣatra succession the orbit of x ↦ x + 1 on ℤ/27; neither is a doubling orbit
+  assert.deepEqual(SK.generatorOrbits(9, 1).length, 9); assert.ok(!o9.some((c) => c.length === 9)); assert.ok(!o27.some((c) => c.length === 27 || c.length === 9 || c.length === 8));
+  const D = require('./dasha.js'); for (let n = 0; n < 27; n++) assert.equal(D.LORDS[D.lordOfNakshatra(n + 1)], lords[n % 9]);   // the engine's daśā lord (dasha.js counts the nakṣatra one-based, 1 = Aśvinī) of ring element n is the quotient map
+  assert.match(SK.GENERATOR_NOTE, /structure/);
   // the printed civil-day count of the yuga is ≡ 1 both mod 27 and mod 9: one yuga moves every 27-fold and 9-fold day cycle by exactly one step [theorem on SS 1.37]
   assert.equal(m.savana % 27n, 1n); assert.equal(m.nakshatra % 27n, 1n); assert.equal(m.savana % 9n, 1n);
   // the Sun's count, the day's prāṇas and 108 are 0 in ℤ/27 (they lie in (3)³): the Sun is the zero of the nakṣatra ring
