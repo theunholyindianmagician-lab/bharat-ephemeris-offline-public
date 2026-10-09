@@ -7,4 +7,6 @@ Two generated files, read by `ganita-shala.html` (गणित-शाला) and
 
 - **`library-sweep.json`** — ten readers, one per edition, for what each text holds about time structure, number and measurement; every quoted line re-checked at its line number (`verseFound`), the editions' own commentary marked apart from the verse, the readers' measurement candidates with their caveats. 196 findings, 136 found verbatim.
 
+- **`generator-2-search.json`** — the search for any basis for a doubling (generator-2) daśā or transit rule: readers over the ten editions, the repository's research and its code, three refuters per positive claim, every quoted line re-checked, every stated daśā/tārā/transit order tested against x ↦ 2x and x ↦ x + 1; the doubling cycles of ℤ/9 and ℤ/27 from `sukshma-kala.js generatorOrbits`.
+
 All carry their `generatedBy`. A figure on the page is never retyped from memory: it is this data or a live computation.

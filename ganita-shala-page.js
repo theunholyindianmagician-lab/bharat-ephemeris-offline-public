@@ -272,6 +272,27 @@
     document.body.dataset.granthas = String((data.reads || []).length);
   }
 
+  function renderGenerator(data) {
+    if (!SK) return;
+    $("gen-note").textContent = SK.GENERATOR_NOTE;
+    const tb = $("gen-orbits").querySelector("tbody"); tb.textContent = "";
+    for (const [M, label] of [[9, "ℤ/9 (lords)"], [27, "ℤ/27 (nakṣatras)"]]) for (const c of SK.generatorOrbits(M)) {
+      const tr = el("tr"); tr.dataset.ring = String(M); tr.dataset.length = String(c.length);
+      tr.appendChild(el("td", null, label)); tr.appendChild(el("td", "num", c.join(" → ") + " → " + c[0])); tr.appendChild(el("td", "num", String(c.length)));
+      tr.appendChild(el("td", null, M === 9 ? c.map((i) => SK.LORDS[i]).join(" → ") : `${c.length} of the 27`)); tb.appendChild(tr);
+    }
+    const out = $("gen-search"); out.textContent = "";
+    if (!data) return;
+    const t = data.totals || {}, sc = data.sequenceCheck || {};
+    out.appendChild(el("p", null, `Search for a basis (corpus/research/generator-2-search.json): ${t.scopes} scopes read, ${t.findings} quoted findings (${t.verseFound} found at their lines), ${t.claims} positive claim(s) of a doubling rule on an index, ${t.surviving} surviving three refuters; ${sc.parsed} stated lord orders tested, ${sc.textDoubling} text orders are doubling orbits (${sc.doubling} doubling sequences in all, the rest this repository's own derived orbits), ${sc.additive} are x ↦ x + 1.`));
+    out.appendChild(el("p", "src", data.conclusion || ""));
+    for (const s of data.scopes || []) for (const c of s.claims || []) {
+      const d = el("details"); d.appendChild(el("summary", null, `${c.file} line ${c.line} — ${c.operation} on ${c.appliedTo} — ${c.survives ? "not refuted" : "refuted"} (${(c.votes || []).filter((v) => v && v.refuted).length} of ${(c.votes || []).length} refuters)`));
+      d.appendChild(el("p", null, c.quote)); d.appendChild(el("p", "src", c.summary)); for (const v of c.votes || []) if (v) d.appendChild(el("p", "src", `refuter: ${v.refuted ? "refuted" : "stands"} — ${v.reason}`)); out.appendChild(d);
+    }
+    document.body.dataset.generator = String(t.claims == null ? 0 : t.claims);
+  }
+
   // ── boot ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
   function defaultInputs() {
     const now = new Date(), tz = 5.5, local = new Date(now.getTime() + tz * 3600000);
@@ -305,6 +326,8 @@
     try { renderTower(); } catch (e) { $("tower-note").textContent = `the tower table could not be computed: ${e.message}`; }
     try { renderGranthas(await get("corpus/research/library-sweep.json")); }
     catch (e) { $("granthas-out").appendChild(el("p", "refusal", `corpus/research/library-sweep.json could not be read: ${e.message}`)); document.body.dataset.granthas = "missing"; }
+    try { renderGenerator(await get("corpus/research/generator-2-search.json")); }
+    catch (e) { try { renderGenerator(null); } catch (_) { /* the orbits need the module */ } $("gen-search").appendChild(el("p", "refusal", `corpus/research/generator-2-search.json could not be read: ${e.message}`)); document.body.dataset.generator = "missing"; }
     document.body.dataset.ready = "1";
   })();
 })();

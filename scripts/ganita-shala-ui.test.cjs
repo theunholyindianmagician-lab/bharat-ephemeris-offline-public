@@ -37,7 +37,7 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
   assert.doesNotMatch(html, /\son[a-z]+\s*=/i, 'no inline event handlers');
   assert.doesNotMatch(html.replace(/<meta (?:property="og:(?:url|image)"|name="twitter:image") content="https:\/\/offline\.bharatephemeris\.com\/[^"]*">/g, ''), /https?:\/\//, 'no outside URL in the page');
   assert.doesNotMatch(js, /https?:\/\//, 'no outside URL in the page script');
-  for (const f of ['ganita-shala.html', 'ganita-shala-page.js', 'corpus/parampara/registry.json', 'corpus/parampara/samskara.json', 'corpus/research/parampara-apply.json', 'corpus/research/derivations.json', 'corpus/research/library-sweep.json']) {
+  for (const f of ['ganita-shala.html', 'ganita-shala-page.js', 'corpus/parampara/registry.json', 'corpus/parampara/samskara.json', 'corpus/research/parampara-apply.json', 'corpus/research/derivations.json', 'corpus/research/library-sweep.json', 'corpus/research/generator-2-search.json']) {
     assert.ok(sw.includes(`"./${f}"`), `sw.js precaches ${f}`);
     assert.ok(html.includes(`"${f}"`) || scripts.includes(f) || f.endsWith('.html'), `the page references ${f} (the build publishes what a page references)`);
   }
@@ -145,6 +145,14 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
     const cards = await page.$$eval('#granthas-out article.card', (as) => as.map((a) => ({ edition: a.dataset.edition, rows: a.querySelectorAll('tbody tr').length, verse: a.querySelectorAll('tbody tr[data-kind="verse"]').length })));
     assert.deepEqual(cards.map((c) => c.edition), sweep.reads.map((r) => r.edition));
     cards.forEach((c, i) => { assert.equal(c.rows, sweep.reads[i].findings.length, c.edition); assert.equal(c.verse, sweep.reads[i].findings.filter((f) => f.kind === 'verse').length); });
+    // the generator 2, structure only: the doubling cycles from the module, and the search record
+    const gen = JSON.parse(fs.readFileSync(path.join(root, 'corpus', 'research', 'generator-2-search.json'), 'utf8'));
+    await page.waitForFunction((n) => document.body.dataset.generator === String(n), gen.totals.claims, { timeout: 120000 });
+    const orbits = await page.$$eval('#gen-orbits tbody tr', (trs) => trs.map((tr) => ({ ring: tr.dataset.ring, length: tr.dataset.length, lords: tr.children[3].textContent })));
+    assert.deepEqual(orbits.map((o) => `${o.ring}:${o.length}`), ['9:1', '9:6', '9:2', '27:1', '27:18', '27:6', '27:2']);
+    assert.equal(orbits[1].lords, 'Śukra → Sūrya → Maṅgala → Budha → Śani → Rāhu'); assert.equal(orbits[2].lords, 'Candra → Guru');
+    assert.equal(gen.sequenceCheck.textDoubling, 0); assert.ok((gen.sequenceCheck.doublingItems || []).every((d) => d.startsWith('this repository'))); assert.equal(await page.$$eval('#gen-search details', (ds) => ds.length), gen.totals.claims);
+    assert.match(await page.$eval('#gen-note', (p) => p.textContent), /structure/);
     const tower = await page.$$eval('#tower-table tbody tr', (trs) => trs.map((tr) => ({ nu3: tr.dataset.nu3, cells: [...tr.children].map((td) => td.textContent) })));
     assert.ok(tower.length >= 20); assert.equal(tower[0].cells[1], '4320000'); assert.equal(tower[0].nu3, '3');
     const savana = tower.find((r) => r.cells[0].startsWith('civil days')); assert.equal(savana.nu3, '0'); assert.equal(savana.cells[4], 'yes');
