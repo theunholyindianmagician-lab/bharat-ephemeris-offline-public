@@ -58,7 +58,7 @@
     let a = t - span, fa = f(a);
     for (let x = a + step; x <= t + span; x += step) {
       const fx = f(x);
-      if (fa < 0 && fx >= 0 && fx - fa < 90) { let lo = x - step, hi = x; while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (f(m) < 0) lo = m; else hi = m; } return hi; }
+      if (fa < 0 && fx >= 0 && fx - fa < 90) { let lo = x - step, hi = x; while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (m <= lo || m >= hi) break; if (f(m) < 0) lo = m; else hi = m; } return hi; }
       a = x; fa = fx;
     }
     return null;
@@ -141,7 +141,7 @@
       let y0 = t1 - 3, f0 = wrap180(decl(y0).sum - target);
       for (let y = y0 + 0.25; y <= t2 + 3 + 1e-9; y += 0.25) {
         const fy = wrap180(decl(y).sum - target);
-        if (f0 < 0 && fy >= 0 && fy - f0 < 90) { let lo = y - 0.25, hi = y; while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (wrap180(decl(m).sum - target) < 0) lo = m; else hi = m; } conditions.push(hi); }
+        if (f0 < 0 && fy >= 0 && fy - f0 < 90) { let lo = y - 0.25, hi = y; while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (m <= lo || m >= hi) break; if (wrap180(decl(m).sum - target) < 0) lo = m; else hi = m; } conditions.push(hi); }
         f0 = fy;
       }
       for (const tSum of conditions) {
@@ -151,7 +151,7 @@
           const gx = g(decl(x));
           if (Math.sign(gx) !== Math.sign(g0)) {
             let lo = x - 0.02, hi = x; const s0 = Math.sign(g0);
-            while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (Math.sign(g(decl(m))) === s0) lo = m; else hi = m; }
+            while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (m <= lo || m >= hi) break; if (Math.sign(g(decl(m))) === s0) lo = m; else hi = m; }
             roots.push(hi);
           }
           g0 = gx;
@@ -172,7 +172,7 @@
   function lagnaJunctionBefore(t, index, site, opts) {
     let a = t; while (a > t - 1 && P.lagnaAt(a, site, opts).index === index) a -= 1 / 96;
     let lo = a, hi = a + 1 / 96;
-    while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (P.lagnaAt(m, site, opts).index === index) hi = m; else lo = m; }
+    while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (m <= lo || m >= hi) break; if (P.lagnaAt(m, site, opts).index === index) hi = m; else lo = m; }
     return hi;
   }
 
@@ -185,7 +185,7 @@
       let b = x + 1 / 96; while (b < next && P.lagnaAt(b, site, opts).index === cur) b += 1 / 96;
       if (b >= next) { out.push({ index: cur, rashi: P.RASHI[cur], start: x, end: next }); break; }
       let lo = b - 1 / 96, hi = b;
-      while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (P.lagnaAt(m, site, opts).index === cur) lo = m; else hi = m; }
+      while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (m <= lo || m >= hi) break; if (P.lagnaAt(m, site, opts).index === cur) lo = m; else hi = m; }
       out.push({ index: cur, rashi: P.RASHI[cur], start: x, end: hi });
       x = hi; cur = P.lagnaAt(x + 1e-6, site, opts).index;
     }

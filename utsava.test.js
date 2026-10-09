@@ -126,6 +126,35 @@ test('a polar site loses no year: festivals no day can hold are listed as unplac
   assert.deepEqual(U.festivals(day(2026, 1, 1), day(2027, 1, 1), UJJAYINI).unplaced, []);
 });
 
+test('moonrise is 68905b9\'s, bit for bit, at 60 days from JDN 0 to Kali day 8,388,000 (moonEvent refactor and bisection guard change nothing in range)', () => {
+  const fx = require('./test-fixtures/panchanga-days-68905b9.json');
+  for (const d of fx.days) assert.deepStrictEqual(U.moonrise(d.N, fx.site), d.moonrise, `moonrise ${d.N}`);
+  assert.ok(fx.days.filter((d) => d.moonrise !== null).length >= 55);
+});
+
+test('moonset: the Moon\'s centre crossing the horizon downward in the civil day (no parallax, no refraction); at Ujjayinī on 17 August 2026 it comes 176 minutes after sunset [measured]', () => {
+  const S = require('./sphuta.js'), D = require('./dhruva.js'), D2R = Math.PI / 180;
+  const altSine = (t, site) => {                                    // the same horizon test, written out here
+    const p = P.placesAt(t), A = S.ayanamshaSS(S.spandasOfDays(t)), q = D.eclipticToEquatorial(p.moon + A, p.moonLatitude);
+    const H = (360 * ((((t + site.deshantara / 360) % 1) + 1) % 1) - 180 + p.mean.sun + A - q.alpha) * D2R, phi = site.latitude * D2R, d = q.delta * D2R;
+    return Math.sin(phi) * Math.sin(d) + Math.cos(phi) * Math.cos(d) * Math.cos(H);
+  };
+  let none = 0;
+  for (let i = 0; i < 30; i++) {
+    const N = day(2026, 1, 1) + 12 * i + 3, m = U.moonset(N, UJJAYINI), r0 = P.sunrise(N, UJJAYINI), r1 = P.sunrise(N + 1, UJJAYINI);
+    if (m === null) { none++; continue; }
+    assert.ok(Number.isFinite(m) && m > r0 && m < r1, `day ${N}: within its civil day`);
+    assert.ok(altSine(m - 1e-4, UJJAYINI) > 0 && altSine(m + 1e-4, UJJAYINI) < 0, `day ${N}: the Moon goes down through the horizon`);
+    const r = U.moonrise(N, UJJAYINI);
+    if (r !== null) assert.ok(altSine(r - 1e-4, UJJAYINI) < 0 && altSine(r + 1e-4, UJJAYINI) > 0, `day ${N}: and rises up through it`);
+  }
+  assert.ok(none <= 2, `sampled days without a moonset: ${none}`);
+  const N = day(2026, 8, 17), late = (U.moonset(N, UJJAYINI) - P.sunset(N, UJJAYINI)) * 1440;
+  assert.ok(Math.abs(late - 176.0) < 0.5, `moonset − sunset ${late.toFixed(2)} min`);
+  assert.equal(U.moonEvent(N, UJJAYINI, 'set'), U.moonset(N, UJJAYINI)); assert.equal(U.moonEvent(N, UJJAYINI, 'rise'), U.moonrise(N, UJJAYINI));
+  assert.throws(() => U.moonEvent(N, UJJAYINI, 'transit'), RangeError);
+});
+
 test('moonrise belongs to its civil day: between this sunrise and the next, or none', () => {
   let none = 0;
   for (let N = day(2026, 1, 1); N < day(2027, 1, 1); N++) {

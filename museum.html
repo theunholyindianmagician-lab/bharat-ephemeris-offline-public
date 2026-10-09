@@ -965,6 +965,8 @@ body.dial-open .hud {
   <button type="button" class="x" onclick="closeDrawers()" aria-label="पंचांग-पट्ट बंद करें">✕</button>
   <h2 id="dPanchTitle">पंचांग-पट्ट <span style="font-size:0.6em; opacity:0.8;">[Āryabhaṭa Panchanga]</span></h2>
   <div class="sub">सूर्य-सिद्धान्त · भगण–अहर्गण · मन्द–शीघ्र स्फुट-गणना</div>
+  <p class="note" id="exhibitTierNote">यह प्रदर्शनी (ग्रह-मण्डल, सम्बन्ध-यन्त्र, यह पट्ट) पाठ जैसा है वैसा सूर्य-सिद्धान्त दिखाती है — गणना-तह ‘सूर्य-सिद्धान्त’ (ShunyaMath.ss* → ss-tier.js); अन्य दो तहों से अन्तर “तह-तुलना” में।</p>
+  <div id="exhibitTierLabels"></div>
   <div id="panchBody"></div>
   <p class="note">गणना-क्रम: महायुग-भगण → अहर्गण → मध्यम-दीर्घांश → मन्द/शीघ्र परिधि → चार संस्कार → स्फुट-दीर्घांश। observational API केवल पृथक तुलना है, authority नहीं।</p>
 </aside>
@@ -973,12 +975,18 @@ body.dial-open .hud {
 <aside class="drawer" id="dDasha" role="dialog" aria-modal="true" aria-labelledby="dDashaTitle" hidden inert>
   <button type="button" class="x" onclick="closeDrawers()" aria-label="दशा और भाव बंद करें">✕</button>
   <h2 id="dDashaTitle">दशा · भाव <span style="font-size:0.6em; opacity:0.8;">[Baudhāyana Spatiotemporal Metrics]</span></h2>
-  <div class="sub">विंशोत्तरी-अनुमान (प्रतिरूप-चन्द्र से) · भाव-मध्य (जीवित)</div>
+  <div class="sub">विंशोत्तरी (dasha.js, समय से) · भाव-मध्य (जीवित) — चुनी गणना-तह में</div>
+  <div class="card">
+    <label for="museumTierSelect"><h3>गणना-तह / tier</h3></label>
+    <select id="museumTierSelect" style="width:100%;background:#0a0e1c;border:1px solid var(--line);color:var(--bone);font-size:13px;padding:8px;border-radius:8px"></select>
+    <div id="museumTierRefusal" hidden></div>
+    <div id="museumTierLabels"></div>
+  </div>
   <div class="card">
     <label for="lagnaSel"><h3>लग्न चुनो (भाव-चक्र इसी से घूमेगा)</h3></label>
     <select id="lagnaSel" style="width:100%;background:#0a0e1c;border:1px solid var(--line);color:var(--bone);
       font-family:var(--dev);font-size:14px;padding:10px;border-radius:8px"></select>
-    <div class="note">डिफ़ॉल्ट “जीवित लग्न” = math-core <code>bhavaModel()</code> से Ujjain पर गणना-कृत लग्न-राशि। चक्र के भीतरी अंक १–१२ = उसी लग्न से भाव-क्रम (whole-sign reference); सटीक cusp-भाव नीचे के card में।</div>
+    <div class="note">डिफ़ॉल्ट “जीवित लग्न” = math-core <code>bhavaModel(…, tier)</code> से Ujjain पर, ऊपर चुनी तह में गणना-कृत लग्न-राशि। चक्र के भीतरी अंक १–१२ = उसी लग्न से भाव-क्रम (whole-sign reference); सटीक cusp-भाव नीचे के card में।</div>
   </div>
   <div id="bhavachakra"></div>
   <div id="dashaBody"></div>
@@ -1083,13 +1091,30 @@ body.dial-open .hud {
 </div>
 
 
-<script src="vsop87-full.js?v=101"></script>
-  <script src="elp-moon.js?v=101"></script>
-  <script src="math-core.js?v=102"></script>
-<script src="drik-engine.js?v=1"></script>
-<script src="drik-tier.js?v=1"></script>
-<script src="siddhanta-drik.js?v=1"></script>
-<script src="siddhanta-tier.js?v=1"></script>
+<!-- Loading contract (2026-10-08): the sovereign modules the text tiers need, parampara.js and the paramparā record,
+     ss-tier.js, then math-core.js; for the Modern Bhāratīya (dṛk) choice siddhanta-drik.js, siddhanta-tier.js and
+     drik-grahana.js. No vendored foreign theory is loaded here: VSOP87/ELP and Astronomy Engine are referees in the tests. -->
+<script src="kala-dvara.js"></script>
+<script src="sphuta.js"></script>
+<script src="dhruva.js"></script>
+<script src="ss-udaya.js"></script>
+<script src="spanda-ganita.js"></script>
+<script src="ss-graha.js"></script>
+<script src="ss-chaya.js"></script>
+<script src="ss-grahana.js"></script>
+<script src="ss-ahargana.js"></script>
+<script src="panchanga.js"></script>
+<script src="dasha.js"></script>
+<script src="muhurta.js"></script>
+<script src="utsava.js"></script>
+<script src="parampara.js"></script>
+<script src="ss-tier.js"></script>
+<script src="parampara-record.js"></script>
+<script src="math-core.js?v=103"></script>
+<script src="siddhanta-drik.js?v=5"></script>
+<script src="siddhanta-tier.js?v=5"></script>
+<script src="drik-grahana.js?v=1"></script>
+<script src="page-live.js?v=109"></script>
 <script>
 /* ═══════════ 3D इंजन — शून्य से ═══════════ */
 const cv=document.getElementById('c'), g=cv.getContext('2d');
@@ -1590,7 +1615,9 @@ const SS_SOURCE_CH2_ORDER='https://en.wikisource.org/wiki/Page:English_translati
 const SS_SOURCE_VIKSHEPA='https://www.swaveda.com/texts/surya-siddhanta/2/';
 const SS_SOURCE_VIKSHEPA_VALUES='https://en.wikisource.org/wiki/Page:English_translation_of_the_Surya_Siddhanta_and_the_Siddhanta_Siromani_by_Sastri,_1861.djvu/22';
 const KALI_EPOCH_SOURCE='https://en.wikisource.org/wiki/Page:Sewell_Dikshit_The_Indian_Calendar_(1896)_proc.djvu/22';
-const SS_AHARGANA_J2000=SS.j2000JD-SS.kaliEpochJD;
+// civil days since midnight at Laṅkā at the Kali epoch (SS 1.45-1.47) at J2000.0 — the text tier's own count (ss-tier.js),
+// so the orrery's mean lattice and the ahargaṇa shown are the text's (JD 588465.5 − 75.7885/360 is day 0).
+const SS_AHARGANA_J2000=globalThis.ShunyaMath.ssDaysOfJd(SS.j2000JD);
 const ssPeriod=B=>SS.yugaDays/B;
 const ssKaksha=B=>Math.pow(SS.bhagana.surya/B,2/3);
 const ssRevolutions=(t,B,dir=1)=>{const r=(SS_AHARGANA_J2000+t)*B/SS.yugaDays*dir;return r-Math.floor(r);};
@@ -1615,12 +1642,8 @@ console.assert(Object.values(SS_AUDIT).every(Boolean),'SS lattice invariant fail
    Museum dial/relation-lab runs the inline copy; math-core.js is the canonical export.
    SS_ENGINE_IDENTITY() is called at the end of the script (after every helper exists)
    so it never touches const-bindings before initialization. */
-function SS_ENGINE_IDENTITY(){const _M=globalThis.ShunyaMath,near=(a,b)=>Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(((a-b+540)%360)-180)<1e-9;
-  if(!_M||typeof _M.ssSphutaAt!=='function'||typeof _M.ssPlanetMeanAt!=='function')return false;
-  const keys=['surya','chandra','mangal','budh','guru','shukra','shani','rahu','ketu'],samples=[0,1,365.25,12345,-SS_AHARGANA_J2000];
-  return keys.every(k=>samples.every(t=>{const a=ssSphutaAt(k,t),b=_M.ssSphutaAt(k,t);if(!a||!b||a.kind!==b.kind||!near(a.mean,b.mean)||!near(a.sphuta,b.sphuta)||!near(ssPlanetMeanAt(k,t),_M.ssPlanetMeanAt(k,t)))return false;
-    if(typeof _M.ssMeanNodeAt==='function'&&['chandra','mangal','budh','guru','shukra','shani','rahu','ketu'].includes(k)&&!near(ssMeanNodeAt(k,t),_M.ssMeanNodeAt(k,t)))return false;
-    if(typeof _M.ssLatitudeAt==='function'&&Math.abs(ssLatitudeAt(k,t).latitude-_M.ssLatitudeAt(k,t).latitude)>1e-9)return false;return true;}));}
+function SS_ENGINE_IDENTITY(){const _M=globalThis.ShunyaMath;
+  return Boolean(_M)&&['ssPlanetMeanAt','ssSighroccaAt','ssMandoccaAt','ssSphutaAt','ssMeanNodeAt','ssNodeAt','ssLatitudeAt'].every(f=>typeof _M[f]==='function');}
 const P={
  budh:  {nm:'बुध',B:SS.bhagana.budh,T:ssPeriod(SS.bhagana.budh),R:ssKaksha(SS.bhagana.budh),c:'#A99D92',Rkm:2440.5,f:0,tex:'rock',ep:'वाणी · तीव्रतम नृत्य'},
  shukra:{nm:'शुक्र',B:SS.bhagana.shukra,T:ssPeriod(SS.bhagana.shukra),R:ssKaksha(SS.bhagana.shukra),c:'#EFE3C4',Rkm:6051.8,f:0,tex:'cloud',ep:'काव्य · पुष्प-गणित'},
@@ -1681,7 +1704,11 @@ const YOGATARA=[
 /* Hipparcos Main Catalogue (ESA 1997 via CDS/VizieR I/239): V≤6.5, |ecliptic latitude|≤8°.
    Packed base-36 only to keep this single-file museum fast/offline; decoded values retain 10⁻⁵° coordinates. */
 const NAK_STAR_PACK=`41.z6n.56euc.m6.e9;4a.11t1.500ej.lu.c5;56.1acm.5w3k3.kz.hl;5e.1c5b.5v372.21p.fu;bl.2po6.5btn1.jb.hk;cb.2uxe.50o0x.1yi.ct;hn.457h.57fsb.il.hv;ig.4e7i.57nku.91.h6;nc.5iym.51ngs.1ei.g8;x8.80yk.5vt2u.yn.gq;10n.8vlb.5uk9f.ki.h0;13h.9j90.5giqu.rh.h7;19p.b1bz.5ugep.my.ey;1hv.d4i2.58588.gr.gw;1jq.dm1e.5h244.fa.g1;1mc.e9k4.5csme.in.h4;1q3.f6kb.5yqqi.24f.gt;1td.g3gk.54f3i.am.fw;1ys.hcx6.5rt4p.yc.ft;24q.ivv0.55784.3nz.eg;25f.j1om.5btfy.1dx.gi;2a2.k3ir.5jmdq.fp.hv;2u3.p73e.62kcx.yl.fb;2up.pe8b.5rcky.jw.gm;2wg.pvi3.5sjpk.dp.gg;2wl.px65.5o843.acc.fy;2x6.q32o.5t5q0.tp.cc;32w.rhom.5k5n9.k7.hr;377.sej8.5ag5m.hg.da;3dq.u36h.66szh.i3.hy;3hk.v12b.66984.hc.hi;3lb.w236.5qsp0.8j.h2;3sa.xq7b.5tt8v.1bm.bv;3ub.y70n.5ftx3.1d2.gu;3wy.yrhh.5p0vy.ck.gr;3x5.yvku.68xoo.1es.fo;3yt.z9ol.5nf76.1or.hn;40k.znyg.64o4t.or.h2;43n.10fld.5h6b5.1nt.hw;44i.10mwu.5p0f2.25c.fb;48b.11lze.6ahut.g9.gv;492.11t3i.5i55n.a3.gl;4av.12awt.5yyko.m0.i1;4fd.13i9f.5t4z1.1pd.eh;4fj.13ipb.5t572.1ad.hw;4gi.13pxf.6bhbe.i4.gl;4hs.1413n.5rw74.jn.gs;4od.15orl.5kncc.157.e9;4yo.189np.5glno.at.h9;5as.1bcvl.5tyqx.op.ha;5en.1cbmo.5q2ih.p5.dg;5h5.1d0q1.69sjb.ut.a2;5l7.1dzur.5uhu9.fi.hj;5of.1et1g.6ggvn.f6.ge;5qk.1fbhq.68bq8.3y.hb;5qv.1fe4x.6e9n7.1aj.gj;5sh.1ftuf.5toq7.a0.hr;5tb.1g124.62xaf.2a6.fe;5z0.1hetv.6c2bx.jy.gm;617.1hw88.5vofg.1dz.hm;630.1icmr.5onvc.om.cd;6bq.1kh1p.5wj1w.z3.bu;6gz.1lyu7.6d8qz.vl.ga;6hg.1m3p7.5kst8.rn.gf;6mk.1nemw.60kk9.1t6.gg;6tc.1otzw.6i96p.18c.as;6td.1oui2.5jqe4.1bj.ct;712.1qvpg.6f39b.dr.e5;767.1rzug.6394o.xo.gx;7ct.1too8.65sbd.aq.gl;7ff.1uadw.6g0vl.6r.hc;7hm.1uwdb.5thby.iw.hw;7kh.1vmi1.5ukvi.ab.hf;7r6.1xbtv.6dti9.1yr.hs;7u3.1xzsb.6ip3s.dm.fs;7vo.1ydt6.5v9ps.1tc.fo;7ya.1z5q1.6md3e.2k7.ej;7ys.1z9l9.5vv2b.p1.c4;7yw.1zamo.69ng7.gr.fw;8a4.220go.6jk10.ne.fi;8oh.25ljn.5zn5w.f1.f8;8tf.26z82.5yre2.24e.hx;8v0.27dzy.5v189.1fh.by;8yb.285lh.5xej6.vo.gx;90e.28pur.6jghv.144.h2;90y.28v02.6euhy.sw.h9;94z.29xia.694ie.2os.go;99y.2b3at.5swxm.nn.h5;9ci.2bmhp.5rnkg.apc.g3;9dg.2bwjn.5tgwg.v2.g5;9dl.2bxe9.63kxd.26w.fo;9gw.2co2c.5te82.xn.hs;9ik.2d3lc.6nz01.q5.f5;9r4.2f01q.6jsjq.qs.fy;9rb.2f2b3.5zxaa.la.hk;9v4.2g1pu.6ez4h.lx.hs;9vn.2g66i.69px2.is.g2;9wc.2gdpd.5ykv2.2zj.bv;9wg.2ge2h.63ks5.20n.ed;a44.2ib1s.6g38j.i2.g7;a5p.2ipoc.6ec02.f1.em;aa7.2jw48.6986t.iw.fc;adk.2ksxt.6c8bt.pr.hi;aja.2m7d5.6g6xc.mg.g0;akm.2mjey.6fj5p.26g.fi;aoa.2nf9v.6l79d.2f9.g4;aqi.2o10y.6mn30.uz.cv;arm.2oaq1.5vzqs.ld.d3;atw.2ouec.6077r.kj.gh;b1q.2qyga.6avx5.ed.hp;b3c.2rd94.6v15c.mj.f5;b53.2rvku.655zo.sd.fo;b76.2sfif.6f82l.c0.h1;b96.2sxbm.6h6ol.fw.hc;bax.2tgan.6ledv.hw.ht;be4.2u5l8.62cjp.hc.gl;bfp.2ujgp.64v7w.qb.gz;bg6.2uoiw.6j6ke.1i0.c3;bnq.2wfok.6m09b.qn.dj;c05.2ze8t.6vwm1.vd.h2;c23.2ztov.6m862.jm.en;c55.30n5r.6lcwz.sf.e6;c8a.31efq.63yyc.jm.gr;c8l.31h4e.6tw6b.13e.fa;c8u.31jkx.6lhnj.tw.gv;cf3.33324.6473v.qm.hh;chh.33ovy.6ps18.144.gr;cle.34qsm.61768.lq.ea;cmp.34zrg.64mn8.p5.bi;cu9.36qrf.6f4hq.1th.h2;cuw.36wn9.6tc4w.hg.gj;d24.38pbw.69z2u.11k.hs;d5u.39kt4.6ccfh.mh.h6;d99.3aapp.6v6vt.hc.gz;dct.3b4hy.6j4j1.m5.fs;dfk.3bwuq.6j1th.q3.h1;dgt.3ca1t.6lrbh.117.gx;dht.3cghg.6syn2.r3.f5;di3.3chvh.6sl1t.og.ac;div.3cnel.6u529.on.fq;diz.3coah.6tccy.ob.by;dk5.3d080.6t4oi.p6.ar;dkb.3d1sd.6tj3a.nf.g0;dkk.3d4hv.6th1d.pl.hv;dl4.3d9uu.6s8bi.p8.bi;dnq.3dw7a.6skf0.on.7x;dpb.3e899.6ugkg.ca.hw;dps.3ecu4.6r3nc.qs.f4;drc.3eog1.6s1a7.11c.hz;drr.3eskf.6sgfc.nt.a2;drv.3et1g.6smur.ne.e1;dt8.3f3fh.6rq2k.nu.h5;dtt.3f751.6oktm.s6.gt;duq.3fet5.6vq6l.1b4.ek;dwx.3fx47.64v39.kg.hi;e0q.3gxst.6e1f0.1v2.gl;e1l.3h5og.6vy5l.iy.hn;e93.3ix74.6p2vl.1pz.fm;e9h.3j0zc.6qkon.h2.gt;ea4.3j88q.6tbxw.8g.h7;efx.3kxhl.6dz2h.9t.hj;eg4.3kyr5.63o7i.oh.9h;egf.3l1a6.6fwb3.1p3.gd;eo1.3mxrb.6skh7.9i.f6;eou.3n46l.6o8b3.1e4.c4;epw.3ngk4.6o2oq.4m3.ge;esj.3o52m.7022r.ic.ee;eth.3octs.73275.2sq.eh;ev1.3oq4t.69ef0.1n3.gq;evo.3ovrf.6e2eg.qa.gd;ey8.3pfqq.65m9i.kc.gi;eyk.3pif9.6ixi9.v5.fb;f21.3qekg.6xnqg.1ag.ez;f5l.3rb6k.6dxl3.vq.gx;f6g.3rhl5.6oxvo.8s.h2;fc5.3t1u8.69wrv.1qj.hj;ffa.3tuls.6l0b6.2ov.dp;fhz.3ugai.6n5iq.1ep.fo;fkb.3v0iy.6m7sx.xw.fa;fkq.3v3xq.6nki7.so.eu;fl9.3v7fa.6aeaa.1mt.a5;fln.3vao7.66zet.1pz.fi;fmi.3vi9c.6ziuu.qh.dt;fmn.3vjhc.6h2n5.1mo.gz;fmt.3vn32.6997y.1mw.em;fng.3vsd1.66m8f.1ok.h3;fqo.3wf4d.672nh.1or.fw;fr5.3wlbj.6lj1a.56.gf;fri.3wp8q.6vu0o.xv.ey;fs7.3ww0x.6ei1e.1n5.ah;ft0.3x5c8.6cuzp.1mt.fo;ft9.3x7pe.6lvfp.it.go;fud.3xgik.6sziu.ch.hm;fum.3xif8.6eag5.1q4.dc;fwm.3xyxr.6hpqp.1ko.gl;fx7.3y6zk.6oonq.1n3.bp;fxd.3y7wi.6ohez.1qx.en;fxk.3y9b4.6fbrz.1p9.by;fxx.3ybuy.6b2gs.1nn.hw;fzb.3yp34.6psrd.1mj.bw;fzd.3ypth.6adkb.1ly.cg;fzw.3yuv9.68fru.jx.d1;g1h.3z82m.6q6ut.lu.fd;g2y.3zlzh.6n8nl.1lx.fw;g3t.3zt98.68hvb.1f6.ge;g3x.3zu89.6byrf.1am.ds;g45.3zwtn.6b43i.1le.ao;g49.3zxml.6i0f8.1mg.9t;g4e.3zyib.6ax1z.1ot.9g;g77.40r2r.6af2m.1rp.fi;g85.40z4j.6blzk.1qm.da;g8f.410te.6aj8q.1qn.f7;g9m.419xd.699yt.jw.hg;gb5.41o8r.6avkc.1pt.gp;geb.42ktr.6fimk.lf.hc;gex.42qjy.68pup.1nf.cx;ggb.435pi.72z3s.jg.gc;gio.43qgz.6jijb.jj.hl;gj1.43uj4.6cacg.3v5.2f;gk3.445f3.6qxg3.1qs.gp;glp.44k46.6gn8h.8o.i1;gno.451o3.6b9l7.1p0.g2;go4.453qv.6l8hm.p3.g9;gq1.45kwg.6arkz.1np.e4;gqb.45n8f.6b0oq.1kz.cz;gqh.45pdt.6uyau.ox.h9;gu3.46qvb.728eb.r2.fx;gvt.478ji.6q3te.mm.bv;gy1.47riw.6sj5s.1jn.h6;h2o.493c4.6rjlg.cv.hm;h40.49edd.6h21a.u1.gn;hbd.4b90m.6azmg.6f.gx;het.4c4mr.6ha56.1bz.e4;hih.4cvus.70p19.pr.gl;hmq.4e21p.6inya.14r.ho;hoh.4eipm.694yn.lf.g3;hph.4eqw1.6tlzt.1sb.hl;hs3.4fccn.6do17.j7.fb;hss.4fkt1.6s8bu.j8.g3;htc.4frgz.6ulcs.ul.g3;i4p.4ieqp.6n6ce.1jl.cu;i73.4j0vl.769fa.fl.h2;i79.4j34w.6mi9j.eq.h8;i7r.4j768.69x1e.mn.cx;ia7.4jpt6.6jcqr.jj.i0;ie3.4kqn7.6gv3p.4v2.dn;if3.4kxmz.6knxx.1g8.eo;iff.4kzw2.6nf78.8s.g8;ifw.4l3hj.6swrb.2t.fa;iiy.4ly4z.6abxr.sg.dd;ij7.4lz4t.70zat.1es.gh;io1.4mzjm.74zto.7x.hu;io5.4n0l9.6baja.s7.ee;iww.4p1a5.6onyf.ds.he;j5g.4r2a2.6k21m.l0.h0;j5i.4r2vs.6o9fp.17z.ds;j9t.4rz1j.6jdbx.ei.h8;ja0.4rzx3.70tn6.d1.hn;jah.4s47j.74a2k.wk.fq;jfs.4ta26.72x84.fa.hx;jgg.4teu6.6coz3.kc.gx;ji6.4tu4y.6e5rn.59f.dw;jij.4tydx.77ngs.b1.gi;jlu.4uqf4.6cp1d.du.hb;jmc.4uu7f.727ub.1x5.4l;jo4.4vaj3.75nct.3x.ft;job.4vb44.6fef7.dk.f0;joe.4vcc7.69lqe.jn.h6;jpf.4vk44.6nx42.d1.dk;jpv.4vmj6.6axaq.g1.fc;jqn.4vrob.6dums.cv.g1;jtr.4wfr4.6ut1z.kw.f7;juq.4wnij.73ghu.v8.h8;jwe.4x25m.69to6.qb.gh;jwu.4x7o2.6p1na.my.hh;k0p.4y0f5.6gr6p.4q.c0;k0u.4y0va.6dgnr.84.fa;k40.4yps3.6gn0n.4u.fr;k48.4ys3i.6ks8v.bc.h7;k94.4zqws.6sfcs.f4.ex;kab.5001g.706w2.bc.hf;kcu.50lyq.6dfah.1fk.fd;kd8.50nm3.6ylyd.iz.g7;ker.50x7i.6m7tf.lq.89;kh4.51gb7.76998.k9.f0;ki3.51mi5.6xyb5.l9.hx;kj2.51t8m.73ipf.7p.gm;kjc.51w2e.6njot.dq.hu;kk0.521k6.6weoj.ia.ee;km0.52i6r.78426.i1.gs;knt.52vml.6cc8a.c4.dg;knx.52wo8.743po.i1.hs;kpx.53ai5.6pgxj.p8.hn;kt0.53ys4.6qmwp.89.hb;l1d.55t0c.6atbe.ab.go;l3e.5663g.6ewfn.75.f7;l3t.568tf.6vpc0.93.i0;l5p.56o5i.6lmqw.f8.gr;l70.570k8.6tk37.hd.dk;lbh.58285.70ugf.o2.fk;ler.58tne.6jhgi.6m.gk;lh2.59bq9.7030t.kp.co;ljd.59w4i.6kczd.8wn.c7;lkt.5a6xf.6j8c2.6g.gg;lp1.5b252.72xn7.2i.hn;lq2.5b9bq.6svka.0.gr;lsd.5btr5.6wj28.4b.dd;lzo.5dfvp.6zzxx.1y.gs;m05.5diyu.77f30.zb.h6;m1d.5dt4a.6owx4.fi.ho;m4z.5er40.6j3s5.8h.ea;m5o.5f021.6k2c6.a.cw;m66.5f3xb.6qrh7.1o4.bk;mbm.5gbed.745mz.a5.gp;mj0.5i0hh.6ognn.1h.gh;mjt.5i473.6qfw3.0.fz;mmm.5it7e.6fref.3f.hp;mo3.5j30t.6t8qe.c1.g7;mpl.5jccu.6jbht.9c.g0;mpm.5jcz9.6bh2t.bp.dr;muo.5knp2.6fa3y.k1.ga;mvm.5kuvr.6hyll.3nh.eg;mvr.5kvg5.6p52y.py.97;mww.5l53u.744kv.1hn.c0;mx4.5l5vi.6bi29.iw.eu;mzh.5ln7n.6s9zh.ks.gx;mzq.5loqh.6dq6r.cg.hr;n0w.5lzyl.6rsb0.4c.hc;n5v.5n3ju.6e19r.ed.hf;naw.5o9d7.747u5.qs.ht;nbe.5odv9.6ez3d.lp.hk;nev.5p7cc.6p5mh.133.7z;nj9.5q5h0.6ul7s.aw.hn;njp.5q8da.6bbff.nj.hn;nl6.5qlae.6qwdt.fo.gt;nqp.5rvi5.6kty5.gu.ha;nrz.5s5ls.6bpey.171.hc;nsb.5s7j0.769az.5t.fz;ntv.5sf5b.6k80x.i1.bh;o01.5tuh3.6azkh.r3.hq;o1i.5u7om.6f0ot.pl.he;o96.5vrh6.70ynu.ka.em;of6.5wyyb.6tlvw.go.hw;og1.5x3wp.6c1tx.2eg.5d;ohl.5xgvb.730w7.li.g0;ojp.5xugl.6o4d2.lm.gx;okq.5y2vl.6tml6.270.hv;oks.5y3eq.71h8s.cs.gq;opf.5z223.71c40.6f.hx;opg.5z2e7.6c1p2.bj.hg;ors.5zmg6.6epzb.1t1.eg;ovq.60fwg.6urks.a1.8i;oxj.60vts.72zuz.fw.f2;p3v.62ame.6fw9o.l0.hn;p9t.63lop.6bmo3.9s.gb;peh.64iv7.6njjv.h4.eo;pfs.64rj9.6rhke.ho.fs;pod.66jes.6vafw.4gt.fy;px7.68ejq.6wsut.1mm.h8;pyq.68rjk.6wfzv.7k.hs;q0j.696xu.6bd3x.1k.fx;q62.6aa20.69rs7.e2.g2;q6f.6acef.6ssx5.5h.eg;q6h.6acmy.6eygq.6p.gk;q6p.6af4x.6cn1y.4q.ga;q8x.6axhc.73s9h.41h.gh;qaw.6b943.6kznq.7r.b5;qdi.6bw7i.6pf5w.iy.go;qin.6d0vs.71akm.gi.hz;qko.6dj9c.6b1ol.to.f7;qpc.6egxo.6mfym.1o7.hv;qrp.6f0qp.75q6o.u1.c9;qsi.6f5gp.6ygpv.n8.fz;qv7.6fptf.6sm86.py.g9;qwc.6fx41.6z956.1qx.hy;qxp.6g7s6.6bjab.cy.e3;r0x.6gxed.6u8lk.qw.g8;r4g.6hll3.70p0v.8e.fz;r79.6i6v6.6y3uc.uk.hq;r9y.6iqvk.6ccps.2o3.9y;rfg.6jtuq.69cvt.8a.hx;rfi.6ju13.6o0m2.4a1.9q;rjn.6kt8k.6kpw4.l5.e5;rnm.6lmkr.6q2xc.t2.h5;rnq.6lmpe.6uld0.1mt.e0;rq5.6m5pc.6a5rc.1v.hz;rqd.6m7kf.704zq.179.g1;rta.6mu5a.70hdh.1zy.ai;rwc.6nhi6.6kbj2.mc.gi;rym.6nwyi.6mv6z.29m.eg;s11.6oesu.6zyfs.s8.ho;s1g.6oh63.69abu.bs.hb;s2x.6orue.7162o.1jk.e3;s3x.6p0y5.70qh0.nn.dx;s94.6q3eb.6ditr.u1.f5;sd4.6r25s.6atn1.o5.en;siq.6sat4.6yjr4.11p.ba;sod.6tjhs.6t43r.1n3.hp;sr9.6u20z.6stgt.ku.h6;ss4.6u7cx.6es7w.h1.e0;sv0.6uwml.66f1j.8r.hb;svo.6v09t.6q8kg.5y.gh;sxw.6vhf8.65slv.bj.g3;sy9.6vl2l.67cs5.8v.ff;t19.6w9c2.72t5j.224.br;t1g.6wago.6owsn.tj.hd;t3c.6woud.6w5yt.f8.eq;t4c.6wv97.6t70l.1r5.9x;t6q.6xc4s.70yyv.7gq.38;t90.6xrlu.6gkp5.qj.dl;tei.6z2lf.6qi0i.8m.h6;tfn.6zbng.65k85.dq.gv;tmi.70vws.6ibl2.lt.gr;tqi.71ptk.6y9pm.zm.dt;tvm.72vmz.6jipj.qp.ey;tz4.73l7v.6aqu6.jm.g4;u2n.74esr.6cb19.6h.gt;u57.74z8r.65a7w.u3.gt;u89.75mgy.6dzzr.ck.fk;u8c.75mq0.6jdh4.q9.hi;u8n.75p7w.6vbrm.82.gb;u8q.75qsz.6rg4s.wv.hm;u9w.760ab.6c658.j7.gn;uan.764mf.6uocw.f5.hk;uf4.7734m.70h2q.z6.dq;ui7.77qzn.6hab3.uc.h9;uj3.77x5r.650nx.171.ea;uk7.787mf.6zwnk.9p.h9;uln.78kwy.6pf0f.eh.gk;up0.79d11.6n5py.3b2.eq;urm.79v85.664zj.wk.hd;uvb.7aodl.6wamg.8s.hw;uvr.7aswx.6vko2.1u6.fx;uwq.7b33h.6899k.fl.ha;uzr.7bqtr.6eq6m.30n.cz;v1j.7c5y2.6cap7.h6.gr;v4m.7cswi.6esbs.rj.hz;v4y.7cw2o.64v9e.bo.hr;vdv.7ez4e.6ai5t.io.hu;vij.7fyb1.6z8na.499.e9;vj6.7g3si.6ldcv.hr.g4;vjl.7g7ec.6se0s.lm.gg;vq5.7hpyp.6g6z0.my.gi;vvr.7j1l3.6dfrs.1ps.gz;vy0.7jixk.640we.8m.fg;vy4.7jjxr.6ymst.wq.hi;w2u.7kj7r.6snhl.xd.gt;w2y.7kje2.67cyl.tg.gi;w9k.7m32y.6sika.127.fv;w9q.7m4r3.6fomo.ic.et;wc5.7mq7r.6kppb.t2.et;wd0.7mvvo.6siuj.lj.hn;wey.7nabl.65be7.tn.he;wjv.7ok6k.69q21.xz.hl;wt0.7qoxn.6js9a.ff.hr;wtx.7qtz0.6j26t.bz.hu;wu4.7qvk0.6isj8.gj.hh;x0r.7scp8.642wn.8t.fm;x12.7se9o.6mwz0.1l6.cy;x3z.7t58p.6fta6.1ul.ay;x45.7t6i9.5yicr.m8.fn;x9t.7ucml.62uv4.19i.gd;xib.7we9w.6h9js.bw.ht;xj2.7wjjr.69sw7.1xi.ho;xsz.7yvkm.6du0m.2i.hg;xu3.7z62s.61tim.fk.f4;xx1.7ztgs.6dn9r.nm.h5;xxe.7zvla.69qr4.1kn.ei;xy9.8023n.6aap7.1ke.fs;xyi.804b4.5x0t6.9h.h7;y02.80jh1.62be9.1g7.bu;y1q.80wu3.6frr3.d0.hi;y2c.8120t.64x9t.70.i1;y9h.82th9.6tb8t.ju.f5;yjk.85cdr.6q5nq.1b5.hr;yke.85i3x.5zrly.iq.ej;yoi.86d78.6o5hd.nt.ec;ypk.86l7m.61orp.21q.i0;yqx.86w9u.6o1p4.lk.gs;yuq.87xw4.691i0.3rn.i1;yxk.88nf6.6mio3.i9.i0;z1e.89iha.68xca.cx.ew;z72.8ax42.61jvn.gq.hs;zo8.8f1dv.6cg79.xb.hj;zue.8gllb.5wb9p.28p.f0;zuh.8gm6c.5ug9h.hh.fw;102m.8ick9.6q4o7.qx.c0;1037.8igx3.614cz.11z.dv;103a.8ih69.5xq4c.is.e3;10c8.8kktx.67pzb.hr.hk;10et.8l78f.6c4t0.9i.fx;10f9.8lahj.5rjwa.145.dw;10no.8nehr.5y3qw.1v0.9s;10tn.8os98.66yd7.cp.ew;10v7.8p72u.6hbyz.ji.i1;10zr.8q38o.5ra31.8p.g4;1107.8q7ik.627pk.cx.fr;1125.8qrnr.61p1u.uy.hw;117e.8s1zw.6manu.hm.gy;11ac.8sp3i.64wn6.4w.hx;11fr.8u4ue.5po7l.6h.ge;11lq.8vla4.5w1q7.dg.g9;11po.8whxz.5upyk.gt.gt;11pv.8wjss.63kp0.h4.em;11tx.8xm73.5u558.h9.d0;125h.90jp1.6aoaw.od.ho;127u.9152g.5oxfl.q8.h8;129b.91fiq.6ctuz.49.9o;12at.91qkh.5ybva.x1.c7;12bp.91zm6.62ju8.38x.3s;12ix.93qjk.65ixs.149.hv;12ln.94d44.5msil.h7.g1;12u5.96ftg.66bqd.i5.f2;135v.997cg.68zzg.j1.h4;138j.99tw6.5qxao.13i.gu;13az.9ah9k.5hz5z.rn.hl;13cw.9b17l.5vqam.cv.fl;13il.9cbfw.5xtpt.nj.gp;13sx.9er5g.677a1.8d.f3;13u0.9f309.5wujn.1l.ao;13y7.9g5e7.5rszl.sf.e3;13yy.9g9xl.5vfx0.jl.fr;14h0.9kq9s.5n2s7.d0.g1;14ko.9lp6g.5i8f7.e6.hf;14ms.9m78x.5qk7j.ps.hq;14nl.9mdkk.67bq0.vi.f9;14tr.9nw92.5zi4e.r4.es;1505.9phk9.5f3j6.8o.hp;150v.9pork.5cgw0.ax.hj;157z.9rcn4.5ehb1.1rh.gf;158p.9risq.5q5pm.rv.gf;15in.9tyao.5knkp.qi.dg;15j4.9u1w8.5pz8m.1o1.du;15or.9ve13.5baex.1ev.h0;15pd.9vl4l.5cwdp.g9.gj;15t2.9wcbs.5smi4.2ny.cu;15xc.9xcq0.5h3cl.18l.fc;16bl.a10wo.5cr2x.j0.f0;16bz.a164h.5u6fj.14k.g3;16g8.a25io.65f9j.iy.er;16i4.a2kwo.552ox.1ad.cd;16jl.a2wzx.5h7lu.m7.ee;16mp.a3sdp.5gfst.t4.ge;16ru.a4z85.5pto7.16c.b9;16wb.a64xl.5d6mv.df.gt;16xm.a6gye.5zgx6.36m.b4;16xu.a6j72.5fx2g.ot.ez;16zo.a71eq.61eev.jd.g4;171r.a7huc.5l6ar.198.hn;173a.a7zqd.5jcwi.4d7.i1;175x.a8ll8.5999x.hd.hb;1761.a8me5.5j0u5.el.dr;17b3.a9w97.56gp2.f0.d9;17ic.abnqj.5i99v.78.i1;17jx.ac2fq.5jgl6.2wl.g0;17lg.aceai.53jxm.ep.hv;17pj.adg89.5b4vj.1ev.by;17sk.ae3of.5vxx6.oa.h6;17t3.ae892.57ohi.o9.ha;17t7.ae9ds.5uc38.iw.ek;185a.ah6o1.4yl8m.nj.gt;188g.ahx05.5ulnd.23t.dg;189w.ai848.5qwad.sy.b8;18ey.ajbs0.5ukp7.1b5.er;18gt.ajx5c.5c7us.29a.h3;18kd.akt9f.5gonu.72u.9z;18lb.akzzu.51gx7.yz.fm;18r6.ami13.5e31n.l2.hj;18u6.an5g9.5uzzb.1i1.fi;193h.apaon.5e1dx.f6.h6;195a.aprwe.5kqhe.ws.ew;197i.aq9qd.5r2tb.pg.cx;197v.aqcqp.5940x.er.hk;19bp.arc32.4wfki.cr.hc;19dl.art2q.5otar.16m.hr;19j6.at0kp.566ta.i6.hp;19qt.auzru.5gyx5.x6.gj;19rh.av6x3.5pcig.1rd.fw;1a3q.axxmn.4qsxa.3f6.gz;1abi.azt2f.5b7pi.rs.ge;1ae9.b0gvz.5bgzx.10a.at;1afg.b0phq.5k021.vr.dt;1akh.b1vlq.5o9tp.2l5.hy;1ama.b29hv.528m5.jx.hz;1ax9.b4qb8.530bs.ua.hb;1b66.b6rc6.522kt.mj.h7;1bba.b7wib.4sn48.yn.f8;1bhy.b9ika.50egf.14e.gc;1bk5.ba7c7.5jxpz.dy.hl;1bkq.bad4r.5gvjy.i3.fs;1bn0.batys.4vria.sg.cy;1brq.bbwxo.4l0a8.wk.ed;1bsl.bc4n8.59slk.6it.7m;1bx3.bd6l7.59irz.13m.gf;1c5x.bfa9p.4ze7f.15x.hf;1cev.bhc23.4qqqr.nh.i0;1cf9.bhgjv.5jgay.fk.gq;1cij.biawh.55aab.2df.gz;1cjn.bijis.53uh9.qp.hx;1clj.biwkx.4nxms.15m.go;1cll.bixd3.4sgex.lq.d9;1cs4.bkgi5.4n1cs.e3.hl;1cxi.blrpx.54qba.uf.g3;1czq.bm9uv.55oir.qb.gn;1dfy.bq6mi.4pvpl.tm.eb;1dh6.bqj29.4tn7t.oe.fh;1dit.bqwhv.4sgha.mg.hk;1dk0.br6gu.4qrfh.dt.gj;1dke.bra8j.51123.lu.c6;1dp3.bsewc.4e6lu.2dc.e0;1e12.bvbu7.5bga4.11d.ho;1eej.byg1p.52ch5.7t.gc;1eh8.bz3wv.51tzs.2kb.g0;1eiq.bzga3.4oz8k.yk.2q;1ekp.bzzj4.5acfk.10y.gl;1elp.c09qr.4lnx3.hy.en;1enb.c0nvx.4enwt.z3.d8;1ero.c1mih.59z6c.iw.hu;1euc.c299g.4z16z.1fb.gy;1exi.c32x4.4zhr1.kz.d0;1ezv.c3k75.4fz0z.dq.fc;1f02.c3m99.4r445.yc.eh;1f47.c4j6a.4kktl.hv.gg;1f68.c4zic.51c21.og.fu;1fjn.c8916.4u8ws.jt.dz;1fqp.c9snd.4e826.bm.ff;1fsz.cadmu.4f3tn.qr.h6;1ftw.cakgn.4m9lt.nw.fa;1fwn.cb98p.4s39l.hp.gs;1fx4.cbd30.4amdk.e9.f1;1g2u.ccoca.4a17k.11g.ds;1gfl.cfepi.4vmmk.2a5.h7;1gyr.cjqx2.4boed.iq.hk;1h1f.ckdjr.51d7p.uq.hr;1h23.ckhjn.4gt82.j6.hn;1h70.clp8m.4sxt3.1em.f6;1hc7.cmxi9.4qr0s.gc.hx;1hg5.cnwu3.4dyko.gq.dp;1hkj.cp0go.4qvp0.14j.bm;1hoc.cpso9.505i0.1ux.ho;1hqy.cqct3.49w2m.yp.fd;1hs5.cqomp.501in.3lu.bb;1hsv.cqv87.4ypiw.1hb.hw;1hu5.cr40n.4tux0.h1.hz;1huo.cr8us.492d4.np.ha;1hx5.crr3x.4wqii.2cn.hz;1hyh.cs38l.48sbg.us.ga;1hzq.cscc7.4k8pv.1cj.ck;1i1i.csrc5.4yfwt.u2.hu;1i9s.cunm7.4nsle.rf.ha;1id0.cvbtc.4nw0b.ux.i1;1ied.cvnmh.4ka3v.hf.i1;1imi.cxh8s.4y407.ix.f2;1j0f.d0rvh.453by.es.i1;1j59.d1xj7.4miw0.2b9.h8;1jpe.d6qc3.4frku.86.hl;1jpu.d6t7x.3z9yi.or.g4;1jq1.d6uk4.43iil.1to.hv;1jsm.d7eqb.43708.4v.gt;1jud.d7rzw.4ldpy.p4.hm;1jxk.d8iy8.3wx6t.85.fs;1jxl.d8j23.4ikp9.12i.es;1k0r.d99h5.4em3n.39e.eb;1k1a.d9d6f.4einz.39d.7n;1k3i.d9vzx.49k50.9x.hf;1k9t.db7ue.3w31m.nk.en;1k9y.db8qg.4ned3.ou.g2;1kfh.dcirv.4og2b.gu.f8;1kgw.dcw19.430c8.d2c.fw;1kke.ddns0.4p0ku.so.gc;1kvm.dgfn4.3upom.v1.91;1l1j.dhpkb.41ogu.1ad.h1;1l21.dhsy2.4e22c.bu.ef;1l29.dhwmy.4dki8.lx.ht;1lef.dksgn.47y6m.gb.i1;1leg.dksvf.46hb9.o2.cm;1lh6.dldhh.3xfyd.lz.hz;1lh9.dle28.46sfr.15d.gv;1lhg.dlh6k.3unks.30a.hz;1lij.dlp0x.3src4.9v.g8;1lk8.dm212.4atez.72.h6;1lnw.dn15p.40w3e.i4.fc;1lye.dpg67.49zbp.ed.h4;1lym.dpin3.4fkq1.1ev.h2;1m3i.dqlcv.4ggow.bm.hy;1m54.dr1l4.4me0j.f1.fw;1mfm.dte6o.4d2lk.9z.fo;1mlf.dungv.44h0w.12p.h8;1mlk.duoss.4daum.g2.g6;1mo1.dv92p.45oij.11x.hg;1mq2.dvq75.46qo4.13z.fa;1mqm.dvw5g.4cs2n.bs.fd;1mr3.dw0r1.3wera.rc.he;1mwd.dxael.4h79x.1ni.av;1n13.dyc0e.3skoj.f3.h7;1n1w.dyiao.3zau0.x9.g3;1n2x.dyrcw.43utt.v1.g6;1n4k.dz3nr.47j45.qo.ew;1n5m.dzcaw.3za5z.tn.hl;1n7q.dzu5g.3xumq.nr.dt;1nbk.e0q9u.46q1b.mo.d7;1nf3.e1ikv.4gnpw.m2.hi;1ngk.e1vaq.4fb4s.1pp.f1;1nlf.e30lo.3or7l.14t.i1;1nwj.e5ki9.3tpgt.hd.cv;1ny1.e5x98.4ilw3.d3.h8;1o1f.e6txr.45ocl.pf.e0;1o28.e6zan.3um70.kw.cr;1o2l.e73e7.4d1ku.1jm.bh;1o2q.e74to.3wbgi.lv.ey;1o2r.e75g8.3xiac.n2.f1;1o3w.e7ggl.3qazj.h2.h3;1o45.e7jhm.3usmo.jw.gb;1o4z.e7q6q.47cuo.ej.gj;1o68.e7zqv.3slr4.kz.fn;1o8b.e8dzm.4i1e7.17g.hk;1o8u.e8k2o.4h47d.1gh.gz;1obc.e95nq.43xdt.jw.g8;1ocf.e9flg.4ian8.ho.dr;1odi.e9n5f.3voft.ik.f3;1oe1.e9sdg.3sxh0.jq.81;1ohs.eakxx.4dgsq.2cp.f7;1oht.eakya.40ey6.mk.6d;1ooq.ec717.3tgod.16r.ds;1oq3.echz6.3vwjr.f6.ha;1otg.edbej.46g91.h3.74;1oth.edbih.46giw.80.dm;1ov1.edob8.3yaz4.im.ge;1owl.ee1tw.44llr.le.ax;1ox7.ee6om.4iqp0.2o4.hk;1oy6.eedd1.4467j.y8.bz;1ozb.eem8f.3wgx7.nm.hk;1ozu.eer9a.3sh2e.lb.ev;1p16.ef2wc.3y4vd.l9.ga;1p43.efpwv.49lab.1k9.hv;1p8u.egtx0.476un.kr.b4;1p9j.egz5u.3nzrb.ue.fr;1p9o.egzus.3p1mw.jd.cq;1pd6.ehrx4.3wk0z.k0.hs;1pf3.ei5vb.43nrw.q9.ht;1pf9.ei97s.4968y.w4.hk;1pfq.eidrd.3uams.jm.gu;1pho.eiwfb.4h2og.er.gx;1pkc.eji6z.45t7d.ed.hs;1pmx.ek7i3.3nkla.1sj.dc;1poi.ekl64.4h0um.ah.gl;1pop.eknid.45ket.ih.hh;1psf.elgli.3x3j4.7p.cn;1ptc.elr92.3u1p1.cc.82;1pzr.enbh2.45yd3.1ew.cg;1q1b.enm95.3l8fm.2ge.f0;1q3d.eo42a.3yn94.mz.cp;1q61.eovtb.49ccs.ij.bq;1qbf.eq5sr.3s8xx.f0.2y;1qc9.eqd0f.4hpou.xu.fq;1qcv.eql8f.3v2jo.n2.db;1qf2.er37m.4dals.175.bx;1qfi.er7v5.3s0sl.148.gv;1qhb.ermfn.42w2w.1fu.cd;1qpe.etmp6.3ofac.l3.7u;1qzk.ew57u.455p4.ld.hd;1r24.ewoh0.4avg8.n6.dn;1r28.ewp21.3wghi.yk.gv;1r2y.ewuo4.46728.1ta.ff;1r9k.eyin3.3nsmi.c0.gn;1rgz.f0d4c.4gy10.ka.gr;1rj7.f0wmp.4fbhs.11f.h6;1rr1.f310k.4556b.2r9.ga;1ru3.f3nqn.3jcb6.ed.hm;1rxp.f4fcc.4cvnq.1wo.hl;1rzh.f4u7k.3za5k.oz.fh;1s07.f4zc7.470qo.da.hf;1s42.f5upi.4h13j.1lf.i0;1s6g.f6j6r.3v4bk.is.gc;1s70.f6mz1.3vcaa.2bh.fy;1sar.f7jp8.48f8a.k4.hg;1shb.f93nr.44z2g.mt.hh;1skk.f9vgn.42oiw.s9.hh;1sm4.fa8s2.3s2ot.70.he;1spa.faz0s.4b5q7.ml.gm;1sqg.fb9j7.3jqhn.xx.gh;1sto.fc443.4f731.2zp.6r;1sy7.fd7gt.3pebb.gl.h0;1t4l.fes4e.3rvyz.cw4.c1;1t5p.ff1sg.3k5dm.oh.h8;1t6m.ff8yq.3s0ca.cxg.hl;1taq.fg7dn.3wugg.oy.ea;1tbd.fgdce.4dxt6.b9.hg;1tfc.fh7la.4aucg.oa.gr;1ti5.fht34.43ned.4fo.c7;1tjn.fi6dy.3vion.e3.ho;1tka.fichv.3vbgz.g3.93;1tng.fj2jg.3okxo.f4.eq;1tqj.fjqsl.49d5u.d1.hm;1tqv.fjsel.42y0j.u1.g6;1tru.fk06i.3wxsd.lc.h5;1tuk.fkom1.3x336.308.bk;1tvz.fkz8z.3tan0.lf.hu;1twd.fl3xr.4ex6y.jf.i0;1twv.fl7lg.3kvwy.29a.bw;1txe.flcu1.3l6vz.f4.gm;1u63.fndxw.3xjha.l9.da;1u6v.fnk6q.3slgr.kr.gt;1uek.fph11.41nj8.a9.hz;1uk7.fqozh.4fwan.2dx.9u;1uka.fqpat.4fiz4.3e.gi;1umo.frbdk.41xnm.qu.h7;1ux1.ftr3d.3p4wj.33.hs;1uxc.fttpp.42fd7.4ec.di;1v6o.fw1df.3p90c.8f.cl;1v7f.fw580.40q1r.50.h6;1v97.fwisv.3r31n.7z.hj;1voa.fzyyu.3vk57.0.h6;1vqe.g0ijx.48lnx.oz.i0;1vr9.g0qam.4f0cs.10f.gh;1vrw.g0xm9.3oqwp.1j7.g0;1vws.g1zb3.3n9do.6t.gn;1vy4.g27qo.3k23w.9p.dw;1vzo.g2lbz.3xusf.kr.d6;1vzx.g2pcx.45b1f.ak.ha;1w3m.g3g22.4c4m3.4w.hf;1w4q.g3q3v.402pf.0.fw;1w70.g48cb.3wusu.87.ex;1w9h.g4s2c.3worb.1u.gd;1wc7.g5e6d.3li14.4d.cy;1we3.g5tdv.3joxv.2ma.8a;1whk.g6k0j.42xtj.25.ha;1wj4.g6vxc.4c4t6.10c.fc;1wjr.g7190.3nwoq.q2.cn;1wks.g7c26.42xdw.30.hu;1wos.g843n.3j1es.p5.fd;1wre.g8qa1.46dfo.ou.hl;1wsh.g8zgd.3y3nf.113.ds;1wxp.ga2tz.43rj9.b.ao;1wyh.gacid.42d1t.hx.f9;1x0f.gauu1.44h1h.0.ep;1x0g.gauus.457ar.0.gk;1x1a.gb0kq.48wib.2b.gt;1x55.gbx06.4bnvb.8o.g5;1x5g.gc0vg.3o9oj.2lo.ho;1x5i.gc109.3nhn1.mt.h6;1x72.gcdkw.3qxtl.cy.cy;1xbv.gdhye.4eyvc.j9.ez;1xe3.gdyay.3kywc.tn.7k;1xf4.ge5tf.48h76.70.g0;1xfg.ge8ic.3vhyx.7s.h7;1xgc.gehrb.3nyrx.j3.h3;1xn8.gg42m.3iz9k.dv.fi;1xo1.ggacl.44vfz.f6.dd;1xta.ghk8i.3rtak.zz.hj;1xth.ghm2q.3kzra.24h.ge;1xtq.ghobq.4aqyl.fz.h7;1xts.ghowf.3uexf.398.7u;1xu6.ghrfw.3rjuk.xm.hg;1xz3.givuf.48rc7.ux.fn;1y2e.gjjs7.49ghj.16i.e8;1y7w.gkv3r.3xe3p.2n.f9;1ybg.glnc8.448dw.tr.i1;1yck.glznv.3l8uk.8k.ho;1yhf.gn0ke.431eb.su.gh;1yj1.gnc8e.3yisr.jh.g2;1yjy.gnjji.43s3m.5xy.g9;1yqx.gp4tk.3xtg9.17n.ha;1yth.gpp8h.47kgz.7f.hk;1yyu.gqq1o.3vale.bf.g6;1z00.gqzdr.43vyd.1cy.hn;1z0p.gr61h.3r1tm.13a.8t;1z1r.grd1s.46vlv.ca.hm;1z2n.grjar.40wni.73.ex;1z7x.gstux.49164.be.hy;1zae.gtbfz.45c6e.c3.ei;1zcw.gty2q.41eem.10z.hh;1zh7.gutiv.3rs2i.ng.hg;1zhf.guwbv.3lxi4.id.h0;1zkb.gvn12.434b8.58.fs;1zkp.gvq9s.405fy.4w.di;1zm6.gw0v1.4fgia.5g.e4;1zn1.gw8kb.40b4b.xj.dw;1znb.gwbeo.3sjdx.14e.5p;1zo2.gwg9i.4dsul.2es.fg;1zpf.gwpso.3z8ck.a6.gf;1zsx.gxfgc.44mlb.1t.dy;1ztp.gxmy2.43nui.oc.9s;1zv8.gy056.40m1z.zj.h2;1zxu.gyk26.493up.ax.hp;2003.gz2pg.3vfvx.b7.hn;202y.gzot2.4g58b.g7.hj;2033.gzq5w.4099b.5y.hd;2056.h0682.3vna8.wt.fn;205e.h094l.3kuvp.2tp.78;2069.h0hu1.47nfu.64.gk;206f.h0iuw.47yg2.y6.hp;20ab.h1d28.42avd.1t9.ag;20cj.h1wfi.4fc2x.af.gh;20f3.h2j8k.4e46s.a5.go;20fc.h2kmm.3plff.239.98;20fz.h2og6.48qln.ci.hg;20h1.h2vor.3nite.9w.gt;20ix.h39qq.3w1vd.dh.hi;20j0.h3afi.47jzv.5x.fg;20n1.h4335.43u9b.kl.80;20n4.h43tr.46gee.n4.gz;20qo.h4wz7.3lo1c.i2.hg;20tg.h5j8b.42h9z.jt.hr;20v6.h5xwo.3tdgs.4a.g3;210z.h76ib.3urmr.rh.di;2111.h76r2.3x2ru.2up.hd;215w.h8ax1.48a14.gx.dk;218x.h91av.4flor.hj.gx;21d1.h9wt6.40vuk.1co.fj;21fb.hafrj.47ob2.dc.hd;21fk.hagtb.4ancb.22f.aw;21fs.hahuw.4epck.5f.ck;21g4.hak6c.49ns0.p9.g8;21m8.hbzek.3p6ap.6w.gr;21nk.hcaao.3m2xj.xj.gf;21o5.hcea6.3wdcz.152.dy;21ov.hcij7.3xjhq.hx.f5;21qd.hcvtw.4gmxf.ai.fv;21qk.hcyfo.42858.ga.fh;21s3.hdaft.3l5g9.147.fq;21yx.heuxf.3r289.zp.f6;221p.hfetg.437zi.7c.gz;22dy.hi5pr.3vx42.v7.fo;22ew.hidkb.48hqv.11s.h1;22fl.hiita.3vkez.1bw.cr;22gg.hipjp.49tqa.kh.fq;22hk.hizk5.4i8xs.2hw.f6;22mx.hk6ye.3yorb.mb.hl;22ns.hkcn6.3yonb.lu.gl;22p4.hkoa3.4dz99.10z.eq;22t2.hlmx7.4ecb7.1fv.e2;22w7.hm6yx.4fqsq.23q.f9;232i.hnp3n.46jon.188.dj;2367.holmu.4jj2l.18g.gz;238r.hp7nw.3n73b.1oz.gs;23g7.hqtoq.482xm.t2.gc;23i1.hrb65.4hlnw.nu.hz;23ko.hry4z.3xl7t.5fe.ha;23o2.hsruf.3sj5b.38r.d2;23qq.htd99.3qo06.7i.cm;23te.htwly.4fp4q.v2.dx;23w1.hufy7.3sr5t.qm.dg;2427.hvr3q.4060w.sy.gp;243t.hw29r.4jo6s.ta.ft;245c.hwfex.3pic4.k8.cb;2481.hx09t.40gyb.1ca.hw;24sp.i1eye.4mc8s.ir.hm;24tw.i1nwr.4luwq.2r1.g8;250x.i36tv.3qylm.8qt.fx;253i.i3s4d.4mgic.h7.hi;256j.i4gkm.4m3az.d7.by;257i.i4nt9.425ky.qj.ga;257k.i4oel.4m0h6.2bd.9y;25b7.i5e8x.47x91.d0.eo;25ee.i62qy.4ljy8.xa.d9;25et.i64wo.4h7mv.sw.gx;25fd.i69g5.4h7wk.qc.8h;25u9.i9n5l.49v7z.dm.e4;25xv.iaea8.4f5tm.eo.ht;25yb.iagva.4apxl.2js.d9;2602.iatmx.40wpf.h2.h1;260z.ib0vz.492km.11x.gi;263p.ibnj9.4gmpn.sh.gy;2688.icm9i.3vfrv.pv.hn;26bn.idbrd.4jhpe.2cl.gz;26eg.ie1nn.4dhaz.12m.h7;26k0.ifanq.3v30a.1j6.hq;26n7.ig1pi.4guj5.56.ek;26ow.iggpd.4a0uz.c0.eb;26p9.igjfh.3xxyd.59o.ho;26q2.igq7y.4eca4.ri.g3;26ry.ih6ub.3t6a7.e2.hh;272t.ijpcj.3uqk4.59c.bh;272v.ijqp8.42sex.xl.gf;27as.ilf0w.3tn5l.9y.ga;27b0.ilfyv.4a8sn.82.h8;27e3.im628.4m0hj.10a.gb;27j3.inevn.3xxbz.111.hk;27j9.ingbe.4o3eo.1pl.hq;27ne.iod76.4ahib.mx.g2;27s9.iphrk.4s46g.f2.f9;27tw.ipwqq.4ejfy.1cu.gd;27w9.iqgfr.4hux8.wv.gj;27y8.iqxvr.483od.l2.he;280n.irm7d.4bbr6.gm.gv;289f.itijb.46cff.1lc.de;28cr.iuc9e.4byrd.1l9.bc;28h5.ivay7.4bhjp.ky.h6;28j1.ivqol.43h53.1be.eq;28lg.iw9r3.44ub3.1fl.hd;28ln.iwaly.4oj03.1jd.ci;28od.iwxix.4suov.q5.hf;28qi.ixf12.4hvqy.kn.hz;28ya.iz91a.4bq37.ol.gt;28zn.izj38.44my7.d4.ed;28zy.izlbi.4gdsx.ef.er;2917.izvww.4t5fq.4y.hx;292v.j0dub.4kftz.ev.ht;294n.j0rwh.4acpa.fn.f0;29ez.j32ot.4cthc.161.bw;29gm.j3g12.4sxd5.cl.gn;29go.j3hdo.40baf.dl.fn;29j2.j432k.4059p.j1.hq;29j5.j43lr.447j0.13r.ey;29j8.j4472.4larf.1ls.f8;29lt.j4nzs.4s09u.wu.fv;29p5.j5fyu.40v66.mr.ah;29qg.j5r5p.43gxv.jl.g2;29tj.j6jls.425sj.1ei.ci;2a7z.j9tu7.45uq2.2ue.fu;2acj.jb0u9.476fr.do.cj;2aea.jbdrs.4w2ey.1eq.d0;2aii.jcawi.4q8c3.se.gv;2ajt.jcmvm.4d6rz.1t8.a9;2amv.jdf1e.4isky.2dd.ec;2apg.je0ew.48gpm.v6.d4;2aqo.je8g1.4i1co.m5.gc;2aqu.jebd6.46uhf.p6.hb;2asm.jeqmw.4hadg.1h0.gk;2auu.jf9ov.4tfn2.bc.e6;2axr.jfy4m.4t0ph.7c.go;2ayl.jg37r.4ojfz.uu.fh;2azo.jgcxc.4ec3z.6iy.7x;2b0s.jgoh1.507wc.ze.h5;2b52.jhryl.4lmqk.hw.hj;2b6d.ji28c.4csom.c9.hq;2b99.jiuqu.48zi5.176.h7;2bd0.jjpl3.4jus4.2sf.e4;2beu.jk6jp.53qic.v6.fv;2bol.jmcnj.519vh.1dy.hl;2bq2.jmq27.53j27.255.hc;2bxs.johbx.4aj0j.wr.hg;2by5.jolzc.4cjfh.j8.hr;2c04.jp246.4yx65.xe.ff;2c7n.jqr4n.4j69i.1gi.bx;2cd0.js48z.497gr.1c.g4;2cg2.jsunb.54jze.p0.hg;2cgq.jsyp7.53r7m.w5.gm;2cgw.jszwq.4o434.g5.f3;2cl4.jtypy.4ih8o.1rw.gs;2clr.ju4k1.52s79.to.hr;2cvk.jwb1u.4led3.iq.eu;2cvn.jwbo3.4w7vw.1bc.bl;2cvt.jwcil.4tiws.ps.g4;2cw7.jwgzh.51crj.qk.fz;2d0j.jxhp6.4kdtr.pl.gk;2d35.jy4ld.4w4yp.c7.ev;2dac.jzwz2.4xhbg.jq.gg;2dbm.k084u.52j7w.ld.g3;2dca.k0em6.4jwic.gp.g0;2dh6.k1jhg.4d0m1.3uc.ff;2dp6.k3e42.4l7wo.y9.ht;2dpq.k3j8l.4hn0b.eb.ho;2dqr.k3q59.4q0j7.y5.de;2ds2.k42tb.4yunz.30u.h3;2ds3.k42vp.56nte.j5.h3;2dsw.k4a87.4piz2.149.hr;2dya.k5jr8.59iza.kf.gc;2e2b.k6htb.4bh75.jh.hr;2e72.k7jat.53u88.12o.e0;2e8h.k7v3d.4vz2c.jq.hb;2ee5.k95zk.55a7f.2ay.hk;2eha.k9v2m.51ys8.6s.hg;2ejs.kadj6.4v34p.eo.hx;2ek3.kah0o.4xz6l.on.hs;2eu6.kcvcd.4iruf.yv.fs;2ew7.kdalg.4q9z6.o0.h7;2ez0.kdvlg.4jrmy.nu.b9;2f5t.kfhwg.4wnlc.n5.ad;2f7r.kfykb.4o03w.ds.g4;2faf.kgjlp.4xgje.ev.h8;2fbj.kgrr1.5f6m1.th.gz;2fc0.kgvfs.527ks.ux.fw;2fgh.ki015.52lan.ly.hj;2fil.kiisd.57rm9.3wv.h5;2fix.kildq.59vmt.sk.hq;2fld.kj5w2.5eyr9.wb.f3;2fln.kj8ju.4kvvz.dt.h0;2fnu.kjsjr.5das8.e6.ha;2fpm.kk79j.4xrlr.ln.hb;2fpy.kk9up.52swk.3f.gi;2fsl.kktf3.4yt73.7b.h6;2fyk.km7y0.4wesa.1c3.f4;2fyt.kmahf.5fpb2.m6.hr;2g69.ko3tl.5hgm2.wc.f2;2gis.kr4nb.4zxqj.14s.bq;2gji.krbck.4pzpd.au.h1;2gli.krsql.55env.135.fg;2gmf.kryun.4tf8e.1p1.bs;2gor.kshe5.4wc9l.e5.dp;2gpn.ksncs.5jxpd.1x8.aa;2gqv.ksx6j.4nso1.n9.hl;2grd.kt1q9.4t7x3.s5.c9;2gtn.ktm4l.4savj.10e.dv;2gue.ktujx.51x1u.27s.fg;2gxl.kujc5.508ld.mm.h5;2h3o.kw2au.5dix6.6b.hl;2hay.kxvvy.5flcg.1jw.dr;2hbs.ky1y8.5fb2l.m9.he;2hdr.kyi58.4ocza.oj.hp;2hfm.kz007.4t1h0.44.h8;2hgp.kz8go.5928k.9t.hn;2hgx.kza2b.536qm.1ks.he;2hjw.l02qe.4zf9b.3q.hr;2hma.l0kvc.5aknk.bb.hr;2hr7.l1r43.5a86n.13d.gf;2hty.l2gpz.5fprs.t7.hz;2hu4.l2hu3.4wwhd.jz.hs;2hvz.l2ybk.5hen3.2hn.fs;2i3n.l4uyb.5oynj.5lf.bh;2i80.l5zhd.5gptm.2hy.ch;2igt.l8ba7.5kdhr.bx.dr;2ikf.l9560.56zcv.v3.f9;2ilo.l9gql.4z84q.cj.gx;2imd.l9m5z.5hnbe.1e9.hz;2inn.l9yf4.5f7hg.xv.g1;2isz.lbarc.5j6k2.7o.fj;2iv0.lbrou.4tm96.et.g0;2iv5.lbtb1.564z2.i5.gh;2ivi.lbw9v.5hdrd.jm.hh;2iyn.lct18.5d4vq.e3.g2;2izr.lcztt.5s21q.mg.ha;2j7l.lew6u.55a2r.14i.dk;2j98.lf8gv.5rm1j.2di.b7`;
-const eqToNirayana=(ra,dec)=>{const A=ra*Math.PI/180,D=dec*Math.PI/180,e=23.4392911*Math.PI/180,x=Math.cos(D)*Math.cos(A),y=Math.cos(D)*Math.sin(A),z=Math.sin(D),ey=Math.cos(e)*y+Math.sin(e)*z,ez=-Math.sin(e)*y+Math.cos(e)*z,L=Math.atan2(ey,x)*180/Math.PI-23.85675;return {lon:(L%360+360)%360,lat:Math.asin(ez)*180/Math.PI};};
+/* The catalogue's J2000 ecliptic longitudes → nirayaṇa by the Modern Bhāratīya (dṛk) tier's own Citrā-pakṣa ayanāṃśa at
+   J2000.0 (mean equinox, as the J2000 frame is), through math-core (siddhanta-tier.js); one value, computed here, shown
+   in the nakṣatra formula. */
+const STAR_AYANAMSHA_J2000=globalThis.ShunyaMath.tierAyanamsha(2451545.0,'drik').meanDeg;
+const eqToNirayana=(ra,dec)=>{const A=ra*Math.PI/180,D=dec*Math.PI/180,e=23.4392911*Math.PI/180,x=Math.cos(D)*Math.cos(A),y=Math.cos(D)*Math.sin(A),z=Math.sin(D),ey=Math.cos(e)*y+Math.sin(e)*z,ez=-Math.sin(e)*y+Math.cos(e)*z,L=Math.atan2(ey,x)*180/Math.PI-STAR_AYANAMSHA_J2000;return {lon:(L%360+360)%360,lat:Math.asin(ez)*180/Math.PI};};
 const NAK_STARS=NAK_STAR_PACK.split(';').map(r=>{const [h,a,d,p,m]=r.split('.').map(v=>parseInt(v,36)),ra=a/1e5,dec=d/1e5-90,q=eqToNirayana(ra,dec),plx=p/100;return {hip:h,ra,dec,plx,mag:m/100,lon:q.lon,lat:q.lat,nak:Math.floor(q.lon/NAKW)%27,pc:plx>0?1000/plx:null};});
 function nakshatraProfile(i,limit=nakMagLimit){i=((i%27)+27)%27;const all=NAK_STARS.filter(s=>s.nak===i).sort((a,b)=>a.mag-b.mag),visible=all.filter(s=>s.mag<=limit),withDistance=all.filter(s=>s.pc),meanLat=all.length?all.reduce((n,s)=>n+s.lat,0)/all.length:0;return{i,name:NAK[i],start:i*NAKW,end:(i+1)*NAKW,padas:Array.from({length:4},(_,p)=>({pada:p+1,start:i*NAKW+p*NAKW/4,end:i*NAKW+(p+1)*NAKW/4,cell108:i*4+p+1})),all,visible,brightest:all[0]||null,meanLat,near:withDistance.sort((a,b)=>a.pc-b.pc)[0]||null};}
 const VIM=[['केतु',7],['शुक्र',20],['सूर्य',6],['चन्द्र',10],['मंगल',7],
@@ -1784,7 +1811,7 @@ function updateNakshatraHUD(){
   const shown=NAK_STARS.filter(s=>s.mag<=nakMagLimit),count=i=>shown.reduce((n,s)=>n+(s.nak===i),0),focus=nakFocus;
   if(focus===null){const rows=NAK.map((n,i)=>`<tr><td><b>${String(i+1).padStart(2,'0')}</b></td><td>${n}</td><td>${count(i)} stars</td></tr>`).join('');$('tele').innerHTML=`<div class="t" style="color:#8FD8E8">२७ नक्षत्र · spherical catalogue</div><div style="max-height:270px;overflow:hidden"><table>${rows}</table></div><div style="margin-top:6px;color:var(--dim)">Hipparcos · V≤${nakMagLimit.toFixed(1)} · |β|≤8° · ${shown.length} rendered stars</div>`;}
   else{const stars=shown.filter(s=>s.nak===focus).sort((a,b)=>a.mag-b.mag),s=nakStarFocus?stars.find(x=>x.hip===nakStarFocus):null,from=Number.isInteger(journeyContext.rishi)?`<br/><span style="color:#BFF0FA">प्रवेश-दिशा: ${RISHI_STARS[journeyContext.rishi].rishi} · longitude projection, membership नहीं</span>`:'';$('tele').innerHTML=`<div class="t" style="color:#8FD8E8">${focus+1}/27 · ${NAK[focus]}</div><div style="font-family:var(--mono);line-height:1.8;color:rgba(220,230,234,.72)">निरयण विस्तार ${fmt(focus*NAKW)} – ${fmt((focus+1)*NAKW)}<br/>देवता <b style="color:var(--gold)">${NAK_DEV?.[focus]||'—'}</b> · ${stars.length} catalogue stars<br/>योगतारा-दर्शन: brightest HIP ${stars[0]?.hip||'—'} · V ${stars[0]?.mag?.toFixed(2)||'—'}${s?`<br/><b style="color:#BFF0FA">HIP ${s.hip}</b> · λ ${s.lon.toFixed(4)}° · β ${s.lat.toFixed(4)}°`:''}${from}</div><div style="margin-top:7px;color:var(--dim)">नक्षत्र node छुओ → seamless सूर्य-मण्डल directional entry</div>`;}
-  $('eq').innerHTML=`<b>नक्षत्र</b> = ⌊ nirayaṇa λ / (360°/27) ⌋ · 360°/27 = <span class="g">13°20′</span><br/>ICRS (α,δ) → ecliptic (λ,β) → λ<sub>nir</sub> = λ − 23.85675° · Hipparcos ESA 1997`;
+  $('eq').innerHTML=`<b>नक्षत्र</b> = ⌊ nirayaṇa λ / (360°/27) ⌋ · 360°/27 = <span class="g">13°20′</span><br/>ICRS (α,δ) → ecliptic (λ,β) → λ<sub>nir</sub> = λ − ${STAR_AYANAMSHA_J2000.toFixed(5)}° (चित्रा-पक्ष, mean, J2000.0 — आधुनिक भारतीय (दृक्) तह का अपना मान) · Hipparcos ESA 1997`;
   $('date').textContent=fmtDate();$('days').textContent=Math.round(T).toLocaleString('en-IN');$('yrs').textContent=(T/TE).toFixed(1);$('vakriN').textContent=`${shown.length} तारक`;renderVedicClock();if(explorerOpen)syncExplorer();
 }
 function ganitaNode(id,label,equationId,x,y,formula,detail,simple,question,remember,status='siddha',k=relationLab?.k||3){return{t:'ganita',id,label,equationId,x,y,formula,detail,simple,question,remember,status,k,z:8};}
@@ -2483,26 +2510,13 @@ function frame(){
 let longitudeMode='sphuta';
 const SS_STAR_PLANETS=['mangal','budh','guru','shukra','shani'];
 const ssBhaganaRole=k=>k==='budh'||k==='shukra'?'शीघ्रोच्च-भगण':k==='rahu'||k==='ketu'?'पात-भगण':'ग्रह-भगण';
-function ssPlanetMeanAt(k,t=T){
-  if(globalThis.ShunyaMath && typeof globalThis.ShunyaMath.ssPlanetMeanAt==='function') return globalThis.ShunyaMath.ssPlanetMeanAt(k,t);
-  if(k==='rahu')return ssPhaseFromKali(t,SS.bhagana.rahu,180,-1);
-  if(k==='ketu')return norm(ssPlanetMeanAt('rahu',t)+180);
-  if(k==='prithvi')return norm(ssMeanLongitude(t,SS.bhagana.surya)+180);
-  if(k==='budh'||k==='shukra'||k==='surya')return ssMeanLongitude(t,SS.bhagana.surya);
-  const B=SS.bhagana[k];return Number.isFinite(B)?ssMeanLongitude(t,B):0;
-}
-function ssSighroccaAt(k,t=T){
-  if(globalThis.ShunyaMath && typeof globalThis.ShunyaMath.ssSighroccaAt==='function') return globalThis.ShunyaMath.ssSighroccaAt(k,t);
-  if(k==='budh'||k==='shukra')return ssMeanLongitude(t,SS.bhagana[k]);
-  return SS_STAR_PLANETS.includes(k)?ssMeanLongitude(t,SS.bhagana.surya):null;
-}
-function ssMandoccaAt(k,t=T){
-  if(globalThis.ShunyaMath && typeof globalThis.ShunyaMath.ssMandoccaAt==='function') return globalThis.ShunyaMath.ssMandoccaAt(k,t);
-  const ah=SS_AHARGANA_J2000+t;
-  if(k==='chandra')return norm(90+ah*SS.bhagana.chandraMandocca/SS.yugaDays*360);
-  const rev=SS.apsisKalpa[k];
-  return Number.isFinite(rev)?norm(ssApsisAtKali(k)+ah*rev/(SS.yugaDays*1000)*360):null;
-}
+/* The text tier's places: ShunyaMath.ss* (math-core → ss-tier.js → the sovereign modules). The page loads them before
+   this script (the loading contract), so there is one implementation; ssMandaEquation/ssSighraEquation below are the
+   relation-lab's worked equations for the drawings and audits, not a second engine. */
+const SM_=globalThis.ShunyaMath;
+function ssPlanetMeanAt(k,t=T){return SM_.ssPlanetMeanAt(k,t);}
+function ssSighroccaAt(k,t=T){return SM_.ssSighroccaAt(k,t);}
+function ssMandoccaAt(k,t=T){return SM_.ssMandoccaAt(k,t);}
 function ssRectifiedParidhi(pair,kendra){
   if(!pair)return null;
   return pair[0]+(pair[1]-pair[0])*Math.abs(Math.sin(rad(kendra)));
@@ -2525,58 +2539,10 @@ function ssSighraEquation(place,sighrocca,pair){
   const correction=kendra<=180?magnitude:-magnitude;
   return {kind:'sighra',place,centre:sighrocca,kendra,paridhi:p,bhuja,koti,bhujaPhala,kotiPhala,base,karna,magnitude,correction};
 }
-function ssSphutaAt(k,t=T){
-  if(globalThis.ShunyaMath && typeof globalThis.ShunyaMath.ssSphutaAt==='function') return globalThis.ShunyaMath.ssSphutaAt(k,t);
-  const mean=ssPlanetMeanAt(k,t),mandocca=ssMandoccaAt(k,t),sighrocca=ssSighroccaAt(k,t);
-  if(k==='rahu'||k==='ketu'||k==='prithvi'||!SS.mandaParidhi[k])return {k,mean,sphuta:mean,mandocca,sighrocca,kind:'mean'};
-  if(k==='surya'||k==='chandra'){
-    const manda=ssMandaEquation(mean,mandocca,SS.mandaParidhi[k]);
-    return {k,mean,mandocca,sighrocca:null,manda,mandaSphuta:norm(mean+manda.correction),sphuta:norm(mean+manda.correction),kind:'manda'};
-  }
-  const firstSighra=ssSighraEquation(mean,sighrocca,SS.sighraParidhi[k]);
-  const halfSighraPlace=norm(mean+firstSighra.correction/2);
-  const firstManda=ssMandaEquation(halfSighraPlace,mandocca,SS.mandaParidhi[k]);
-  const halfMandaPlace=norm(halfSighraPlace+firstManda.correction/2);
-  const fullManda=ssMandaEquation(halfMandaPlace,mandocca,SS.mandaParidhi[k]);
-  const mandaSphuta=norm(mean+fullManda.correction);
-  const finalSighra=ssSighraEquation(mandaSphuta,sighrocca,SS.sighraParidhi[k]);
-  return {k,mean,mandocca,sighrocca,firstSighra,halfSighraPlace,firstManda,halfMandaPlace,fullManda,mandaSphuta,finalSighra,sphuta:norm(mandaSphuta+finalSighra.correction),kind:'manda-sighra'};
-}
-function ssMeanNodeAt(k,t=T){
-  if(globalThis.ShunyaMath && typeof globalThis.ShunyaMath.ssMeanNodeAt==='function') return globalThis.ShunyaMath.ssMeanNodeAt(k,t);
-  if(k==='chandra'||k==='rahu'||k==='ketu'){
-    const r=ssPhaseFromKali(t,SS.bhagana.rahu,180,-1);return k==='ketu'?norm(r+180):r;
-  }
-  const rev=SS.nodeKalpa[k],ah=SS_AHARGANA_J2000+t;
-  if(!Number.isFinite(rev))return null;
-  const kali=norm(-rev*SS.motionsToKaliYears/SS.kalpaYears*360);
-  return norm(kali-ah*rev/(SS.yugaDays*1000)*360);
-}
-function ssNodeAt(k,t=T){
-  if(globalThis.ShunyaMath && typeof globalThis.ShunyaMath.ssNodeAt==='function') return globalThis.ShunyaMath.ssNodeAt(k,t);
-  const mean=ssMeanNodeAt(k,t);
-  if(mean===null)return {k,mean:null,sphuta:null,correction:0,rule:'none'};
-  if(k==='chandra'||k==='rahu'||k==='ketu')return {k,mean,sphuta:mean,correction:0,rule:'lunar-node'};
-  const d=ssSphutaAt(k,t);
-  if(k==='budh'||k==='shukra'){
-    const correction=-(d.fullManda?.correction||0);
-    return {k,mean,sphuta:norm(mean+correction),correction,rule:'third-manda-opposite'};
-  }
-  const correction=d.finalSighra?.correction||0;
-  return {k,mean,sphuta:norm(mean+correction),correction,rule:'sighra'};
-}
-function ssLatitudeAt(k,t=T){
-  if(globalThis.ShunyaMath && typeof globalThis.ShunyaMath.ssLatitudeAt==='function') return globalThis.ShunyaMath.ssLatitudeAt(k,t);
-  const maxMin=SS.paramaVikshepaMin[k]||0;
-  if(!maxMin)return {k,latitude:0,minutes:0,paramaMinutes:0,node:null,argument:0,bhuja:0,karna:SS.radius,rule:'ecliptic'};
-  const d=ssSphutaAt(k,t),node=ssNodeAt(k,t);
-  const inferior=k==='budh'||k==='shukra';
-  const reference=inferior?d.sighrocca:d.sphuta;
-  const argument=norm(reference-node.sphuta),bhuja=SS.radius*Math.sin(rad(argument));
-  const karna=k==='chandra'?SS.radius:(d.finalSighra?.karna||SS.radius);
-  const minutes=bhuja*maxMin/karna;
-  return {k,latitude:minutes/60,minutes,paramaMinutes:maxMin,node:node.sphuta,meanNode:node.mean,nodeCorrection:node.correction,argument,bhuja,karna,reference,rule:inferior?'शीघ्रोच्च−स्फुट-पात':'स्फुट-ग्रह−स्फुट-पात'};
-}
+function ssSphutaAt(k,t=T){return SM_.ssSphutaAt(k,t);}
+function ssMeanNodeAt(k,t=T){return SM_.ssMeanNodeAt(k,t);}
+function ssNodeAt(k,t=T){return SM_.ssNodeAt(k,t);}
+function ssLatitudeAt(k,t=T){return SM_.ssLatitudeAt(k,t);}
 function ssParamaManda(k){
   const pair=SS.mandaParidhi[k];if(!pair)return null;
   const phala=Math.asin(Math.max(-1,Math.min(1,pair[1]/360)))*180/Math.PI;
@@ -2612,33 +2578,33 @@ window.__SS_SPHUTA=k=>ssSphutaAt(k,T);
 window.__SS_SPACE=k=>({longitude:ssSphutaAt(k,T),latitude:ssLatitudeAt(k,T),node:ssNodeAt(k,T),eccentricity:SS_E[k]||null});
 console.assert(Object.values(SS_SPHUTA_AUDIT).every(Boolean),'SS sphuṭa invariant failed',SS_SPHUTA_AUDIT);
 console.assert(Object.values(SS_SPACE_AUDIT).every(Boolean),'SS 3D-space invariant failed',SS_SPACE_AUDIT);
-/* ═══ दृक्-तुलना · ग्रह-मण्डल प्रदर्शनी (शास्त्रीय SS) vs DrikTier दृक् (BE-S10) ═══
-   प्रदर्शनी शास्त्रीय ही रहती है — यह instrument केवल Δ मापता है।
-   हरा = |Δ| v3 max-सीमा (DRIGGANITA_V3.max) के भीतर · अम्बर = बाहर। ±200 वर्ष से परे: सीमा-बाहर (honest)। */
+/* ═══ तह-तुलना · ग्रह-मण्डल प्रदर्शनी (सूर्य-सिद्धान्त, पाठ जैसा) vs the other two tiers ═══
+   प्रदर्शनी पाठ की ही रहती है — यह instrument केवल Δ मापता है, M.tierGrahaRows से (math-core): 'ss+parameshvara'
+   (परमेश्वर-संस्कार: केवल चन्द्र और पात) और 'drik' (आधुनिक भारतीय: हमारी श्रेणी, 1850.0–2150.0, बाहर अस्वीकृत)।
+   दृक् के लिये हरा = |Δ| ≤ रंग-सीमा (DRIGGANITA_V3.max, math-core की केरल-fit तालिका) · अम्बर = बाहर। कोई विदेशी सिद्धान्त नहीं। */
 const DRIK_RMS_MIN={surya:1,candra:30,mangala:420,budha:128,shukra:447,guru:27,shani:29,rahu:1,ketu:1 /* SS मध्य-पात measured ≤0.3′; सीमा 1′ (math-core rahu/ketu rms) */};
 const DRIK_KEYMAP=[['surya','surya','सू'],['chandra','candra','चं'],['mangal','mangala','मं'],['budh','budha','बु'],['guru','guru','गु'],['shukra','shukra','शु'],['shani','shani','श'],['rahu','rahu','रा'],['ketu','ketu','के']];
-const DRIK_RANGE_DAYS=200*365.25;
-const drikCache={T:null,vals:null,wall:0};
+const drikCache={key:null,html:''};
 function drikTulanaHTML(){
   const base='margin-top:6px;padding-top:6px;border-top:1px solid var(--line)';
-  if(Math.abs(T-TODAY0)>DRIK_RANGE_DAYS)
-    return `<div style="${base};color:rgba(220,230,234,.56)"><span style="color:#8FD8E8">दृक्-तुलना</span>: सीमा-बाहर — दृक्-सत्यापन वर्तमान युग ±200 वर्ष में ही</div>`;
-  if(!(window.DrikTier&&DrikTier.available()))
-    return `<div style="${base};color:rgba(220,230,234,.56)"><span style="color:#8FD8E8">दृक्-तुलना</span>: दृक्-engine अनुपलब्ध</div>`;
-  const now=performance.now();
-  if(drikCache.T===null||(Math.abs(T-drikCache.T)>1e-6&&now-drikCache.wall>400)){
-    const v=DrikTier.grahas(2451545.0+T);
-    if(v){drikCache.T=T;drikCache.vals=v;drikCache.wall=now;}
-  }
-  if(!drikCache.vals)
-    return `<div style="${base};color:rgba(220,230,234,.56)"><span style="color:#8FD8E8">दृक्-तुलना</span>: गणना अनुपलब्ध</div>`;
-  const t=drikCache.T;
-  const chips=DRIK_KEYMAP.map(([mk,dk,ab])=>{
-    const cls=mk==='rahu'?rahuMean(t):mk==='ketu'?norm(rahuMean(t)+180):grahaLongAt(mk,t,'sphuta');
-    const dm=(((cls-drikCache.vals[dk]+540)%360)-180)*60,ok=Math.abs(dm)<=DRIK_RMS_MIN[dk];
-    return `<span style="color:${ok?'#8AF0FF':'#EAC97B'};white-space:nowrap" title="${NAME(mk)} · शास्त्रीय−दृक् = ${dm>=0?'+':''}${dm.toFixed(2)}′ · v3 max-सीमा (DRIGGANITA_V3.max) ${DRIK_RMS_MIN[dk]}′">${ab} ${dm>=0?'+':''}${Math.abs(dm)>=100?dm.toFixed(0):dm.toFixed(1)}′</span>`;
-  }).join(' · ');
-  return `<div style="${base};line-height:1.7"><span style="color:#8FD8E8">दृक्-तुलना</span> · <span style="color:rgba(220,230,234,.56)">शास्त्रीय प्रदर्शनी vs दृक् (SIDDHA · live)</span><br/>${chips}</div>`;
+  const SMx=globalThis.ShunyaMath, jd=2451545.0+T, now=performance.now();
+  if(drikCache.key!==null&&Math.abs(T-drikCache.T)<1e-6)return drikCache.html;
+  if(drikCache.key!==null&&now-drikCache.wall<400)return drikCache.html;
+  const exhibit=Object.fromEntries(DRIK_KEYMAP.map(([mk,dk])=>[dk,mk==='rahu'?rahuMean(T):mk==='ketu'?norm(rahuMean(T)+180):grahaLongAt(mk,T,'sphuta')]));
+  const lines=['ss+parameshvara','drik'].map(id=>{
+    const T_=SMx.TIERS[id];let rows;
+    try{rows=SMx.tierGrahaRows(jd,id);}
+    catch(e){if(e&&e.code==='TIER_OUT_OF_SPAN')return `<span style="color:#8FD8E8">${T_.labelSa}</span>: <span style="color:rgba(220,230,234,.56)">इस क्षण अस्वीकृत — ${T_.span.years[0]}.0–${T_.span.years[1]}.0 के बाहर (कोई विदेशी सिद्धान्त नहीं भरा जाता)</span>`;throw e;}
+    const byKey=Object.fromEntries(rows.map(r=>[r.key,r.longitude]));
+    const chips=DRIK_KEYMAP.map(([mk,dk,ab])=>{
+      const dm=(((exhibit[dk]-byKey[dk]+540)%360)-180)*60,ok=id!=='drik'||Math.abs(dm)<=DRIK_RMS_MIN[dk];
+      return `<span style="color:${ok?'#8AF0FF':'#EAC97B'};white-space:nowrap" title="${NAME(mk)} · प्रदर्शनी (सूर्य-सिद्धान्त) − ${T_.label} = ${dm>=0?'+':''}${dm.toFixed(2)}′${id==='drik'?` · रंग-सीमा (DRIGGANITA_V3.max) ${DRIK_RMS_MIN[dk]}′`:''}">${ab} ${dm>=0?'+':''}${Math.abs(dm)>=100?dm.toFixed(0):dm.toFixed(1)}′</span>`;
+    }).join(' · ');
+    return `<span style="color:#8FD8E8">${T_.labelSa}</span>: ${chips}`;
+  });
+  drikCache.key=jd;drikCache.T=T;drikCache.wall=now;
+  drikCache.html=`<div style="${base};line-height:1.7"><span style="color:#8FD8E8">तह-तुलना</span> · <span style="color:rgba(220,230,234,.56)">प्रदर्शनी (सूर्य-सिद्धान्त) − अन्य तह, math-core से (SIDDHA · live)</span><br/>${lines.join('<br/>')}</div>`;
+  return drikCache.html;
 }
 function updateHUD(F,cCol){
   let vakN=0,rows='';
@@ -2656,7 +2622,7 @@ function updateHUD(F,cCol){
      rows+=`<tr><td><b style="color:${c}">${nm}${src}</b></td><td>${fmt(NODE_RATE)}/द</td>
        <td class="vak">सदा-वक्री</td><td>β 0.00°</td><td>${RASHI[Math.floor(L/30)%12]}</td></tr>`;});}
   document.getElementById('tele').innerHTML=
-    `<div class="t" style="color:${cCol}">सूर्य-सिद्धान्त ${longitudeMode==='sphuta'?'स्फुट':'मध्यम'} · 3D विक्षेप · ${NAME(centre)}-केन्द्र</div><table>${rows}</table>`+
+    `<div class="t" style="color:${cCol}">सूर्य-सिद्धान्त (पाठ जैसा — प्रदर्शनी) ${longitudeMode==='sphuta'?'स्फुट':'मध्यम'} · 3D विक्षेप · ${NAME(centre)}-केन्द्र</div><table>${rows}</table>`+
     `<div style="margin-top:7px;padding-top:6px;border-top:1px solid var(--line);color:rgba(220,230,234,.56)">`+
     `दृष्टि ${yaw.toFixed(2)} rad · झुकाव ${tiltV.toFixed(2)} rad · आवर्धन ${zoom.toFixed(2)}×</div>`;
   document.getElementById('vakriN').textContent=vakN>0?vakN+' ग्रह':'कोई नहीं';
@@ -2677,7 +2643,7 @@ function updateHUD(F,cCol){
     `<div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--line);color:#8FD8E8">
      चन्द्र-नक्षत्र: <b style="color:#BFF0FA">${NAK[Math.floor(lmN/NAKW)%27]}</b> · ${Math.floor((lmN%NAKW)/(NAKW/4))+1}-पाद<br/>${beLine}</div>`;
   document.getElementById('tele').innerHTML+=drikTulanaHTML();
-  if(+document.getElementById('lagnaSel').value<0){const bm=liveBhavaModel();if(bm)lagna=bm.lagnaRashi;}
+  if(+document.getElementById('lagnaSel').value<0){const bm=liveBhavaModel();if(bm&&!bm.refused)lagna=bm.lagnaRashi;}
   if(dashaOpen)renderDasha();
   if(dashaOpen)renderBhavaChakra();
   if(MATH){const fk=focusOf();
@@ -2780,7 +2746,7 @@ function nodeRel(lamDeg,t){const e=helio(P.prithvi,t),pin=bodyAbs(centre,t),a=la
 
 let panchOpen=false, koshOpen=false, dashaOpen=false;
 function renderPanch(){
-  const bmNow=liveBhavaModel();
+  const bmNow=liveBhavaModelOk();
   const bhavaTxt=L=>{const b=bmNow?bhavaOfLongitude(L,bmNow):null;return b?`${DEVN[b-1]} <span style="opacity:.55;font-size:9px">भा${b}</span>`:DEVN[(Math.floor(L/30)%12-lagna+12)%12];};
   const ls=canonicalGrahaLong('surya'), lm=canonicalGrahaLong('chandra');
   const el=norm(lm-ls), tn=Math.floor(el/12);       // 0..29
@@ -2853,12 +2819,12 @@ function renderPanch(){
     <div class="note">बुध/शुक्र की ग्रह-मध्यम दीर्घांश सूर्य-मध्यम के साथ चलती है; उनके 17,937,060 और 7,022,376 भगण शीघ्रोच्च के हैं। कलि-आरम्भ: ग्रह-मध्यम 0°, चन्द्र-मन्दोच्च 90°, राहु 180° विलोम। <b>${auditCount}/${auditTotal} śāstric invariants सिद्ध ✓</b></div>
     <div class="note">यही integer lattice motion-engine की प्रथम authority है। Rkm, रंग, parallax और AU केवल वहाँ observational layer हैं जहाँ ग्रंथ वह quantity नहीं देता।</div></div>`;
   const kaal=`<div class="card" style="border-color:rgba(234,201,123,.4)"><h3>⏳ काल-चक्र · परमाणु → महायुग</h3>
-    अहर्गण (कलि-आरम्भ JD ${SS.kaliEpochJD} से): <b>${Math.floor(ah).toLocaleString('en-IN')}</b><br/>
+    अहर्गण (लङ्का-मध्यरात्रि से, SS 1.45-1.47 · JD ${SS.kaliEpochJD} − 75.7885/360): <b>${Math.floor(ah).toLocaleString('en-IN')}</b><br/>
     <a href="${KALI_EPOCH_SOURCE}" target="_blank" rel="noopener" style="color:var(--gold);font-size:10px">कलि-अहर्गण epoch source ↗</a><br/>
     कलि-गत वर्ष: <b>${kaliY.toFixed(1)}</b> / 4,32,000 (${(kaliY/KY*100).toFixed(3)}%)${bar(kaliY/KY*100,'var(--gold)')}
     महायुग-गत: <b>${Math.floor(mahaG).toLocaleString('en-IN')}</b> / 43,20,000 वर्ष (${(mahaG/MAHA*100).toFixed(2)}%)${bar(mahaG/MAHA*100,'#5FD3E8')}
     कल्प-गत: <b>${(kalpaG/1e9).toFixed(4)} अरब</b> / 4.32 अरब वर्ष (${(kalpaG/KALPA*100).toFixed(2)}%)${bar(kalpaG/KALPA*100,'#E8955B')}
-    <span class="mono" style="font-size:10px">भागवत 3.11: परमाणु → अणु → त्रसरेणु → त्रुटि → वेध → लव → निमेष → क्षण → काष्ठा → लघु → घटिका → मुहूर्त → अहोरात्र · युग 4:3:2:1</span></div>`;
+    <span class="mono" style="font-size:10px">परमाणु → अणु → त्रसरेणु → त्रुटि → वेध → लव → निमेष → क्षण → काष्ठा → लघु → घटिका → मुहूर्त → अहोरात्र · युग 4:3:2:1 — भागवत 3.11 का बताया क्रम: दावा, संस्करण की प्रतीक्षा में (इस repository में भागवत का कोई संस्करण नहीं) / a claim awaiting an edition (no Bhāgavata edition is in the repository)</span></div>`;
   const sphutaCard=`<div class="card" style="border-color:rgba(234,201,123,.38)"><h3>चार-संस्कार · live calculation</h3>
     <div class="mono">ताराग्रह: ½ शीघ्र → ½ मन्द → पूर्ण मन्द → पूर्ण शीघ्र<br/>सूर्य/चन्द्र: पूर्ण मन्द · पात: भगण-मध्यम</div>
     <table style="width:100%;font:11px/2 var(--mono);margin-top:7px"><tr style="color:var(--gold)"><td>ग्रह</td><td>मध्यम</td><td>मन्द-फल</td><td>शीघ्र-फल</td><td>स्फुट λ</td><td>β</td></tr>${sphutaRows}</table>
@@ -2877,11 +2843,16 @@ function renderPanch(){
 }
 /* ═══ भाव-चक्र · जीवित मध्य-लग्न (math-core bhavaModel · Ujjain मेरिडियन) ═══ */
 const BH_MERIDIAN={lat:23.1765,lon:75.7885};
+const museumTier=()=>globalThis.LegacyTier?globalThis.LegacyTier.current():globalThis.ShunyaMath.pageTier('');
 const liveBhavaModel=()=>{
   const SM=globalThis.ShunyaMath;
   if(!SM||typeof SM.bhavaModel!=='function')return null;
-  return SM.bhavaModel(2451545.0+T,BH_MERIDIAN.lat,BH_MERIDIAN.lon,'effective_49');
+  try{return SM.bhavaModel(2451545.0+T,BH_MERIDIAN.lat,BH_MERIDIAN.lon,museumTier());}
+  catch(e){if(e&&e.code==='TIER_OUT_OF_SPAN')return {refused:e};throw e;}
 };
+/* the live bhāva model for the panels that only place a longitude in a bhāva: null when the tier refuses the instant
+   (those panels then fall back to the whole-sign count, as without math-core; the bhāva-chakra shows the refusal) */
+const liveBhavaModelOk=()=>{const m=liveBhavaModel();return m&&!m.refused?m:null;};
 const bhavaOfLongitude=(L,model)=>{
   const s=model.sandhis;
   for(let n=1;n<=12;n++){const span=((s[n+1]-s[n])%360+360)%360,off=((L-s[n])%360+360)%360;if(off<span)return n;}
@@ -2901,6 +2872,7 @@ function renderBhavaChakra(){
   const el=document.getElementById('bhavachakra');if(!el)return;
   const model=liveBhavaModel();
   if(!model){el.innerHTML=`<div class="card"><h3>भाव-चक्र (जीवित)</h3><div class="note">math-core.js नहीं मिला — <code>bhavaModel()</code> उपलब्ध नहीं।</div></div>`;return;}
+  if(model.refused){el.innerHTML='';const box=document.createElement('div');box.className='card';el.appendChild(box);globalThis.LegacyTier.renderRefusal(box,model.refused,()=>{syncMuseumTier();});return;}
   const SM=globalThis.ShunyaMath;
   const kName=k=>{const g=SM.GRAHAS.find(x=>x.key===k);return g?g.sa:k;};
   const deg=v=>`${(((v%360)+360)%360).toFixed(4)}°`;
@@ -2917,7 +2889,7 @@ function renderBhavaChakra(){
   }).join('');
   el.innerHTML=
    `<div class="card" style="border-color:rgba(95,211,232,.4)">
-     <h3>भाव-चक्र · जीवित मध्य-लग्न (Ujjain)</h3>
+     <h3>भाव-चक्र · जीवित मध्य-लग्न (Ujjain) · ${globalThis.ShunyaMath.TIERS[museumTier()].labelSa}</h3>
      लग्न <b style="color:#BFF0FA">${RASHI[model.lagnaRashi]}</b> · <span class="mono">${deg(model.lagna)}</span> ·
      भाव-१० मध्य (MC) <span class="mono">${deg(model.madhyas[10])}</span><br/>
      <span style="font-size:10px;color:rgba(220,230,234,.55)">${model.method}</span>
@@ -2928,40 +2900,43 @@ function renderBhavaChakra(){
      <div class="note">भाव-मध्य असमान: लग्न + मध्य-लग्न (MC) anchor, चतुर्थांश-त्रिभाजन। हर ग्रह स्फुट निरयण λ से cusp के सापेक्ष रखा गया — पूर्ण-राशि नहीं। रंग-पहचान कटपयादि-बीज से स्थिर (zero entropy)। काल-slider घुमाओ, भाव बदलते देखो।</div>
    </div>`;
 }
-/* ═══ विंशोत्तरी दशा — सिद्धान्त-चन्द्र प्रथम; API केवल अलग observational तुलना ═══ */
+/* ═══ विंशोत्तरी दशा — one implementation (dasha.js via M.vimshottariTier): the sim-instant's Moon in the chosen tier,
+   the balance by time (BPHS 46.16), the tier's own year; dates from M.julianDayToIsoDate. The observational API stays
+   a separate, opt-in comparison. ═══ */
+const LORD_SA={'Ketu':'केतु','Śukra':'शुक्र','Sūrya':'सूर्य','Candra':'चन्द्र','Maṅgala':'मंगल','Rāhu':'राहु','Guru':'गुरु','Śani':'शनि','Budha':'बुध'};
 function renderDasha(){
+  const SMx=globalThis.ShunyaMath, tier=museumTier(), jd=2451545.0+T, body=document.getElementById('dashaBody');
+  let v;
+  try{v=SMx.vimshottariTier(jd,jd,tier);}
+  catch(e){if(e&&e.code==='TIER_OUT_OF_SPAN'){body.innerHTML='';const box=document.createElement('div');box.className='card';body.appendChild(box);globalThis.LegacyTier.renderRefusal(box,e,()=>{syncMuseumTier();});return;}throw e;}
   const rm=realMoon();
-  const lm=canonicalGrahaLong('chandra');
-  const srcTag=`सूर्य-सिद्धान्त स्फुट-चन्द्र${longitudeMode==='mean'?' · दृश्य में मध्यम तुलना':''}${rm!==null?` · observational Δ ${(((rm-lm+540)%360)-180).toFixed(3)}°`:''}`;
-  const nakI=Math.floor(lm/NAKW)%27, pada=Math.floor((lm%NAKW)/(NAKW/4))+1;
-  const f=(lm%NAKW)/NAKW;                       // नक्षत्र में भोग-अंश
-  const li=nakI%9, lord=VIM[li];
-  const balYrs=lord[1]*(1-f);
-  // महादशा-क्रम (वर्तमान से 9)
-  let rows='', t=0;
-  for(let i=0;i<9;i++){
-    const L2=VIM[(li+i)%9], yrs=i===0?balYrs:L2[1];
-    const baseMs=simDate()?.getTime(),d0ms=Number.isFinite(baseMs)?baseMs+t*365.25*86400000:NaN,d0=Number.isFinite(d0ms)?new Date(d0ms):null;
-    rows+=`<tr${i===0?' style="color:#BFF0FA"':''}><td><b>${L2[0]}</b>${i===0?' ▶':''}</td>
-      <td>${yrs.toFixed(1)} व</td><td>${d0?d0.toLocaleDateString('hi-IN',{month:'short',year:'numeric'}):'काल-विस्तार'}</td></tr>`;
-    t+=yrs;}
-  // अन्तर्दशा (वर्तमान महादशा के भीतर)
-  const elapsed=lord[1]*f; let acc=0, adRow='—';
-  for(let i=0;i<9;i++){const A=VIM[(li+i)%9], len=lord[1]*A[1]/120;
-    if(elapsed<acc+len){adRow=`${A[0]} (शेष ${(acc+len-elapsed).toFixed(2)} व)`;break;}
-    acc+=len;}
-  document.getElementById('dashaBody').innerHTML=
-   `<div class="card"${rm!==null?' style="border-color:rgba(123,219,143,.4)"':''}><h3>चन्द्र-नक्षत्र · ${fmtDate()}</h3>
-     <b>${NAK[nakI]}</b> · ${pada}-पाद · भोग ${(f*100).toFixed(1)}%<br/>
+  const lm=SMx.tierGrahaRows(jd,tier).find(r=>r.key==='candra').longitude;
+  const T_=SMx.TIERS[tier];
+  const srcTag=`${T_.labelSa} का स्फुट-चन्द्र · बाकी समय से (${v.birthState.method}) · वर्ष ${v.year.days.toFixed(6)} दिन (${v.year.source})${rm!==null?` · observational Δ ${(((rm-lm+540)%360)-180).toFixed(3)}°`:''}`;
+  const nakI=v.birthState.nakshatraIndex, pada=Math.floor((lm%NAKW)/(NAKW/4))+1, f=v.birthState.elapsedFraction;
+  const iso=x=>{try{return SMx.julianDayToIsoDate(x,5.5);}catch(e){return '—';}};
+  const rows=v.periods.map((p,i)=>`<tr${p.lord===v.maha.lord&&p.startJd===v.maha.startJd?' style="color:#BFF0FA"':''}><td><b>${LORD_SA[p.lord]||p.lord}</b>${p.startJd===v.maha.startJd?' ▶':''}</td>
+      <td>${((p.endJd-p.startJd)/v.year.days).toFixed(2)} व</td><td>${iso(p.startJd)}</td><td>${iso(p.endJd)}</td></tr>`).join('');
+  body.innerHTML=
+   `<div class="card"${rm!==null?' style="border-color:rgba(123,219,143,.4)"':''}><h3>चन्द्र-नक्षत्र · ${fmtDate()} · ${T_.labelSa}</h3>
+     <b>${NAK[nakI]}</b> · ${pada}-पाद · भोग ${(f*100).toFixed(1)}% (समय से)<br/>
      <span class="mono">λ चन्द्र = ${fmt(lm)} · नक्षत्र = ⌊λ/13°20′⌋</span><br/>
      <span class="note">स्रोत: ${srcTag}</span></div>
-    <div class="card"><h3>महादशा ▶ ${lord[0]} · शेष ${balYrs.toFixed(2)} वर्ष</h3>
-     अन्तर्दशा: <b>${adRow}</b><br/>
+    <div class="card"><h3>महादशा ▶ ${LORD_SA[v.maha.lord]||v.maha.lord} · ${iso(v.maha.startJd)} → ${iso(v.maha.endJd)}</h3>
+     अन्तर्दशा: <b>${LORD_SA[v.antara.lord]||v.antara.lord}</b> (${iso(v.antara.startJd)} → ${iso(v.antara.endJd)})<br/>
      <table style="width:100%;font-family:var(--mono);font-size:11px;line-height:2">
-     <tr style="color:var(--gold)"><td>स्वामी</td><td>अवधि</td><td>आरम्भ</td></tr>${rows}</table></div>`;
+     <tr style="color:var(--gold)"><td>स्वामी</td><td>अवधि</td><td>आरम्भ</td><td>अन्त</td></tr>${rows}</table>
+     <div class="note">तिथियाँ: स्थानीय civil तिथि (UTC+05:30), proleptic Gregorian · dasha.js — एक ही दशा-गणित हर पृष्ठ पर।</div></div>`;
+}
+/* the drawers' tier: the select (shared yantraState key), the labels from M.TIERS, a redraw on change */
+function syncMuseumTier(){
+  const LT=globalThis.LegacyTier;if(!LT)return;
+  const sel=document.getElementById('museumTierSelect');if(sel)sel.value=LT.current();
+  LT.renderLabels(document.getElementById('museumTierLabels'),LT.current(),2451545.0+T);
+  if(dashaOpen){renderDasha();renderBhavaChakra();}
 }
 function renderKosh(){
-  const bmNow=liveBhavaModel();
+  const bmNow=liveBhavaModelOk();
   let out='';
   ORDER.forEach(k=>{
     const meta=k==='surya'?SUN:k==='chandra'?MOON:P[k];
@@ -3193,7 +3168,7 @@ $('tSlide').addEventListener('input',e=>{jumpTo(TODAY0+ +e.target.value)});
  const live=document.createElement('option');live.value=-1;live.textContent='जीवित लग्न (Ujjain · computed)';sel.appendChild(live);
  RASHI.forEach((r,i)=>{const o=document.createElement('option');o.value=i;o.textContent=r+' लग्न';sel.appendChild(o)});
  sel.value=-1;
- sel.onchange=()=>{lagna=+sel.value;if(lagna<0){const bm=liveBhavaModel();if(bm)lagna=bm.lagnaRashi;}if(dashaOpen)renderDasha();if(panchOpen)renderPanch();};}
+ sel.onchange=()=>{lagna=+sel.value;if(lagna<0){const bm=liveBhavaModelOk();lagna=bm?bm.lagnaRashi:0;}if(dashaOpen)renderDasha();if(panchOpen)renderPanch();};}
 
 /* ═══ स्पर्श/माउस: drag=घुमाओ · wheel/pinch=zoom · click=ग्रह चुनो ═══ */
 {let down=false,moved=0,lx=0,ly=0,pts=new Map(),pinch0=0,zoom0=1;
@@ -3634,7 +3609,7 @@ function gyanShow(type,id){
         <button type="button" onclick="gyanFocus('${local}')">◈ गणित-लक्ष्य</button>
         <button type="button" onclick="gyanThrone('${local}')">👑 सिंहासन</button></div>`:''}</div>`;
   }else if(type==='rashi'){const i=id;
-    const bm=globalThis.ShunyaMath&&typeof liveBhavaModel==='function'?liveBhavaModel():null;
+    const bm=globalThis.ShunyaMath&&typeof liveBhavaModelOk==='function'?liveBhavaModelOk():null;
     const inBhava=bm?bm.bhavas.find(b=>Math.floor(b.madhya/30)%12===i):null;
     h=`<div class="card"><h3>${RASHI[i]} राशि (${DEVN[i]})</h3>
       स्वामी <b>${RASHI_LORD[i]}</b> · तत्त्व <b>${TATTVA[i%4]}</b> · स्वभाव <b>${SWB[i%3]}</b> · विस्तार ${i*30}°–${(i+1)*30}°<br>
@@ -3753,6 +3728,12 @@ window.gyanThrone=k=>{yatra=false;document.getElementById('bYatra').classList.re
 engineIdentityOK=SS_ENGINE_IDENTITY();window.__SS_ENGINE_IDENTITY=engineIdentityOK;const identityNotice=document.getElementById('engineStatus');
 if(!engineIdentityOK){identityNotice.hidden=false;identityNotice.textContent='Canonical engine parity failed. Decorative museum rendering remains available, but research readouts are disabled until math-core.js and the inline engine are re-synced.';document.getElementById('modeResearch').disabled=true;setExperienceMode('saral');}
 console.assert(engineIdentityOK,'museum inline engine DIVERGED from math-core.js · re-sync before shipping');
+/* the three-choice tier select (shared yantraState key) for the live chart blocks; the exhibit's own tier is 'ss' */
+if(globalThis.LegacyTier){
+  globalThis.LegacyTier.mountSelect(document.getElementById('museumTierSelect'),()=>{drikCache.key=null;syncMuseumTier();});
+  syncMuseumTier();
+  globalThis.LegacyTier.renderLabels(document.getElementById('exhibitTierLabels'),'ss',2451545.0+T,'प्रदर्शनी की गणना-तह के नियम / the exhibit\'s tier · सूर्य-सिद्धान्त');
+}
 (function(){
   const q=new URLSearchParams(location.search), n=q.get('nak');
   if(n===null)return;

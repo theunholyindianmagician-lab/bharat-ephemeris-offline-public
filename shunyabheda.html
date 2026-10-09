@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; manifest-src 'self'; media-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="#03060e" name="theme-color"/>
-<title>शून्यभेद · Śūnyabheda Zero-Analysis Engine — classical सू.सि. बनाम दृक्-तह — 9 ग्रह साथ-साथ · Bharat Ephemeris</title>
-<meta name="description" content="शून्यभेद: classical सूर्य-सिद्धान्त बनाम दृक्-तह (VSOP87/ELP) — 9 ग्रह साथ-साथ। दृक्-तह: 7 ग्रह JPL DE440 से ≤1′ (1850–2150) · राहु/केतु मध्य-पात। सब गणना इसी browser में।"/>
-<meta property="og:title" content="शून्यभेद · Zero-Analysis Engine — classical सू.सि. बनाम दृक्-तह — 9 ग्रह साथ-साथ"/>
-<meta property="og:description" content="classical vs दृक् ×9 तुलना · सू.सि. स्थिरांक-तालिका की आन्तरिक संगति-जाँच हर load पर · सब local computed।"/>
+<title>शून्यभेद · Śūnyabheda Zero-Analysis Engine — तीन गणना-तह, एक-एक पथ · Bharat Ephemeris</title>
+<meta name="description" content="शून्यभेद: तीन गणना-तह, हर एक का एक ही पथ — सूर्य-सिद्धान्त + परमेश्वर-संस्कार (मूल), केवल सूर्य-सिद्धान्त, और आधुनिक भारतीय (दृक्, केवल 1850–2150)। हर तालिका के साथ उसकी तह, अयनांश और नियम। सब गणना इसी browser में।"/>
+<meta property="og:title" content="शून्यभेद · Zero-Analysis Engine — तीन गणना-तह, एक-एक पथ"/>
+<meta property="og:description" content="सूर्य-सिद्धान्त + परमेश्वर-संस्कार · सूर्य-सिद्धान्त · आधुनिक भारतीय (दृक्) — हर अंक के साथ उसकी तह के नियम; सब local computed।"/>
 <meta property="og:image" content="https://offline.bharatephemeris.com/og/shunyabheda.png"/>
 <meta property="og:url" content="https://offline.bharatephemeris.com/shunyabheda.html">
 <meta property="og:type" content="website"/>
@@ -24,7 +24,7 @@
       "alternateName": "Bharat Ephemeris Engine",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "Any (offline PWA)",
-      "description": "Classical Sūrya-Siddhānta vs दृक्-तह ×9 graha comparison; the SS constant table's internal-consistency checks run on every load; सब गणना browser में — बिना इंटरनेट।",
+      "description": "Three calculation tiers, one code path each: Sūrya-Siddhānta + Parameśvara's saṃskāra (the default), the plain Sūrya-Siddhānta, and Modern Bhāratīya (dṛk, 1850–2150 only); every table shows its tier, ayanāṃśa and rules; computed in the browser, offline.",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
     },
     {
@@ -38,7 +38,7 @@
         {
           "@type": "Question",
           "name": "सटीकता कितनी है?",
-          "acceptedAnswer": { "@type": "Answer", "text": "दृक्-तह पर सूर्य से शनि तक सात ग्रहों के भोगांश JPL DE440 से 1′ के भीतर हैं (1850–2150 में मापा)। राहु-केतु मध्य-पात हैं। classical Sūrya-Siddhānta पथ इससे अंशों तक भिन्न है और अलग दर्ज रहता है।" }
+          "acceptedAnswer": { "@type": "Answer", "text": "हर तह अपनी घोषित सीमा में है: सूर्य-सिद्धान्त की दोनों तहें ग्रन्थ की अपनी गणना हैं (±50,000 वर्ष पर परखी); आधुनिक भारतीय (दृक्) तह केवल 1850–2150 पर दी जाती है, और उसके मापे गये मिलान-अंक (repository के tests से) पृष्ठ पर उसी तह के साथ लिखे हैं। इससे आगे कोई सटीकता-दावा नहीं।" }
         }
       ]
     }
@@ -47,6 +47,9 @@
 </script>
 <link href="global.css?v=104" rel="stylesheet"/>
 <link href="manifest.webmanifest" rel="manifest"/>
+<!-- the paramparā record the default tier reads at load (Parameśvara's saṃskāra); named here so the publish set carries it -->
+<link href="corpus/parampara/registry.json" rel="prefetch"/>
+<link href="corpus/parampara/samskara.json" rel="prefetch"/>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
     html { scroll-behavior: smooth; scroll-padding-top: 76px; overflow-x: clip; }
@@ -126,7 +129,7 @@
     #badge-latency, #badge-determinism, #gochara-live-indicator, #quantRegimeBadge, #kernel-drift-badge, #chalitShiftCountBadge, #muhurta-results-count { background: rgba(138,240,255,.07) !important; box-shadow: inset 0 0 0 1px rgba(138,240,255,.22); color: var(--cyan) !important; }
     /* दृग्गणित overlay → card2 + display numerals on the दृक् column */
     #kerala-drik-wrap .table-wrap { background: linear-gradient(180deg, var(--surface-2), var(--surface-1)); border: 1px solid rgba(255,255,255,.045); border-top-color: rgba(245,214,139,.14); border-radius: 16px; box-shadow: var(--shadow-soft); padding: 6px 14px 10px; }
-    #kerala-drik-tbody td:nth-child(4) { font-family: var(--ser); font-variant-numeric: tabular-nums lining-nums; font-weight: 600; font-size: 1.06rem; color: var(--gold-strong); }
+    #kerala-drik-tbody td:nth-child(3) { font-family: var(--ser); font-variant-numeric: tabular-nums lining-nums; font-weight: 600; font-size: 1.06rem; color: var(--gold-strong); }
     .varga-charts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 14px; position: relative; isolation: isolate; }
     .varga-charts::before { content: ""; position: absolute; inset: -4%; z-index: -1; background: radial-gradient(50% 50% at 50% 50%, rgba(245,214,139,.07), transparent 70%); filter: blur(8px); pointer-events: none; }
     .varga-chart { background: var(--surface-0); border: none; border-radius: 12px; padding: 10px; margin: 0; display: flex; flex-direction: column; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); transition: box-shadow 0.2s ease, transform 0.2s ease; }
@@ -178,6 +181,27 @@
     #natal-share-btn, #natal-copy-btn, #drik-proof-copy { width: auto; }
     [data-pay-sku] .pay-waitlist { color: var(--gold); text-decoration: none; font-weight: 700; font-size: 0.8rem; }
     [data-pay-sku] .pay-pending-note { color: var(--soft); font-size: 0.68rem; margin-top: 3px; font-family: var(--mono); }
+    /* ── the three tiers (2026-10-08): every computed block carries its tier's labels, read from M.TIERS ── */
+    .tier-strip { margin: 0 0 12px; padding: 6px 10px; border: 1px dashed rgba(138,240,255,.28); border-radius: 10px; color: var(--soft); font-size: 0.74rem; font-family: var(--mono); }
+    .tier-strip summary { min-height: 30px; padding: 2px 0; color: var(--cyan); font-weight: 600; font-size: 0.74rem; }
+    .tier-strip dl { display: grid; grid-template-columns: minmax(110px, max-content) minmax(0, 1fr); gap: 3px 12px; margin: 6px 0 2px; }
+    .tier-strip dt { color: var(--gold); }
+    .tier-strip dd { margin: 0; overflow-wrap: anywhere; }
+    .tier-strip.not-computed { border-color: var(--red); }
+    .tier-strip.not-computed summary { color: var(--red); }
+    .cap-tier { color: var(--cyan); font-family: var(--mono); font-size: 0.7rem; }
+    .metric .metric-rule { display: block; margin-top: 5px; color: var(--dim); font: 500 .66rem/1.4 var(--mono); letter-spacing: 0; text-transform: none; }
+    .date-helper { min-height: 1em; margin: 0; color: var(--dim); font: 500 .68rem var(--mono); overflow-wrap: anywhere; }
+    .tier-refusal { margin-top: 12px; padding: 10px 12px; border: 1px solid var(--gold); border-radius: 10px; background: rgba(245,214,139,.06); color: var(--ink); font-size: 0.82rem; }
+    .tier-refusal[hidden] { display: none; }
+    .tier-refusal .refusal-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .tier-refusal .refusal-actions button { width: auto; }
+    .not-computed-note { color: var(--red); font-family: var(--mono); font-size: 0.76rem; }
+    .static-agreement { font-size: 0.78rem; color: var(--soft); line-height: 1.55; }
+    .static-agreement dt { color: var(--gold); margin-top: 6px; }
+    .static-agreement dd { margin: 2px 0 0; }
+    /* PG-22: on a phone the fixed nav and the sticky section rail stack to about 115–135 px; anchors land below them */
+    @media (max-width: 820px) { html { scroll-padding-top: 140px; } }
   </style>
 <script src="global-ui.js?v=101"></script>
 </head>
@@ -206,7 +230,7 @@
 <div class="hero-chips">
 <span class="badge badge-cyan" id="badge-latency">Local compute: measuring…</span>
 <span class="badge badge-green" id="badge-determinism">Bitwise determinism: checking…</span>
-<button class="drik-teaser-chip" id="drik-teaser-chip" type="button">दृक्-तह: 7 ग्रह JPL DE440 से ≤1′ (1850–2150) · राहु/केतु मध्य-पात — तुलना देखो ↓</button>
+<button class="drik-teaser-chip" id="drik-teaser-chip" type="button">तीन गणना-तह — चुनो ↓</button>
 </div>
 <div class="hero-cta">
 <a class="btn-gold" href="#instrument">गणना चलाओ → Instrument</a>
@@ -545,12 +569,13 @@ console.log(rows);</code></pre>
 <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
 <div>
 <span class="section-kicker">Declared boundary</span>
-<h2 id="boundary-title" style="margin: 0;">Classical model, not modern Drik</h2>
+<h2 id="boundary-title" style="margin: 0;">तीन गणना-तह, एक-एक पथ · Three tiers, one code path each</h2>
 </div>
 <button class="btn-panel-minimize" onclick="toggleSectionCollapse(this)" type="button">— Minimize</button>
 </div>
 <div class="panel-body-collapsible" style="margin-top: 14px;">
-<p>This workbench uses one deterministic classical Sūrya-Siddhānta corrected <em>sphuṭa</em> row set. It is not a modern observational or Drik ephemeris. Mean longitude is retained only as an audit comparison. Bīja is an optional, 1800 CE-anchored outer-graha experiment.</p>
+<p>Every number on this page comes from the one tier chosen in the Instrument below; the page never mixes tiers in one table. Each table shows its tier's labels (engine, ayanāṃśa name and the value applied, sunrise rule, day boundary, karaṇa order, month, saṃvatsara, span, provenance), read from the engine's own tier record. No vendored foreign theory (VSOP87, ELP/MPP02, Astronomy Engine, the precision ephemeris) computes any value on this page: those are referees in the repository's tests only. The bīja experiment is not applied on this page.</p>
+<dl class="static-agreement" id="tier-boundary-list"></dl>
 </div>
 </section>
 <section aria-labelledby="instrument-title" class="panel glass-panel" id="instrument">
@@ -563,9 +588,16 @@ console.log(rows);</code></pre>
 </div>
 <div class="panel-body-collapsible" style="margin-top: 16px;">
 <div class="control-grid">
-<label for="date">Date
-            <input aria-describedby="date-error" id="date" required="" type="date" value="2026-08-09"/>
+<label for="date">Date (YYYY-MM-DD · astronomical year, −50000 … 50000)
+            <input aria-describedby="date-error date-helper" autocomplete="off" id="date" inputmode="text" pattern="-?[0-9]{1,5}-[0-9]{1,2}-[0-9]{1,2}" placeholder="YYYY-MM-DD (e.g. 2026-10-08, -3101-01-23)" required="" spellcheck="false" type="text" value="2026-08-09"/>
 <span class="field-error" id="date-error"></span>
+<span class="date-helper" id="date-helper"></span>
+</label>
+<label for="calendar">Calendar (proleptic; applies to every date on this page)
+            <select id="calendar">
+<option value="gregorian">Gregorian (proleptic)</option>
+<option value="julian">Julian (proleptic)</option>
+</select>
 </label>
 <label for="time">Local civil time
             <input aria-describedby="time-error" id="time" required="" step="1" type="time" value="12:00:00"/>
@@ -583,26 +615,34 @@ console.log(rows);</code></pre>
             <input aria-describedby="longitude-error" id="longitude" inputmode="decimal" type="text" value="75.7885"/>
 <span class="field-error" id="longitude-error"></span>
 </label>
-<label for="engine-mode">Ephemeris Engine Mode
-            <select id="engine-mode">
-<option value="classical">Classical (Sūrya-Siddhānta)</option>
-<option value="calibrated">Calibrated (Analytical Sun-frame Setu)</option>
-</select>
+<label for="tier">गणना-तह · Calculation tier
+            <select aria-describedby="tier-help" id="tier"></select>
+<span class="date-helper" id="tier-help"></span>
 </label>
 
 <button id="compute" type="button">Recompute mathematical state</button>
 </div>
+<div aria-atomic="true" aria-live="polite" class="status" id="status" role="status">Waiting for computation</div>
+<div class="tier-refusal" hidden="" id="tier-refusal" role="alert">
+<div id="tier-refusal-text"></div>
+<div class="refusal-actions" id="tier-refusal-actions"></div>
+</div>
 <div class="grid" style="margin-top:14px">
 <div class="metric"><span>Julian day UT</span><strong id="jd-value">…</strong></div>
-<div class="metric"><span id="meridian-time-label">Local-meridian mean time</span><strong id="umt-value">…</strong></div>
-<div class="metric"><span>Local sidereal time</span><strong id="lst-value">…</strong></div>
-<div class="metric"><span>Selected ayanāṃśa</span><strong id="ayana-value">…</strong></div>
-<div class="metric"><span>Selected-mode rate at instant</span><strong id="rate-value">…</strong></div>
-<div class="metric"><span>Lagna geometry</span><strong id="lagna-value">…</strong></div>
+<div class="metric"><span>Ujjayinī mean time (UMT, 75.7885° E)</span><strong id="umt-value">…</strong></div>
+<div class="metric"><span>Local mean time here (LMT)</span><strong id="lmt-value">…</strong></div>
+<div class="metric"><span>Meridian (RA of the meridian) · madhya-lagna</span><strong id="meridian-value">…</strong></div>
+<div class="metric"><span>Ayanāṃśa applied (tier)</span><strong id="ayana-value">…</strong></div>
+<div class="metric"><span>Ayanāṃśa rate at the instant</span><strong id="rate-value">…</strong></div>
+<div class="metric"><span>Lagna (sāyana · nirayana, tier frame)</span><strong id="lagna-value">…</strong></div>
 <div class="metric"><span>Lagna Nakṣatra &amp; Pada</span><strong id="lagna-nakshatra-value" style="color:var(--gold);">…</strong></div>
 <div class="metric"><span>Janma (Moon) Nakṣatra &amp; Pada</span><strong id="moon-nakshatra-value" style="color:var(--cyan);">…</strong></div>
+<div class="metric"><span>Vāra (from sunrise, SS 1.36, 14.18) · civil weekday</span><strong id="vara-value">…</strong></div>
+<div class="metric"><span>Sunrise · sunset (tier rule)</span><strong id="sunrise-value">…</strong></div>
+<div class="metric"><span>Tithi · Nakṣatra · Yoga · Karaṇa</span><strong id="limbs-value">…</strong></div>
+<div class="metric"><span>Month (amānta) · year · saṃvatsara</span><strong id="masa-value">…</strong></div>
+<div class="metric"><span>Ahargaṇa (civil days from Laṅkā midnight, SS 1.45-1.47)</span><strong id="ahargana-value">…</strong></div>
 </div>
-<div aria-atomic="true" aria-live="polite" class="status" id="status" role="status">Waiting for computation</div>
 </div>
 </section>
 <section aria-labelledby="findings-title" class="panel glass-panel" id="findings">
@@ -614,11 +654,11 @@ console.log(rows);</code></pre>
 <button class="btn-panel-minimize" onclick="toggleSectionCollapse(this)" type="button">— Minimize</button>
 </div>
 <div class="panel-body-collapsible" style="margin-top: 16px;">
-<p class="subtitle">One canonical row set feeds this table, every varga, Vimśottarī arithmetic and bhāva placement. Integer mean is comparison evidence only.</p>
+<p class="subtitle">One row set of the chosen tier feeds this table, every varga, the Vimśottarī and the bhāva placement. The mean place is the text tiers' own madhyama (the dṛk tier has none, shown as —).</p>
 <div class="scroll">
 <table>
-<caption>Canonical graha longitudes with Nakṣatra, Pada &amp; Lord classification</caption>
-<thead><tr><th scope="col">Graha</th><th scope="col">Integer mean (comparison)</th><th scope="col">Sphuṭa before bīja</th><th scope="col">Bīja delta</th><th scope="col">Canonical longitude</th><th scope="col">Rāśi</th><th scope="col">Nakṣatra &amp; Pada (नक्षत्र व चरण)</th><th scope="col">Nakṣatra Lord (स्वामी)</th></tr></thead>
+<caption>Graha longitudes (sidereal, the tier's frame) with Nakṣatra, Pada &amp; Lord</caption>
+<thead><tr><th scope="col">Graha</th><th scope="col">Mean place (text tiers only)</th><th scope="col">Longitude (sphuṭa)</th><th scope="col">Rāśi</th><th scope="col">Nakṣatra &amp; Pada (नक्षत्र व चरण)</th><th scope="col">Nakṣatra Lord (स्वामी)</th></tr></thead>
 <tbody id="planet-body"></tbody>
 </table>
 </div>
@@ -680,14 +720,15 @@ console.log(rows);</code></pre>
 <div class="panel-body-collapsible" style="margin-top: 16px;">
 <p id="dasha-state">…</p>
 <div class="grid"><div class="metric"><span>Mahādaśā</span><strong id="dasha-maha">…</strong></div><div class="metric"><span>Antardaśā</span><strong id="dasha-antara">…</strong></div></div>
+<p class="subtitle" id="dasha-rule">…</p>
 <div class="scroll" style="margin-top:14px">
 <table>
-<caption>Mahādaśā वर्ष → प्राण ladder · 1 sāvana varṣa = 360 × 21,600 = 77,76,000 प्राण (प्राण = काल-एकक, सू.सि. 1.11 — शरीर का माप नहीं) · every whole-year daśā divides by 972 exactly (SIDDHA)</caption>
+<caption>Mahādaśā वर्ष → प्राण lattice (BE-S06) · 1 sāvana varṣa = 360 × 21,600 = 77,76,000 प्राण (प्राण = काल-एकक, सू.सि. 1.11 — शरीर का माप नहीं) · every whole-year daśā divides by 972 exactly (SIDDHA) — the prāṇa lattice, not the daśā calendar: the dates above use the tier's year</caption>
 <thead><tr><th scope="col">दशा-स्वामी (Lord)</th><th scope="col">वर्ष</th><th scope="col">प्राण (972×)</th></tr></thead>
 <tbody id="dasha-breath-body"></tbody>
 </table>
 </div>
-<p class="subtitle">This is a 120-year sequence arithmetic demonstration, not a prediction. Its dates depend directly on the canonical Moon longitude supplied by the declared classical model.</p>
+<p class="subtitle">A 120-year sequence arithmetic, not a prediction. Its dates follow the chosen tier's Moon and the tier's year; the balance at birth is by time (BPHS 46.16).</p>
 </div>
 </section>
 <section aria-labelledby="natal-id-title" class="panel glass-panel" id="natal-id">
@@ -740,10 +781,11 @@ console.log(rows);</code></pre>
 </div>
 </div>
 <div class="control-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
-<label for="gochara-date">Transit Date
-              <input id="gochara-date" type="date"/>
+<label for="gochara-date">Transit Date (YYYY-MM-DD, the Instrument's calendar)
+              <input aria-describedby="gochara-date-helper" autocomplete="off" id="gochara-date" inputmode="text" pattern="-?[0-9]{1,5}-[0-9]{1,2}-[0-9]{1,2}" placeholder="YYYY-MM-DD" spellcheck="false" type="text"/>
+<span class="date-helper" id="gochara-date-helper"></span>
 </label>
-<label for="gochara-time">Transit Time (Civil)
+<label for="gochara-time">Transit Time (civil, the Instrument's UTC offset)
               <input id="gochara-time" step="1" type="time"/>
 </label>
 <div class="metric" style="padding: 6px 10px;">
@@ -915,19 +957,23 @@ console.log(rows);</code></pre>
 <h2 style="color: var(--gold-strong); margin: 0 0 6px;">Muhūrta scanner (शुभ मुहूर्त एवं काल निर्धारण)</h2>
 <div class="panel-body-collapsible">
 <p class="subtitle" style="margin-bottom: 6px;">
-          Deterministic v1 evaluation of Tithi (पञ्चक-वर्ग), Vāra, Nakṣatra and Sarvārtha/Amṛta Siddhi vāra-nakṣatra yogas, with Riktā-tithi demotion. अभिजित-window प्रति-दिन sunrise/sunset से computed।
+          Deterministic v1 evaluation of Tithi (पञ्चक-वर्ग), Vāra, Nakṣatra and Sarvārtha/Amṛta Siddhi vāra-nakṣatra yogas, with Riktā-tithi demotion. हर दिन तह के अपने सूर्योदय पर परखा जाता है (वार भी सूर्योदय से); अभिजित उसी दिन के अपने मुहूर्तों से। The scan starts at local civil midnight of the start date shown, whatever triggered it.
         </p>
 <p class="honesty-strip" style="margin-bottom: 14px;">योग/करण/लग्न-शुद्धि इस v1 scanner में अजाँचे (PENDING) — त्याज्य-योग मिलने पर नीचे ⚠️ caution दिखता है, score में नहीं गिना जाता।</p>
 <!-- Category & Horizon Selector Controls -->
 <div style="background: var(--hero); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 16px;">
 <div class="control-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; align-items: flex-end;">
-<label for="muhurta-start-date">Live Starting Date (वर्तमान दिनांक)
+<label for="muhurta-start-date">Start date (YYYY-MM-DD; default: the Instrument's date)
               <div style="display: flex; gap: 6px; margin-top: 4px;">
-<input id="muhurta-start-date" style="flex: 1;" type="date"/>
+<input aria-describedby="muhurta-start-date-helper" autocomplete="off" id="muhurta-start-date" inputmode="text" pattern="-?[0-9]{1,5}-[0-9]{1,2}-[0-9]{1,2}" placeholder="YYYY-MM-DD" spellcheck="false" style="flex: 1;" type="text"/>
+<button class="btn btn-outline" id="muhurta-sync-instrument" style="min-height: 38px; padding: 0 10px; font-size: 0.76rem; border-color: var(--gold); color: var(--gold); background: rgba(245,214,139,0.06); white-space: nowrap; cursor: pointer; border-radius: 4px;" type="button">
+                  Instrument
+                </button>
 <button class="btn btn-outline" id="muhurta-sync-today" style="min-height: 38px; padding: 0 10px; font-size: 0.76rem; border-color: var(--cyan); color: var(--cyan); background: rgba(0,229,255,0.06); white-space: nowrap; cursor: pointer; border-radius: 4px;" type="button">
                   Today
                 </button>
 </div>
+<span class="date-helper" id="muhurta-start-date-helper"></span>
 </label>
 <label for="muhurta-category">Event Archetype
               <select id="muhurta-category">
@@ -957,10 +1003,10 @@ console.log(rows);</code></pre>
 <caption>Ranked Auspicious Muhūrta Windows</caption>
 <thead>
 <tr>
-<th scope="col">Gregorian Date &amp; Day</th>
-<th scope="col">Panchāng Factors (Tithi, Nakṣatra, Yoga)</th>
+<th scope="col">Date (Instrument's calendar) &amp; Vāra (from sunrise)</th>
+<th scope="col">Panchāng Factors at sunrise (Tithi, Nakṣatra, Yoga)</th>
 <th scope="col">Shubh Quality Index</th>
-<th scope="col">Optimal Execution Window</th>
+<th scope="col">Abhijit (that day's own muhūrta)</th>
 <th scope="col" style="min-width: 260px;">Shastric Strengths &amp; Positives</th>
 </tr>
 </thead>
@@ -1079,7 +1125,7 @@ console.log(rows);</code></pre>
         <h3 style="color: var(--gold); font-size: 0.95rem; margin: 16px 0 8px;">
           Special Lagnas (विशेष लग्न - Ch. 5) &amp; Non-Luminous Upagrahas (अप्रकाश ग्रह - Ch. 25)
         </h3>
-        <p class="honesty-strip" style="color: var(--red); border-color: var(--red);">⚠ विशेष-लग्न पंक्तियाँ स्थिर 15-घटी सन्दर्भ पर हैं — sunrise-linkage दोषग्रस्त, सुधार-प्रतीक्षित (BE-S12 draft)। धूम-परिवार उपग्रह वास्तविक सूर्य-सूत्र से हैं।</p>
+        <p class="honesty-strip">विशेष-लग्न इष्ट-घटी तह के अपने सूर्योदय से गिनते हैं (उसी दिन का, जिसमें यह क्षण है); इन्दु-लग्न केवल राशि है (BPHS अंश नहीं देता)। काल-उपग्रह BPHS 3.66–70 के भागों के आरम्भ पर तह के लग्न से।</p>
         <div class="scroll" style="margin-bottom: 16px;">
           <table>
             <caption>Special Lagnas &amp; Upagraha Coordinate Atlas</caption>
@@ -1129,11 +1175,11 @@ console.log(rows);</code></pre>
             <caption>Trikona &amp; Ekadhipatya Shodhana Reductions</caption>
             <thead>
               <tr>
-                <th scope="col">Graha Contribution Matrix</th>
-                <th scope="col">SAV Raw Bindus</th>
-                <th scope="col">Trikona Shodhana (1st Reduction)</th>
-                <th scope="col">Ekadhipatya Shodhana (2nd Reduction)</th>
-                <th scope="col">Shodhya Pinda (Rasi &amp; Graha Pinda)</th>
+                <th scope="col">Reduction</th>
+                <th scope="col">Meṣa</th><th scope="col">Vṛṣabha</th><th scope="col">Mithuna</th><th scope="col">Karka</th>
+                <th scope="col">Siṃha</th><th scope="col">Kanyā</th><th scope="col">Tulā</th><th scope="col">Vṛścika</th>
+                <th scope="col">Dhanus</th><th scope="col">Makara</th><th scope="col">Kumbha</th><th scope="col">Mīna</th>
+                <th scope="col">Σ</th>
               </tr>
             </thead>
             <tbody id="bphs-shodhana-body">
@@ -1209,6 +1255,28 @@ console.log(rows);</code></pre>
 <div id="ss-shringonnati-status" style="font-weight: 700; color: var(--green); font-size: 0.88rem; margin: 4px 0;">Evaluating…</div>
 <div id="ss-shringonnati-desc" style="font-size: 0.76rem; color: var(--soft); line-height: 1.4;">…</div>
 </div>
+</div>
+<!-- 2b. The tier's own eclipse rows (penumbral eclipses shown as penumbral, never as a negative grāsa) -->
+<h3 style="color: var(--gold); font-size: 0.95rem; margin: 18px 0 8px;">
+          ग्रहण · Eclipses within ±16 days at this place (the tier's own rows)
+        </h3>
+<div class="scroll" style="margin-bottom: 16px;">
+<table>
+<caption>Eclipses within ±16 days of the instant, by the tier's own method</caption>
+<thead>
+<tr>
+<th scope="col">Kind</th>
+<th scope="col">Type</th>
+<th scope="col">Middle / greatest (local civil)</th>
+<th scope="col">Magnitude</th>
+<th scope="col">Contacts (local civil)</th>
+<th scope="col">At this place</th>
+<th scope="col">Method</th>
+</tr>
+</thead>
+<tbody id="ss-eclipse-body">
+</tbody>
+</table>
 </div>
 <!-- 3. 4 Prime Meridian Cities & 4 Classical Instruments -->
 <h3 style="color: var(--cyan); font-size: 0.95rem; margin: 18px 0 8px;">
@@ -1378,38 +1446,16 @@ console.log(rows);</code></pre>
 </div>
 </div>
 </div>
-<!-- सिद्धान्त-दृक् तह · fitted to a JPL-DE440-started N-body (BHARAT-SOVEREIGN-ENGINE build); 1850–2150 only -->
-<div class="panel glass-panel" id="siddhanta-drik-panel" style="margin-top: 14px; padding: 14px; background: var(--hero); border: 1px solid var(--line-gold); border-radius: var(--radius-sm);">
+<!-- आधुनिक भारतीय (दृक्): static, labelled text of what the repository's tests measure — no referee is computed in the browser -->
+<div class="panel glass-panel" id="drik-agreement-panel" style="margin-top: 14px; padding: 14px; background: var(--hero); border: 1px solid var(--line-gold); border-radius: var(--radius-sm);">
 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
 <div>
-<strong style="color: var(--gold-strong); font-size: 0.95rem;">सिद्धान्त-दृक् तह · सूर्य-सिद्धान्त के क्रम में सजी, आधुनिक N-body (JPL DE440 states से आरम्भ) पर fitted श्रेणी — केवल 1850–2150; यह ग्रन्थ के अपने अंक नहीं <span lang="en">/ Siddhānta-dṛk tier · a series arranged in the Sūrya-Siddhānta's order, fitted to a modern N-body started from JPL DE440 states — valid only 1850–2150; these are not the text's own numbers</span></strong>
-<div style="font-size: 0.76rem; color: var(--soft);">मध्यम (बीज-संस्कृत भगण) → मन्द (केन्द्र-हरात्मक) → शीघ्र-कर्ण (exact geometry) → अन्योन्य (mutual terms) → दृक्-संस्कार (light-time · aberration · deflection) → अयन (IAU 2006/2000B). run-time पर VSOP/ELP/JPL नहीं; पर गुणांक JPL DE440 से आरम्भित N-body पर fitted हैं / none at run time, but the coefficients are fitted to an N-body started from JPL DE440. Every jyā by Mādhava's series.</div>
+<strong style="color: var(--gold-strong); font-size: 0.95rem;">आधुनिक भारतीय (दृक्) तह · मापा गया मिलान (पाठ, यहाँ गणना नहीं) <span lang="en">/ Modern Bhāratīya (dṛk) · measured agreement (text; nothing is computed here)</span></strong>
+<div style="font-size: 0.76rem; color: var(--soft);">यह तह हमारी अपनी श्रेणी है, सूर्य-सिद्धान्त के क्रम (मध्यम → मन्द → शीघ्र) में सजी; उसका N-body हर 720 दिन NASA-JPL DE440s states से आरम्भ होता है (JPL DE440 states से आरम्भ), इसलिए DE440 से मिलान JPL से स्वतन्त्रता नहीं है। यह ग्रन्थ के अपने अंक नहीं। तुलना के referee (VSOP87, ELP/MPP02, Astronomy Engine) केवल repository के tests में चलते हैं — इस पृष्ठ पर कभी नहीं। <span lang="en">The series' N-body is restarted from DE440s states, so agreement with DE440 is not independence from JPL; the referees run only in the repository's tests, never on this page.</span></div>
 </div>
-<span class="badge badge-green" id="siddhanta-drik-badge">computing…</span>
+<span class="badge badge-gold" id="drik-agreement-badge">text</span>
 </div>
-<div class="table-wrap">
-<table class="data-table" style="font-size: 0.78rem;">
-<caption>तीन तह एक ही क्षण पर (चित्रा-पक्ष sidereal) — शास्त्रीय सू.सि. (19 द्वार, अपरिवर्तित) · सिद्धान्त-दृक् (यह तह) · दृक् (VSOP87/ELP referee). अन्तिम स्तम्भ = सिद्धान्त-दृक् − दृक्, विकला (″).</caption>
-<thead>
-<tr>
-<th scope="col">Graha</th>
-<th scope="col">शास्त्रीय सू.सि. (°)</th>
-<th scope="col">सिद्धान्त-दृक् (°)</th>
-<th scope="col">दृक् VSOP/ELP (°)</th>
-<th scope="col">सिद्धान्त−दृक् (″)</th>
-</tr>
-</thead>
-<tbody id="siddhanta-drik-tbody"></tbody>
-</table>
-</div>
-<div class="table-wrap" style="margin-top: 10px;">
-<table class="data-table" style="font-size: 0.76rem;">
-<caption>भगण-तुलना · revolutions per mahāyuga (4,320,000 years): सूर्य-सिद्धान्त (text) · बीज-संस्कृत (fitted to the N-body, mean rates over the whole 1800–2200 fit span) · Δ</caption>
-<thead><tr><th scope="col">अङ्ग</th><th scope="col">सू.सि. भगण</th><th scope="col">बीज-संस्कृत भगण</th><th scope="col">Δ (rev)</th><th scope="col">अवधि (दिन)</th></tr></thead>
-<tbody id="siddhanta-bhagana-tbody"></tbody>
-</table>
-</div>
-<div id="siddhanta-drik-note" style="font-size: 0.74rem; color: var(--soft); margin-top: 8px; font-family: var(--mono); line-height: 1.6;"></div>
+<dl class="static-agreement" id="drik-agreement-list"></dl>
 </div>
 <!-- Live Kernel Comparison Table (Float vs Aryabhata Rational Jya-Paridhi) -->
 <div class="panel glass-panel" style="margin-top: 14px; padding: 14px; background: var(--hero); border: 1px solid var(--line-gold); border-radius: var(--radius-sm);">
@@ -1421,19 +1467,21 @@ console.log(rows);</code></pre>
 <span class="badge badge-green" id="kernel-drift-badge">computing…</span>
 </div>
 <label class="checkbox" for="kerala-drik-toggle" style="padding-top: 0; margin: 0 0 10px;">
-<input id="kerala-drik-toggle" type="checkbox"/> दृग्गणित-संस्कार + दृक्-tier overlay (Mādhava–Nīlakaṇṭha · Parameśvara-paramparā)
+<input id="kerala-drik-toggle" type="checkbox"/> दृग्गणित-संस्कार overlay (Mādhava–Nīlakaṇṭha · Parameśvara-paramparā) — off by default
 </label>
 <div id="kerala-drik-wrap" style="display: none; margin-bottom: 14px;">
 <div class="table-wrap">
 <table class="data-table" style="font-size: 0.78rem;">
-<caption>दृग्गणित-संस्कार (दृक्-तह पर 1900–2100 fitted — sovereign नहीं) और दृक्-तह (VSOP87/ELP) बनाम शास्त्रीय <span lang="en">/ dṛg-gaṇita saṃskāra (fitted to the dṛk tier, 1900–2100 — not sovereign) and the dṛk tier (VSOP87/ELP) vs classical</span> — overlay off by default; SANKALP BE-S03/S10</caption>
+<caption>दृग्गणित-संस्कार v3 — not sovereign: fitted 1900–2100 (frame: Lahiri, as fitted) on a classical pipeline retired 2026-10-08, not re-validated since. The base is the plain सूर्य-सिद्धान्त tier; the saṃskṛta value is base + the fitted correction (math-core keralaDrikSphuta); the dṛk column is the आधुनिक भारतीय (दृक्) tier's own value (1850–2150 only). <span lang="en">/ dṛg-gaṇita saṃskāra — not sovereign; overlay off by default; SANKALP BE-S03/S10</span></caption>
 <thead>
 <tr>
 <th scope="col">Graha</th>
-<th scope="col">Classical (°)</th>
-<th scope="col">संस्कृत (°) ±RMS</th>
-<th scope="col">दृक् (°)</th>
-<th scope="col">संस्कृत−दृक् (′)</th>
+<th scope="col">Base: सूर्य-सिद्धान्त (°)</th>
+<th scope="col">संस्कृत = base + संस्कार (°)</th>
+<th scope="col">Fit claim (RMS / max, ′; not re-validated)</th>
+<th scope="col">आधुनिक भारतीय (दृक्) (°)</th>
+<th scope="col">संस्कृत − दृक् (′)</th>
+<th scope="col">Claim holds (|Δ| ≤ 3 × RMS)?</th>
 </tr>
 </thead>
 <tbody id="kerala-drik-tbody"></tbody>
@@ -1625,8 +1673,8 @@ console.log(rows);</code></pre>
 <div class="boundary" style="margin-top:14px">
 <p>1 day = 60 ghaḍīs = 3,600 palas = 216,000 vipalas = 21,600 prāṇas.</p>
 <p>21,600 prāṇas/day and 21,600 arcminutes/circle are a count correspondence, not a physical-unit identity.</p>
-<p>The implemented <code>effective_49</code> mode uses the Āryabhaṭa 499 CE anchor and the declared −16 rev/Mahāyuga shared drift. A Z≈253.8 CE calibration is an unimplemented alternative hypothesis, not the frame calculated here.</p>
-<p>The bīja signs +30, −51 and +61 are optional research corrections anchored at 1800 CE; they are not claims of modern observational accuracy.</p>
+<p>Each tier has one ayanāṃśa, and the value shown is the value applied to every frame of that tier (lagna, bhāva, sunrise, Gulika, Abhijit, Śaṅku, the muhūrta scan): the two Sūrya-Siddhānta tiers use SS 3.9-3.10; the dṛk tier uses its true Citrā-pakṣa value. The named hypotheses of the old selector (effective_49, linear_54, …) are not frames of any tier.</p>
+<p>The bīja experiment (+30, −51, +61 revolutions a mahāyuga, anchored at 1800 CE) is not applied on this page; it is not a claim of modern observational accuracy.</p>
 <p>The earlier triangle “proof” reconstructed its inputs and was not an independent derivation. This audit exposes model, frame and comparisons rather than asserting unconditional correctness.</p>
 </div>
 </details>
@@ -1641,14 +1689,34 @@ console.log(rows);</code></pre>
 <div class="contact-line">api@bharatephemeris.com · offline.bharatephemeris.com · पूर्ण offline PWA</div>
 </footer>
 </main>
-<script src="vsop87-full.js?v=101"></script>
-  <script src="elp-moon.js?v=101"></script>
-  <script src="math-core.js?v=102"></script>
-<script src="drik-engine.js?v=1"></script>
-<script src="drik-tier.js?v=1"></script>
-<script src="siddhanta-drik.js?v=4"></script>
-<script src="siddhanta-tier.js?v=4"></script>
-<script src="shunyabheda-app.js?v=103"></script>
+<!-- The page loading contract (2026-10-08): the sovereign modules the text tiers need, the paramparā record's loader,
+     ss-tier.js, then math-core.js; the dṛk tier's own files after it. No vendored foreign theory is loaded here. -->
+<script src="katapayadi.js?v=1"></script>
+<script src="kala-dvara.js?v=1"></script>
+<script src="parahita-madhyama.js?v=1"></script>
+<script src="sphuta.js?v=1"></script>
+<script src="dhruva.js?v=1"></script>
+<script src="ss-udaya.js?v=1"></script>
+<script src="spanda-ganita.js?v=1"></script>
+<script src="ss-graha.js?v=1"></script>
+<script src="ss-chaya.js?v=1"></script>
+<script src="ss-grahana.js?v=1"></script>
+<script src="ss-ahargana.js?v=1"></script>
+<script src="panchanga.js?v=1"></script>
+<script src="utsava.js?v=1"></script>
+<script src="ss-drishya.js?v=1"></script>
+<script src="dasha.js?v=1"></script>
+<script src="muhurta.js?v=1"></script>
+<script src="yantra.js?v=1"></script>
+<script src="vedha-lekha.js?v=1"></script>
+<script src="samskara.js?v=1"></script>
+<script src="parampara.js?v=1"></script>
+<script src="ss-tier.js?v=1"></script>
+<script src="math-core.js?v=103"></script>
+<script src="siddhanta-drik.js?v=5"></script>
+<script src="siddhanta-tier.js?v=5"></script>
+<script src="drik-grahana.js?v=1"></script>
+<script src="shunyabheda-app.js?v=105"></script>
 <button type="button" id="scroll-to-top" aria-label="ऊपर जाएँ" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <script>
   (function(){

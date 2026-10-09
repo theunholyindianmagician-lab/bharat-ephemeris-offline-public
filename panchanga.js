@@ -122,7 +122,7 @@
     const v0 = limbsAt(t0)[key];
     let a = t0, b = t0, step = 1 / 24;
     for (;;) { b = a + step; if (limbsAt(b)[key] !== v0) break; a = b; if (b - t0 > maxDays) return null; }
-    while (b - a > 1e-9) { const m = (a + b) / 2; if (limbsAt(m)[key] === v0) a = m; else b = m; }
+    while (b - a > 1e-9) { const m = (a + b) / 2; if (m <= a || m >= b) break; if (limbsAt(m)[key] === v0) a = m; else b = m; }
     return b;
   }
   /** Previous instant before t0 at which limb `key` changed. */
@@ -130,7 +130,7 @@
     const v0 = limbsAt(t0)[key];
     let a = t0, b = t0, step = 1 / 24;
     for (;;) { a = b - step; if (limbsAt(a)[key] !== v0) break; b = a; if (t0 - a > maxDays) return null; }
-    while (b - a > 1e-9) { const m = (a + b) / 2; if (limbsAt(m)[key] === v0) b = m; else a = m; }
+    while (b - a > 1e-9) { const m = (a + b) / 2; if (m <= a || m >= b) break; if (limbsAt(m)[key] === v0) b = m; else a = m; }
     return b;
   }
 
@@ -143,7 +143,7 @@
       const b = a + step, fb = f(b);
       if (direction > 0 ? (fa < 0 && fb >= 0) : (fa >= 0 && fb < 0)) {
         let lo = Math.min(a, b), hi = Math.max(a, b);
-        while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (f(m) < 0) lo = m; else hi = m; }
+        while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (m <= lo || m >= hi) break; if (f(m) < 0) lo = m; else hi = m; }
         return hi;
       }
       a = b; fa = fb;
@@ -159,13 +159,27 @@
       const b = Math.min(a + 1, t2), sb = sign(b);
       if (sb !== s) {
         let lo = a, hi = b;
-        while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (sign(m) === s) lo = m; else hi = m; }
+        while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (m <= lo || m >= hi) break; if (sign(m) === s) lo = m; else hi = m; }
         out.push({ at: hi, rashi: RASHI[sb], index: sb });
         s = sb;
       }
       a = b;
     }
     return out;
+  }
+  /** The name of an amānta month from the saṅkrāntis inside it (rāśi indices, 0 = Meṣa … 11, in time order) and, when it
+   *  holds none, the rāśi index of the next saṅkrānti after it: the month holding the Meṣa saṅkrānti is Caitra, and so
+   *  on; none → adhika, named after the next month; two → kṣaya, the second name dropped [standard rule; no local text
+   *  states it]. The one rule that lunarMonth and the year builder (ss-ahargana.js yearOfKali) both use. */
+  function nameMonth(sankrantiIndices, nextSankrantiIndex) {
+    const isIdx = (i) => Number.isInteger(i) && i >= 0 && i < 12;
+    if (!Array.isArray(sankrantiIndices) || sankrantiIndices.length > 2 || !sankrantiIndices.every(isIdx)) throw new RangeError("panchanga: nameMonth takes the rāśi indices (0-11) of the month's saṅkrāntis, at most two");
+    if (sankrantiIndices.length === 0) {
+      if (!isIdx(nextSankrantiIndex)) throw new RangeError("panchanga: a month with no saṅkrānti is named from the next one; give its rāśi index (0-11)");
+      return { name: MONTH[nextSankrantiIndex], adhika: true, kshaya: false, kshayaDropped: null };
+    }
+    const k = sankrantiIndices.length > 1;
+    return { name: MONTH[sankrantiIndices[0]], adhika: false, kshaya: k, kshayaDropped: k ? MONTH[sankrantiIndices[1]] : null };
   }
   /** The amānta lunar month containing t: from the new moon before it to the next.
    *  Name: the month in which the Sun enters Meṣa is Caitra, and so on; a month with no saṅkrānti is adhika and takes the
@@ -178,11 +192,9 @@
     const full = syzygyNear(start + 1, 180, +1);
     const nakAtFull = limbsAt(full).nakshatra;
     const sank = sankrantisBetween(start, end);
-    let name, adhika = false;
-    if (sank.length === 0) { const nx = sankrantisBetween(end, end + 33)[0]; name = MONTH[nx.index]; adhika = true; }
-    else name = MONTH[sank[0].index];
+    const { name, adhika, kshaya, kshayaDropped } = nameMonth(sank.map((x) => x.index), sank.length === 0 ? sankrantisBetween(end, end + 33)[0].index : undefined);
     const byNakshatra = MONTH_OF_FULLMOON_NAKSHATRA[nakAtFull];
-    return { name, adhika, kshaya: sank.length > 1, kshayaDropped: sank.length > 1 ? MONTH[sank[1].index] : null,
+    return { name, adhika, kshaya, kshayaDropped,
       rule: "saṅkrānti in the month: Meṣa → Caitra … ; none → adhika, named after the next [standard; no local text]",
       start, end, fullMoon: full, fullMoonNakshatra: NAKSHATRA[nakAtFull - 1],
       nameByFullMoonNakshatra: byNakshatra, nakshatraRule: "SS 14.15-14.16 (origin of the names)", agree: byNakshatra === name,
@@ -193,18 +205,31 @@
   let UMcache = null, UTcache = null;
   const UM = () => UMcache || (UMcache = U.withSine("madhava"));
   const UT = () => UTcache || (UTcache = U.withSine("table"));          // "text" and "text-linear": the text as written, its table
+  /** The places, the ayanāṃśa and the sāyana right ascension of the meridian (degrees) at t, on the turn: the mean Sun's
+   *  right ascension carried by the local hour (12 h at local midnight). */
+  function meridianParts(t, site, opts) {
+    const p = placesAt(t), A = ayanamshaAt(t, opts);
+    const localFrac = mod(t + site.deshantara / 360, 1);
+    return { p, A, ramcDeg: mod(p.mean.sun + A + 360 * localFrac - 180, 360) };
+  }
+  /** { A: the ayanāṃśa (degrees), ramcDeg: the sāyana right ascension of the meridian on the turn } — one meridian for
+   *  lagnaAt and meridianAt. */
+  function ramcOf(t, site, opts) { checkSite(site); const q = meridianParts(t, site, opts); return { A: q.A, ramcDeg: q.ramcDeg }; }
+  function lagnaHow(opts) {
+    const how = (opts && opts.lagna) || (opts && typeof opts.epsilon === "number" ? "sphere" : (U ? "madhava" : "sphere"));
+    if (!LAGNAS.includes(how)) throw new RangeError("panchanga: lagna is one of " + LAGNAS.join(", "));
+    return how;
+  }
   /** Sidereal rising sign (lagna) at t: the ecliptic point on the eastern horizon, found on the turn about the dhruva —
    *  by SS 3.42 at the point with 2.61-2.63 (Mādhava's sine by default, the table with "text"), by 3.42-3.48 as worded
    *  ("text-linear"), or by the sphere ("sphere", or any opts.epsilon); site.palabha if the owner measured it, else from
    *  the latitude by the same sine. */
   function lagnaAt(t, site, opts) {
     checkSite(site);
-    const p = placesAt(t), A = ayanamshaAt(t, opts), e = epsOf(opts) * D2R, phi = site.latitude * D2R;
-    const localFrac = mod(t + site.deshantara / 360, 1);
-    const ramcDeg = mod(p.mean.sun + A + 360 * localFrac - 180, 360), ramc = ramcDeg * D2R;   // right ascension of the meridian
+    const { p, A, ramcDeg } = meridianParts(t, site, opts);
+    const e = epsOf(opts) * D2R, phi = site.latitude * D2R, ramc = ramcDeg * D2R;   // ramc: right ascension of the meridian
     let asc;
-    const how = (opts && opts.lagna) || (opts && typeof opts.epsilon === "number" ? "sphere" : (U ? "madhava" : "sphere"));
-    if (!LAGNAS.includes(how)) throw new RangeError("panchanga: lagna is one of " + LAGNAS.join(", "));
+    const how = lagnaHow(opts);
     if (how !== "sphere") {
       if (!U) throw new Error("panchanga: the text's lagna needs ss-udaya.js");
       const UU = how === "madhava" ? UM() : UT();
@@ -215,6 +240,36 @@
     const method = { madhava: "SS 3.42 at the point with 2.61-2.63, Mādhava's sine", text: "SS 3.42 at the point with 2.61-2.63", "text-linear": "SS 3.42-3.48", sphere: "sphere" }[how];
     return { longitude: sid, rashi: RASHI[Math.floor(sid / 30)], index: Math.floor(sid / 30), method };
   }
+  /** The madhya-lagna at t: the ecliptic point on the meridian (SS 3.49), by 3.42 at the point — the sidereal λ whose
+   *  right ascension is the meridian's (ramcOf). Mādhava's sine by default; the text's table with { lagna: "text" } or
+   *  "text-linear". { lagna: "sphere" } (or any opts.epsilon) also takes Mādhava's sine: the point on the meridian needs
+   *  no horizon, and this module adds no library trigonometry for it — the method says so. */
+  function meridianAt(t, site, opts) {
+    checkSite(site);
+    if (!U) throw new Error("panchanga: the madhya-lagna needs ss-udaya.js");
+    const how = lagnaHow(opts);
+    const { A, ramcDeg } = meridianParts(t, site, opts);
+    const UU = how === "text" || how === "text-linear" ? UT() : UM();
+    const lon = mod(UU.madhyaLagnaOwn(ramcDeg * 60) - A, 360);
+    const method = { madhava: "SS 3.49 by 3.42 at the point, Mādhava's sine", text: "SS 3.49 by 3.42 at the point, the SS table",
+      "text-linear": "SS 3.49 by 3.42 at the point, the SS table", sphere: "SS 3.49 by 3.42 at the point, Mādhava's sine (sphere asked; no library trigonometry here)" }[how];
+    return { ramcDeg, madhyaLagna: { longitude: lon, rashi: RASHI[Math.floor(lon / 30)], index: Math.floor(lon / 30) }, method };
+  }
+
+  /** The civil day holding the instant t at the site (SS 14.18, 1.36: sunrise to sunrise): { N, sunrise, sunset,
+   *  nextSunrise, vara, polar, rule } with sunrise(N) ≤ t < sunrise(N + 1); the vāra is Kali day N's (1.51), so it
+   *  changes at sunrise, not at midnight. Where the Sun does not rise or set (polar), N is the local civil date
+   *  floor(t + deśāntara/360), the three times are null and polar is true. */
+  function civilDayOf(t, site, opts) {
+    checkSite(site);
+    if (typeof t !== "number" || !Number.isFinite(t)) throw new TypeError("panchanga: civilDayOf needs a finite instant t (days since the Kali epoch)");
+    const N0 = Math.floor(t + site.deshantara / 360), r = sunrise(N0, site, opts);
+    const N = r !== null && t < r ? N0 - 1 : N0;
+    const rise = sunrise(N, site, opts), set = sunset(N, site, opts), next = sunrise(N + 1, site, opts);
+    const rule = "SS 14.18, 1.36: the civil day runs from sunrise to sunrise; vāra by 1.51";
+    if (rise === null || set === null || next === null) return { N: N0, sunrise: null, sunset: null, nextSunrise: null, vara: K.varaOfKaliDay(N0), polar: true, rule: rule + "; polar: the local civil date" };
+    return { N, sunrise: rise, sunset: set, nextSunrise: next, vara: K.varaOfKaliDay(N), polar: false, rule };
+  }
 
   /** The full pañcāṅga of civil day N (sunrise to the next sunrise) at the site. */
   function panchanga(N, site, opts) {
@@ -222,9 +277,12 @@
     if (rise === null || set === null || nextRise === null) return { N, polar: true };
     const at = limbsAt(rise);
     // Ghaṭī after sunrise in nāḍīs of the star-wheel's turn (SS 1.11-1.12: sixty nāḍīs make the nākṣatra ahorātra); the
-    // count in sixtieths of the civil day, which printed pañcāṅgas commonly use, is given beside it.
-    const sexa = (g) => { const gh = Math.floor(g); const vi = (g - gh) * 60; const pl = Math.round((vi - Math.floor(vi)) * 60);
-      return pl === 60 ? { ghati: gh, vinadi: Math.floor(vi) + 1, pala: 0 } : { ghati: gh, vinadi: Math.floor(vi), pala: pl }; };
+    // count in sixtieths of the civil day, which printed pañcāṅgas commonly use, is given beside it. The three places are
+    // { ghati, vinadi, vipala }: the vināḍī is 1/60 ghaṭī (= the pala of BPHS 5.8) and the vipala 1/60 of it (owner
+    // decision P1, 2026-10-08, corpus/sources/time-units.json: 'pala' = 1/60 ghaṭī; vipala = 1/60 pala [standard; no local
+    // text]). Until P1 this third place was named 'pala'; its value is unchanged.
+    const sexa = (g) => { const gh = Math.floor(g); const vi = (g - gh) * 60; const vp = Math.round((vi - Math.floor(vi)) * 60);
+      return vp === 60 ? { ghati: gh, vinadi: Math.floor(vi) + 1, vipala: 0 } : { ghati: gh, vinadi: Math.floor(vi), vipala: vp }; };
     const ghatiAfterRise = (x) => ({ ...sexa((x - rise) / NADI_DAYS), unit: "nāḍī of the turn (SS 1.11-1.12)", civil: sexa((x - rise) * 60) });
     const limb = (key, nameOf) => {
       const out = []; let x = rise;
@@ -252,11 +310,15 @@
 
   function checkSite(site) {
     if (!site || typeof site.latitude !== "number" || typeof site.deshantara !== "number") throw new TypeError("panchanga: site needs { latitude, deshantara } in degrees");
+    if (!Number.isFinite(site.latitude) || !Number.isFinite(site.deshantara)) throw new TypeError("panchanga: the site's latitude and deśāntara must be finite numbers");
+    if (site.latitude < -90 || site.latitude > 90) throw new RangeError(`panchanga: latitude ${site.latitude}° is not in [−90°, 90°]`);
+    if (site.deshantara <= -360 || site.deshantara >= 360) throw new RangeError(`panchanga: deśāntara ${site.deshantara}° is not within one turn (−360°, 360°) of the Laṅkā–Ujjayinī meridian`);   // longitude − 75.79°: San Francisco is −198°
   }
 
   return Object.freeze({ ayanamshaAt, moonModel: model, withPlaces: (fn, name) => build(fn, name || "custom"),
     sine: S.sine || "table", withSine: (name) => panchangaOf(S.withSine(name), D, K, U && U.withSine(name)), NADI_DAYS, NAKSHATRA, TITHI, YOGA, KARANA_MOVABLE, KARANA_FIXED, RASHI, MONTH, MONTH_OF_FULLMOON_NAKSHATRA, NAMES_SOURCE,
-    placesAt, sunHourAngle, sunEvent, sunrise, sunset, limbsAt, tithiName, karanaName, nextChange, prevChange, syzygyNear, sankrantisBetween, lunarMonth, lagnaAt, panchanga });
+    placesAt, sunHourAngle, sunEvent, sunrise, sunset, limbsAt, tithiName, karanaName, nextChange, prevChange, syzygyNear, sankrantisBetween, nameMonth, lunarMonth,
+    ramcOf, lagnaAt, meridianAt, civilDayOf, panchanga });
   }
   return build(S.sphutaAtDays, "sūrya-siddhānta");
 });

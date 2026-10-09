@@ -1,0 +1,147 @@
+{
+  "format": "graha-names/1",
+  "_provenance": {
+    "what": "The naming layer of the nine grahas from the one local source edition that carries it, the Bṛhat Parāśara Horāśāstra (corpus/bphs/canon.json, sa.wikisource witness; corpus/bphs/sanskritdocuments.json, the second witness): colours, deities, avatāras, iconography, Vedic mantra pratīkas, japa counts, and the time measures and seasons the text gives each graha. Built 2026-10-08 (the owner: 'add the Purāṇas and Upaniṣads from which the time ladder and names were built').",
+    "order": "Every list in these verses runs 'sūryādīnām krameṇa' / 'kramād arkādi-kheṭānām': Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rāhu, Ketu. Where a verse gives a list without naming each graha, the assignment by that order is the verse's own rule.",
+    "quotes": "'sa' is verbatim from the verse named in 'from' (corpus/bphs/canon.json#chapter.verse, or …/sanskritdocuments.json#chapter.verse for the second witness). Words are the verse's; the IAST stems in the per-graha fields are this repository's reading of them [reading]; no translation of an edition is copied.",
+    "navagrahaStotra": "The Navagraha Stotra has no edition in any repository: it is recorded only as the owner's statement (registry OWNER-navagraha-units) with its derived witnesses, awaiting edition.",
+    "tags": "[text] the verse states it; [reading] this repository's reading of the verse's words; [standard] a convention no local text states; [claim-only] code or derived prose with no local source; [owner-statement] the owner's attribution, no local edition."
+  },
+  "grahas": ["surya", "candra", "mangala", "budha", "guru", "shukra", "shani", "rahu", "ketu"],
+  "layers": {
+    "colour": {
+      "locus": "BPHS 3.16-3.17", "tag": "[text]",
+      "quote": [
+        { "sa": "रक्तश्यामो दिवाधीशो गौरगात्रो निशाकरः।", "from": "corpus/bphs/canon.json#3.16" },
+        { "sa": "नात्युच्चाङ्गः कुजो रक्तो दूर्वाश्यामो बुधस्तथा", "from": "corpus/bphs/canon.json#3.16" },
+        { "sa": "गौरगात्रो गुरुर्ज्ञेयः शुक्रः श्यावस्तथैव च।", "from": "corpus/bphs/canon.json#3.17" },
+        { "sa": "कृष्णदेहो रवेः पुत्रो ज्ञायते द्विजसत्तम", "from": "corpus/bphs/canon.json#3.17" }
+      ],
+      "values": { "surya": "raktaśyāma", "candra": "gauragātra", "mangala": "rakta (nātyuccāṅga)", "budha": "dūrvāśyāma", "guru": "gauragātra", "shukra": "śyāva", "shani": "kṛṣṇadeha (raveḥ putraḥ)" },
+      "note": "the verses name each graha (divādhīśa, niśākara, kuja, budha, guru, śukra, raveḥ putraḥ); Rāhu and Ketu are not in them"
+    },
+    "deity": {
+      "locus": "BPHS 3.18", "tag": "[text]",
+      "quote": [
+        { "sa": "वह्न्यम्बुशिखिजा विष्णुविढौजः शचिका द्विज।", "from": "corpus/bphs/canon.json#3.18" },
+        { "sa": "सूर्यादीनां खगानां च देवा ज्ञेयाः क्रमेण च", "from": "corpus/bphs/canon.json#3.18" }
+      ],
+      "values": { "surya": "vahni", "candra": "ambu", "mangala": "śikhija", "budha": "viṣṇu", "guru": "viḍhaujas (the corpus's spelling)", "shukra": "śacī", "shani": "ka" },
+      "assumptions": [{ "text": "'śacikā' is read as śacī (Venus) and ka (Saturn), the seventh name the list needs; the words are the verse's, the split is a reading", "tag": "[reading]" }]
+    },
+    "avatara": {
+      "locus": "BPHS 2.5-2.7", "tag": "[text]",
+      "quote": [
+        { "sa": "रामोऽवतारः सूर्यस्य चन्द्रस्य यदुनायकः।", "from": "corpus/bphs/canon.json#2.5" },
+        { "sa": "भूमिपुत्रस्य बुद्धः सोमसुतस्य च", "from": "corpus/bphs/canon.json#2.5" },
+        { "sa": "नृसिंहो भूमिपुत्रस्य", "from": "corpus/bphs/sanskritdocuments.json#2.5" },
+        { "sa": "वामनो विबुधेज्यस्य भार्गवो भार्गवस्य च।", "from": "corpus/bphs/canon.json#2.6" },
+        { "sa": "कूर्मो भास्करपुत्रस्य सैंहिकेयस्य सूकरः", "from": "corpus/bphs/canon.json#2.6" },
+        { "sa": "केतोर्मीनावतारश्च ये चान्ये तेऽपि खेटजाः।", "from": "corpus/bphs/canon.json#2.7" }
+      ],
+      "values": { "surya": "Rāma", "candra": "Yadunāyaka", "mangala": "Nṛsiṃha (second witness only)", "budha": "Buddha", "guru": "Vāmana", "shukra": "Bhārgava", "shani": "Kūrma", "rahu": "Sūkara", "ketu": "Mīna" },
+      "witnesses": "the sa.wikisource witness (canon.json) lacks Mars's avatāra word in 2.5; the sanskritdocuments witness reads 'नृसिंहो भूमिपुत्रस्य'",
+      "note": "the verses name the grahas (sūrya, candra, bhūmiputra, somasuta, vibudhejya, bhārgava, bhāskaraputra, saiṃhikeya, ketu)"
+    },
+    "iconography": {
+      "locus": "BPHS 84.6-84.14", "tag": "[text]",
+      "quote": [
+        { "sa": "पद्मासनः पद्महस्तः पद्मपत्रसमद्युतिः ।", "from": "corpus/bphs/canon.json#84.6" },
+        { "sa": "सप्ताश्वरथसंस्थश्च द्विभुजश्च दिवाकरः", "from": "corpus/bphs/canon.json#84.6" },
+        { "sa": "श्वेतः श्वेताम्बरो देवो दशाश्वः श्वेतभूषणः ।", "from": "corpus/bphs/canon.json#84.7" },
+        { "sa": "वरदस्तु चतुर्बाहुर्मङ्गलो मेषवाहनः", "from": "corpus/bphs/canon.json#84.8" },
+        { "sa": "खड्गचर्मगदापाणिः सिंहस्थो वरदो बुधः", "from": "corpus/bphs/canon.json#84.9" },
+        { "sa": "गुरुशुक्रौ क्रमात् पीतश्वेतवर्णौ चतुर्भुजौ ।", "from": "corpus/bphs/canon.json#84.10" },
+        { "sa": "इन्द्रनीलद्युतिः शूली वरदो गृध्रवाहनः ।", "from": "corpus/bphs/canon.json#84.11" },
+        { "sa": "सिंहस्थो नीलवर्णश्च राहुरेवं प्रकल्प्यते", "from": "corpus/bphs/canon.json#84.12" },
+        { "sa": "धूम्रा द्विबाहवः सर्वे गदिनो विकृताननाः ।", "from": "corpus/bphs/canon.json#84.13" },
+        { "sa": "स्वांगुलेनोच्छ्रिता विज्ञैः शतमष्टोत्तरं सदा", "from": "corpus/bphs/canon.json#84.14" }
+      ],
+      "values": {
+        "surya": { "seat": "padmāsana", "hands": 2, "chariot": "seven horses (saptāśva-ratha)", "lustre": "padmapatra-sama" },
+        "candra": { "colour": "śveta", "horses": 10, "hands": 2, "holds": "gadā" },
+        "mangala": { "hands": 4, "vehicle": "meṣa", "garland": "rakta", "holds": "śakti, śūla, gadā" },
+        "budha": { "seat": "siṃha", "lustre": "karṇikāra-sama", "holds": "khaḍga, carma, gadā" },
+        "guru": { "colour": "pīta", "hands": 4, "holds": "daṇḍa, akṣasūtra, kamaṇḍalu" },
+        "shukra": { "colour": "śveta", "hands": 4, "holds": "daṇḍa, akṣasūtra, kamaṇḍalu" },
+        "shani": { "lustre": "indranīla", "vehicle": "gṛdhra", "holds": "śūla, bāṇa, bāṇāsana" },
+        "rahu": { "colour": "nīla", "seat": "siṃha", "face": "karāla" },
+        "ketu": { "colour": "dhūmra", "hands": 2, "seat": "gṛdhra", "holds": "gadā" }
+      },
+      "images": { "height": "108 of the image's own aṅgula ('śatam aṣṭottaram')", "crowned": "all", "tag": "[text]" },
+      "note": "no dimension of a chariot or a distance is given; the Sun's seven-horse chariot here is the only local text of it (no Purāṇic chariot is local)"
+    },
+    "mantra": {
+      "locus": "BPHS 84.17-84.18", "tag": "[text]",
+      "quote": [
+        { "sa": "आकृष्णेन इमं देवा अग्निर्मूर्धा दिवः ककुत् ।", "from": "corpus/bphs/canon.json#84.17" },
+        { "sa": "उद्बुध्यस्वेति मन्त्रांश्च जपेदथ बृहस्पते", "from": "corpus/bphs/canon.json#84.17" },
+        { "sa": "अन्नात् परिश्रुतश्चेति शन्नो देवीरभीष्टये ।", "from": "corpus/bphs/canon.json#84.18" },
+        { "sa": "कया नश्चित्र इत्येवं केतु कृण्वन्निमांस्तथा", "from": "corpus/bphs/canon.json#84.18" }
+      ],
+      "values": { "surya": "ākṛṣṇena", "candra": "imaṃ devāḥ", "mangala": "agnir mūrdhā divaḥ kakut", "budha": "udbudhyasva", "guru": "bṛhaspate", "shukra": "annāt pariśrutaḥ", "shani": "śaṃ no devīr abhiṣṭaye", "rahu": "kayā naś citraḥ", "ketu": "ketuṃ kṛṇvan" },
+      "assumptions": [{ "text": "the nine pratīkas are given to the grahas in the verses' order; the verses name no Vedic locus and none is supplied here", "tag": "[reading]" }]
+    },
+    "japa": {
+      "locus": "BPHS 84.19-84.20", "tag": "[text]",
+      "quote": [
+        { "sa": "सप्त रुद्रा दिशो नन्दा नवचन्द्रा नृपास्तथा ।", "from": "corpus/bphs/canon.json#84.19" },
+        { "sa": "त्रिपक्षा अष्टचन्द्राश्च सप्तचन्द्रास्तथैव च", "from": "corpus/bphs/canon.json#84.19" },
+        { "sa": "इमाः संख्याः सहस्रघ्ना जपसंख्याः प्रकीर्तिताः ।", "from": "corpus/bphs/canon.json#84.20" },
+        { "sa": "क्रमादर्कादिखेटानां प्रीत्यर्थं द्विजपुङ्गव", "from": "corpus/bphs/canon.json#84.20" }
+      ],
+      "multiplier": 1000,
+      "numerals": [
+        { "graha": "surya", "form": "सप्त", "words": ["sapta"], "values": [7], "count": 7 },
+        { "graha": "candra", "form": "रुद्रा", "words": ["rudra"], "values": [11], "count": 11 },
+        { "graha": "mangala", "form": "दिशो", "words": ["diś"], "values": [10], "count": 10 },
+        { "graha": "budha", "form": "नन्दा", "words": ["nanda"], "values": [9], "count": 9 },
+        { "graha": "guru", "form": "नवचन्द्रा", "words": ["nava", "candra"], "values": [9, 1], "count": 19 },
+        { "graha": "shukra", "form": "नृपा", "words": ["nṛpa"], "values": [16], "count": 16 },
+        { "graha": "shani", "form": "त्रिपक्षा", "words": ["tri", "pakṣa"], "values": [3, 2], "count": 23 },
+        { "graha": "rahu", "form": "अष्टचन्द्रा", "words": ["aṣṭa", "candra"], "values": [8, 1], "count": 18 },
+        { "graha": "ketu", "form": "सप्तचन्द्रा", "words": ["sapta", "candra"], "values": [7, 1], "count": 17 }
+      ],
+      "values": { "surya": 7000, "candra": 11000, "mangala": 10000, "budha": 9000, "guru": 19000, "shukra": 16000, "shani": 23000, "rahu": 18000, "ketu": 17000 },
+      "decode": "bhūtasaṅkhyā, first word the units, × 1000 ('sahasraghnāḥ'); sapta, rudra, diś, nava, candra, tri and aṣṭa have these values in the SS's own register (corpus/surya-siddhanta/numbers.json); nanda (9), nṛpa (16) and pakṣa (2) are not in that register [standard]",
+      "witnesses": "both BPHS witnesses read the same words (corpus/bphs/wikisource.json and sanskritdocuments.json, 84.19-84.20)",
+      "finding": { "what": "Ketu's count is 'saptacandrāḥ' = 17 by the units-first rule, so 17,000; sphuta serves 7,000 for Ketu (the other eight agree)", "at": "sphuta engine-src/L8-phala/synthesis.ts:406 (also :293 and :1773)", "tag": "[reading]" }
+    },
+    "timeMeasure": {
+      "locus": "BPHS 3.33", "tag": "[text]",
+      "quote": [
+        { "sa": "अयनक्षणवारर्तुमासपक्षसमा द्विज।", "from": "corpus/bphs/canon.json#3.33" },
+        { "sa": "सूर्यादीनां क्रमाज्ज्ञेया निर्विशंकं द्विजोत्तम", "from": "corpus/bphs/canon.json#3.33" }
+      ],
+      "values": { "surya": "ayana", "candra": "kṣaṇa", "mangala": "vāra", "budha": "ṛtu", "guru": "māsa", "shukra": "pakṣa", "shani": "samā" },
+      "note": "the one local text that ties grahas to measures of time — the nearest local counterpart of the owner's 'Navagraha → time ladder'; it gives no ratios (corpus/sources/time-units.json)"
+    },
+    "season": {
+      "locus": "BPHS 3.45-3.46", "tag": "[text]",
+      "quote": [
+        { "sa": "भृगोरृतुर्वसन्तश्च कुजभान्वोश्च ग्रीष्मकः।", "from": "corpus/bphs/canon.json#3.45" },
+        { "sa": "चन्द्रस्य वर्षा विज्ञेया शरच्चैव तथा विदः", "from": "corpus/bphs/canon.json#3.45" },
+        { "sa": "हेमन्तोऽपि गुरोर्ज्ञेयः शनेस्तु शिशिरो द्विज।", "from": "corpus/bphs/canon.json#3.46" },
+        { "sa": "अष्टौ मासाश्च स्वर्भानोः केतोर्मासत्रयं द्विज", "from": "corpus/bphs/canon.json#3.46" }
+      ],
+      "values": { "surya": "grīṣma", "candra": "varṣā", "mangala": "grīṣma", "budha": "śarad", "guru": "hemanta", "shukra": "vasanta", "shani": "śiśira", "rahu": "eight months", "ketu": "three months" },
+      "assumptions": [{ "text": "'vidaḥ' (of the knower) is Budha", "tag": "[reading]" }]
+    },
+    "kalapurusha": {
+      "locus": "BPHS 4.2", "tag": "[text]",
+      "quote": [{ "sa": "यदव्यक्तात्मको विष्णुः कालरुपो जनार्दनः।", "from": "corpus/bphs/canon.json#4.2" }],
+      "note": "the rāśis from Meṣa are the limbs of Viṣṇu in the form of time: the nearest local text of the Purāṇic picture of time"
+    }
+  },
+  "navagrahaStotra": {
+    "class": "owner-statement", "record": "OWNER-navagraha-units", "status": "awaiting edition", "tag": "[owner-statement]",
+    "statement": "the owner's synthesis: some units (and the grahas' names) from the Navagraha Stotra",
+    "derivedWitnesses": [
+      { "where": "museum.html:3393-3426", "what": "the nine graha cards, each with one stotra verse; cited 'नवग्रह-स्तोत्र (व्यास)' at museum.html:3395", "tag": "[claim-only]" },
+      { "at": "sphuta engine-src/L8-phala/synthesis.ts:303-420 (GRAHA_STOTRA, attributed to Vyāsa)", "tag": "[claim-only]" }
+    ],
+    "variants": "the two witnesses differ in small ways (Maṅgala: 'शक्तिहस्तं च' in sphuta against 'शक्तिहस्तं तं' in museum.html; 'सङ्काशं'/'संकाशं', 'दधिशङ्ख'/'दधिशंख')",
+    "units": "the nine verses as the witnesses give them name no unit of time and no number",
+    "upgrade": "when a printed edition of the stotra is added to corpus/, each verse is recorded here at its verse number as [text]; until then no verse number is given"
+  }
+}

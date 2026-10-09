@@ -25,53 +25,38 @@
   ];
 
   let lastGrahaSig = "";
-  let lastTier = "classical";
+  let lastTier = M.DEFAULT_TIER;
   let lastBhavaSig = "";
+  let lastLabelKey = "";
   let warnedRmaxOnce = false;
+  let lastStateObj = null;
+  const LT = root.LegacyTier;                       // page-live.js: the shared tier helper (labels from M.TIERS)
 
   // Dual day-paths (sāvana / nākṣatra) — computed ONCE at boot from math-core
   // dualDayPaths(): breathS = dayS/21600 s per prāṇa, kalaPerBreath = 1.0000000
   // exactly on the nākṣatra path (1 प्राण ≡ 1 कला of Earth rotation). (SIDDHA)
   const DUAL = typeof M.dualDayPaths === "function" ? M.dualDayPaths() : null;
 
+  const pageTier = function () { return LT ? LT.current() : M.pageTier(""); };
 
+  /* The page's one state per tick: the chosen tier (the shared yantraState key; default 'ss+parameshvara'), one
+     panchangExtended(…, tier) at Ujjain and the tier's nine rows (M.tierGrahaRows). Every number on the home page comes
+     from this object, so the limbs, the grahas, the lagna and the bhāvas are one tier's. The dṛk tier is SiddhantaTier
+     through math-core (refused outside 1850–2150 with TierSpanError); no foreign theory is called. */
   function nowState() {
-    const utc = new Date(Date.now() + TZ * 3600000);
-    const date = utc.toISOString().slice(0, 10);
-    const time = utc.toISOString().slice(11, 19);
-    const jd = M.gregorianToJulianDay(date, time, TZ);
-    let p = M.panchangExtended(jd, LAT, LON, TZ);
-    // panchangExtended already runs bhavaModel internally and bundles the result;
-    // reuse that bundle instead of computing bhavaModel a second time per tick.
+    const jd = Math.floor(Date.now() / 1000) / 86400 + 2440587.5;
+    const civil = M.jdToCivil(jd, TZ, "gregorian");
+    const pad = function (n) { return String(n).padStart(2, "0"); };
+    const tier = pageTier();
+    const p = M.panchangExtended(jd, LAT, LON, TZ, tier);
     let bhava = null;
     if (p.bhavas && p.lagna != null) {
       const madhyas = Array(13);
       p.bhavas.forEach(function (item) { madhyas[item.no] = item.madhya; });
       bhava = { lagna: p.lagna, madhyas: madhyas, bhavas: p.bhavas };
-    } else if (M.bhavaModel) {
-      bhava = M.bhavaModel(jd, LAT, LON);
     }
-    let grahas = M.canonicalGrahaModel ? M.canonicalGrahaModel(jd) : [];
-    // गणना-तह: when the dṛk-tier is loaded, the displayed limbs and the nine graha longitudes are
-    // the same VSOP87/ELP2000 values the panchang page shows (Sun–Saturn within 1′ of JPL DE440 1850–2150; Rāhu/Ketu
-    // mean node); the classical Sūrya-Siddhānta
-    // path stays available as pClassical / grahasClassical (ribbon hover, PathBhang). Audit 2026-09-20.
-    const pClassical = p, grahasClassical = grahas;
-    let tier = "classical";
-    if (root.DrikTier && typeof root.DrikTier.available === "function" && root.DrikTier.available() && typeof M.limbsFromSphuta === "function") {
-      try {
-        const dk = root.DrikTier.grahas(jd, "spica_lahiri");
-        if (dk) {
-          p = Object.assign({}, p, M.limbsFromSphuta(dk.surya, dk.candra));
-          grahas = grahas.map(function (g) {
-            const k = g.key === "chandra" ? "candra" : g.key;
-            return typeof dk[k] === "number" ? Object.assign({}, g, { longitude: dk[k] }) : g;
-          });
-          tier = "drik";
-        }
-      } catch (e) { /* classical path stays */ }
-    }
-    return { date: date, time: time, jd: jd, p: p, pClassical: pClassical, bhava: bhava, grahas: grahas, grahasClassical: grahasClassical, tier: tier };
+    const grahas = M.tierGrahaRows(jd, tier);
+    return { date: civil.iso, time: pad(civil.hour) + ":" + pad(civil.minute) + ":" + pad(civil.second), jd: jd, tier: tier, p: p, bhava: bhava, grahas: grahas };
   }
 
   function polar(r, deg) {
@@ -456,11 +441,53 @@
     box.dataset.ready = "1";
   }
 
+  function paintTierTags(s) {
+    let ay = "";
+    try { const a = M.tierAyanamsha(s.jd, s.tier); ay = " · अयनांश " + a.name + " = " + a.deg.toFixed(4) + "°"; } catch (e) { ay = ""; }
+    const text = "गणना-तह: " + M.TIERS[s.tier].labelSa + " / " + M.TIERS[s.tier].label + ay + " · सूर्योदय-नियम: " + M.TIERS[s.tier].sunrise;
+    document.querySelectorAll("[data-tier-tag]").forEach(function (n) { n.textContent = text; n.dataset.tier = s.tier; });
+    const key = s.tier + "|" + Math.floor(s.jd);
+    if (LT && key !== lastLabelKey) { lastLabelKey = key; LT.renderLabels(document.getElementById("homeTierLabels"), s.tier, s.jd); }
+  }
+
+  // Every value paint() fills from the tier's state: cleared when the tier refuses the instant, so no value of the tier
+  // shown before (another tier, another instant) stays on the page beside the refusal.
+  const TIER_VALUE_IDS = ["homeVara", "homeYogaTop", "homeAhargana", "homeNak", "homeSeal", "liveTithi", "liveYogaKarana", "liveMasa",
+    "liveLagna", "liveMc", "liveKendra", "liveNatalId", "engSurya", "engChandra", "engLagnaNak", "engD9", "hudSurya", "hudChandra", "hudLagna", "hudGhati"];
+  function clearTierValues(tier, jd) {
+    TIER_VALUE_IDS.forEach(function (id) { set(id, "—"); });
+    ["liveGrahas", "liveBhavasBody"].forEach(function (id) { const n = document.getElementById(id); if (n) n.replaceChildren(); });
+    lastGrahaSig = ""; lastBhavaSig = "";
+    ["homeDial", "homeOrrery"].forEach(function (id) {
+      const c = document.getElementById(id), g = c && c.getContext ? c.getContext("2d") : null;
+      if (g) g.clearRect(0, 0, c.width, c.height);
+    });
+    const text = "गणना-तह: " + M.TIERS[tier].labelSa + " / " + M.TIERS[tier].label + " — इस क्षण अस्वीकृत / refused at this instant";
+    document.querySelectorAll("[data-tier-tag]").forEach(function (n) { n.textContent = text; n.dataset.tier = tier; });
+    const key = tier + "|refused|" + Math.floor(jd);
+    if (LT && key !== lastLabelKey) { lastLabelKey = key; LT.renderLabels(document.getElementById("homeTierLabels"), tier, jd); }
+  }
+
   function paint() {
-    const s = nowState();
+    let s;
+    const refusalBox = document.getElementById("homeTierRefusal");
+    try { s = nowState(); }
+    catch (e) {
+      if (!(LT && LT.isRefusal(e))) throw e;
+      lastTier = pageTier();
+      LT.renderRefusal(refusalBox, e, function () { paint(); });
+      set("homeTier", "गणना-तह: " + M.TIERS[lastTier].labelSa + " — इस क्षण अस्वीकृत / refused at this instant");
+      clearTierValues(lastTier, Math.floor(Date.now() / 1000) / 86400 + 2440587.5);
+      lastStateObj = null;
+      if (typeof root.dispatchEvent === "function" && typeof root.CustomEvent === "function") root.dispatchEvent(new root.CustomEvent("live-board", { detail: { tier: lastTier, state: null, refused: e } }));
+      return null;
+    }
+    if (refusalBox) { refusalBox.hidden = true; refusalBox.replaceChildren(); }
+    lastStateObj = s;
     const p = s.p, b = s.bhava;
-    lastTier = s.tier || "classical";
-    set("homeTier", lastTier === "drik" ? "गणना-तह: दृक् (VSOP87/ELP) · शास्त्रीय पथ hover में" : "गणना-तह: शास्त्रीय (सू.सि.)");
+    lastTier = s.tier;
+    set("homeTier", "गणना-तह: " + M.TIERS[s.tier].labelSa + " / " + M.TIERS[s.tier].label + (LT && LT.problem() ? " · " + LT.problem() : ""));
+    paintTierTags(s);
     paintTemples();
     paintLibrary();
     if (root.FieldGL && root.FieldGL.push) {
@@ -477,14 +504,14 @@
     set("homeCivil", s.date + " · " + s.time + " IST");
     set("homeVara", p.varaName);
     set("homeYogaTop", p.yogaName);
-    set("homeAhargana", Math.floor(p.ahargana).toLocaleString("en-IN"));
+    set("homeAhargana", Math.floor(p.ahargana).toLocaleString("en-IN") + " (" + p.aharganaRule + ")");
     set("homeGhati", String(p.ghati) + " / ६०");
     set("homeVighati", String(p.vighati) + " / ६०");
     set("homeNak", (p.nakshatraName || "—") + " · चरण " + (p.nakshatraPada || "—"));
     set("homeSeal", M.paniniHash(s.date + "|" + p.tithiIndex + "|" + p.nakshatraIndex, 8));
     set("liveTithi", (p.paksha || "") + " " + (p.tithiName || "—"));
     set("liveYogaKarana", (p.yogaName || "—") + " · " + (p.karanaName || "—"));
-    set("liveMasa", p.sauraMasaName || "—");
+    set("liveMasa", (p.sauraMasaName || "—") + " · चान्द्र (अमान्त) " + (p.masaName || (p.masa && p.masa.refused ? "अस्वीकृत" : "—")));
 
     if (b) {
       set("liveLagna", Number(b.lagna).toFixed(4) + "° · " + (p.lagnaRashiSa || ""));
@@ -535,6 +562,7 @@
     if (moon) set("hudChandra", Number(moon.longitude).toFixed(4) + "°");
     if (b) set("hudLagna", Number(b.lagna).toFixed(4) + "°");
     set("hudGhati", String(p.ghati) + " · " + String(p.vighati));
+    if (typeof root.dispatchEvent === "function" && typeof root.CustomEvent === "function") root.dispatchEvent(new root.CustomEvent("live-board", { detail: { tier: s.tier, state: s, refused: null } }));
     return s;
   }
 
@@ -561,7 +589,7 @@
     const bar = document.getElementById("homeLiveBar");
     if (bar) {
       bar.textContent = c.time + " IST · घटी " + c.ghati + " · पल " + c.vighati + " · प्राण " + c.prana +
-        (p && p.nakshatraName ? " · " + p.nakshatraName + (lastTier === "drik" ? " (दृक्)" : " (शा)") : "") +
+        (p && p.nakshatraName ? " · " + p.nakshatraName + " (" + M.TIERS[lastTier].labelSa + ")" : "") +
         (p && p.lagna != null ? " · लग्न " + Number(p.lagna).toFixed(2) + "°" : "") +
         " · उज्जयिनी " + LAT.toFixed(2) + "°N " + LON.toFixed(2) + "°E" +
         (DUAL ? " · प्राण " + DUAL.savana.breathS.toFixed(4) + "s(सा)/" + DUAL.nakshatra.breathS.toFixed(4) + "s(ना)" : "");
@@ -569,6 +597,7 @@
   }
 
   function boot() {
+    if (LT) LT.mountSelect(document.getElementById("homeTierSelect"), function () { lastGrahaSig = ""; lastBhavaSig = ""; lastLabelKey = ""; pulse(); });
     let lastP = null;
     let lastState = null;
     function pulse() {
@@ -597,5 +626,5 @@
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot, { passive: true });
   else boot();
-  root.LiveBoard = { paint: paint, nowState: nowState, ghatiHandFracs: ghatiHandFracs };
+  root.LiveBoard = { paint: paint, nowState: nowState, lastState: function () { return lastStateObj; }, ghatiHandFracs: ghatiHandFracs };
 })(typeof globalThis !== "undefined" ? globalThis : this);

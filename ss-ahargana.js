@@ -18,6 +18,11 @@
  * "every fourth" is +1 weekday (24 horās ≡ 3 orbit steps), "every third" is +3 (360 ≡ 3 mod 7), 12.79's "upward from
  * the Moon" is +2 (30 ≡ 2 mod 7): the two chapters give the same lords.
  * The yuga numbers are the text's (1.29-1.39, corpus/surya-siddhanta/numbers.json); kala-dvara.js gives the same.
+ * The lunisolar year (yearOfKali, lunarYear): from the nija Caitra new moon to the next, by the true calendar
+ * (panchanga.js, passed in) — amānta months named by their saṅkrāntis (14.10; the naming rule is standard practice, no
+ * local text), Kali years gone at the start, Śaka = Kali − 3179 and Vikrama = Kali − 3044 [standard]; which Caitra opens
+ * the year when there are two is [unverified convention]. The 100,000-year calendar (scripts/calendar-100k.cjs) is built
+ * on yearOfKali.
  * Browser: window.SSAhargana (needs KalaDvara); node: module.exports.
  */
 (function (root, factory) {
@@ -121,6 +126,73 @@
     return { hora: h + 1, lord: horaLord(dl, h), dayLord: dl, rule: opts.unequal ? "unequal [unverified]" : "equal, 24 from sunrise [reading]" };
   }
 
-  return Object.freeze({ SOLAR_MONTHS, ADHIMASA, LUNAR_DAYS, KSHAYA, YUGA_DAYS, YEARS_TO_KALI, DAYS_TO_KALI, WEEKDAY, ORBIT_DOWN,
-    ahargana, aharganaFromKali, exactDay, byWeekday, lords, lordsOfKaliDay, nextDayLord, nextYearLord, nextMonthLord, horaLord, horaAt });
+  // ── the lunisolar year by the true calendar ─────────────────────────────────────────────────────────────
+  const KALI_SHAKA = 3179, KALI_VIKRAMA = 3044;                 // Kali years gone − 3179 = Śaka, − 3044 = Vikrama [standard]
+  const YEAR_START_RULE = "nija Caitra new moon (the amānta month holding the Meṣa saṅkrānti); an adhika Caitra closes the previous year [unverified convention: no local text says which Caitra opens the year]";
+  const YUGA_N = Number(YUGA_DAYS), SUN_N = 4320000;
+  const needCalendar = (P) => {
+    for (const f of ["sankrantisBetween", "syzygyNear", "nameMonth", "limbsAt"]) if (!P || typeof P[f] !== "function") throw new TypeError("ss-ahargana: the year needs the calendar (panchanga.js)");
+  };
+  /** The Meṣa saṅkrānti nearest the mean one of Kali year k (k mean years after the epoch, 14.10) and the new moon before
+   *  it: the start of the month that holds it, Caitra. */
+  function caitraStart(k, P) {
+    const guess = k * YUGA_N / SUN_N;
+    const sk = P.sankrantisBetween(guess - 20, guess + 20).find((x) => x.index === 0);
+    if (!sk) throw new Error(`ss-ahargana: no Meṣa saṅkrānti near Kali year ${k}`);
+    const start = P.syzygyNear(sk.at, 0, -1);
+    if (start === null) throw new Error(`ss-ahargana: no new moon before the Meṣa saṅkrānti of Kali year ${k}`);
+    return { mesha: sk.at, start };
+  }
+  /** The lunisolar year whose nija Caitra begins k Kali years gone (k = Kali years gone at the year's start), by the true
+   *  calendar P (panchanga.js, passed in, as exactDay takes it): { k, shakaGone, vikramaGone, start, end, mesha,
+   *  yearStartRule, months, sankrantis }. Months are amānta, new moon to new moon, each named by P.nameMonth from the
+   *  saṅkrāntis inside it (adhika, kṣaya); a 13th month is an adhika one, and a year may end with an adhika Caitra.
+   *  months[i]: { name, adhika, kshaya, kshayaDropped, start, end, fullMoon, fullMoonNakshatra, nameByFullMoonNakshatra
+   *  (SS 14.15-14.16, beside the name), marginMinutes (the nearest saṅkrānti to either end of the month: how near the
+   *  naming is to changing) }. sankrantis: the twelve of the year, Meṣa first. Times: days since the Kali epoch at
+   *  Laṅkā midnight. Check: Math.round(4,320,000 × start ÷ 1,577,917,828) === k, the count exactDay uses. */
+  function yearOfKali(k, P) {
+    if (!Number.isInteger(k)) throw new TypeError("ss-ahargana: Kali years gone must be an integer");
+    needCalendar(P);
+    const a = caitraStart(k, P), b = caitraStart(k + 1, P);
+    const start = a.start, end = b.start;
+    if (Math.round(SUN_N * start / YUGA_N) !== k) throw new Error(`ss-ahargana: the year found does not count ${k} Kali years`);
+    const moons = [start];
+    for (let x = start; ;) {
+      const n = P.syzygyNear(x + 0.01, 0, +1);
+      if (n === null) throw new Error(`ss-ahargana: lost the new moon after ${x}`);
+      if (n >= end - 1e-6) break;
+      moons.push(n); x = n;
+    }
+    moons.push(end);
+    const sank = P.sankrantisBetween(start - 32, end + 40);
+    const months = [];
+    for (let i = 0; i + 1 < moons.length; i++) {
+      const m0 = moons[i], m1 = moons[i + 1];
+      const inside = sank.filter((s) => s.at >= m0 && s.at < m1).map((s) => s.index);
+      const next = sank.find((s) => s.at >= m1);
+      const nm = P.nameMonth(inside, next ? next.index : undefined);
+      const fullMoon = P.syzygyNear(m0 + 1, 180, +1), nak = P.limbsAt(fullMoon).nakshatra;
+      let margin = Infinity;
+      for (const s of sank) margin = Math.min(margin, Math.abs(s.at - m0), Math.abs(s.at - m1));
+      months.push({ name: nm.name, adhika: nm.adhika, kshaya: nm.kshaya, kshayaDropped: nm.kshayaDropped, start: m0, end: m1, fullMoon,
+        fullMoonNakshatra: P.NAKSHATRA ? P.NAKSHATRA[nak - 1] : nak, nameByFullMoonNakshatra: P.MONTH_OF_FULLMOON_NAKSHATRA ? P.MONTH_OF_FULLMOON_NAKSHATRA[nak] : null,
+        marginMinutes: margin * 1440 });
+    }
+    return { k, shakaGone: k - KALI_SHAKA, vikramaGone: k - KALI_VIKRAMA, start, end, mesha: a.mesha, yearStartRule: YEAR_START_RULE, months,
+      sankrantis: sank.filter((s) => s.at >= start && s.at < end).map((s) => ({ at: s.at, rashi: s.rashi, index: s.index })) };
+  }
+  /** The year of yearOfKali that holds the instant t (start ≤ t < end). */
+  function lunarYear(t, P) {
+    if (typeof t !== "number" || !Number.isFinite(t)) throw new TypeError("ss-ahargana: lunarYear needs a finite instant t");
+    let k = Math.floor(SUN_N * t / YUGA_N);
+    for (let i = 0; i < 4; i++) {
+      const y = yearOfKali(k, P);
+      if (t < y.start) k -= 1; else if (t >= y.end) k += 1; else return y;
+    }
+    throw new Error(`ss-ahargana: no year holds ${t}`);
+  }
+
+  return Object.freeze({ SOLAR_MONTHS, ADHIMASA, LUNAR_DAYS, KSHAYA, YUGA_DAYS, YEARS_TO_KALI, DAYS_TO_KALI, WEEKDAY, ORBIT_DOWN, KALI_SHAKA, KALI_VIKRAMA, YEAR_START_RULE,
+    ahargana, aharganaFromKali, exactDay, byWeekday, lords, lordsOfKaliDay, nextDayLord, nextYearLord, nextMonthLord, horaLord, horaAt, yearOfKali, lunarYear });
 });

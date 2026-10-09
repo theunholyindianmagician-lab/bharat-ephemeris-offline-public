@@ -380,3 +380,59 @@ test('the owner\'s choice (2026-10-07): stations by the place\'s own turning poi
   assert.ok(r.length === p.length && r.every((x, i) => Math.abs(x.t - p[i].t) > 0.5), 'the rule turns on other days');
   for (const s of p.filter((x) => x.kind === 'vakra')) assert.equal(G.houseFromSighrocca(s.kendra), 7, '2.55: Mars turns retrograde in the seventh');
 });
+
+// ── 1.55: the sixty-year cycle (2026-10-08, owner decision D3: the text's saṃvatsara in the text tier) ─────────────────
+const MER = 75.7885;
+const tIST = (y, m, d, h) => K.kaliDayFromCivil({ calendar: 'gregorian', year: y, month: m, day: d }) + (h - 5.5) / 24 + MER / 360;
+
+test('[SS 1.55] the verse: Jupiter\'s revolutions gone × 12, with the signs, cleared of sixties, give the years from Vijaya', () => {
+  assert.match(iast('1.55'), /dvādaśaghnā guroryātā bhagaṇā vartamānakaiḥ/);
+  assert.match(iast('1.55'), /ṣaṣṭyā syurvijayādayaḥ/);
+  assert.equal(G.SAMVATSARA.length, 60); assert.equal(new Set(G.SAMVATSARA).size, 60);
+  assert.equal(G.SAMVATSARA[0], 'Prabhava'); assert.equal(G.SAMVATSARA[26], 'Vijaya');
+});
+
+test('[theorem 1.45-1.47, 1.55] at the Kali epoch mean Jupiter has made 164,900,605 revolutions since creation (364,220 × 1811/4), at Meṣa 0: Vijaya under reading A', () => {
+  assert.equal(364220n * 1811n % 4n, 0n);
+  const s = G.samvatsara(0);
+  assert.equal(s.revolutionsGone, 364220n * 1811n / 4n); assert.equal(s.revolutionsGone, 164900605n);
+  assert.equal(s.signsGone, 0); assert.equal(s.remainder, 0); assert.equal(s.vijayaIndex, 0); assert.equal(s.name, 'Vijaya');
+  assert.equal(s.reading, 'A'); assert.equal(s.source, 'SS 1.55'); assert.match(s.rule, /reading A/);
+  assert.deepEqual(G.samvatsara(0n), s);
+  const b = G.samvatsara(0, { zero: 1 });
+  assert.equal(b.vijayaIndex, 59); assert.equal(b.name, 'Nandana', 'reading B: one name earlier');
+  assert.throws(() => G.samvatsara(0, { zero: 2 }), RangeError);
+  for (const bad of [NaN, Infinity, '0', undefined]) assert.throws(() => G.samvatsara(bad), TypeError);
+});
+
+test('[theorem 1.55] the name changes when mean Jupiter changes sign: every 1,577,917,828 ÷ (364,220 × 12) = 361.0267 days, one step on in sixty, reading B one behind reading A', () => {
+  const Y = 1577917828n, J = 364220n, YG = 1955880000n;
+  // the m-th sign of mean Jupiter since creation begins at d = Y (m × 4,320,000 − 12 × 364,220 × 1,955,880,000) ÷ (12 × 364,220 × 4,320,000) days after the Kali epoch
+  const exactAt = (m) => { const n = Y * (m * 4320000n - 12n * J * YG), d = 12n * J * 4320000n; const q = n / d - (n % d < 0n ? 1n : 0n); return Number(q) + Number(n - q * d) / Number(d); };
+  let t = tIST(1900, 1, 1, 0), prev = G.samvatsara(t), last = null, changes = 0;
+  const m0 = 12n * G.samvatsara(t).revolutionsGone + BigInt(G.samvatsara(t).signsGone);
+  for (let i = 1; i <= 160; i++) {
+    const c = G.samvatsaraChangeAfter(t);
+    assert.ok(Math.abs(c - exactAt(m0 + BigInt(i))) < 1e-6, `change ${i}`);
+    if (last !== null) assert.ok(Math.abs(c - last - Number(Y) / (12 * 364220)) < 1e-6, 'one interval');
+    const before = G.samvatsara(c - 1e-5), after = G.samvatsara(c + 1e-5);
+    assert.equal(before.prabhavaIndex, prev.prabhavaIndex, 'no change before the ingress');
+    assert.equal(after.prabhavaIndex, (before.prabhavaIndex + 1) % 60, 'one step on at the ingress');
+    assert.equal(G.samvatsara(c + 1e-5, { zero: 1 }).vijayaIndex, (after.vijayaIndex + 59) % 60, 'B = A − 1');
+    prev = after; last = c; t = c + 1e-5; changes++;
+  }
+  assert.equal(changes, 160);
+  assert.ok(Math.abs(Number(Y) / (12 * 364220) - 361.0267) < 1e-4);
+});
+
+test('[measured] 2026: Siddhārthī until mean Jupiter enters a new sign on 11 March 2026 at about 14:53 IST, then Raudra (reading A)', () => {
+  assert.equal(G.samvatsara(tIST(2026, 1, 15, 12)).name, 'Siddhārthī');
+  assert.equal(G.samvatsara(tIST(2026, 3, 11, 12)).name, 'Siddhārthī');
+  assert.equal(G.samvatsara(tIST(2026, 3, 11, 18)).name, 'Raudra');
+  assert.equal(G.samvatsara(tIST(2026, 10, 8, 12)).name, 'Raudra');
+  assert.equal(G.samvatsara(tIST(2026, 10, 8, 12), { zero: 1 }).name, 'Siddhārthī', 'reading B');
+  const c = G.samvatsaraChangeAfter(tIST(2026, 1, 1, 0));
+  const x = c - MER / 360 + 5.5 / 24, N = Math.floor(x), minutes = (x - N) * 1440;
+  assert.deepEqual(K.civilFromKaliDay(N, 'gregorian'), { year: 2026, month: 3, day: 11 });
+  assert.ok(Math.abs(minutes - (14 * 60 + 53)) < 1, `${Math.floor(minutes / 60)}:${(minutes % 60).toFixed(1)} IST`);
+});

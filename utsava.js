@@ -66,7 +66,7 @@
     let a = t1, fa = f(a);
     for (let b = t1 + 1; a < t2; b += 1) {
       const fb = f(b);
-      if (fa < 0 && fb >= 0 && fb - fa < 90) { let lo = a, hi = b; while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (f(m) < 0) lo = m; else hi = m; } if (hi < t2) out.push(hi); }
+      if (fa < 0 && fb >= 0 && fb - fa < 90) { let lo = a, hi = b; while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (m <= lo || m >= hi) break; if (f(m) < 0) lo = m; else hi = m; } if (hi < t2) out.push(hi); }
       a = b; fa = fb;
     }
     return out;
@@ -91,7 +91,7 @@
     for (const [L, kind] of [[270, "uttarāyaṇa begins (the Sun turns north; north of the tropic the noon shadow is at its longest)"], [90, "dakṣiṇāyana begins (the Sun turns south; north of the tropic the noon shadow is at its shortest)"], [0, "vasanta viṣuva"], [180, "śarad viṣuva"]]) {
       const f = (t) => wrap180(P.placesAt(t).sun + A(t) - L);
       let a = t1, fa = f(a);
-      for (let b = t1 + 1; a < t2; b += 1) { const fb = f(b); if (fa < 0 && fb >= 0 && fb - fa < 90) { let lo = a, hi = b; while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (f(m) < 0) lo = m; else hi = m; } if (hi < t2) out.push({ at: hi, sayana: L, kind, source: "SS 3.9-3.12 (ayanāṃśa), dhruva frame" }); } a = b; fa = fb; }
+      for (let b = t1 + 1; a < t2; b += 1) { const fb = f(b); if (fa < 0 && fb >= 0 && fb - fa < 90) { let lo = a, hi = b; while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (m <= lo || m >= hi) break; if (f(m) < 0) lo = m; else hi = m; } if (hi < t2) out.push({ at: hi, sayana: L, kind, source: "SS 3.9-3.12 (ayanāṃśa), dhruva frame" }); } a = b; fa = fb; }
     }
     return out.sort((a, b) => a.at - b.at);
   }
@@ -111,9 +111,12 @@
       status: UNVERIFIED,
     };
   }
-  /** Rising of the Moon's centre between sunrise of day N and the next sunrise (null if the Moon does not rise in that
-   *  civil day): geometric, no parallax (SS ch.5 lambana not applied), no refraction. */
-  function moonrise(N, site, opts = {}) {
+  /** Rising ("rise") or setting ("set") of the Moon's centre between sunrise of day N and the next sunrise (null if it
+   *  does not happen in that civil day): geometric, no parallax (SS ch.5 lambana not applied), no refraction. The first
+   *  crossing of the horizon upward (rise) or downward (set) in the day. */
+  function moonEvent(N, site, kind, opts = {}) {
+    if (kind !== "rise" && kind !== "set") throw new RangeError('utsava: the Moon\'s event is "rise" or "set"');
+    const up = kind === "rise";
     const rise = P.sunrise(N, site, opts); if (rise === null) return null;
     const next = P.sunrise(N + 1, site, opts), until = next === null ? rise + 1.1 : next;
     const phi = site.latitude * D2R, eps = typeof opts.epsilon === "number" ? opts.epsilon : D.SS_EPSILON_DEG;
@@ -126,11 +129,19 @@
     let a = rise, fa = alt(a);
     for (let b = rise + 1 / 96; a < until; b += 1 / 96) {
       const fb = alt(b);
-      if (fa < 0 && fb >= 0) { let lo = a, hi = b; while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (alt(m) < 0) lo = m; else hi = m; } return hi < until ? hi : null; }
+      if (up ? fa < 0 && fb >= 0 : fa >= 0 && fb < 0) {
+        let lo = a, hi = b;
+        while (hi - lo > 1e-9) { const m = (lo + hi) / 2; if (m <= lo || m >= hi) break; if (up ? alt(m) < 0 : alt(m) >= 0) lo = m; else hi = m; }
+        return hi < until ? hi : null;
+      }
       a = b; fa = fb;
     }
     return null;
   }
+  /** Moonrise in civil day N (sunrise to the next sunrise), or null. */
+  const moonrise = (N, site, opts = {}) => moonEvent(N, site, "rise", opts);
+  /** Moonset in civil day N (sunrise to the next sunrise), or null. */
+  const moonset = (N, site, opts = {}) => moonEvent(N, site, "set", opts);
 
   /** SS 10.1-10.4: candra-darśana after each amāvāsyā in [t1, t2) — the first evening the Moon is seen (≥ 12 kālāṃśa
    *  between the settings of Sun and Moon, the Moon's place carried by 7.8-7.10 to the ecliptic point setting with it),
@@ -278,7 +289,7 @@
   }
 
   return Object.freeze({ panchanga: P, withPanchanga: (p) => build(p), withSine: (name) => utsavaOf(P.withSine(name), S.withSine(name), D, K, U && U.withSine(name)), DISC, MEAN_SUN, SHADASHITI, RULES, UNVERIFIED, sunDisc, moonDisc, punyakala, sankrantis, sunReaches,
-    shadashitimukhas, pitrDays, cardinalInSky, kalaWindows, moonrise, tithiSpan, dayOfRule, festivals, candraDarshana });
+    shadashitimukhas, pitrDays, cardinalInSky, kalaWindows, moonEvent, moonrise, moonset, tithiSpan, dayOfRule, festivals, candraDarshana });
   }
   return build(P);
 });

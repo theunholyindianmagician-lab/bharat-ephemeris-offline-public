@@ -32,11 +32,29 @@ test('planetary positions and analytic velocities are identical in browser and N
 });
 
 test('TT and diagnostic theory selection survive planetary and velocity option propagation',()=>{
-  const jd=2461290.5,options={mode:'calibrated',timeScale:'TT'};
-  const rows=M.canonicalGrahaModel(jd,options),vel=M.computePlanetaryVelocities(jd,options);
-  for(const r of rows) assert.equal(r.longitude,M.drigGrahaLongitude(r.key,jd,rows[0].longitude,options));
-  assert.deepEqual(vel.map(r=>r.longitude),rows.map(r=>r.longitude));
-  assert.equal(M.panchangAtJd(jd,5.5,options).chandra,rows[1].longitude);
+  const jd=2461290.5;
+  // drigCoordinates is tested raw: since 2026-10-08 it is referee B and the dṛk tier's labelled comparison, never a page source
   assert.equal(M.drigCoordinates('candra',jd).lunarConvention,'apparent');
   assert.equal(M.drigCoordinates('candra',jd,{planetaryTheory:'compact'}).lunarConvention,'geometric');
+  if(typeof M.resolveTier==='function'){
+    // the three-choice API (owner decisions 2026-10-08): 'calibrated' is retired; the 'drik' rows are the owner's series
+    // (siddhanta-tier.js, Citrā-pakṣa true), not drigCoordinates − Lahiri (design-final "changes": full-vsop.test.js:34-41)
+    assert.throws(()=>M.resolveTier('calibrated'),/retired 2026-10-08/);
+    const ST=require('./siddhanta-tier.js'),options={mode:'drik',timeScale:'TT'};
+    const rows=M.canonicalGrahaModel(jd,options),vel=M.computePlanetaryVelocities(jd,options),st=ST.grahas(jd,{timeScale:'TT'});
+    assert.equal(rows.length,9);
+    for(const r of rows) assert.equal(r.longitude,st[r.key],`${r.key}: TT reaches the series`);
+    assert.deepEqual(vel.map(r=>r.longitude),rows.map(r=>r.longitude));
+    const ut=M.canonicalGrahaModel(jd,{mode:'drik'});
+    assert.equal(ut[1].longitude,ST.grahas(jd)[1].longitude);
+    assert.equal(M.panchangAtJd(jd,5.5,'drik').chandra,ut[1].longitude);
+    assert.notEqual(ut[1].longitude,rows[1].longitude,'UT and TT differ by ΔT');
+  }else{
+    // before the three-choice math-core lands (this file is ahead of it in the B2 worktree): the former assertions, unchanged
+    const options={mode:'calibrated',timeScale:'TT'};
+    const rows=M.canonicalGrahaModel(jd,options),vel=M.computePlanetaryVelocities(jd,options);
+    for(const r of rows) assert.equal(r.longitude,M.drigGrahaLongitude(r.key,jd,rows[0].longitude,options));
+    assert.deepEqual(vel.map(r=>r.longitude),rows.map(r=>r.longitude));
+    assert.equal(M.panchangAtJd(jd,5.5,options).chandra,rows[1].longitude);
+  }
 });

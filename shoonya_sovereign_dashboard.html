@@ -309,17 +309,33 @@
   <script src="global-ui.js?v=101"></script>
   <!-- S-07: deferred so the 6 MB engine does not block the first paint; deferred scripts run in this order, then the
        page script below runs on DOMContentLoaded. -->
-  <script defer src="vsop87-full.js?v=101"></script>
-  <script defer src="elp-moon.js?v=101"></script>
-  <script defer src="math-core.js?v=102"></script>
-  <script defer src="drik-engine.js?v=1"></script>
-  <script defer src="drik-tier.js?v=1"></script>
-  <script defer src="siddhanta-drik.js?v=4"></script>
-  <script defer src="siddhanta-tier.js?v=4"></script>
+  <!-- Loading contract (2026-10-08): the sovereign modules the text tiers need, parampara.js and the paramparā record,
+       ss-tier.js, then math-core.js; for the Modern Bhāratīya (dṛk) choice siddhanta-drik.js, siddhanta-tier.js and
+       drik-grahana.js. No vendored foreign theory is loaded here: VSOP87/ELP and Astronomy Engine are referees in the tests. -->
+  <script defer src="kala-dvara.js"></script>
+  <script defer src="sphuta.js"></script>
+  <script defer src="dhruva.js"></script>
+  <script defer src="ss-udaya.js"></script>
+  <script defer src="spanda-ganita.js"></script>
+  <script defer src="ss-graha.js"></script>
+  <script defer src="ss-chaya.js"></script>
+  <script defer src="ss-grahana.js"></script>
+  <script defer src="ss-ahargana.js"></script>
+  <script defer src="panchanga.js"></script>
+  <script defer src="dasha.js"></script>
+  <script defer src="muhurta.js"></script>
+  <script defer src="utsava.js"></script>
+  <script defer src="parampara.js"></script>
+  <script defer src="ss-tier.js"></script>
+  <script defer src="parampara-record.js"></script>
+  <script defer src="math-core.js?v=103"></script>
+  <script defer src="siddhanta-drik.js?v=5"></script>
+  <script defer src="siddhanta-tier.js?v=5"></script>
+  <script defer src="drik-grahana.js?v=1"></script>
   <script defer src="field-gl.js?v=113"></script>
-  <script defer src="page-live.js?v=107"></script>
+  <script defer src="page-live.js?v=109"></script>
 </head>
-<body class="utility-page min-icons">
+<body class="utility-page min-icons" data-page-live="strip">
 <a href="#main-content" class="skip-link sr-only focus:not-sr-only">Skip to main content</a>
 <nav class="bharat-nav" aria-label="Primary navigation">
   <a href="index.html" class="bharat-brand">BHARAT EPHEMERIS</a>
@@ -361,7 +377,7 @@
           <div class="metric-title">1. सूर्य-स्फुट (Sūrya sphuṭa)</div>
           <div class="metric-val num-display" id="suryaVal">—</div>
           <div class="metric-sub" id="suryaSub">rāśi · Ujjain</div>
-          <span class="hud-tip" tabindex="0">व्याख्या<span class="hud-tip-text">स्फुट = निरयण भोगांश — मेष 0° से ग्रह की वास्तविक कोणीय स्थिति (चित्रा-पक्ष अयनांश)। सूर्य-स्फुट से ही राशि-मास व अयन गिने जाते हैं।</span></span>
+          <span class="hud-tip" tabindex="0">व्याख्या<span class="hud-tip-text">स्फुट = निरयण भोगांश — मेष 0° से ग्रह की वास्तविक कोणीय स्थिति (चुनी गणना-तह का अपना अयनांश: सूर्य-सिद्धान्त तहों में SS 3.9-3.10, दृक् में चित्रा-पक्ष)। सूर्य-स्फुट से ही राशि-मास व अयन गिने जाते हैं।</span></span>
         </div>
       </div>
 
@@ -390,8 +406,9 @@
         <div class="panel-body-collapsible">
           <div class="metric-title">4. घटी / पल / प्राण (Ghaṭī / pala / prāṇa)</div>
           <div class="metric-val num-display" id="ghatiVal">—</div>
-          <div class="metric-sub" id="ghatiSub">civil IST radix</div>
-          <span class="hud-tip" tabindex="0">व्याख्या<span class="hud-tip-text">1 दिन = 60 घटी · 1 घटी = 60 पल · 1 पल = 6 प्राण (कुल 21,600 प्राण; 'प्राण = एक श्वास' परम्परागत व्याख्या है, शरीर का माप नहीं)। यह गिनती नागरिक IST मध्यरात्रि से है।</span></span>
+          <div class="metric-sub" id="ghatiSub">civil clock (IST midnight)</div>
+          <div class="metric-sub" id="ishtaSub">इष्ट (सूर्योदय से): —</div>
+          <span class="hud-tip" tabindex="0">व्याख्या<span class="hud-tip-text">1 दिन = 60 घटी · 1 घटी = 60 पल · 1 पल = 6 प्राण (कुल 21,600 प्राण; 'प्राण = एक श्वास' परम्परागत व्याख्या है, शरीर का माप नहीं)। यह गिनती नागरिक IST मध्यरात्रि से है (civil clock); इष्ट-काल चुनी तह के सूर्योदय से है — pala = 1/60 घटी (= विनाडी), विपल = 1/60 पल।</span></span>
         </div>
       </div>
     </div>
@@ -422,6 +439,8 @@
       <button type="button" class="btn-panel-minimize" onclick="toggleSectionCollapse(this)">— Minimize</button>
       <div class="panel-body-collapsible">
         <div class="metric-title" style="margin-bottom:10px;">नौ ग्रह (9 grahas) · <span id="hudTier">गणना-तह: —</span></div>
+        <p class="tier-tag" data-tier-tag id="hudTierTag" style="margin:0 0 8px;color:#94a3ab;font-size:.7rem;overflow-wrap:anywhere">—</p>
+        <div id="hudRefusal" hidden style="margin:0 0 8px;color:#f3d2b5;font-size:.76rem"></div>
         <div class="graha-grid" id="grahaGrid"></div>
         <span class="hud-tip" tabindex="0">व्याख्या<span class="hud-tip-text">ऋण-गति = वक्री — पृथ्वी से देखने पर ग्रह उल्टा चलता दिखता है (तात्कालिक गति &lt; 0)। धन-गति = मार्गी। हर ग्रह-cell पर hover करो — उसकी अपनी व्याख्या मिलेगी।</span></span>
       </div>
@@ -499,14 +518,6 @@
         return RASHI[Math.floor(((Number(deg) % 360) + 360) % 360 / 30) % 12] || "—";
       }
 
-      function nowJd() {
-        const utc = new Date(Date.now() + TZ * 3600000);
-        const date = utc.toISOString().slice(0, 10);
-        const time = utc.toISOString().slice(11, 19);
-        if (!M || typeof M.gregorianToJulianDay !== "function") return null;
-        return { date: date, time: time, jd: M.gregorianToJulianDay(date, time, TZ) };
-      }
-
       function civilRadix() {
         const ms = (Date.now() + TZ * 3600000) % 86400000;
         return {
@@ -527,42 +538,46 @@
         return [x, y];
       }
 
-      function refreshMath() {
-        if (!M || typeof M.panchangExtended !== "function") return;
-        const stamp = nowJd();
-        if (!stamp) return;
-        let p, grahas, vels;
+      /* The strip (page-live.js) and the HUD read the same object: the strip computes one panchangExtended(jd, LAT, LON,
+         TZ, tier) a second and hands it here ('page-live' event); the HUD adds the same tier's nine rows and their
+         speeds at the same instant (M.tierGrahaRows, M.computePlanetaryVelocities(jd, { mode: tier })). The dṛk tier is
+         SiddhantaTier through math-core, refused outside 1850–2150; no foreign theory is called (PG-12). */
+      function refreshMath(detail) {
+        if (!M || !globalThis.LegacyTier) return;
+        const LT = globalThis.LegacyTier;
+        if (!detail) {
+          const last = globalThis.PageLive && globalThis.PageLive.last();
+          if (!last) return;
+          detail = { p: last, tier: last.tier, jd: last.jd };
+        }
+        const p = detail.p, tier = detail.tier, jd = detail.jd;
+        let grahas, vels;
         try {
-          p = M.panchangExtended(stamp.jd, LAT, LON, TZ);
-          grahas = M.canonicalGrahaModel ? M.canonicalGrahaModel(stamp.jd) : [];
-          vels = (typeof M.computePlanetaryVelocities === "function")
-            ? M.computePlanetaryVelocities(stamp.jd)
-            : [];
-          // गणना-तह: dṛk (VSOP87/ELP2000; Sun–Saturn within 1′ of JPL DE440, Rāhu/Ketu mean node) when the tier is loaded — same values as the panchang
-          // page; speeds by a ±0.25 d finite difference, cached per minute. Audit 2026-09-20.
-          let tier = "classical";
-          if (globalThis.DrikTier && typeof DrikTier.available === "function" && DrikTier.available() && typeof M.limbsFromSphuta === "function") {
-            try {
-              const dk = DrikTier.grahas(stamp.jd, "spica_lahiri");
-              if (dk) {
-                p = Object.assign({}, p, M.limbsFromSphuta(dk.surya, dk.candra));
-                if (!live.drikSpeed || Math.abs(stamp.jd - live.drikSpeed.jd) > 1 / 1440) {
-                  const a = DrikTier.grahas(stamp.jd - 0.25, "spica_lahiri"), b = DrikTier.grahas(stamp.jd + 0.25, "spica_lahiri"), sp = {};
-                  for (const k of Object.keys(dk)) if (typeof dk[k] === "number" && typeof a[k] === "number" && k !== "jd" && k !== "ayanamshaDeg") sp[k] = ((((b[k] - a[k]) + 540) % 360) - 180) / 0.5;
-                  live.drikSpeed = { jd: stamp.jd, sp: sp };
-                }
-                grahas = grahas.map(function (g) { const k = g.key === "chandra" ? "candra" : g.key; return typeof dk[k] === "number" ? Object.assign({}, g, { longitude: dk[k] }) : g; });
-                vels = grahas.map(function (g) { const k = g.key === "chandra" ? "candra" : g.key; const v = live.drikSpeed.sp[k]; return typeof v === "number" ? { speedDegDay: v, motionState: Math.abs(v) < 0.01 ? "stationary" : v < 0 ? "retrograde" : "direct" } : null; });
-                tier = "drik";
-              }
-            } catch (e) { /* classical path stays */ }
-          }
-          setText("hudTier", tier === "drik" ? "गणना-तह: दृक् (VSOP87/ELP)" : "गणना-तह: शास्त्रीय (सू.सि.)");
+          if (detail.refused) throw detail.refused;
+          grahas = M.tierGrahaRows(jd, tier);
+          // the speeds (three graha models, ±1 minute) are recomputed once a minute or on a new tier, not every second
+          if (!live.velCache || live.velCache.tier !== tier || Math.abs(jd - live.velCache.jd) > 1 / 1440) live.velCache = { tier: tier, jd: jd, vels: M.computePlanetaryVelocities(jd, { mode: tier }) };
+          vels = live.velCache.vels;
         } catch (err) {
-          console.error(err);
+          if (!LT.isRefusal(err)) { console.error(err); return; }
+          // the tier refuses this instant: no value of another tier or instant stays on the HUD
+          ["suryaVal", "suryaSub", "chandraVal", "chandraSub", "lagnaVal", "lagnaSub"].forEach(function (id) { setText(id, "—"); });
+          setText("ishtaSub", "इष्ट: —");
+          setText("hudTier", "गणना-तह: " + LT.name(tier) + " — इस क्षण अस्वीकृत / refused at this instant");
+          setText("hudTierTag", "स्फुट, गति और लग्न: " + LT.short(tier) + " — इस क्षण अस्वीकृत");
+          const grid = document.getElementById("grahaGrid"); if (grid) grid.replaceChildren();
+          live.p = null; live.grahas = []; live.vels = []; live.velCache = null; live.tier = tier;
+          for (let i = 0; i < trails.length; i++) trails[i] = [];
+          LT.renderRefusal(document.getElementById("hudRefusal"), err, function () { if (globalThis.PageLive) globalThis.PageLive.paint(); });
           return;
         }
-        live.jd = stamp.jd;
+        const ref = document.getElementById("hudRefusal"); if (ref) { ref.hidden = true; ref.replaceChildren(); }
+        let ay = "";
+        try { const a = M.tierAyanamsha(jd, tier); ay = " · अयनांश " + a.name + " = " + a.deg.toFixed(4) + "°"; } catch (e) { ay = ""; }
+        setText("hudTier", "गणना-तह: " + LT.name(tier));
+        setText("hudTierTag", "स्फुट, गति और लग्न: " + LT.short(tier) + ay + " · गति = ±1 मिनट का केन्द्रीय अन्तर (computePlanetaryVelocities)");
+        live.jd = jd;
+        live.tier = tier;
         live.p = p;
         live.grahas = grahas;
         live.vels = vels;
@@ -570,25 +585,26 @@
         live.pada = Number(p.nakshatraPada) || 1;
 
         const sun = grahas.find(function (g) { return g.key === "surya"; });
-        const moon = grahas.find(function (g) { return g.key === "candra" || g.key === "chandra"; });
-        const suryaDeg = sun ? Number(sun.longitude) : Number(p.surya);
-        const chandraDeg = moon ? Number(moon.longitude) : Number(p.chandra);
+        const moon = grahas.find(function (g) { return g.key === "candra"; });
+        const suryaDeg = Number(sun.longitude);
+        const chandraDeg = Number(moon.longitude);
         setText("suryaVal", suryaDeg.toFixed(4) + "°");
-        setText("suryaSub", rashiOf(suryaDeg) + " · sphuṭa");
+        setText("suryaSub", rashiOf(suryaDeg) + " · sphuṭa · " + LT.short(tier));
         setText("chandraVal", chandraDeg.toFixed(4) + "°");
-        setText("chandraSub", (p.nakshatraName || NAK[live.nak] || "—") + " · pada " + live.pada);
+        setText("chandraSub", (p.nakshatraName || NAK[live.nak] || "—") + " · pada " + live.pada + " · " + (p.paksha || "") + " " + (p.tithiName || ""));
         setText("lagnaVal", Number(p.lagna).toFixed(4) + "°");
         setText("lagnaSub", (p.lagnaRashiSa || rashiOf(p.lagna)) + " · Ujjain");
+        setText("ishtaSub", p.ishta ? "इष्ट (सूर्योदय से): " + p.ishta.ghati + " घटी " + p.ishta.pala + " पल · " + LT.short(tier) : "इष्ट: —");
 
         const grid = document.getElementById("grahaGrid");
         if (grid) {
           grid.innerHTML = grahas.slice(0, 9).map(function (g, i) {
             const v = vels[i];
-            const spd = v ? v.speedDegDay : Math.sin(Number(g.longitude) * Math.PI / 180);
-            const mot = v ? v.motionState : "";
+            const spd = v.speedDegDay;
+            const mot = v.motionState;
             const hot = HOT[g.key] ? " hot" : "";
             const tip = GRAHA_TIP[g.key] || "";
-            return "<div class='graha-cell" + hot + "' title='" + tip + "'><div class='g-name'>" + (g.sa || g.key) + "</div><div class='g-val'>" + Number(g.longitude).toFixed(3) + "°</div><div class='g-sub'>" + (v ? spd.toFixed(4) + "°/d · " + mot : "sin λ") + "</div></div>";
+            return "<div class='graha-cell" + hot + "' title='" + tip + "'><div class='g-name'>" + (g.sa || g.key) + "</div><div class='g-val'>" + Number(g.longitude).toFixed(3) + "°</div><div class='g-sub'>" + spd.toFixed(4) + "°/d · " + mot + "</div></div>";
           }).join("");
         }
 
@@ -826,7 +842,7 @@
 
       paintGhati();
       refreshMath();
-      setInterval(refreshMath, 1000);
+      window.addEventListener("page-live", function (e) { refreshMath(e.detail); });
       setInterval(paintGhati, 250);
       requestAnimationFrame(render);
     })();

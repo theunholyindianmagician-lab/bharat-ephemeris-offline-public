@@ -159,6 +159,44 @@ is the meridian (the wall, the ṣaṣṭhāṃśa, a ring read with a `disha`),
 reading's own nata, altitude and side, or azimuth; the quantity that fixes the instant then has no antara of its own.
 `reduce` gives each reading's quantities, the text's beside them at that instant, and the antara (asus; kalā).
 
+### `uttara-rekha` — your north line, checked by a star near the dhruva (SS 3.1-3.3; 12.72-12.73; `dhruva.js`)
+
+The north–south line of 3.3 (drawn from the shadow circle by the fish), checked on a star close to the dhruva: the arc
+from that line to the star at its greatest elongation east, and again at its greatest elongation west. True north is the
+midpoint of the two (`dhruva.js` `northFromElongations`) [theorem].
+
+| field | | meaning |
+|---|---|---|
+| `star` | required | the star read, one close to the dhruva |
+| `purva` | required | the greatest elongation east: `{ "day", "digamsha", "side" }` |
+| `pashcima` | required | the greatest elongation west: `{ "day", "digamsha", "side" }` |
+| `sigma` | required | the uncertainty (1σ) of one reading, `{ "amsha", "kala", "vikala" }`, more than zero |
+
+Each reading carries its own `day` (the civil day of the sunrise before); the record has no `day` of its own and counts
+as of the later one. `digamsha` is the arc from the line to the star, `{ "amsha", "kala", "vikala" }` read to the whole
+vikalā, at most 90°; `side` is `"purva"` (east of the line) or `"pashcima"` (west). The eastern reading must lie east of
+the western one, and less than half a circle from it.
+
+### `ayananta-yugma` — the two solstice noons (SS 3.11, 2.28; `dhruva.js`)
+
+| field | | meaning |
+|---|---|---|
+| `karka` | required | the noon nearest the karka solstice (the Sun furthest north): `{ "day", "natamsha", "disha" }` |
+| `makara` | required | the noon nearest the makara solstice (the Sun furthest south): `{ "day", "natamsha", "disha" }` |
+| `sigma` | required | the uncertainty (1σ) of one reading, `{ "amsha", "kala", "vikala" }`, more than zero |
+
+Each noon carries its own `day`; the record has none of its own and counts as of the later one. `natamsha` is the Sun's
+noon zenith distance, read to the whole vikalā, below 90°; `disha` is `"S"` or `"N"`, the side of the zenith the Sun
+stood on. The two days differ, and at the makara noon the Sun stands further south than at the karka noon. With south
+of the zenith positive, ε is half the difference (makara − karka) and the latitude half the sum
+(`dhruva.js` `fromSolsticeZenithDistances`) [theorem].
+
+These two are the frame kinds. Their reduction is geometric and exact (whole vikalā in, half vikalā out), with
+σ = √(σ² + σ²) ÷ 2 from one reading's σ. Refraction does not cancel in these readings and nothing removes it. `reduce`
+gives them as a **preview** beside the text's ε (arc of 1397/3438, SS 2.28, the default) and the ledger's place: nothing
+is applied and no constant is replaced; using a measured value is the owner's explicit choice, made elsewhere. The text
+tier is complete without any observation.
+
 ## What the certifier refuses
 
 `certify(ledger or file, { allowSynthetic })` returns `{ ok, reasons, records }`, the records only when nothing is
@@ -196,6 +234,8 @@ is `[measured]`, with the text's prediction beside it and the antara (observed �
 | `candra-darshana` | seen or not | the kālāṃśa at the text's sunset (or sunrise) and its verdict at twelve | agree or not; the kālāṃśa the sky's limit lies between |
 | `candra-yoga` | asus of the turn from sunrise | the instant the text's Moon reaches the dhruvaka | asus, vināḍī, and the Moon's place in kalā by Jyotirmīmāṃsā §14 (prāṇas × the Moon's motion in a turn ÷ 21,600) |
 | `yantra` | the reading's nata, declination, altitude, azimuth, zenith distance or longitude | the text's Sun (or star) at the instant the bowl or the reading fixes (`yantra.js`) | asus; kalā; the gola and disha agree or not |
+| `uttara-rekha` | where true north lies on the owner's line, ± σ/√2 — a preview | — (the text gives no value for a drawn line) | vikalā, east (purva) positive |
+| `ayananta-yugma` | ε and the latitude, each ± σ/√2 — a preview, applied to nothing | ε = arc of 1397/3438 (SS 2.28); the site's latitude | kalā |
 | `ganita` | — | the sealed values, with the entries that cite them | written first or not |
 
 Two things the reduction reports and does not remove:

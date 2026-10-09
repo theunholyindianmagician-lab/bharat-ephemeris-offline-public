@@ -1,0 +1,311 @@
+{
+ "format": "parampara-samskara/1",
+ "generatedBy": "node scripts/parampara-samskara.cjs --write (a rerun must reproduce this file byte for byte: parampara.test.js)",
+ "tag": "[paramparā]",
+ "inputs": {
+  "readings": "d77aaf00de2ece8f3072a33862939b5f149fbfef5ef69595c61a1f38ddcdb383",
+  "eclipses": "30415976202869c3619cb16bb10112b7d09809b03090398e525a6be7c183022b",
+  "registryRows": "4c76f34a2bab0037aae1ca28c2b6b28dd2fdf2d738ddc3279df27e3a5214f476"
+ },
+ "epochKali": 1652000,
+ "julian": "1422-01-23",
+ "vara": "śukravāra",
+ "site": {
+  "registry": "sites.ashvatthagrama",
+  "palabha": {
+   "angula": 2,
+   "vyangula": 18
+  },
+  "deshantaraVinadi": 20,
+  "deshantaraDegrees": -2
+ },
+ "params": [
+  "moon.epoch",
+  "node.epoch"
+ ],
+ "held": {
+  "sun.epoch": "shadows fix it; six contacts cannot separate a common shift of Sun, Moon and node",
+  "rates": "one epoch: no rate is identifiable",
+  "moonApogee.epoch": "unseen by these records"
+ },
+ "fits": [
+  {
+   "man_padas": 7,
+   "tag": "[paramparā]",
+   "rows": 21,
+   "observations": 17,
+   "textNone": [
+    {
+     "id": "SDip-77",
+     "contact": "moksha",
+     "why": "ambiguous reading: not a timed row"
+    }
+   ],
+   "params": {
+    "moon.epoch": {
+     "delta": -8.37,
+     "sigma": 1.04,
+     "status": "fitted",
+     "unit": "arcmin"
+    },
+    "node.epoch": {
+     "delta": -73.54,
+     "sigma": 6.72,
+     "status": "fitted",
+     "unit": "arcmin"
+    }
+   },
+   "frozen": [],
+   "rejected": [
+    {
+     "id": "SDip-81-timed",
+     "normalized": 4.33,
+     "round": 1
+    }
+   ],
+   "chi2PerDof": 2.32,
+   "inequalitiesViolated": {
+    "before": 2,
+    "after": 2
+   },
+   "used": [
+    "SDip-72-timed",
+    "SDip-74-timed",
+    "SDip-79-timed",
+    "SDip-80-timed",
+    "SDip-81-timed",
+    "SDip-69-seen",
+    "SDip-70-seen",
+    "SDip-72-seen",
+    "SDip-74-seen",
+    "SDip-77-seen",
+    "SDip-79-seen",
+    "SDip-80-seen",
+    "SDip-81-seen",
+    "SDip-83-seen",
+    "SDip-84-seen",
+    "SDip-85a-seen",
+    "SDip-85b-seen"
+   ]
+  },
+  {
+   "man_padas": 6.5,
+   "tag": "[paramparā]",
+   "rows": 23,
+   "observations": 17,
+   "textNone": [
+    {
+     "id": "SDip-77",
+     "contact": "moksha",
+     "why": "ambiguous reading: not a timed row"
+    }
+   ],
+   "params": {
+    "moon.epoch": {
+     "delta": -6.78,
+     "sigma": 1.02,
+     "status": "fitted",
+     "unit": "arcmin"
+    },
+    "node.epoch": {
+     "delta": -76.52,
+     "sigma": 6.12,
+     "status": "fitted",
+     "unit": "arcmin"
+    }
+   },
+   "frozen": [],
+   "rejected": [],
+   "chi2PerDof": 6.06,
+   "inequalitiesViolated": {
+    "before": 2,
+    "after": 2
+   },
+   "used": [
+    "SDip-72-timed",
+    "SDip-74-timed",
+    "SDip-79-timed",
+    "SDip-80-timed",
+    "SDip-81-timed",
+    "SDip-69-seen",
+    "SDip-70-seen",
+    "SDip-72-seen",
+    "SDip-74-seen",
+    "SDip-77-seen",
+    "SDip-79-seen",
+    "SDip-80-seen",
+    "SDip-81-seen",
+    "SDip-83-seen",
+    "SDip-84-seen",
+    "SDip-85a-seen",
+    "SDip-85b-seen"
+   ]
+  },
+  {
+   "man_padas": 7.5,
+   "tag": "[paramparā]",
+   "rows": 21,
+   "observations": 17,
+   "textNone": [
+    {
+     "id": "SDip-77",
+     "contact": "moksha",
+     "why": "ambiguous reading: not a timed row"
+    }
+   ],
+   "params": {
+    "moon.epoch": {
+     "delta": -10.65,
+     "sigma": 1.06,
+     "status": "fitted",
+     "unit": "arcmin"
+    },
+    "node.epoch": {
+     "delta": -70.78,
+     "sigma": 8.49,
+     "status": "fitted",
+     "unit": "arcmin"
+    }
+   },
+   "frozen": [],
+   "rejected": [
+    {
+     "id": "SDip-81-timed",
+     "normalized": 4.7,
+     "round": 1
+    }
+   ],
+   "chi2PerDof": 2.53,
+   "inequalitiesViolated": {
+    "before": 2,
+    "after": 1
+   },
+   "used": [
+    "SDip-72-timed",
+    "SDip-74-timed",
+    "SDip-79-timed",
+    "SDip-80-timed",
+    "SDip-81-timed",
+    "SDip-69-seen",
+    "SDip-70-seen",
+    "SDip-72-seen",
+    "SDip-74-seen",
+    "SDip-77-seen",
+    "SDip-79-seen",
+    "SDip-80-seen",
+    "SDip-81-seen",
+    "SDip-83-seen",
+    "SDip-84-seen",
+    "SDip-85a-seen",
+    "SDip-85b-seen"
+   ]
+  }
+ ],
+ "leaveOneOut": {
+  "rule": "each timed eclipse held out whole (its contacts and its seen row); the robust fit on the rest; text − record and held-out corrected − record, in ghaṭikā",
+  "rows": [
+   {
+    "eclipse": "SDip-72",
+    "contact": "sparsha",
+    "textGhati": 0.69,
+    "correctedGhati": 0.35,
+    "heldOutFit": {
+     "moonArcmin": -8.47,
+     "nodeArcmin": -73.19
+    },
+    "setAsideInFullFit": false
+   },
+   {
+    "eclipse": "SDip-74",
+    "contact": "sparsha",
+    "textGhati": -1.79,
+    "correctedGhati": -0.74,
+    "heldOutFit": {
+     "moonArcmin": -7.37,
+     "nodeArcmin": -60.36
+    },
+    "setAsideInFullFit": false
+   },
+   {
+    "eclipse": "SDip-74",
+    "contact": "moksha",
+    "textGhati": 0.3,
+    "correctedGhati": 0.2,
+    "heldOutFit": {
+     "moonArcmin": -7.37,
+     "nodeArcmin": -60.36
+    },
+    "setAsideInFullFit": false
+   },
+   {
+    "eclipse": "SDip-79",
+    "contact": "moksha",
+    "textGhati": -0.78,
+    "correctedGhati": -0.25,
+    "heldOutFit": {
+     "moonArcmin": -8.03,
+     "nodeArcmin": -73.47
+    },
+    "setAsideInFullFit": false
+   },
+   {
+    "eclipse": "SDip-80",
+    "contact": "sparsha",
+    "textGhati": -0.45,
+    "correctedGhati": 0.5,
+    "heldOutFit": {
+     "moonArcmin": -13.43,
+     "nodeArcmin": -77.9
+    },
+    "setAsideInFullFit": false
+   },
+   {
+    "eclipse": "SDip-81",
+    "contact": "moksha",
+    "textGhati": -2.5,
+    "correctedGhati": -1.96,
+    "heldOutFit": {
+     "moonArcmin": -8.37,
+     "nodeArcmin": -73.54
+    },
+    "setAsideInFullFit": true
+   }
+  ],
+  "meanTextGhati": 1.08,
+  "meanCorrectedGhati": 0.67,
+  "withoutSetAside": {
+   "meanTextGhati": 0.8,
+   "meanCorrectedGhati": 0.41,
+   "n": 5
+  },
+  "improved": 5,
+  "n": 6
+ },
+ "offered": {
+  "label": "Sūrya-Siddhānta + Parameśvara's saṃskāra",
+  "labelSa": "सूर्य-सिद्धान्त + परमेश्वर-संस्कार",
+  "caption": "The text's own model, with the Moon's and the node's mean places moved by -8.37 ± 1.04′ and -73.54 ± 6.72′ at Kali day 1652000 (1422-01-23 Julian) and carried at the text's own rates; fitted by this engine to Parameśvara's recorded eclipses (Siddhāntadīpikā vv.69-85, quoted in the Jyotirmīmāṃsā pp.33-34), a man's height taken as 7 of his own padas [unverified], the Sun held. Held out one eclipse at a time, the mean error of the timed contacts goes from 1.08 to 0.67 ghaṭikā. Only the Moon and the node are moved; every other number is the text's. The default of the text tier; the plain Sūrya-Siddhānta is one labelled choice away.",
+  "corrects": [
+   "moon",
+   "node"
+  ],
+  "offered": true,
+  "default": true,
+  "rule": "owner, 2026-10-08 (decision a): Parameśvara's saṃskāra is the primary default of the text tier; the plain Sūrya-Siddhānta is the secondary labelled choice, exactly the text; the saṃskāra corrects only the Moon and the node. It is the default only while its leave-one-out test improves on the plain text (offered and default are both that test).",
+  "choices": [
+   {
+    "id": "ss+parameshvara",
+    "label": "Sūrya-Siddhānta + Parameśvara's saṃskāra",
+    "labelSa": "सूर्य-सिद्धान्त + परमेश्वर-संस्कार",
+    "default": true
+   },
+   {
+    "id": "ss",
+    "label": "Sūrya-Siddhānta",
+    "labelSa": "सूर्य-सिद्धान्त",
+    "default": false,
+    "what": "the text exactly as it stands"
+   }
+  ]
+ }
+}

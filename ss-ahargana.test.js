@@ -80,3 +80,64 @@ test('[decision 31] exactDay: the true civil day of a lunisolar date by the true
   assert.ok(n > 200 && monthOff > 5, `${monthOff} of ${n} where the text's count is a month off`);
   assert.throws(() => A.exactDay({ kaliYearsGone: 5127, month: 'Caitra', tithi: 1 }), TypeError);
 });
+
+// ── the lunisolar year (2026-10-08, owner decision D3: amānta months with adhika/kṣaya; years from the nija Caitra) ─────
+const ymd = (t) => { const c = K.civilFromKaliDay(Math.floor(t), 'gregorian'); return `${c.year}-${String(c.month).padStart(2, '0')}-${String(c.day).padStart(2, '0')}`; };
+const label = (m) => (m.adhika ? 'adhika ' : '') + m.name + (m.kshaya ? ` (kṣaya, ${m.kshayaDropped} dropped)` : '');
+function checkYear(y) {
+  assert.equal(Math.round(4320000 * y.start / 1577917828), y.k, 'the count exactDay uses');
+  assert.ok(y.months.length === 12 || y.months.length === 13, `${y.k}: ${y.months.length} months`);
+  assert.equal(y.months[0].start, y.start); assert.equal(y.months.at(-1).end, y.end);
+  assert.equal(y.months[0].name, 'Caitra'); assert.equal(y.months[0].adhika, false, 'the year opens with the nija Caitra');
+  for (let i = 1; i < y.months.length; i++) assert.equal(y.months[i].start, y.months[i - 1].end, 'contiguous');
+  for (const m of y.months) {
+    assert.ok(m.end - m.start > 29 && m.end - m.start < 30, `${y.k} ${m.name}: ${m.end - m.start}`);
+    assert.ok(m.fullMoon > m.start && m.fullMoon < m.end); assert.equal(typeof m.fullMoonNakshatra, 'string');
+    assert.ok(Number.isFinite(m.marginMinutes) && m.marginMinutes >= 0);
+    const inside = y.sankrantis.filter((s) => s.at >= m.start && s.at < m.end).length;
+    assert.equal(m.adhika, inside === 0, `${y.k} ${label(m)}: adhika ⇔ no saṅkrānti`);
+    assert.equal(m.kshaya, inside >= 2, `${y.k} ${label(m)}: kṣaya ⇔ two`);
+  }
+  assert.equal(y.sankrantis.length, 12);
+  y.sankrantis.forEach((s, i) => { assert.equal(s.index, i); assert.ok(s.at >= y.start && s.at < y.end); if (i) assert.ok(s.at > y.sankrantis[i - 1].at); });
+  assert.equal(y.shakaGone, y.k - 3179); assert.equal(y.vikramaGone, y.k - 3044);
+  assert.match(y.yearStartRule, /nija Caitra/); assert.match(y.yearStartRule, /unverified convention/);
+}
+
+test('[measured] Kali year 5127 (2026-27): from the nija Caitra new moon of 19 March 2026, thirteen months with adhika Jyeṣṭha from 17 May; Śaka 1948, Vikrama 2083', () => {
+  const y = A.yearOfKali(5127, P);
+  checkYear(y);
+  assert.equal(ymd(y.start), '2026-03-19'); assert.equal(ymd(y.end), '2027-04-07');
+  assert.equal(y.shakaGone, 1948); assert.equal(y.vikramaGone, 2083);
+  assert.equal(A.KALI_SHAKA, 3179); assert.equal(A.KALI_VIKRAMA, 3044);
+  assert.deepEqual(y.months.map(label), ['Caitra', 'Vaiśākha', 'adhika Jyeṣṭha', 'Jyeṣṭha', 'Āṣāḍha', 'Śrāvaṇa', 'Bhādrapada', 'Āśvina', 'Kārttika', 'Mārgaśīrṣa', 'Pauṣa', 'Māgha', 'Phālguna']);
+  assert.equal(ymd(y.months[2].start), '2026-05-17');
+  assert.ok(y.mesha > y.start && y.mesha < y.months[0].end, 'the Meṣa saṅkrānti falls in the first month');
+  // the same months as lunarMonth gives day by day
+  for (const m of y.months) { const l = P.lunarMonth(m.start + 1); assert.equal(l.name, m.name); assert.equal(l.adhika, m.adhika); assert.equal(l.kshaya, m.kshaya); }
+});
+
+test('[measured] Kali year 5129 (2028-29): adhika Kārttika, a kṣaya Mārgaśīrṣa dropping Pauṣa, and a final adhika Caitra that closes the year (the convention, labelled)', () => {
+  const y = A.yearOfKali(5129, P);
+  checkYear(y);
+  assert.equal(y.months.length, 13);
+  assert.deepEqual(y.months.map(label), ['Caitra', 'Vaiśākha', 'Jyeṣṭha', 'Āṣāḍha', 'Śrāvaṇa', 'Bhādrapada', 'Āśvina', 'adhika Kārttika', 'Kārttika',
+    'Mārgaśīrṣa (kṣaya, Pauṣa dropped)', 'Māgha', 'Phālguna', 'adhika Caitra']);
+  assert.equal(ymd(y.months[7].start), '2028-10-18'); assert.equal(ymd(y.months[9].start), '2028-12-16'); assert.equal(ymd(y.months[12].start), '2029-03-15');
+  assert.ok(y.months[9].marginMinutes < 30, `the kṣaya rests on a saṅkrānti ${y.months[9].marginMinutes.toFixed(0)} minutes from the new moon`);
+  const next = A.yearOfKali(5130, P);
+  assert.equal(next.start, y.end, 'the next year starts where this one ends'); checkYear(next);
+});
+
+test('lunarYear(t) is the year holding t; consecutive years tile the time line, 1990-2010', () => {
+  let y = A.lunarYear(K.kaliDayFromCivil({ calendar: 'gregorian', year: 1990, month: 6, day: 1 }), P);
+  for (let i = 0; i < 20; i++) {
+    checkYear(y);
+    for (const t of [y.start, y.start + 100.3, y.end - 1e-3]) assert.equal(A.lunarYear(t, P).k, y.k);
+    const n = A.yearOfKali(y.k + 1, P);
+    assert.equal(n.start, y.end); y = n;
+  }
+  assert.throws(() => A.yearOfKali(5127.5, P), TypeError);
+  assert.throws(() => A.yearOfKali(5127, {}), TypeError);
+  assert.throws(() => A.lunarYear(NaN, P), TypeError);
+});

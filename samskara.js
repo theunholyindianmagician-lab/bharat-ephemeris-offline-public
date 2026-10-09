@@ -1,7 +1,9 @@
-/* samskara.js — संस्कार: correcting the text's OWN numbers from the owner's OWN observations, the way the tradition did —
- * by bīja (a small change to a revolution number) and dhruva (a new mean place at a declared epoch) — and never by
- * borrowing a number. Every observation enters through the text's own forward model; every correction is a change to one
- * of the text's own parameters; nothing is computed, seeded or refereed by any modern ephemeris or table.
+/* samskara.js — संस्कार: correcting the text's OWN numbers from recorded observations, the way the tradition did — the
+ * paramparā's own records first (the dated eclipses of Parameśvara and Nīlakaṇṭha, corpus/parampara/registry.json →
+ * corpus/jyotirmimamsa/readings.json), the owner's own when he gives them — by bīja (a small change to a revolution
+ * number) and dhruva (a new mean place at a declared epoch) — and never by borrowing a number. Every observation enters
+ * through the text's own forward model; every correction is a change to one of the text's own parameters; nothing is
+ * computed, seeded or refereed by any modern ephemeris or table.
  *
  * THE PARAMETERS (each switchable by name; the fit moves only those named in opts.params):
  *   <body>.rev          revolutions in a yuga: sun 4,320,000, moon 57,753,336, moonApogee 488,203, node 232,238 (westward)
@@ -60,9 +62,13 @@
  * as bhūtasaṅkhyā words from a lexicon the caller builds from the text's own verse words (lexiconFromVerses), so no word
  * here is invented.
  *
- * Tags: a result is "[synthetic]" whenever any record says synthetic (and every synthetic record must name its generator);
- * "[measured]" only when every record is the owner's. The model fitted is the text's, not the sky's: the corrections
- * describe how the owner's sky differs from the text within the text's own form of motion.
+ * Tags, from each record's `source` (owner 2026-10-08: "use those observations as data"): a result is "[synthetic]"
+ * whenever any record says synthetic (and every synthetic record must name its generator); "[paramparā]" when every record
+ * is a historical one (source "parampara": the ancestors' recorded sightings, each with its locus); "[measured]" only when
+ * every record is the owner's (source "owner", or no source — the ledger's records); "[paramparā+measured]" when both are
+ * pooled, which happens only on request (opts.pool: true) — by default the two are never mixed. The model fitted is the
+ * text's, not the sky's: the corrections describe how the recorded sky differs from the text within the text's own form
+ * of motion.
  * THE DEFAULT PATH (owner, 2026-10-07: "use everything that aligns with 100% accuracy"): `correct(observations)` runs
  * `robust` — the least-squares fit, with any record beyond 4σ set aside one at a time and named — which uses every record
  * as the fit does and, like the median, is not moved by one wild record. `method: "median"` runs `dhruvaMedian` —
@@ -348,7 +354,25 @@
   }
 
   // ── observations → equations ────────────────────────────────────────────────────────────────────────
-  const COMMON = ["id", "kind", "synthetic", "generator", "observer", "note"];
+  const COMMON = ["id", "kind", "synthetic", "generator", "observer", "note", "source", "locus"];
+  // where a record comes from: the paramparā's recorded sightings (with a locus in a text) or the owner's own ledger
+  const SOURCES = Object.freeze(["parampara", "owner"]);
+  const sourceOf = (o) => (o && o.source !== undefined ? o.source : "owner");
+  /** The tag of a set of records (see the header): synthetic overrides; then paramparā, owner, or both pooled. */
+  function tagOf(observations) {
+    if (observations.some((o) => o.synthetic)) return "[synthetic]";
+    const s = new Set(observations.map(sourceOf));
+    return s.size === 2 ? "[paramparā+measured]" : s.has("parampara") ? "[paramparā]" : "[measured]";
+  }
+  /** The paramparā's records and the owner's are fitted together only when the caller asks (opts.pool: true). */
+  function checkSources(observations, opts) {
+    for (const o of observations) {
+      if (!o || o.source === undefined) continue;
+      if (!SOURCES.includes(o.source)) throw new RangeError(`samskara: ${o.id}.source is "parampara" or "owner"`);
+      if (o.source === "parampara" && !(typeof o.locus === "string" && o.locus)) throw new RangeError(`samskara: ${o.id} is a paramparā record and must name its locus in a text`);
+    }
+    if (new Set(observations.map(sourceOf)).size === 2 && opts.pool !== true) throw new RangeError("samskara: the paramparā's records and the owner's are pooled only on request (opts.pool: true); by default each is fitted on its own");
+  }
   const FIELDS = Object.freeze({
     chaya: ["t", "day", "site", "palabha", "chaya", "dir", "ayana", "sigmaVyangula"],
     "surya-sayana": ["t", "lambda", "sigma"],
@@ -631,6 +655,7 @@
    *  shared), scales ({ name: scale }), freezeAbove (1), conditionMax (1e12), maxIter (20), bija (true: both forms). */
   function samskara(observations, opts = {}) {
     const canon = canonOf(opts.canon);
+    if (Array.isArray(observations)) checkSources(observations, opts);
     const eqs = equationsOf(observations, canon);
     const times = eqs.map((e) => e.t).filter(Number.isFinite);
     const epoch = opts.epoch ?? Math.round(times.reduce((a, b) => a + b, 0) / times.length);
@@ -698,7 +723,7 @@
     }
     const nEq = rows.filter((r) => !r.ineq).length, dof = nEq - free.length;
     const out = {
-      tag: synthetic ? "[synthetic]" : "[measured]", synthetic, canon: canon.name, canonSource: canon.source, epoch,
+      tag: tagOf(observations), synthetic, canon: canon.name, canonSource: canon.source, epoch,
       observations: observations.length, rows: rows.length, iterations: iter, chi2: after.chi2, dof, chi2PerDof: dof > 0 ? after.chi2 / dof : null,
       params: {}, free: free.slice(), frozen: F.frozen, spectrum: F.spectrum, residuals: { before, after },
       covariance: { params: free.slice(), matrix: cov }, deltas: { ...x },
@@ -898,6 +923,8 @@
       out.push(...fromVedha(file, { sigmaVyangula: opts.sigmaVyangula ?? 1 }));
     }
     for (const r of chayaRecs) if (r.kind !== "madhyahna") skipped.push({ id: r.id, why: `${r.kind}: reduced by ss-chaya.js for the site and the clock (tier a), not a parameter of the motion` });
+    for (const e of Lf.entries) if ((V.FRAME_KINDS || ["uttara-rekha", "ayananta-yugma"]).includes(e.record.kind))
+      skipped.push({ id: e.record.id, why: `${e.record.kind}: a frame record (true north, or ε and the latitude from the solstice noons), reduced by vedha-lekha.js and shown beside the text's values; not a parameter of the motion` });
     const ecl = new Map();
     for (const x of red.records) {
       const r = src.get(x.id);
@@ -941,6 +968,7 @@
    *  least ten years apart (opts.epochs [[from, to], [from, to]], or the records split at their middle time): then
    *  Δbhagaṇa = the medians' slope × the yuga's civil days ÷ 21,600, whole (form a), and the Śakābda form (b). */
   function dhruvaMedian(observations, opts = {}) {
+    if (Array.isArray(observations)) checkSources(observations, opts);
     const canon = canonOf(opts.canon), eqs = equationsOf(observations, canon);
     const times = eqs.map((e) => e.t).filter(Number.isFinite);
     const epoch = opts.epoch ?? Math.round(median(times));
@@ -1000,7 +1028,7 @@
       } else entry.rate = { determined: false, why: "a rate needs two epochs at least ten years apart, with three records in each (design §4.5)" };
       bodies[b] = entry;
     }
-    return { method: "median", tag: observations.some((o) => o.synthetic) ? "[synthetic]" : "[measured]", canon: canon.name, epoch, bodies, unused,
+    return { method: "median", tag: tagOf(observations), canon: canon.name, epoch, bodies, unused,
       note: "the dhruva is the median residual in whole kalā (sky − text) at the epoch; the true-place residual is applied to the mean place [reading]" };
   }
   /** The robust fit: the least-squares fit, then the one record whose residual is worst beyond opts.reject σ (4) is set
@@ -1149,5 +1177,6 @@
     wholeMeanArcsec, sakabdaMinutes, sakabdaArcsec, chainOf, simplestBetween, ratEq,
     katapayadiOf, lexiconFromVerses, bhutasankhya,
     fromVedha, synthesize, prng, daysOf, fromLedger, dhruvaMedian, robust, correct,
+    SOURCES, tagOf,
   });
 });

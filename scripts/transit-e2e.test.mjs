@@ -6,9 +6,12 @@ const oracle = JSON.parse(fs.readFileSync(new URL('../test-fixtures/transit-inde
 const keys = Object.keys(oracle.uiFramePlanets);
 const circularDelta = (a, b) => { const d = Math.abs(a - b) % 360; return Math.min(d, 360 - d); };
 
+// The page's dṛk tier (Modern Bhāratīya, the owner's own series) is the absolute frame frozen in the fixture; the
+// planet-minus-Sun elongations from an independent engine (Mangal) are the referee. The tier is chosen by the page's
+// tier select (#tier, three choices since 2026-10-08); the retired 'calibrated' mode is gone.
 async function renderAndRead(page) {
   await page.goto('http://127.0.0.1:8877/shunyabheda.html', { waitUntil: 'domcontentloaded' });
-  await page.selectOption('#engine-mode', oracle.uiMode);
+  await page.selectOption('#tier', oracle.uiMode);
   await page.evaluate(({ date, time }) => {
     const d = document.getElementById('gochara-date');
     const t = document.getElementById('gochara-time');
@@ -17,7 +20,10 @@ async function renderAndRead(page) {
     t.dispatchEvent(new Event('input', { bubbles: true }));
   }, oracle.civilInput);
   await page.click('#compute');
-  await page.waitForFunction(expected => document.querySelectorAll('#gochara-matrix-body tr').length === expected, keys.length);
+  // the rows of THIS transit (the page computed the device's "now" before the inputs were set)
+  await page.waitForFunction(({ expected, jd }) => document.querySelectorAll('#gochara-matrix-body tr').length === expected
+    && (document.getElementById('gochara-jd-value').textContent || '').startsWith(jd)
+    && /COMPUTATION COMPLETE/.test(document.getElementById('status').textContent), { expected: keys.length, jd: oracle.jdUt.toFixed(6) });
   return page.evaluate(() => {
     const longitudes = {};
     const names = { 'सूर्य':'surya', 'चन्द्र':'candra', 'मङ्गल':'mangala', 'मंगल':'mangala', 'बुध':'budha', 'गुरु':'guru', 'शुक्र':'shukra', 'शनि':'shani', 'राहु':'rahu', 'केतु':'ketu' };

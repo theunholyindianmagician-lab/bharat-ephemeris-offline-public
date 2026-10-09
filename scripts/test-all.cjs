@@ -6,7 +6,7 @@ const suites = ['precision.test.mjs', 'math-core.test.js', 'lattice-invariants.t
   'engine-mode.test.js', 'full-vsop.test.js', 'elp-moon.test.js', 'dop853-nbody.test.js', 'ias15.test.js',
   'lunar-euler-libration.test.js', 'eop-first-principles.test.js',
   'katapayadi.test.js', 'kala-dvara.test.js', 'parahita-madhyama.test.js', 'dhruva.test.js',
-  'ss-numbers.test.js', 'sphuta.test.js', 'panchanga.test.js', 'dasha.test.js', 'muhurta.test.js', 'utsava.test.js', 'gurutva.test.js', 'gurutva-purna.test.js', 'spanda-ganita.test.js', 'pn2-schwarzschild.test.js', 'granthas.test.js', 'ss-chapters.test.js', 'ss-udaya.test.js', 'ss-graha.test.js', 'ss-chaya.test.js', 'ss-grahana.test.js', 'ss-drishya.test.js', 'vedha-lekha.test.js', 'samskara.test.js', 'ss-ahargana.test.js', 'ss-parilekha.test.js', 'ss-madhava.test.js', 'candravakya.test.js', 'yantra.test.js',
+  'ss-numbers.test.js', 'sphuta.test.js', 'panchanga.test.js', 'dasha.test.js', 'muhurta.test.js', 'utsava.test.js', 'gurutva.test.js', 'gurutva-purna.test.js', 'spanda-ganita.test.js', 'pn2-schwarzschild.test.js', 'granthas.test.js', 'ss-chapters.test.js', 'ss-udaya.test.js', 'ss-graha.test.js', 'ss-chaya.test.js', 'ss-grahana.test.js', 'ss-drishya.test.js', 'vedha-lekha.test.js', 'samskara.test.js', 'ss-ahargana.test.js', 'deep-time.test.js', 'tier-unity.test.js', 'drik-bharatiya.test.js', 'ss-parilekha.test.js', 'ss-madhava.test.js', 'candravakya.test.js', 'yantra.test.js',
   'metric-time-integrator.test.js', 'variational-stm-solver.test.js',
   'sovereign-master-physics.test.js',
   'sprint-upgrades.test.js', 'library-nav-enhancer.test.js', 'library-pi-verse.test.js',

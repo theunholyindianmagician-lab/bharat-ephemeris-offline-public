@@ -165,7 +165,7 @@ Pluto:{OrbitalPeriod:90560}};e.PlanetOrbitalPeriod=function(a){if(a in aa)return
 [2.2637073E-4,.72518687029,529.6909650946],[1.1959076E-4,1.7504339214,984.6003316219],[2.5620756E-4,5.25656086672,380.12776796]],[[.01479896629,3.67205697578,74.7815985673]]]],Neptune:[[[[5.31188633046,0,0],[.0179847553,2.9010127389,38.1330356378],[.01019727652,.48580922867,1.4844727083],[.00124531845,4.83008090676,36.6485629295],[4.2064466E-4,5.41054993053,2.9689454166],[3.7714584E-4,6.09221808686,35.1640902212],[3.3784738E-4,1.24488874087,76.2660712756],[1.6482741E-4,7.727998E-5,491.5579294568],
 [9.198584E-5,4.93747051954,39.6175083461],[8.99425E-5,.27462171806,175.1660598002]],[[38.13303563957,0,0],[1.6604172E-4,4.86323329249,1.4844727083],[1.5744045E-4,2.27887427527,38.1330356378]]],[[[.03088622933,1.44104372644,38.1330356378],[2.7780087E-4,5.91271884599,76.2660712756],[2.7623609E-4,0,0],[1.5355489E-4,2.52123799551,36.6485629295],[1.5448133E-4,3.50877079215,39.6175083461]]],[[[30.07013205828,0,0],[.27062259632,1.32999459377,38.1330356378],[.01691764014,3.25186135653,36.6485629295],[.00807830553,
 5.18592878704,1.4844727083],[.0053776051,4.52113935896,35.1640902212],[.00495725141,1.5710564165,491.5579294568],[.00274571975,1.84552258866,175.1660598002],[1.201232E-4,1.92059384991,1021.2488945514],[.00121801746,5.79754470298,76.2660712756],[.00100896068,.3770272493,73.297125859],[.00135134092,3.37220609835,39.6175083461],[7.571796E-5,1.07149207335,388.4651552382]]]]};e.DeltaT_EspenakMeeus=sa;e.DeltaT_JplHorizons=function(a){return sa(Math.min(a,17*365.24217))};var Wb=sa;e.SetDeltaTFunction=function(a){Wb=
-a};var O=function(a){if(a instanceof O)this.date=a.date,this.ut=a.ut,this.tt=a.tt;else if(a instanceof Date&&Number.isFinite(a.getTime()))this.date=a,this.ut=(a.getTime()-dd.getTime())/864E5,this.tt=Vb(this.ut);else if(Number.isFinite(a))this.date=new Date(dd.getTime()+864E5*a),this.ut=a,this.tt=Vb(this.ut);else throw"Argument must be a Date object, an AstroTime object, or a numeric UTC Julian date.";};O.FromTerrestrialTime=function(a){for(var b=new O(a);;){var c=a-b.tt;if(1E-12>Math.abs(c))return b;
+a};var O=function(a){if(a instanceof O)this.date=a.date,this.ut=a.ut,this.tt=a.tt;else if(a instanceof Date&&Number.isFinite(a.getTime()))this.date=a,this.ut=(a.getTime()-dd.getTime())/864E5,this.tt=Vb(this.ut);else if(Number.isFinite(a))this.date=new Date(dd.getTime()+864E5*a),this.ut=a,this.tt=Vb(this.ut);else throw"Argument must be a Date object, an AstroTime object, or a numeric UTC Julian date.";};O.FromTerrestrialTime=function(a){for(var b=new O(a),i=0;;++i){var c=a-b.tt;if(1E-12>Math.abs(c)||i>=20)return b;
 b=b.AddDays(c)}};O.prototype.toString=function(){return this.date.toISOString()};O.prototype.AddDays=function(a){return new O(this.ut+a)};e.AstroTime=O;e.MakeTime=v;var $a;e.e_tilt=da;e.CalcMoonCount=0;var ed=function(a,b,c,d,f,g){this.elat=a;this.elon=b;this.mlat=c;this.mlon=d;this.dist_km=f;this.diam_deg=g};e.LibrationInfo=ed;e.Libration=function(a){var b=v(a);a=b.tt/36525;var c=a*a,d=c*a,f=c*c,g=ea(b);b=g.geo_eclip_lon;var h=g.geo_eclip_lat;g=g.distance_au*e.KM_PER_AU;var l=1.543*e.DEG2RAD,k=e.DEG2RAD*
 Ga(93.272095+483202.0175233*a-.0036539*c-d/3526E3+f/86331E4),n=e.DEG2RAD*Ga(125.0445479-1934.1362891*a+.0020754*c+d/467441-f/60616E3),p=e.DEG2RAD*Ga(357.5291092+35999.0502909*a-1.536E-4*c+d/2449E4),q=e.DEG2RAD*Ga(134.9633964+477198.8675055*a+.0087414*c+d/69699-f/14712E3);d=e.DEG2RAD*Ga(297.8501921+445267.1114034*a-.0018819*c+d/545868-f/113065E3);c=1-.002516*a-7.4E-6*c;var t=b-n;f=Math.atan2(Math.sin(t)*Math.cos(h)*Math.cos(l)-Math.sin(h)*Math.sin(l),Math.cos(t)*Math.cos(h));var y=Fa(e.RAD2DEG*(f-
 k));l=Math.asin(-Math.sin(t)*Math.cos(h)*Math.sin(l)-Math.sin(h)*Math.cos(l));t=-.02752*Math.cos(q)+-.02245*Math.sin(k)+.00684*Math.cos(q-2*k)+-.00293*Math.cos(2*k)+-8.5E-4*Math.cos(2*k-2*d)+-5.4E-4*Math.cos(q-2*d)+-2E-4*Math.sin(q+k)+-2E-4*Math.cos(q+2*k)+-2E-4*Math.cos(q-k)+1.4E-4*Math.cos(q+2*k-2*d);var x=-.02816*Math.sin(q)+.02244*Math.cos(k)+-.00682*Math.sin(q-2*k)+-.00279*Math.sin(2*k)+-8.3E-4*Math.sin(2*k-2*d)+6.9E-4*Math.sin(q-2*d)+4E-4*Math.cos(q+k)+-2.5E-4*Math.sin(2*q)+-2.3E-4*Math.sin(q+
@@ -330,7 +330,162 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
      all declare 75.7885° E (23.1765° N). The old 75.7683° was the sole outlier;
      this is a pure unification (~ 1.2' ~ 4.8 s of mean time). */
   const UJJAIN_LONGITUDE_DEG = 75.7885;
-  const BIJA_ANCHOR_JD = gregorianToJulianDay("1800-01-01", "00:00:00", 0);
+  // 1800-01-01 00:00 UT, a literal (no date call at load): = gregorianToJulianDay("1800-01-01") = KalaDvara day + 588465.5.
+  const BIJA_ANCHOR_JD = 2378496.5;
+
+  /* ═══════════ THE TIERS (owner, 2026-10-08) ═══════════
+     Three choices on every page, one code path each:
+       'ss+parameshvara' (the page default): the Sūrya-Siddhānta with Parameśvara's saṃskāra — ss-tier.js with
+          { samskara: 'parameshvara' }: the text's model, the mean places the paramparā record names (today the Moon and
+          the node) moved by the record's arcminutes (corpus/parampara/samskara.json through parampara.js).
+       'ss': the plain Sūrya-Siddhānta, exactly the text — ss-tier.js with { samskara: null }.
+       'drik': Modern Bhāratīya (dṛk) — siddhanta-tier.js only (the series fitted to the owner's N-body, its reduction, the
+          embedded Earth orientation, the owner's Citrā-pakṣa and lagna code), served 1850.0–2150.0 by the series' own rule
+          and refused outside (owner decision DK-1). No VSOP87/ELP/Astronomy-Engine call is on its path; those stay in
+          this file only as the raw drigCoordinates API, a referee for tests.
+     'classical' is an alias of 'ss'; 'calibrated' (the old hybrid) is retired and throws. API parameter defaults stay
+     'ss' (so a call without a tier is the plain text); a page resolves its tier with pageTier(), whose default is
+     'ss+parameshvara'. Loading this file needs no sovereign module: the first text-tier or date call resolves
+     ss-tier.js and kala-dvara.js (node: require; browser: window.SSTier, window.KalaDvara), the first dṛk call
+     siddhanta-tier.js. */
+  const DEFAULT_TIER = "ss+parameshvara";
+  const TIER_IDS = Object.freeze(["ss+parameshvara", "ss", "drik"]);
+  const TIER_ALIASES = Object.freeze({
+    "ss+parameshvara": "ss+parameshvara", "ss parameshvara": "ss+parameshvara", "ss-parameshvara": "ss+parameshvara",
+    ss: "ss", classical: "ss", drik: "drik", modern: "drik", "bharatiya-drik": "drik",
+  });
+  const RETIRED_CALIBRATED = "the 'calibrated' hybrid mode was retired 2026-10-08 (owner decision: three tiers, one code path each); use 'ss+parameshvara', 'ss' or 'drik'";
+  const TEXT_TIER_COMMON = Object.freeze({
+    time: "civil days from midnight at Laṅkā (SS 1.45-1.47): t = jd − 588465.5 + 75.7885/360; no clock correction",
+    obliquity: "the arc of 1397 on R = 3438 (SS 2.28)",
+    sunrise: "the Sun's centre on the horizon, on the turn about the dhruva (panchanga.js); no refraction (the text has none)",
+    dayBoundary: "sunrise to sunrise (SS 14.18, 1.36); vāra by SS 1.51",
+    karanaOrder: "SS 2.67: Śakuni, Nāga, Catuṣpada, Kiṃstughna",
+    month: "amānta, with adhika and kṣaya: the month holding the Meṣa saṅkrānti is Caitra [standard rule; no local text]",
+    yearStart: "nija Caitra new moon; an adhika Caitra closes the previous year [unverified convention]",
+    samvatsara: "SS 1.55 from mean Jupiter at the instant, reading A (remainder 0 = Vijaya) [reading]",
+    dashaYear: Object.freeze({ days: 1577917828 / 4320000, source: "SS 14.10 with 1.37: the text's solar year (dasha.js YEAR saura-surya)" }),
+    ahargana: "civil days since midnight at Laṅkā at the Kali epoch (SS 1.45-1.47)",
+    span: Object.freeze({ years: Object.freeze([-50000, 50000]), basis: "tested over ±50,000 years (deep-time.test.js, tier-unity.test.js)" }),
+  });
+  const TIERS = Object.freeze({
+    "ss+parameshvara": Object.freeze({
+      id: "ss+parameshvara", family: "ss", samskara: "parameshvara", default: true,
+      label: "Sūrya-Siddhānta + Parameśvara's saṃskāra", labelSa: "सूर्य-सिद्धान्त + परमेश्वर-संस्कार",
+      engine: "the Sūrya-Siddhānta's own model (sphuta.js, ss-graha.js) with Parameśvara's saṃskāra: the mean places the paramparā record names moved by its arcminutes, at the text's own rates",
+      ayanamsha: Object.freeze({ name: "SS 3.9-3.10", source: "Sūrya-Siddhānta 3.9-3.10: 600 librations a yuga, three-tenths of the bhuja (sphuta.js ayanamshaSS)" }),
+      ...TEXT_TIER_COMMON,
+      eclipses: "SS 4-5 on the saṃskāra model (samskara.js lunarEclipse and solarEclipseOnModel, built from what the record corrects; the ch.5 parallax held at the text's value), at the site. magnitude = grāsa = the covered part ÷ the eclipsed disc at the middle (SS 4.11; the text has no penumbra). Seen at the site: lunar — the Moon above the text's horizon at the middle; solar — SS 6.13's three minutes with the Sun above the text's horizon between sparśa and mokṣa.",
+      provenance: "the saṃskāra is read from corpus/parampara/samskara.json (generated by scripts/parampara-samskara.cjs from Parameśvara's recorded eclipses, Siddhāntadīpikā vv.69-85 as quoted in the Jyotirmīmāṃsā) through parampara.js; it corrects only what the record names",
+    }),
+    ss: Object.freeze({
+      id: "ss", family: "ss", samskara: null, default: false,
+      label: "Sūrya-Siddhānta", labelSa: "सूर्य-सिद्धान्त",
+      engine: "the Sūrya-Siddhānta exactly as it stands (sphuta.js, ss-graha.js, panchanga.js and the other sovereign modules)",
+      ayanamsha: Object.freeze({ name: "SS 3.9-3.10", source: "Sūrya-Siddhānta 3.9-3.10: 600 librations a yuga, three-tenths of the bhuja (sphuta.js ayanamshaSS)" }),
+      ...TEXT_TIER_COMMON,
+      eclipses: "SS 4-5 (ss-grahana.js): the text's discs, shadow, contacts and chapter-5 parallax, at the site. magnitude = grāsa = the covered part ÷ the eclipsed disc at the middle (SS 4.11; the text has no penumbra). Seen at the site: lunar — the Moon above the text's horizon at the middle; solar — SS 6.13's three minutes with the Sun above the text's horizon in the perceptible part.",
+      provenance: "the text's own numbers; no observation and no modern ephemeris enters",
+    }),
+    drik: Object.freeze({
+      id: "drik", family: "drik", samskara: null, default: false,
+      label: "Modern Bhāratīya (dṛk)", labelSa: "आधुनिक भारतीय (दृक्)",
+      engine: "Our dṛk-siddhānta series v2.4.2, arranged in the Sūrya-Siddhānta's order (madhyama, manda, śīghra): 12,901 periodic terms evaluated with Mādhava's sine. Its coefficients were fitted to our N-body (DOP853: Newton + EIH 1PN + Earth J2 + lunar figure + LLR tide), which is restarted from NASA-JPL DE440s states every 720 days.",
+      reduction: "Light-time, the Sun's deflection of planetary light and annual aberration are ours. Precession is IAU 2006 and nutation IAU 2000B, in our implementation of the IAU models.",
+      time: "ΔT: annual table 1800–2027 (the 2027 value is an IERS prediction), Espenak–Meeus prediction after that. Civil times after 2027 carry that prediction's uncertainty.",
+      ayanamsha: Object.freeze({ name: "Citrā-pakṣa (Lahiri), true", source: "the Calendar Reform Committee's convention [standard], realised with the IAE value 23°15′00.658″ for 1956-03-21 (true equinox), carried by IAU 2006 general precession, as Swiss Ephemeris realises SE_SIDM_LAHIRI (+0.138″, an external input); true = mean + Δψ (siddhanta-tier.js)" }),
+      obliquity: "true obliquity of date, IAU 2006/2000B (siddhanta-tier.js)",
+      sunrise: "the Sun's upper limb on the horizon with 34′ refraction (centre at −50′) [convention]; apparent sidereal time IAU 2006",
+      moonrise: "the Moon's centre at a net +7′ horizon [convention, as before] (owner decision DK-5)",
+      rahu: "mean node: the series' fitted node line; Ketu = Rāhu + 180°",
+      eclipses: "Eclipses searched on this tier's own Sun and Moon (drik-grahana.js): lunar with Danjon's shadow (Earth's radius + 1/85, oblateness 1/594), solar by the shadow cone of the Sun and Moon on the IERS 2010 ellipsoid; k = 0.2725076 (0.272281 for the umbral contacts). Lunar magnitude = grāsa = the umbral magnitude; a penumbral eclipse is listed as penumbral, with its penumbral magnitude and no grāsa. Solar: the eclipses this site is in, with its own contacts and magnitude. Seen at the site: lunar — the Moon's centre above the tier's +7′ horizon at greatest eclipse; solar — the Sun's upper limb above the horizon at some instant between first and last contact.",
+      dayBoundary: "sunrise to sunrise at the site; vāra of the sunrise's local civil date",
+      karanaOrder: "the common order: Śakuni, Catuṣpada, Nāga, Kiṃstughna [unverified convention; SS 2.67 differs]",
+      month: "amānta, with adhika and kṣaya, named by Panchanga.nameMonth from the tier's own new moons and saṅkrāntis",
+      yearStart: "nija Caitra new moon of the tier's own sky [unverified convention]",
+      samvatsara: "the same SS 1.55 rule (mean Jupiter, reading A) at the tier's nija Caitra start, held for the year [unverified convention]",
+      dashaYear: Object.freeze({ days: 365.25636, source: "sidereal year 365.25636 d [unverified convention]" }),
+      ahargana: "civil days since midnight at Laṅkā at the Kali epoch (SS 1.45-1.47), shown in every tier",
+      span: Object.freeze({ years: Object.freeze([1850, 2150]), yearRule: "2000 + (jdTT − 2451545)/365.25 (the series' own rule)",
+        basis: "the certified span of the series", accuracyMeasured: "λ ≤ 0.9″ against NASA-JPL DE440s (checked every 20 days); this is not independence from JPL" }),
+      fallback: null,
+      provenance: "Ours 1850.0–2150.0, refused outside (owner decision DK-1). The N-body behind the series is restarted from NASA-JPL DE440s states every 720 days, so agreement with DE440 (≤ 0.9″, checked every 20 days) is not independence from JPL. ΔT after 2027 is a prediction. Eclipses: our own search on the series (DK-3).",
+    }),
+  });
+  /** A tier id or alias → 'ss+parameshvara' | 'ss' | 'drik'. 'calibrated' and anything else throw RangeError. */
+  function resolveTier(x) {
+    const k = typeof x === "string" ? x.trim().toLowerCase() : x;
+    if (k === "calibrated") throw new RangeError(RETIRED_CALIBRATED);
+    if (typeof k === "string" && Object.prototype.hasOwnProperty.call(TIER_ALIASES, k)) return TIER_ALIASES[k];
+    throw new RangeError(`Unknown engine mode '${x}': the tiers are 'ss+parameshvara', 'ss' and 'drik' ('classical' = 'ss')`);
+  }
+  const tierFamily = (tier) => TIERS[resolveTier(tier)].family;
+  const samskaraOfTier = (tier) => TIERS[resolveTier(tier)].samskara;
+  /** The tier a page shows: its stored or linked choice, else the page default ('ss+parameshvara'). */
+  function pageTier(stateTier, pageDefault = DEFAULT_TIER) {
+    return resolveTier(stateTier === undefined || stateTier === null || String(stateTier).trim() === "" ? pageDefault : stateTier);
+  }
+  /** Refusal of the dṛk tier outside its span. */
+  class TierSpanError extends RangeError {
+    constructor(tier, jd, what) {
+      let dt = 0; try { dt = observedDeltaTSeconds(jd - 2451545); } catch (e) { dt = 0; } const span = TIERS.drik.span.years, year = 2000 + (jd + (Number.isFinite(dt) ? dt : 0) / 86400 - 2451545) / 365.25;   // the series' own (TT) rule, ΔT as siddhanta-tier.js takes it
+      let shown = String(jd); if (Number.isFinite(year)) for (let d = 2; d <= 9; d++) { shown = year.toFixed(d); if (Number(shown) < span[0] || Number(shown) > span[1]) break; }   // two decimals, more where two would round onto an edge
+      super(`${TIERS[tier].label} is served for ${span[0]}.0–${span[1]}.0 only (${TIERS.drik.span.yearRule}); ${what ? what + " at " : ""}year ${shown} is outside it and is refused (owner decision DK-1: no foreign fallback). Choose a text tier.`);
+      this.name = "TierSpanError"; this.code = "TIER_OUT_OF_SPAN"; this.tier = tier; this.span = span.slice(); this.year = year;
+    }
+  }
+
+  // ── lazy resolution of the tier modules (no load-time dependency) ──
+  const isNode = typeof module === "object" && module && module.exports && typeof require === "function";
+  const G_ = typeof globalThis !== "undefined" ? globalThis : {};
+  let SST_ = null, KD_ = null, SDT_ = null;
+  function ssTier() {
+    if (SST_) return SST_;
+    if (isNode) { try { SST_ = require("./ss-tier.js"); } catch (e) { SST_ = null; } }
+    if (!SST_ && G_.SSTier) SST_ = G_.SSTier;
+    if (!SST_) throw new Error("ss-tier.js and the sovereign modules must be loaded before math-core.js is used");
+    return SST_;
+  }
+  function kalaDvara() {
+    if (KD_) return KD_;
+    if (isNode) { try { KD_ = require("./kala-dvara.js"); } catch (e) { KD_ = null; } }
+    if (!KD_ && G_.KalaDvara) KD_ = G_.KalaDvara;
+    if (!KD_) throw new Error("ss-tier.js and the sovereign modules must be loaded before math-core.js is used");
+    return KD_;
+  }
+  function siddhantaTier() {
+    if (SDT_) return SDT_;
+    if (G_.SiddhantaTier) SDT_ = G_.SiddhantaTier;
+    if (!SDT_ && isNode) { try { SDT_ = require("./siddhanta-tier.js"); } catch (e) { SDT_ = null; } }
+    if (!SDT_) throw new Error("the Modern Bhāratīya (dṛk) tier needs siddhanta-drik.js and siddhanta-tier.js loaded");
+    return SDT_;
+  }
+  /** A function of siddhanta-tier.js's contract, or a clear error when the loaded file does not have it. */
+  function sdFn(name) {
+    const SD = siddhantaTier();
+    if (typeof SD[name] !== "function") throw new Error(`siddhanta-tier.js has no ${name}(): the Modern Bhāratīya (dṛk) contract needs it`);
+    return SD[name].bind(SD);
+  }
+  /** Is the instant served by the tier? Text tiers: always (tested ±50,000 years); dṛk: SiddhantaTier.inSpan. */
+  function tierInSpan(jd, tier) {
+    requireFinite(jd, "Julian day");
+    return tierFamily(tier) === "ss" ? true : Boolean(sdFn("inSpan")(jd));
+  }
+  function requireDrikSpan(jd, what) {
+    if (!tierInSpan(jd, "drik")) throw new TierSpanError("drik", jd, what);
+  }
+  /** Every dṛk entry first asks siddhanta-tier.js whether the instant is in its span (the series' own rule) and refuses
+   *  outside it, before any other call; returns the module. */
+  function drikGuard(jd, what, opts) {
+    const SD = siddhantaTier();
+    if (!sdFn("inSpan")(jd, opts)) throw new TierSpanError("drik", jd, what);
+    return SD;
+  }
+  /** A SiddhantaTier result, or the refusal when it returns null (outside its span). */
+  function drikCall(value, jd, what) {
+    if (value === null || value === undefined) throw new TierSpanError("drik", jd, what);
+    return value;
+  }
 
   const METROLOGY = Object.freeze({
     ghatisPerDay: 60,
@@ -439,8 +594,13 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     return ((value % modulus) + modulus) % modulus;
   }
 
+  /** value mod 360 in [0, 360). Exact for a value already in range (2026-10-08: ((v % 360) + 360) % 360 moved such a
+   *  value by up to an ulp of 630°, which broke bit-equality with the sovereign modules). */
   function mod360(value) {
-    return mod(value, FULL_CIRCLE);
+    const r = value % FULL_CIRCLE;
+    if (r >= 0) return r + 0;                                 // + 0 turns −0 into 0
+    const s = r + FULL_CIRCLE;
+    return s === FULL_CIRCLE ? 0 : s;
   }
 
   function requireFinite(value, name) {
@@ -489,40 +649,65 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     return { hour, minute, second, hours: hour + minute / 60 + second / 3600 };
   }
 
-  function gregorianToJulianDay(dateText, timeText = "00:00:00", timezoneHours = 0) {
-    const dateMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateText).trim());
-    if (!dateMatch) throw new Error(`Invalid Gregorian date '${dateText}'`);
-    let year = Number(dateMatch[1]);
-    let month = Number(dateMatch[2]);
-    const day = Number(dateMatch[3]);
+  /* ── The spanda sub-day chain (Bhāgavata 3.11 as the site states it [claim-only, awaiting an edition]) ──
+     From the spanda up to the muhūrta, each unit and how many of the one before it make it; 30 muhūrtas make the
+     ahorātra, so the product of the factors is 328,050,000,000 spandas a day = kala-dvara.js SPANDAS_PER_DAY,
+     and 3,280,500,000 paramāṇu. The prāṇa of SS 1.11-1.12 (21,600 to the day) is a whole number of spandas
+     (15,187,500), so the text's own time units sit on this lattice exactly.
+     corpus/sources/time-units.json cites the chain by this symbol, 'math-core.js SUBDAY_CHAIN' (never by line), and
+     parampara.test.js [P1] checks that this file declares it and that the exported value is the registry's chain, so
+     the block may move with the file.
+     It is exported as SUBDAY_CHAIN; spandaPerAhoratra() and the lattice are below, in 'Spanda Subday Chain &
+     Exact Kinematics'.
+     Units above the muhūrta (the day, the year, the yuga) are the text's own and live in sphuta.js and kala-dvara.js.
+  */
+  const SUBDAY_CHAIN = Object.freeze([
+    ['spanda', 100], ['paramanu', 2], ['anu', 3], ['trasarenu', 3], ['truti', 100], ['vedha', 3],
+    ['lava', 3], ['nimesha', 3], ['kshana', 5], ['kashtha', 15], ['laghu', 15],
+    ['nadika', 2], ['muhurta', 30],
+  ]);
+
+  /* Dates (2026-10-08, plan D4): proleptic Gregorian or Julian calendar, astronomical years (0 = 1 BCE; −50000 = 50001
+     BCE), all by kala-dvara.js integer arithmetic — no Date, so years 0-99 and ±5-digit years are what they say. */
+  const CALENDARS = Object.freeze(["gregorian", "julian"]);
+  const isoYmd = (c) => `${c.year < 0 ? "-" : ""}${String(Math.abs(c.year)).padStart(4, "0")}-${String(c.month).padStart(2, "0")}-${String(c.day).padStart(2, "0")}`;
+  /** A civil date ({ calendar, year, month, day }) + clock text + zone → JD (UT) = Kali day + 588465.5 + (hours − zone)/24. */
+  function civilToJd(civil, timeText = "00:00:00", timezoneHours = 0) {
+    const { calendar = "gregorian", year, month, day } = civil || {};
+    if (!CALENDARS.includes(calendar)) throw new RangeError(`civilToJd: calendar is 'gregorian' or 'julian', not ${calendar}`);
+    for (const [k, v] of Object.entries({ year, month, day })) if (!Number.isInteger(v)) throw new TypeError(`civilToJd: ${k} must be an integer`);
+    if (!Number.isFinite(timezoneHours) || Math.abs(timezoneHours) > 14) throw new Error(`Invalid timezone offset '${timezoneHours}'`);
+    const K = kalaDvara(), invalid = () => new Error(`Invalid ${calendar === "julian" ? "Julian" : "Gregorian"} date '${isoYmd({ year, month, day })}'`);
+    let n;
+    try { n = K.kaliDayFromCivil({ calendar, year, month, day }); } catch (e) { if (e instanceof RangeError) throw invalid(); throw e; }
+    const back = K.civilFromKaliDay(n, calendar);
+    if (back.year !== year || back.month !== month || back.day !== day) throw invalid();
     const time = parseTime(timeText);
-    const probe = new Date(Date.UTC(year, month - 1, day));
-    if (
-      probe.getUTCFullYear() !== year ||
-      probe.getUTCMonth() !== month - 1 ||
-      probe.getUTCDate() !== day
-    ) {
-      throw new Error(`Invalid Gregorian date '${dateText}'`);
-    }
-    if (!Number.isFinite(timezoneHours) || Math.abs(timezoneHours) > 14) {
-      throw new Error(`Invalid timezone offset '${timezoneHours}'`);
-    }
-    if (month <= 2) {
-      year -= 1;
-      month += 12;
-    }
-    const century = Math.floor(year / 100);
-    const correction = 2 - century + Math.floor(century / 4);
-    const dayStart =
-      Math.floor(365.25 * (year + 4716)) +
-      Math.floor(30.6001 * (month + 1)) +
-      day + correction - 1524.5;
-    return dayStart + (time.hours - timezoneHours) / 24;
+    return (n + KALI_EPOCH_JD) + (time.hours - timezoneHours) / 24;
+  }
+  /** JD (UT) → the local civil date and clock at the zone: { year, month, day, hour, minute, second, iso, calendar }. */
+  function jdToCivil(jd, timezoneHours = 0, calendar = "gregorian") {
+    requireFinite(jd, "Julian day");
+    if (!CALENDARS.includes(calendar)) throw new RangeError(`jdToCivil: calendar is 'gregorian' or 'julian', not ${calendar}`);
+    const local = jd + timezoneHours / 24 + 0.5, whole = Math.floor(local);
+    let sec = Math.round((local - whole) * 86400), n = whole - 588466;
+    if (sec >= 86400) { sec -= 86400; n += 1; }
+    const c = kalaDvara().civilFromKaliDay(n, calendar);
+    return { year: c.year, month: c.month, day: c.day, hour: Math.floor(sec / 3600), minute: Math.floor((sec % 3600) / 60), second: sec % 60, iso: isoYmd(c), calendar };
+  }
+  function gregorianToJulianDay(dateText, timeText = "00:00:00", timezoneHours = 0) {
+    const dateMatch = /^(-?\d{1,6})-(\d{2})-(\d{2})$/.exec(String(dateText).trim());
+    if (!dateMatch) throw new Error(`Invalid Gregorian date '${dateText}'`);
+    const civil = { calendar: "gregorian", year: Number(dateMatch[1]), month: Number(dateMatch[2]), day: Number(dateMatch[3]) };
+    if (civil.month < 1 || civil.month > 12 || civil.day < 1 || civil.day > 31) throw new Error(`Invalid Gregorian date '${dateText}'`);
+    try { return civilToJd(civil, timeText, timezoneHours); }
+    catch (e) { if (/Invalid (Gregorian|Julian) date/.test(e.message)) throw new Error(`Invalid Gregorian date '${dateText}'`); throw e; }
   }
 
-  function julianDayToIsoDate(jd) {
+  /** The local civil date (signed, at least four digits) of a JD (UT) at a zone, in a calendar. */
+  function julianDayToIsoDate(jd, timezoneHours = 0, calendar = "gregorian") {
     if (!Number.isFinite(jd)) throw new Error("Julian day must be finite");
-    return new Date((jd - 2440587.5) * 86400000).toISOString().slice(0, 10);
+    return jdToCivil(jd, timezoneHours, calendar).iso;
   }
 
   function formatClock(decimalHours) {
@@ -553,27 +738,43 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     effective_49: Object.freeze({ label: "Effective 54 arcsec/year less shared Mahayuga debt", zeroJd: ARYABHATA_ZERO_JD, kind: "linear", rateArcsecPerYear: precessionRates().effectiveArcsecPerYear }),
     linear_54: Object.freeze({ label: "Linear 54 arcsec/year", zeroJd: ARYABHATA_ZERO_JD, kind: "linear", rateArcsecPerYear: 54 }),
     linear_50: Object.freeze({ label: "Linear 50 arcsec/year", zeroJd: ARYABHATA_ZERO_JD, kind: "linear", rateArcsecPerYear: 50 }),
-    sinusoidal_27: Object.freeze({ label: "Sinusoidal +/-27 degree, 7200-year period", zeroJd: ARYABHATA_ZERO_JD, kind: "sinusoidal", amplitudeDeg: 27, periodYears: 7200 }),
+    sinusoidal_27: Object.freeze({ label: "sinusoid ±27°, zero 498-12-19 06:00 UT — a hypothesis, not SS 3.9-3.10", zeroJd: ARYABHATA_ZERO_JD, kind: "sinusoidal", amplitudeDeg: 27, periodYears: 7200 }),
   });
+  // The shared zero of the hypotheses above (AY-15).
+  const ARYABHATA_ZERO_LABEL = "JD 1903304.75 = 498-12-19 06:00 UT (Julian)";
 
   // Multi-school extension (Triveni 2026-08-17): kept in a separate registry so
   // the historical AYANAMSHA_MODES (all anchored at the Aryabhata zero) stays
   // exactly as sealed by the original test-suite.
   const AYANAMSHA_MODES_EXTENDED = Object.freeze({
-    spica_lahiri: Object.freeze({ label: "चित्रा-पक्ष (Citra/Spica anchor · 23.25° @ JD 2435554.0 · परिचय: Lahiri)", zeroJd: 2435554.0, kind: "linear", rateArcsecPerYear: 50.2388475 }),
+    spica_lahiri: Object.freeze({ label: "Lahiri (ICRC 1956): 23.25° at JD 2435554.0, 50.2388475″/yr, linear — a comparison row; the dṛk tier uses the true Citrā-pakṣa value", zeroJd: 2435554.0, kind: "linear", rateArcsecPerYear: 50.2388475 }),
     kp: Object.freeze({ label: "कृष्णमूर्ति-पक्ष (चित्रा-पक्ष − 0.10°)", zeroJd: 2435554.0, kind: "linear", rateArcsecPerYear: 50.2388475 }),
     raman_spica: Object.freeze({ label: "रमण-पक्ष (चित्रा-पक्ष − 0.373611°)", zeroJd: 2435554.0, kind: "linear", rateArcsecPerYear: 50.2388475 }),
     yukteshwar: Object.freeze({ label: "युक्तेश्वर-पक्ष (शून्य 499 CE · 54″/वर्ष)", zeroJd: ARYABHATA_ZERO_JD, kind: "linear", rateArcsecPerYear: 54 }),
   });
 
-  function ayanamshaDeg(jd, variant = "classical") {
+  const NAMED_AYANAMSHAS = Object.freeze(["effective_49", "linear_54", "linear_50", "sinusoidal_27", "spica_lahiri", "kp", "raman_spica", "yukteshwar"]);
+  const isTierName = (x) => typeof x === "string" && (x.trim().toLowerCase() === "calibrated" || Object.prototype.hasOwnProperty.call(TIER_ALIASES, x.trim().toLowerCase()));
+  /** The ayanāṃśa a tier applies — the one function every frame of the tier uses, so the displayed value is the applied
+   *  value: 'ss+parameshvara'/'ss' → SS 3.9-3.10 (sphuta.js through ss-tier.js); 'drik' → the true Citrā-pakṣa value
+   *  (siddhanta-tier.js: mean + Δψ), refused outside its span. → { deg, meanDeg?, name, source, rateArcsecPerYear }. */
+  function tierAyanamsha(jd, tier) {
     requireFinite(jd, "Julian day");
-    if (variant === "calibrated") {
-      // MKY's secular calendar convention, not the Sun-frame rotation.
-      const year = 2000 + (jd - 2451545) / 365.25;
-      return (year - 514.4) * (58.5939 / 3600);
+    const id = resolveTier(tier);
+    if (TIERS[id].family === "ss") {
+      const S = ssTier();
+      return { deg: S.ayanamshaDeg(jd), name: TIERS[id].ayanamsha.name, source: TIERS[id].ayanamsha.source, rateArcsecPerYear: S.ayanamshaRateArcsecPerYear(jd),
+        rateRule: "±54″ a year of the text: 600 librations a yuga × 360° ÷ 4,320,000 years × 0.3 [theorem], signed by the libration's direction", tier: id };
     }
-    if (variant === "classical") variant = "effective_49";
+    const SD = drikGuard(jd, "the ayanāṃśa");
+    const a = drikCall(sdFn("ayanamsha")(jd), jd, "the ayanāṃśa");
+    let rate = Number.isFinite(a.rateArcsecPerYear) ? a.rateArcsecPerYear : null;
+    if (rate === null) { const b = SD.ayanamsha(jd + 182.625), c = SD.ayanamsha(jd - 182.625); rate = b && c ? (b.deg - c.deg) * 3600 : null; }
+    return { deg: a.deg, meanDeg: a.meanDeg, name: TIERS.drik.ayanamsha.name, source: TIERS.drik.ayanamsha.source, rateArcsecPerYear: rate, tier: id };
+  }
+  function ayanamshaDeg(jd, variant = "ss") {
+    requireFinite(jd, "Julian day");
+    if (isTierName(variant)) return tierAyanamsha(jd, variant).deg;
     const deltaYears = (jd - ARYABHATA_ZERO_JD) / 365.25;
     const rates = precessionRates();
     if (variant === "effective_49") return deltaYears * rates.effectiveArcsecPerYear / 3600;
@@ -601,8 +802,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
 
   function ayanamshaRateArcsecPerYear(jd, mode = "effective_49") {
     requireFinite(jd, "Julian day");
-    if (mode === "calibrated") return 58.5939;
-    if (mode === "classical") mode = "effective_49";
+    if (isTierName(mode)) return tierAyanamsha(jd, mode).rateArcsecPerYear;
     const metadata = AYANAMSHA_MODES[mode] || AYANAMSHA_MODES_EXTENDED[mode];
     if (!metadata) throw new Error(`Unknown ayanāṃśa variant '${mode}'`);
     if (metadata.kind === "linear") return metadata.rateArcsecPerYear;
@@ -611,7 +811,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
       Math.cos(2 * Math.PI * deltaYears / metadata.periodYears) * 3600;
   }
 
-  function modeRateArcsecPerYear(jd, mode = "classical") {
+  function modeRateArcsecPerYear(jd, mode = "ss") {
     return ayanamshaRateArcsecPerYear(jd, mode);
   }
 
@@ -629,41 +829,32 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     return correction === 0 ? 0 : correction;
   }
 
+  /** Graha-model options: a tier id string, a boolean (applyBija, plain text), or { applyBija, bijaModel, mode: tier,
+   *  timeScale }. `mode` is resolved to a tier id ('ss' when absent). The bīja is an opt-in experiment of the text tiers. */
   function resolveBijaOptions(value, fallback = false, apiName = "graha model") {
     if (typeof value === "string") value = { mode: value };
-    if (value === undefined) return { applyBija: fallback, bijaModel: "classical", mode: "classical" };
-    if (typeof value === "boolean") return { applyBija: value, bijaModel: "classical", mode: "classical" };
+    if (value === undefined) return { applyBija: fallback, bijaModel: "classical", mode: "ss" };
+    if (typeof value === "boolean") return { applyBija: value, bijaModel: "classical", mode: "ss" };
     if (value && typeof value === "object" && !Array.isArray(value)) {
       const applyBija = value.applyBija === undefined ? fallback : value.applyBija;
       const bijaModel = value.bijaModel === undefined ? "classical" : value.bijaModel;
-      const mode = value.mode === undefined ? "classical" : value.mode;
-      requireEngineMode(mode);
+      const mode = resolveTier(value.mode === undefined ? "ss" : value.mode);
       if (typeof applyBija === "boolean" && (bijaModel === "classical" || bijaModel === "empirical-2026-08-29")) {
+        if (applyBija && TIERS[mode].family === "drik") throw new RangeError("The text tier's bīja options cannot be combined with the dṛk tier");
         return { ...value, applyBija, bijaModel, mode };
       }
     }
-    throw new TypeError(`${apiName}: expected a boolean or { applyBija: boolean, bijaModel?: 'classical'|'empirical-2026-08-29', mode?: string }`);
+    throw new TypeError(`${apiName}: expected a boolean or { applyBija: boolean, bijaModel?: 'classical'|'empirical-2026-08-29', mode?: tier }`);
   }
 
-  function requireEngineMode(mode) {
-    if (mode !== "classical" && mode !== "calibrated") {
-      throw new RangeError(`Unknown engine mode '${mode}'`);
-    }
-    return mode;
-  }
-
-  function engineModeForFrame(frame, options) {
-    return resolveBijaOptions(options === undefined
-      ? { mode: frame === "calibrated" ? "calibrated" : "classical" }
-      : options).mode;
+  /** A bridge (lagna, bhāva, sunrise, …) takes a tier, never a named ayanāṃśa. */
+  function bridgeTier(x, fallback = "ss") {
+    if (x === undefined || x === null) return resolveTier(fallback);
+    if (typeof x === "string" && NAMED_AYANAMSHAS.includes(x)) throw new RangeError(`bridges take a tier: ss+parameshvara, ss or drik (not the named ayanāṃśa '${x}')`);
+    return resolveTier(x);
   }
 
   /* ── Spanda Subday Chain & Exact Kinematics ── */
-  const SUBDAY_CHAIN = Object.freeze([
-    ['spanda', 100], ['paramanu', 2], ['anu', 3], ['trasarenu', 3], ['truti', 100], ['vedha', 3],
-    ['lava', 3], ['nimesha', 3], ['kshana', 5], ['kashtha', 15], ['laghu', 15],
-    ['nadika', 2], ['muhurta', 30],
-  ]);
   function spandaPerAhoratra() {
     return 328050000000n;
   }
@@ -678,12 +869,16 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     // above is the exact truth; approxNs is the float convenience in ns.)
     return { num: 86400n, den: N, approxNs: Number(86400n * 1000000000n * 1000000n / N) / 1000000 };
   }
+  /** Civil spandas since midnight at Laṅkā at the Kali epoch (SS 1.45-1.47) of a Julian day (UT): the text tier's own
+   *  count (ss-tier.js daysOfJd → sphuta.js spandasOfDays), with no clock correction — one civil day is exactly
+   *  328,050,000,000 spandas. */
   function jdToAharganaSpandas(jd) {
-    const daysFloat = (jd - KALI_EPOCH_JD) + calculateDeltaT(jd) / 86400.0;
-    const wholeDays = Math.floor(daysFloat);
-    const fracDays = daysFloat - wholeDays;
-    return BigInt(wholeDays) * 328050000000n + BigInt(Math.round(fracDays * 328050000000));
+    requireFinite(jd, "Julian day");
+    return ssTier().spandasOfJd(jd);
   }
+  /** Laṅkā midnight precedes Greenwich midnight by 75.7885/360 day = 69,062,270,625 spandas exactly [theorem:
+   *  328,050,000,000 × 75.7885 ÷ 360]. */
+  const LANKA_OFFSET_SPANDAS = 69062270625n;
   /* Kāla-dvāra, integer form (Kāla-Yantra council 2026-09-28, gate 6).
      jdToAharganaSpandas() enters through a double JD whose ulp near 2.45e6 is 4.66e-10 day
      = 152.8 spandas — the only float on the lattice path besides ΔT. This constructor enters
@@ -693,8 +888,12 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
      (UJJAIN_LONGITUDE_DEG, ujjainMeanTime). ΔT — observed, ~ms — is the ONE remaining float
      and is rounded to the nearest spanda (applyDeltaT:false gives the pure civil lattice). */
   const MEEUS_MONTH_DAYS = Object.freeze([122n, 153n, 183n, 214n, 244n, 275n, 306n, 336n, 367n, 397n, 428n, 459n]); // ⌊30.6001·(M+1)⌋, M=3..14 (459.0015 → 459)
+  /* 2026-10-08 (owner D2): the default is the text's own count — no ΔT (applyDeltaT: false) and the Laṅkā meridian
+     (meridian: 'lanka', + LANKA_OFFSET_SPANDAS), so this door and jdToAharganaSpandas agree. applyDeltaT: true and
+     meridian: 'greenwich' remain as labelled opt-ins that no tier uses. */
   function aharganaSpandasFromCivil(civil) {
-    const { year, month, day, hour = 0, minute = 0, second = 0, nanosecond = 0, timezoneMinutes = 0, applyDeltaT = true } = civil || {};
+    const { year, month, day, hour = 0, minute = 0, second = 0, nanosecond = 0, timezoneMinutes = 0, applyDeltaT = false, meridian = "lanka" } = civil || {};
+    if (meridian !== "lanka" && meridian !== "greenwich") throw new RangeError(`aharganaSpandasFromCivil: meridian is 'lanka' (the text's) or 'greenwich', not ${meridian}`);
     for (const [k, v] of Object.entries({ year, month, day, hour, minute, second, nanosecond, timezoneMinutes })) {
       if (!Number.isInteger(v)) throw new TypeError(`aharganaSpandasFromCivil: ${k} must be an integer, got ${v}`);
     }
@@ -710,6 +909,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     let ns = (BigInt(hour) * 3600n + BigInt(minute) * 60n + BigInt(second)) * 1000000000n + BigInt(nanosecond)
            - BigInt(timezoneMinutes) * 60n * 1000000000n;                   // UT nanoseconds of the day (may spill)
     let spandas = kaliDays * 328050000000n + (ns * 243n) / 64000n;         // 243/64000 spanda per ns, floor to the spanda
+    if (meridian === "lanka") spandas += LANKA_OFFSET_SPANDAS;
     if (applyDeltaT) {
       const jdApprox = KALI_EPOCH_JD + Number(spandas) / 328050000000;      // only to LOOK UP ΔT (seconds, observed table)
       spandas += BigInt(Math.round(calculateDeltaT(jdApprox) * 3796875));   // 3,796,875 spandas per second, nearest spanda
@@ -740,9 +940,9 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     const revs = BigInt(revsVal);
     const den = spandasPerMahayuga;
     let num = aharganaSpandas * revs * 360n;
-    if (isKetu || targetKey === 'rahu') {
-      num = num + 180n * den;
-    }
+    // Rāhu is at 180° at the Kali epoch (452¾ yugas × 232,238 = a half turn over whole turns); Ketu = Rāhu + 180°, so 0°.
+    // (Until 2026-10-08 Ketu returned Rāhu's value here: a latent bug the lattice test pinned as 180.)
+    if (targetKey === 'rahu') num = num + (isKetu ? 360n : 180n) * den;
     const modulo = 360n * den;
     num = ((num % modulo) + modulo) % modulo;
     const intDeg = Number(num / den);
@@ -750,12 +950,18 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     return (intDeg + fracDeg) % 360;
   }
 
+  /** The mean places of the text tier (ss-tier.js grahas(jd).mean; the plain text — no saṃskāra unless options.mode
+   *  names 'ss+parameshvara'): the Sun, the Moon, the node, and each planet's own bhagaṇa (for Mercury and Venus that is
+   *  the śīghrocca, as BHAGANAS counts them). meanRawExact is the independent BigInt check of these values. */
   function meanGrahaModel(jd, options) {
     requireFinite(jd, "Julian day");
-    const { applyBija, bijaModel } = resolveBijaOptions(options, false, "meanGrahaModel");
-    const aharganaSpandas = jdToAharganaSpandas(jd);
+    const { applyBija, bijaModel, mode } = resolveBijaOptions(options, false, "meanGrahaModel");
+    if (TIERS[mode].family !== "ss") throw new RangeError("meanGrahaModel is the text tier's (the dṛk tier has no mean model here)");
+    const g = ssTier().grahas(jd, { samskara: TIERS[mode].samskara });
+    const meanOf = (key) => key === "surya" ? g.mean.surya : key === "candra" ? g.mean.candra : key === "rahu" ? g.mean.rahu
+      : (key === "budha" || key === "shukra") ? g.mean[key].sighrocca : g.mean[key].mean;
     const rows = GRAHAS.filter((graha) => graha.key !== "ketu").map((graha) => {
-      const mean = meanRawExact(graha.key, aharganaSpandas);
+      const mean = meanOf(graha.key);
       const bija = applyBija ? bijaDeltaDeg(graha.key, jd, bijaModel) : 0;
       return { ...graha, mean, bija, longitude: mod360(mean + bija) };
     });
@@ -818,8 +1024,38 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     return ascendant;
   }
 
-  function siderealAscendantDeg(jd, latitudeDeg, longitudeEastDeg, frame = "classical") {
-    return mod360(tropicalAscendantDeg(jd, latitudeDeg, longitudeEastDeg) - coordinateFrameOffsetDeg(jd, frame));
+  function checkSite(latitudeDeg, longitudeEastDeg) {
+    if (!Number.isFinite(latitudeDeg) || Math.abs(latitudeDeg) >= 90) throw new Error("Latitude must be finite and strictly between -90 and 90 degrees");
+    if (!Number.isFinite(longitudeEastDeg) || Math.abs(longitudeEastDeg) > 180) throw new Error("Longitude must be finite and inside [-180, 180]");
+  }
+  /** The tier's lagna (sidereal, in the tier's own frame). Text tiers: Panchanga.lagnaAt through ss-tier.js (on the turn,
+   *  SS ε, SS 3.9-3.10). dṛk: siddhanta-tier.js lagna (IAU 2006 GAST, true obliquity, true Citrā-pakṣa). */
+  function siderealAscendantDeg(jd, latitudeDeg, longitudeEastDeg, frame = "ss") {
+    requireFinite(jd, "Julian day");
+    checkSite(latitudeDeg, longitudeEastDeg);
+    const tier = bridgeTier(frame);
+    if (TIERS[tier].family === "ss") return ssTier().lagna(jd, { latitude: latitudeDeg, longitude: longitudeEastDeg }).longitude;
+    drikGuard(jd, "the lagna");
+    return mod360(drikCall(sdFn("lagna")(jd, latitudeDeg, longitudeEastDeg), jd, "the lagna").asc);
+  }
+  /** The same point measured from the tier's equinox: sidereal + the tier's ayanāṃśa. */
+  function sayanaAscendantDeg(jd, latitudeDeg, longitudeEastDeg, frame = "ss") {
+    const tier = bridgeTier(frame);
+    return mod360(siderealAscendantDeg(jd, latitudeDeg, longitudeEastDeg, tier) + tierAyanamsha(jd, tier).deg);
+  }
+  /** The tier's meridian: { ramcDeg (sāyana right ascension of the meridian), madhyaLagnaSidereal, method }. */
+  function tierMeridian(jd, latitudeDeg, longitudeEastDeg, frame = "ss") {
+    requireFinite(jd, "Julian day");
+    checkSite(latitudeDeg, longitudeEastDeg);
+    const tier = bridgeTier(frame);
+    if (TIERS[tier].family === "ss") {
+      const m = ssTier().meridian(jd, { latitude: latitudeDeg, longitude: longitudeEastDeg });
+      return { tier, ramcDeg: m.ramcDeg, madhyaLagnaSidereal: m.madhyaLagna.longitude, method: m.method };
+    }
+    drikGuard(jd, "the madhya-lagna");
+    const L = drikCall(sdFn("lagna")(jd, latitudeDeg, longitudeEastDeg), jd, "the madhya-lagna");
+    const ramc = Number.isFinite(L.ramcDeg) ? L.ramcDeg : drikCall(sdFn("gast")(jd), jd, "the sidereal time") + longitudeEastDeg;
+    return { tier, ramcDeg: mod360(ramc), madhyaLagnaSidereal: mod360(L.mc), method: "IAU 2006 apparent sidereal time and true obliquity (siddhanta-tier.js)" };
   }
 
   /* ═══════════ Bhāva-madhya · classical unequal-house layer ═══════════
@@ -850,8 +1086,10 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
   const bhavaForwardArc = (a, b) => mod360(b - a);
 
   function bhavaMadhyasTropicalDeg(jd, latitudeDeg, longitudeEastDeg) {
-    const asc = tropicalAscendantDeg(jd, latitudeDeg, longitudeEastDeg);
-    const mc = tropicalMidheavenDeg(jd, longitudeEastDeg);
+    return bhavaMadhyasFrom(tropicalAscendantDeg(jd, latitudeDeg, longitudeEastDeg), tropicalMidheavenDeg(jd, longitudeEastDeg));
+  }
+  /** The twelve bhāva-madhyas from a lagna and a madhya-lagna in one frame: the quadrant trisection above. */
+  function bhavaMadhyasFrom(asc, mc) {
     const madhyas = Array(13);
     madhyas[1] = asc;               // lagna
     madhyas[4] = mod360(mc + 180);  // pātāla (IC)
@@ -958,7 +1196,15 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
       nakshatraBhuktaPct: nak.percentDone, nakshatraWithinDeg: nak.withinDeg,
       yogaIndex, yogaName: YOGA_NAMES[yogaIndex],
       karanaIndex, karanaName: KARANA_NAMES[karanaIndex], karanaType, limbTier: "drik",
+      karanaOrder: "the common order: Śakuni, Catuṣpada, Nāga, Kiṃstughna [unverified convention; SS 2.67 differs]",
     };
+  }
+  /** KARANA_NAMES index of panchanga.js karaṇa k (1…60) in the order of SS 2.67: k = 1 Kiṃstughna; 2…57 the seven movable
+   *  from Bava; 58 Śakuni, 59 Nāga, 60 Catuṣpada (the verse's order; the common order puts Catuṣpada before Nāga). */
+  function karanaIndexSS(k) {
+    if (k === 1) return 10;
+    if (k <= 57) return (k - 2) % 7;
+    return k === 58 ? 7 : k === 59 ? 9 : 8;
   }
 
   function vimshottariBirthState(moonLongitude) {
@@ -1082,14 +1328,17 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     });
   }
 
-  function yoginiAtJd(moonLongitude, birthJd, atJd = birthJd) {
+  /** Yoginī daśā by arc (the Moon's distance into its nakṣatra) [unverified convention], with a year of opts.yearDays
+   *  days (default the sidereal year 365.25636 d) — a page passes its tier's year (TIERS[tier].dashaYear.days). */
+  function yoginiAtJd(moonLongitude, birthJd, atJd = birthJd, opts = {}) {
     const birthState = yoginiBirthState(moonLongitude);
-    let cursor = birthJd - birthState.elapsedYears * SIDEREAL_YEAR_DAYS;
+    const yearDays = opts && Number.isFinite(opts.yearDays) && opts.yearDays > 0 ? opts.yearDays : SIDEREAL_YEAR_DAYS;
+    let cursor = birthJd - birthState.elapsedYears * yearDays;
     let maha = null;
     for (let offset = 0; offset < 40; offset += 1) {
       const key = YOGINI_SEQUENCE[(birthState.sequenceIndex + offset) % 8];
       const meta = YOGINI_METADATA[key];
-      const duration = meta.years * SIDEREAL_YEAR_DAYS;
+      const duration = meta.years * yearDays;
       const candidate = { key, meta, startJd: cursor, endJd: cursor + duration };
       if (atJd >= candidate.startJd && atJd < candidate.endJd) {
         maha = candidate;
@@ -1316,72 +1565,55 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
   const ssKey = (k) =>
     k === "candra" ? "chandra" : k === "mangala" ? "mangal" : k === "budha" ? "budh" : k;
 
+  /** The observed ΔT (seconds) at a JD (UT). No text-tier function uses it any more (2026-10-08, owner D2: the text's
+   *  day is the civil day); it remains for the labelled opt-in aharganaSpandasFromCivil({ applyDeltaT: true }). */
   function calculateDeltaT(jd) {
-    // Espenak-Meeus Delta T approximation (deep-time secular tide)
-    // T is centuries since 1820
-    // Lattice/classical path now uses the same OBSERVED IERS table as the dṛk path
-    // (observedDeltaTSeconds, :308) — the 32t²−20 parabola was +45 s at 2025 = +24.9″
-    // on the classical Moon (Kāla-Yantra council 2026-09-28, gate 1).
     return observedDeltaTSeconds(jd - 2451545.0); // seconds
   }
+
+  /* ═══════════ The text tier through ss-tier.js (2026-10-08, owner D2: one implementation) ═══════════
+     Every ss* function below takes t = days since J2000.0 (UT), as before, and returns today's shapes; the numbers come
+     from the sovereign modules through ss-tier.js at the text's own day count (civil days from midnight at Laṅkā, no
+     clock correction) — the plain Sūrya-Siddhānta. The former Greenwich-midnight epoch with ΔT and the modern three-term
+     Moon are gone, not moved. `deltaTApplied` arguments are accepted and ignored. The manda/śīghra kendra keeps
+     math-core's convention (place − mandocca for manda; śīghrocca − place for śīghra). */
+  const SS_ROW_KEY = Object.freeze({ mangal: "mangala", budh: "budha", guru: "guru", shukra: "shukra", shani: "shani" });
+  const SS_PLANET_EN = Object.freeze({ mangal: "mars", budh: "mercury", guru: "jupiter", shukra: "venus", shani: "saturn" });
+  const textGrahas = (jd, samskara) => ssTier().grahas(jd, { samskara });
+  const ssJdOfT = (t) => t + SS.j2000JD;
 
   function ssPlanetMeanAt(k, t = 0, deltaTApplied = false) {
     k = requireGrahaKey(k, { prithvi: true });
     requireFinite(t, "Day offset");
-    if (!deltaTApplied) {
-      const jd = t + 2451545.0;
-      t += calculateDeltaT(jd) / 86400.0; // Sāvana to Dynamical Time (TT)
-    }
-
-    if (k === "rahu") return ssPhaseFromKali(t, SS.bhagana.rahu, 180, -1);
-    if (k === "ketu") return norm(ssPlanetMeanAt("rahu", t, true) + 180);
-    if (k === "prithvi") return norm(ssMeanLongitude(t, SS.bhagana.surya) + 180);
-    if (k === "budh" || k === "shukra" || k === "surya") return ssMeanLongitude(t, SS.bhagana.surya);
-    const B = SS.bhagana[k];
-    return ssMeanLongitude(t, B);
+    const g = textGrahas(ssJdOfT(t), null);
+    if (k === "surya" || k === "budh" || k === "shukra") return g.mean.surya;   // SS 1.29: Mercury's and Venus's mean planet is the mean Sun
+    if (k === "chandra") return g.mean.candra;
+    if (k === "rahu") return g.mean.rahu;
+    if (k === "ketu") return norm(g.mean.rahu + 180);
+    if (k === "prithvi") return norm(g.mean.surya + 180);
+    return g.mean[SS_ROW_KEY[k]].mean;
   }
 
   function ssSighroccaAt(k, t = 0) {
     k = requireGrahaKey(k, { prithvi: true });
     requireFinite(t, "Day offset");
-    const jd = t + 2451545.0;
-    t += calculateDeltaT(jd) / 86400.0;
-
-    if (k === "budh" || k === "shukra") return ssMeanLongitude(t, SS.bhagana[k]);
-    return SS_STAR_PLANETS.includes(k) ? ssMeanLongitude(t, SS.bhagana.surya) : null;
+    if (!SS_ROW_KEY[k]) return null;
+    const g = textGrahas(ssJdOfT(t), null);
+    return k === "budh" || k === "shukra" ? g.mean[SS_ROW_KEY[k]].sighrocca : g.mean.surya;
   }
 
   function ssMandoccaAt(k, t = 0) {
     k = requireGrahaKey(k, { prithvi: true });
     requireFinite(t, "Day offset");
-    const jd = t + 2451545.0;
-    t += calculateDeltaT(jd) / 86400.0;
-
-    const ah = SS_AHARGANA_J2000 + t;
-    if (k === "chandra") {
-        // The chandra mandocca is a closed bhagaṇa residue like every other apsis:
-        // SS.bhagana.chandraMandocca = 488,203 rev/mahāyuga, anchored +90° at Kali
-        // (SS epoch identity, see ssPhaseFromKali and moonMandoccaKali90 gate). The
-        // mean longitude flows through ssExactRevolutions → exact BigInt residue on
-        // ℤ/REV_DEN, so the apogee RETURNS to itself at every mahāyuga and never grows
-        // without bound. (Removed the `0.0003·T²` apsidalDrift placeholder — an
-        // unbounded linear-time parabola that breached the circular axiom: it was 0 at
-        // J2000 but reached ~2811″ at the Kali epoch and bled ~106-250″ into the served
-        // Moon longitude via the manda equation. AUDIT30 W5 / §3 term 1.)
-        return norm(90 + ssMeanLongitude(t, SS.bhagana.chandraMandocca));
-    }
-    const rev = SS.apsisKalpa[k];
-    if (!Number.isFinite(rev)) return null;
-    const wholeDays = Math.floor(ah);
-    const fracDays = ah - wholeDays;
-    const aharganaSpandas = BigInt(wholeDays) * 328050000000n + BigInt(Math.round(fracDays * 328050000000));
-    const KALPA_REV_DEN = 328050000000n * 1577917828n * 1000n;
-    let num = (BigInt(rev) * aharganaSpandas) % KALPA_REV_DEN;
-    if (num < 0n) num = (num + KALPA_REV_DEN) % KALPA_REV_DEN;
-    const exactDeg = (Number(num) / Number(KALPA_REV_DEN)) * 360;
-    return norm(ssApsisAtKali(k) + exactDeg);
+    if (k !== "surya" && k !== "chandra" && !SS_ROW_KEY[k]) return null;
+    const g = textGrahas(ssJdOfT(t), null);
+    if (k === "chandra") return g.mean.candraApogee;        // 488,203 revolutions a yuga, +90° at the Kali epoch (SS 1.33)
+    if (k === "surya") return g.mean.suryaApogee;           // 387 revolutions a kalpa (SS 1.41)
+    return g.mean[SS_ROW_KEY[k]].mandocca;
   }
 
+  /* Math-core's own equation helpers (Math.sin), kept for the rational-kernel comparison and the audits below; the text
+     tier itself uses sphuta.js / ss-graha.js (Mādhava's sine on R = 3438). */
   function ssRectifiedParidhi(pair, kendra) {
     if (!pair) return null;
     return pair[0] + (pair[1] - pair[0]) * Math.abs(Math.sin(rad(kendra)));
@@ -1396,10 +1628,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     const bhujaPhala = bhuja * p / 360;
     const kotiPhala = koti * p / 360;
     const magnitude = Math.asin(Math.max(-1, Math.min(1, bhujaPhala / R))) * 180 / Math.PI;
-    /* SANKALP BE-S09 (2026-08-17, user-sealed): manda-phala sign corrected.
-       Mandocca ke BAAD (kendra 0-180) graha mean se PEECHHE rehta hai — phala
-       rnatmak. Purana +/− ulta tha; Swiss-parīkṣā proof: E2026 sun manda tha
-       +1.502° jabki asli aakash −1.312° (TRUTH-AUDIT-2026-08-17.md §2). */
+    /* SANKALP BE-S09 (2026-08-17, user-sealed): manda-phala sign corrected (kendra 0-180 → subtract). */
     const correction = kendra <= 180 ? -magnitude : magnitude;
     return { kind: "manda", place, centre: mandocca, kendra, paridhi: p, bhuja, koti, bhujaPhala, kotiPhala, magnitude, correction };
   }
@@ -1419,80 +1648,53 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     return { kind: "sighra", place, centre: sighrocca, kendra, paridhi: p, bhuja, koti, bhujaPhala, kotiPhala, base, karna, magnitude, correction };
   }
 
+  /** One equation of ss-graha.js / sphuta.js in math-core's shape. */
+  function eqShape(kind, place, centre, e) {
+    return { kind, place, centre, kendra: kind === "manda" ? norm(place - centre) : norm(centre - place), paridhi: e.paridhi,
+      bhujaPhala: e.bhujaphala, kotiPhala: e.kotiphala, karna: e.karna, magnitude: Math.abs(e.degrees), correction: e.degrees,
+      rule: kind === "manda" ? "SS 2.29-2.45, Mādhava's sine on R = 3438 (the text tier)" : "SS 2.38-2.45, Mādhava's sine on R = 3438 (the text tier)" };
+  }
+  /** The text tier's sphuṭa of one graha at jd, in ssSphutaAt's shape (samskara: null = the plain text). */
+  function ssDetail(k, jd, samskara) {
+    const g = textGrahas(jd, samskara);
+    if (k === "rahu" || k === "ketu" || k === "prithvi") {
+      const mean = k === "rahu" ? g.rahu : k === "ketu" ? g.ketu : norm(g.mean.surya + 180);
+      return { k, mean, sphuta: mean, mandocca: null, sighrocca: null, kind: "mean" };
+    }
+    if (k === "surya" || k === "chandra") {
+      const sun = k === "surya";
+      const mean = sun ? g.mean.surya : g.mean.candra, mandocca = sun ? g.mean.suryaApogee : g.mean.candraApogee;
+      const e = sun ? g.sun : g.moon, sphuta = sun ? g.surya : g.candra;
+      const out = { k, mean, mandocca, sighrocca: null, manda: eqShape("manda", mean, mandocca, e), paksika: 0, mandaSphuta: sphuta, sphuta, kind: "manda" };
+      if (!sun) { out.lunarInequalities = null; out.lunarModel = "none: SS 2.39-2.43, the text's one manda equation for the Moon"; }
+      if (samskara) out.samskara = samskara;
+      return out;
+    }
+    const row = SS_ROW_KEY[k], P = g.planets[SS_PLANET_EN[k]], m = g.mean[row], q = P.equations;
+    const [p1, p2, p3, longitude] = P.steps;
+    return {
+      k, mean: m.mean, mandocca: m.mandocca, sighrocca: m.sighrocca,
+      firstSighra: eqShape("sighra", m.mean, m.sighrocca, q.sighra1), halfSighraPlace: p1,
+      firstManda: eqShape("manda", p1, m.mandocca, q.manda2), halfMandaPlace: p2,
+      fullManda: eqShape("manda", p2, m.mandocca, q.manda3), mandaSphuta: p3,
+      finalSighra: eqShape("sighra", p3, m.sighrocca, q.sighra4), sphuta: longitude, kind: "manda-sighra",
+    };
+  }
+
   function ssSphutaAt(k, t = 0) {
     k = requireGrahaKey(k, { prithvi: true });
     requireFinite(t, "Day offset");
-    const mean = ssPlanetMeanAt(k, t);
-    const mandocca = ssMandoccaAt(k, t);
-    const sighrocca = ssSighroccaAt(k, t);
-    if (k === "rahu" || k === "ketu" || k === "prithvi" || !SS.mandaParidhi[k]) {
-      return { k, mean, sphuta: mean, mandocca, sighrocca, kind: "mean" };
-    }
-    if (k === "surya" || k === "chandra" || k === "candra") {
-      const manda = ssMandaEquation(mean, mandocca, SS.mandaParidhi[k]);
-      let paksikaCorrection = 0;
-      let lunarInequalities;
-      if (k === "chandra" || k === "candra") {
-        // Physical lunar-inequality composite. The three modern harmonic
-        // amplitudes are NOT, as a group, a sourced Mañjula/Muñjāla formula.
-        const sunMean = ssPlanetMeanAt("surya", t);
-        const sunMandocca = ssMandoccaAt("surya", t);
-        const D = norm(mean - sunMean);
-        const l = norm(mean - mandocca);
-        const l_prime = norm(sunMean - sunMandocca);
-        const evection = 1.274 * Math.sin(rad(2 * D - l));
-        const variation = 0.658 * Math.sin(rad(2 * D));
-        const annualEq = -0.185 * Math.sin(rad(l_prime));
-        paksikaCorrection = evection + variation + annualEq;
-        lunarInequalities = { model: "modern-three-term", evection, variation, annualEquation: annualEq, total: paksikaCorrection };
-      }
-      return {
-        k, mean, mandocca, sighrocca: null, manda,
-        paksika: paksikaCorrection, // compatibility alias for the composite total
-        lunarInequalities,
-        mandaSphuta: norm(mean + manda.correction + paksikaCorrection),
-        sphuta: norm(mean + manda.correction + paksikaCorrection),
-        kind: "manda"
-      };
-    }
-    const firstSighra = ssSighraEquation(mean, sighrocca, SS.sighraParidhi[k]);
-    const halfSighraPlace = norm(mean + firstSighra.correction / 2);
-    const firstManda = ssMandaEquation(halfSighraPlace, mandocca, SS.mandaParidhi[k]);
-    const halfMandaPlace = norm(halfSighraPlace + firstManda.correction / 2);
-    const fullManda = ssMandaEquation(halfMandaPlace, mandocca, SS.mandaParidhi[k]);
-    const mandaSphuta = norm(mean + fullManda.correction);
-    const finalSighra = ssSighraEquation(mandaSphuta, sighrocca, SS.sighraParidhi[k]);
-    return {
-      k, mean, mandocca, sighrocca, firstSighra, halfSighraPlace, firstManda, halfMandaPlace,
-      fullManda, mandaSphuta, finalSighra, sphuta: norm(mandaSphuta + finalSighra.correction), kind: "manda-sighra",
-    };
+    return ssDetail(k, ssJdOfT(t), null);
   }
 
   function ssMeanNodeAt(k, t = 0, deltaTApplied = false) {
     k = requireGrahaKey(k, { prithvi: true });
     requireFinite(t, "Day offset");
-    // deltaTApplied = true: t is already in the model's own (uniform) time — used by the epoch
-    // gates, which test the Kali-epoch identities of the model, not a civil instant.
-    if (!deltaTApplied) {
-      const jd = t + 2451545.0;
-      t += calculateDeltaT(jd) / 86400.0;
-    }
-    if (k === "chandra" || k === "rahu" || k === "ketu") {
-      const r = ssPhaseFromKali(t, SS.bhagana.rahu, 180, -1);
-      return k === "ketu" ? norm(r + 180) : r;
-    }
-    const rev = SS.nodeKalpa[k];
-    const ah = SS_AHARGANA_J2000 + t;
-    if (!Number.isFinite(rev)) return null;
-    const kali = norm(-rev * SS.motionsToKaliYears / SS.kalpaYears * 360);
-    const wholeDays = Math.floor(ah);
-    const fracDays = ah - wholeDays;
-    const aharganaSpandas = BigInt(wholeDays) * 328050000000n + BigInt(Math.round(fracDays * 328050000000));
-    const KALPA_REV_DEN = 328050000000n * 1577917828n * 1000n;
-    let num = (BigInt(rev) * aharganaSpandas) % KALPA_REV_DEN;
-    if (num < 0n) num = (num + KALPA_REV_DEN) % KALPA_REV_DEN;
-    const exactDeg = (Number(num) / Number(KALPA_REV_DEN)) * 360;
-    return norm(kali - exactDeg);
+    if (k !== "chandra" && k !== "rahu" && k !== "ketu" && !SS_ROW_KEY[k]) return null;
+    const g = textGrahas(ssJdOfT(t), null);
+    if (k === "chandra" || k === "rahu") return g.mean.rahu;
+    if (k === "ketu") return norm(g.mean.rahu + 180);
+    return g.mean[SS_ROW_KEY[k]].node;
   }
 
   function ssNodeAt(k, t = 0) {
@@ -1500,16 +1702,11 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     requireFinite(t, "Day offset");
     const mean = ssMeanNodeAt(k, t);
     if (mean === null) return { k, mean: null, sphuta: null, correction: 0, rule: "none" };
-    if (k === "chandra" || k === "rahu" || k === "ketu") {
-      return { k, mean, sphuta: mean, correction: 0, rule: "lunar-node" };
-    }
-    const d = ssSphutaAt(k, t);
-    if (k === "budh" || k === "shukra") {
-      const correction = -(d.fullManda?.correction || 0);
-      return { k, mean, sphuta: norm(mean + correction), correction, rule: "third-manda-opposite" };
-    }
-    const correction = d.finalSighra?.correction || 0;
-    return { k, mean, sphuta: norm(mean + correction), correction, rule: "sighra" };
+    if (k === "chandra" || k === "rahu" || k === "ketu") return { k, mean, sphuta: mean, correction: 0, rule: "lunar-node" };
+    const P = textGrahas(ssJdOfT(t), null).planets[SS_PLANET_EN[k]];
+    const inferior = k === "budh" || k === "shukra";
+    const correction = inferior ? -P.equations.manda3.degrees : P.equations.sighra4.degrees;
+    return { k, mean, sphuta: P.node, correction, rule: inferior ? "third-manda-opposite" : "sighra" };
   }
 
   function ssLatitudeAt(k, t = 0) {
@@ -1519,18 +1716,17 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     if (!maxMin) {
       return { k, latitude: 0, minutes: 0, paramaMinutes: 0, node: null, argument: 0, bhuja: 0, karna: SS.radius, rule: "ecliptic" };
     }
-    const d = ssSphutaAt(k, t);
-    const node = ssNodeAt(k, t);
-    const inferior = k === "budh" || k === "shukra";
-    const reference = inferior ? d.sighrocca : d.sphuta;
-    const argument = norm(reference - node.sphuta);
-    const bhuja = SS.radius * Math.sin(rad(argument));
-    const karna = k === "chandra" ? SS.radius : (d.finalSighra?.karna || SS.radius);
-    const minutes = bhuja * maxMin / karna;
+    const g = textGrahas(ssJdOfT(t), null);
+    if (k === "chandra") {
+      return { k, latitude: g.latitudeDeg.candra, minutes: g.latitudeDeg.candra * 60, paramaMinutes: maxMin, node: g.rahu, meanNode: g.mean.rahu,
+        nodeCorrection: 0, argument: norm(g.candra - g.rahu), karna: SS.radius, reference: g.candra, rule: "स्फुट-ग्रह−स्फुट-पात (SS 2.57, 1.68)" };
+    }
+    const P = g.planets[SS_PLANET_EN[k]], inferior = k === "budh" || k === "shukra";
+    const m = g.mean[SS_ROW_KEY[k]];
     return {
-      k, latitude: minutes / 60, minutes, paramaMinutes: maxMin, node: node.sphuta, meanNode: node.mean,
-      nodeCorrection: node.correction, argument, bhuja, karna, reference,
-      rule: inferior ? "शीघ्रोच्च−स्फुट-पात" : "स्फुट-ग्रह−स्फुट-पात",
+      k, latitude: P.latitude / 60, minutes: P.latitude, paramaMinutes: maxMin, node: P.node, meanNode: m.node,
+      nodeCorrection: norm(P.node - m.node + 180) - 180, argument: P.latitudeArgument, karna: P.karna,
+      reference: inferior ? m.sighrocca : P.longitude, rule: inferior ? "शीघ्रोच्च−स्फुट-पात" : "स्फुट-ग्रह−स्फुट-पात",
     };
   }
 
@@ -1542,42 +1738,44 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     return { k, paridhiAtQuarter: pair[1], paramaPhala: phala, e: phala / 2 };
   }
 
-  const ssAudit = Object.freeze({
-    civilDayIdentity: SS.yugaDays === 1582237828 - SS.bhagana.surya,
-    sunKakshaUnity: Math.abs(ssKaksha(SS.bhagana.surya) - 1) < 1e-12,
-    planetMeanKaliZero: ["surya", "chandra", "mangal", "guru", "shani"].every(
-      (k) => Math.abs(ssMeanLongitude(-SS_AHARGANA_J2000, SS.bhagana[k])) < 1e-12,
-    ),
-    inferiorSighroccaKaliZero: ["budh", "shukra"].every(
-      (k) => Math.abs(ssMeanLongitude(-SS_AHARGANA_J2000, SS.bhagana[k])) < 1e-12,
-    ),
-    moonMandoccaKali90: Math.abs(ssPhaseFromKali(-SS_AHARGANA_J2000, SS.bhagana.chandraMandocca, 90) - 90) < 1e-12,
-    rahuKali180: Math.abs(ssPhaseFromKali(-SS_AHARGANA_J2000, SS.bhagana.rahu, 180, -1) - 180) < 1e-12,
-    rahuRetrograde: -360 * SS.bhagana.rahu / SS.yugaDays < 0,
+  /** A frozen object whose checks run when read (the served path needs ss-tier.js, which this file does not load at
+   *  start). index.html reads every field; each must be true. */
+  function lazyAudit(checks) {
+    const o = {};
+    for (const [k, f] of Object.entries(checks)) Object.defineProperty(o, k, { get: f, enumerable: true });
+    return Object.freeze(o);
+  }
+  const epochMeans = () => ssTier().meanAtDays(0);                       // the served means at the Kali epoch (day 0, Laṅkā midnight)
+  const near = (a, b) => Math.abs(norm(a - b + 180) - 180) < 1e-12;
+  const ssAudit = lazyAudit({
+    civilDayIdentity: () => SS.yugaDays === 1582237828 - SS.bhagana.surya,
+    sunKakshaUnity: () => Math.abs(ssKaksha(SS.bhagana.surya) - 1) < 1e-12,
+    planetMeanKaliZero: () => { const m = epochMeans(); return [m.sun, m.moon, m.planets.mars.mean, m.planets.jupiter.mean, m.planets.saturn.mean].every((x) => near(x, 0)); },
+    inferiorSighroccaKaliZero: () => { const m = epochMeans(); return near(m.planets.mercury.sighrocca, 0) && near(m.planets.venus.sighrocca, 0); },
+    moonMandoccaKali90: () => near(epochMeans().moonApogee, 90),
+    rahuKali180: () => near(epochMeans().node, 180),
+    rahuRetrograde: () => -360 * SS.bhagana.rahu / SS.yugaDays < 0,
   });
 
-  const ssSphutaAudit = Object.freeze({
-    paridhiEvenAtZero: Math.abs(ssRectifiedParidhi(SS.mandaParidhi.surya, 0) - 14) < 1e-12,
-    paridhiOddAtQuarter: Math.abs(ssRectifiedParidhi(SS.mandaParidhi.surya, 90) - (13 + 40 / 60)) < 1e-12,
-    mandaZeroAtApsis: Math.abs(ssMandaEquation(77.13, 77.13, SS.mandaParidhi.surya).correction) < 1e-12,
-    sighraZeroAtConjunction: Math.abs(ssSighraEquation(0, 0, SS.sighraParidhi.mangal).correction) < 1e-12,
-    inferiorMeanEqualsSun: ["budh", "shukra"].every(
-      (k) => Math.abs(ssPlanetMeanAt(k, 0) - ssPlanetMeanAt("surya", 0)) < 1e-12,
-    ),
-    ketuAntipodal: Math.abs(Math.abs(((ssPlanetMeanAt("ketu", 0) - ssPlanetMeanAt("rahu", 0) + 540) % 360) - 180) - 180) < 1e-12,
-    finiteSphuta: ["surya", "chandra", ...SS_STAR_PLANETS].every((k) => Number.isFinite(ssSphutaAt(k, 0).sphuta)),
+  const ssSphutaAudit = lazyAudit({
+    paridhiEvenAtZero: () => Math.abs(ssRectifiedParidhi(SS.mandaParidhi.surya, 0) - 14) < 1e-12,
+    paridhiOddAtQuarter: () => Math.abs(ssRectifiedParidhi(SS.mandaParidhi.surya, 90) - (13 + 40 / 60)) < 1e-12,
+    mandaZeroAtApsis: () => Math.abs(ssMandaEquation(77.13, 77.13, SS.mandaParidhi.surya).correction) < 1e-12,
+    sighraZeroAtConjunction: () => Math.abs(ssSighraEquation(0, 0, SS.sighraParidhi.mangal).correction) < 1e-12,
+    inferiorMeanEqualsSun: () => ["budh", "shukra"].every((k) => Math.abs(ssPlanetMeanAt(k, 0) - ssPlanetMeanAt("surya", 0)) < 1e-12),
+    ketuAntipodal: () => Math.abs(Math.abs(((ssPlanetMeanAt("ketu", 0) - ssPlanetMeanAt("rahu", 0) + 540) % 360) - 180) - 180) < 1e-12,
+    finiteSphuta: () => ["surya", "chandra", ...SS_STAR_PLANETS].every((k) => Number.isFinite(ssSphutaAt(k, 0).sphuta)),
   });
 
-  const ssSpaceAudit = Object.freeze({
-    vikshepaSequence: [["chandra", 270], ["mangal", 90], ["budh", 120], ["guru", 60], ["shukra", 120], ["shani", 120]].every(
+  const ssSpaceAudit = lazyAudit({
+    vikshepaSequence: () => [["chandra", 270], ["mangal", 90], ["budh", 120], ["guru", 60], ["shukra", 120], ["shani", 120]].every(
       ([k, v]) => SS.paramaVikshepaMin[k] === v,
     ),
-    nodesRetrograde: Object.values(SS.nodeKalpa).every((v) => -v < 0),
-    // Kali-epoch identity of the model: evaluate in model time (deltaTApplied = true). With the
-    // civil-time ΔT (≈0.9 d at −3102) the node reads 179.9525° and the gate failed since BE-S10.
-    lunarNodeKali180: Math.abs(ssMeanNodeAt("chandra", -SS_AHARGANA_J2000, true) - 180) < 1e-12,
-    latitudeFinite: ["chandra", ...SS_STAR_PLANETS].every((k) => Number.isFinite(ssLatitudeAt(k, 0).latitude)),
-    eHalfParama: ["surya", "chandra", ...SS_STAR_PLANETS].every(
+    nodesRetrograde: () => Object.values(SS.nodeKalpa).every((v) => -v < 0),
+    // the Kali-epoch identity of the served model, at the text's own day 0 (midnight at Laṅkā)
+    lunarNodeKali180: () => near(epochMeans().node, 180),
+    latitudeFinite: () => ["chandra", ...SS_STAR_PLANETS].every((k) => Number.isFinite(ssLatitudeAt(k, 0).latitude)),
+    eHalfParama: () => ["surya", "chandra", ...SS_STAR_PLANETS].every(
       (k) => Math.abs(ssParamaManda(k).e - ssParamaManda(k).paramaPhala / 2) < 1e-12,
     ),
   });
@@ -1737,52 +1935,77 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     return drigCoordinates(grahaKey, jd).longitudeJ2000;
   }
 
-  function drigGrahaLongitude(grahaKey, jd, classicalSunLon, options = {}) {
+  /** Meeus' mean lunar node (tropical, degrees) — kept for drik-tier.js and labelled comparison rows; no tier serves it. */
+  function meanLunarNodeTropicalDeg(jd) {
     requireFinite(jd, "Julian day");
-    if (grahaKey === "rahu" || grahaKey === "ketu") {
-      return mod360(ssSphutaAt(grahaKey, jd - SS.j2000JD).sphuta);
+    const T = (jd - 2451545.0) / 36525;
+    return mod360(125.0445479 - 1934.1362891 * T + 0.0020754 * T * T + T * T * T / 467441 - T * T * T * T / 60616000);
+  }
+
+  /** Houses and every other frame of a tier rotate by the tier's own ayanāṃśa (tierAyanamsha): one value, displayed and
+   *  applied. A named ayanāṃśa is not a frame (RangeError: bridges take a tier). */
+  function coordinateFrameOffsetDeg(jd, frame = "ss") {
+    return tierAyanamsha(jd, bridgeTier(frame)).deg;
+  }
+
+  const DRIK_KEY_ALIASES = Object.freeze({ surya: "surya", sun: "surya", candra: "candra", chandra: "candra", moon: "candra", mangala: "mangala", mars: "mangala",
+    budha: "budha", mercury: "budha", guru: "guru", jupiter: "guru", shukra: "shukra", venus: "shukra", shani: "shani", saturn: "shani", rahu: "rahu", ketu: "ketu" });
+  /** SiddhantaTier.grahas(jd) → { key: { longitude (sidereal, Citrā-pakṣa true), latitude, speed, source } } whatever its
+   *  container (an array of rows with `key`, or an object keyed by graha); null outside its span. */
+  function drikRows(jd, opts) {
+    drikGuard(jd, "the grahas", opts && opts.timeScale === "TT" ? { timeScale: "TT" } : undefined);
+    const res = opts && opts.timeScale === "TT" ? sdFn("grahas")(jd, { timeScale: "TT" }) : sdFn("grahas")(jd);
+    if (res === null || res === undefined) return null;
+    const out = {};
+    const put = (k, r) => {
+      const key = DRIK_KEY_ALIASES[k]; if (!key) return;
+      if (typeof r === "number") out[key] = { longitude: mod360(r), latitude: res._lat && Number.isFinite(res._lat[k]) ? res._lat[k] : null, speed: null, source: res.source || "own" };
+      else if (r && Number.isFinite(r.longitude)) out[key] = { longitude: mod360(r.longitude), latitude: Number.isFinite(r.latitude) ? r.latitude : null, speed: Number.isFinite(r.speed) ? r.speed : null, source: r.source || "own" };
+    };
+    if (Array.isArray(res)) for (const r of res) put(r.key, r);
+    else for (const k of Object.keys(res)) put(k, res[k]);
+    if (out.rahu && !out.ketu) out.ketu = { longitude: mod360(out.rahu.longitude + 180), latitude: 0, speed: out.rahu.speed, source: out.rahu.source };
+    for (const g of GRAHAS) if (!out[g.key]) throw new Error(`siddhanta-tier.js grahas() gave no ${g.key}`);
+    return out;
+  }
+
+  /** The tier's nine rows at jd: { key, sa, en, longitude (sidereal, the tier's frame), mean (text tiers: the mean place;
+   *  dṛk: null), latitudeDeg, detail, tier, source }. dṛk outside its span: TierSpanError. */
+  function tierGrahaRows(jd, tier = "ss", opts = {}) {
+    requireFinite(jd, "Julian day");
+    const id = resolveTier(tier);
+    if (TIERS[id].family === "drik") {
+      if (opts && opts.timeScale !== undefined && opts.timeScale !== "TT" && opts.timeScale !== "UT") throw new RangeError(`Unknown time scale '${opts.timeScale}'`);
+      const rows = drikCall(drikRows(jd, opts), jd, "the grahas");
+      return GRAHAS.map((g) => ({ ...g, longitude: rows[g.key].longitude, mean: null, latitudeDeg: rows[g.key].latitude, speedDegDay: rows[g.key].speed,
+        detail: { source: rows[g.key].source, engine: "siddhanta-tier.js" }, tier: id, source: rows[g.key].source }));
     }
-    const sun = classicalSunLon === undefined
-      ? mod360(ssSphutaAt("surya", jd - SS.j2000JD).sphuta) : classicalSunLon;
-    requireFinite(sun, "Classical Sun longitude");
-    if (grahaKey === "surya") return sun >= 0 && sun < 360 ? sun : mod360(sun);
-    return mod360(drigCoordinates(grahaKey, jd, options).longitude
-      - drigCoordinates("surya", jd, options).longitude + sun);
+    const sam = TIERS[id].samskara, gr = textGrahas(jd, sam);
+    return GRAHAS.map((g) => {
+      const k = ssKey(g.key), detail = ssDetail(k, jd, sam);
+      const lat = g.key === "rahu" || g.key === "ketu" || g.key === "surya" ? 0 : gr.latitudeDeg[g.key];
+      return { ...g, longitude: mod360(gr[g.key]), mean: mod360(detail.mean), latitudeDeg: lat, detail, tier: id, source: "text" };
+    });
   }
 
-  // Houses must rotate by the SAME zero as the served Sun-frame planets.
-  // MKY's linear kalamsha is retained separately by ayanamshaDeg().
-  function coordinateFrameOffsetDeg(jd, frame = "classical") {
-    if (frame !== "calibrated") return ayanamshaDeg(jd, frame);
-    return mod360(drigCoordinates("surya", jd).longitude
-      - ssSphutaAt("surya", jd - SS.j2000JD).sphuta);
-  }
-
-  /* Shared sphuta model. Classical remains pure unless bīja is explicit. */
+  /* Shared sphuta model: the tier's rows; the bīja is an explicit opt-in experiment of the text tiers, never a default. */
   function sphutaGrahaModel(jd, options) {
     requireFinite(jd, "Julian day");
     const modelOptions = resolveBijaOptions(options, false, "sphutaGrahaModel");
     const { applyBija, bijaModel, mode } = modelOptions;
-    if (mode === "calibrated" && applyBija) {
-      throw new RangeError("Classical bīja options cannot be combined with calibrated mode");
+    if (TIERS[mode].family === "drik") {
+      // timeScale 'TT': jd is TT (siddhanta-tier.js then applies no ΔT); default UT
+      return tierGrahaRows(jd, mode, { timeScale: modelOptions.timeScale }).map((row) => ({ ...row, sphuta: row.longitude, bija: 0 }));
     }
-    const t = jd - SS.j2000JD;
-    const classicalSun = mod360(ssSphutaAt("surya", t).sphuta);
-    return GRAHAS.map((graha) => {
-      const classicalDetail = ssSphutaAt(graha.key, t);
-      const sphuta = mode === "calibrated"
-        ? drigGrahaLongitude(graha.key, jd, classicalSun, modelOptions) : classicalDetail.sphuta;
-      const detail = mode === "calibrated" ? { ...classicalDetail, sphuta } : classicalDetail;
-      const bija = applyBija ? bijaDeltaDeg(graha.key, jd, bijaModel) : 0;
-      return { ...graha, mean: mod360(detail.mean), sphuta: mode === "calibrated" ? sphuta : mod360(sphuta), bija,
-        longitude: mode === "calibrated" ? sphuta : mod360(sphuta + bija), detail };
+    return tierGrahaRows(jd, mode).map((row) => {
+      const bija = applyBija ? bijaDeltaDeg(row.key, jd, bijaModel) : 0;
+      return { ...row, sphuta: row.longitude, bija, longitude: mod360(row.longitude + bija) };
     });
   }
 
   function canonicalGrahaModel(jd, options) {
     return sphutaGrahaModel(jd, options).map(row => ({ ...row, details: row.detail }));
   }
-
 /**
  * Precision contract derived from Vedic-Ghadi-Engine-Architecture.pdf §§6,10.
  * Budgets belong to a specific model/frame/epoch. An observed RMS or a
@@ -1908,8 +2131,8 @@ function chartPrecision(
 
   function canonicalChartWithPrecision(jd, options = {}, budgets = {}) {
     const grahas = canonicalGrahaModel(jd, options);
-    const mode = options.mode || "classical";
-    const context = { jdUt: jd, model: "offline:" + mode, frame: mode === "calibrated" ? "nirayana:classical-sun-anchor" : "nirayana:siddhanta" };
+    const mode = resolveBijaOptions(options, false, "canonicalChartWithPrecision").mode;
+    const context = { jdUt: jd, model: "offline:" + mode, frame: "nirayana:" + TIERS[mode].ayanamsha.name, tier: mode, tierLabel: TIERS[mode].label };
     return { grahas, context, precision: chartPrecision(Object.fromEntries(grahas.map(row => [row.key, row.longitude])), context, budgets) };
   }
 
@@ -2262,236 +2485,344 @@ function chartPrecision(
     };
   }
 
-  function panchangAtJd(jd, timezoneHours = 5.5, mode = "classical") {
+  /* ═══════════ The day, the month and the year of a tier ═══════════ */
+  // Lunar month names (Caitra first), for the amānta month of every tier; the solar month is named by its rāśi.
+  const LUNAR_MASA_SA = Object.freeze(["चैत्र", "वैशाख", "ज्येष्ठ", "आषाढ़", "श्रावण", "भाद्रपद", "आश्विन", "कार्तिक", "मार्गशीर्ष", "पौष", "माघ", "फाल्गुन"]);
+  const MONTH_IAST = Object.freeze(["Caitra", "Vaiśākha", "Jyeṣṭha", "Āṣāḍha", "Śrāvaṇa", "Bhādrapada", "Āśvina", "Kārttika", "Mārgaśīrṣa", "Pauṣa", "Māgha", "Phālguna"]);
+  const UJJAIN_SITE = Object.freeze({ latitude: 23.1765, longitude: UJJAIN_LONGITUDE_DEG });
+  /** ṛtu of a nirayaṇa saura month (0 = Meṣa … 11 = Mīna) by SS 14.9-10: two months each from the Makara saṅkrānti, śiśira
+   *  first ⇒ Mīna+Meṣa = Vasanta … Kanyā+Tulā = Śarad … Makara+Kumbha = Śiśira. */
+  function rituOfSauraMasa(i) {
+    if (!Number.isInteger(i) || i < 0 || i > 11) throw new RangeError("rituOfSauraMasa: the saura month index is 0 (Meṣa) … 11 (Mīna)");
+    const index = Math.floor(((i + 1) % 12) / 2) % 6;
+    return { index, sa: RITU_NAMES[index].sa, en: RITU_NAMES[index].en, rule: "SS 14.9-10" };
+  }
+  /** Civil days since midnight at Laṅkā at the Kali epoch (SS 1.45-1.47) — the same expression as ss-tier.js daysOfJd. */
+  const textDaysOfJd = (jd) => (jd - KALI_EPOCH_JD) + UJJAIN_LONGITUDE_DEG / 360;
+  function ssDaysOfJd(jd) { requireFinite(jd, "Julian day"); return textDaysOfJd(jd); }
+  const requireTz = (tz) => { requireFinite(tz, "Timezone offset"); if (Math.abs(tz) > 14) throw new Error("Timezone offset must be inside [-14, 14]"); };
+  const formatHms = (jd, tz) => {
+    if (jd === null || jd === undefined) return null;
+    const totalSec = Math.round(mod(jd + tz / 24 + 0.5, 1) * 86400) % 86400;
+    const p = (n) => String(n).padStart(2, "0");
+    return `${p(Math.floor(totalSec / 3600))}:${p(Math.floor((totalSec % 3600) / 60))}:${p(totalSec % 60)}`;
+  };
+  /** UT JD of the local civil midnight that opens the local date holding jd. */
+  const localMidnightJd = (jd, tz) => Math.floor(jd + tz / 24 - 0.5) + 0.5 - tz / 24;
+  /** A small cache of intervals { start, end, value } per key: a hit only when start ≤ x < end (never keyed by day). */
+  function intervalCache(limit) {
+    const lists = new Map();
+    return {
+      get(key, x) { const l = lists.get(key); if (!l) return null; const h = l.find((e) => e.start <= x && x < e.end); return h ? h.value : null; },
+      put(key, start, end, value) { let l = lists.get(key); if (!l) { l = []; lists.set(key, l); if (lists.size > 64) lists.delete(lists.keys().next().value); } l.unshift({ start, end, value }); if (l.length > limit) l.length = limit; return value; },
+    };
+  }
+  const dayCache = intervalCache(8), skyMonthCache = intervalCache(24), skyYearCache = intervalCache(4);
+  const sexagesimal = (x) => { const g = Math.floor(x), r = (x - g) * 60, p = Math.floor(r), v = Math.floor((r - p) * 60); return { ghati: g, pala: p, vipala: v }; };
+
+  // ── the dṛk tier's own events, by the series (siddhanta-tier.js); every call honours its span (EDGE RULE) ──
+  const pickNum = (o, names) => { if (!o) return null; for (const n of names) if (Number.isFinite(o[n])) return o[n]; return null; };
+  function drikSunMoon(jd) {
+    drikGuard(jd, "the Sun and Moon");
+    const r = drikCall(sdFn("sunMoon")(jd), jd, "the Sun and Moon");
+    const lon = (x) => (x && typeof x === "object" ? x.longitude : x);
+    let sun = null, moon = null;
+    if (Array.isArray(r)) { for (const row of r) { const k = DRIK_KEY_ALIASES[row.key]; if (k === "surya") sun = row.longitude; if (k === "candra") moon = row.longitude; } }
+    else { sun = lon(r.sun ?? r.surya ?? r.sunSid); moon = lon(r.moon ?? r.candra ?? r.moonSid); }
+    if (!Number.isFinite(sun) || !Number.isFinite(moon)) throw new Error("siddhanta-tier.js sunMoon() gave no sidereal Sun and Moon");
+    return { sun: mod360(sun), moon: mod360(moon) };
+  }
+  function drikSun(jd) {
+    drikGuard(jd, "the Sun");
+    const r = drikCall(sdFn("sun")(jd), jd, "the Sun");
+    const v = typeof r === "number" ? r : Number.isFinite(r.longitude) ? r.longitude : Number.isFinite(r.sunSid) ? r.sunSid : null;
+    if (!Number.isFinite(v)) throw new Error("siddhanta-tier.js sun() gave no sidereal longitude");
+    return { longitude: mod360(v), row: r };
+  }
+  /** SiddhantaTier.riseSet(kind, local-midnight JD (UT), lat, lon) → { rise, set, noon } in JD (UT) or null. */
+  function drikRiseSet(kind, jdMidnight, lat, lon) {
+    drikGuard(jdMidnight + 0.5, kind === "sun" ? "the sunrise" : "the moonrise");     // the day's middle; siddhanta-tier.js refuses a day that needs more
+    const r = drikCall(sdFn("riseSet")(kind, jdMidnight, lat, lon), jdMidnight, kind === "sun" ? "the sunrise" : "the moonrise");
+    return { rise: pickNum(r, ["riseJd", "rise", "jdRise", "riseJdUT"]), set: pickNum(r, ["setJd", "set", "jdSet", "setJdUT"]),
+      noon: pickNum(r, ["noonJd", "transitJd", "noon", "transit", "jdNoon", "jdTransit"]), polar: r.polar === "up" || r.circumpolar === true ? "up" : r.polar === "down" || r.neverRises === true ? "down" : null, raw: r };
+  }
+  /** The instant near x0 at which f(x) (degrees) crosses `target`, by the secant method on the wrapped difference. */
+  function skyCrossing(f, target, x0, rate) {
+    let a = x0, fa = wrap180deg(f(a) - target);
+    let b = a - fa / rate, fb = wrap180deg(f(b) - target);
+    for (let i = 0; i < 12 && Math.abs(fb) > 1e-9; i++) {
+      const slope = (fb - fa) / (b - a);
+      const c = b - fb / (Number.isFinite(slope) && slope !== 0 ? slope : rate);
+      a = b; fa = fb; b = c; fb = wrap180deg(f(b) - target);
+      if (Math.abs(b - a) < 1e-9) break;
+    }
+    return b;
+  }
+  const wrap180deg = (d) => mod(d + 180, 360) - 180;
+  const elongationAt = (jd) => { const p = drikSunMoon(jd); return mod360(p.moon - p.sun); };
+  const SYNODIC_RATE = 360 / 29.530588, SUN_RATE = 360 / 365.2564, MOON_RATE = 360 / 27.321662;
+  /** The dṛk new moon at or before jd (the start of the amānta month holding jd). */
+  function skyNewMoonBefore(jd) {
+    let x = skyCrossing(elongationAt, 0, jd - elongationAt(jd) / SYNODIC_RATE, SYNODIC_RATE);
+    if (x > jd) x = skyCrossing(elongationAt, 0, x - 29.53, SYNODIC_RATE);
+    return x;
+  }
+  const skyNewMoonAfter = (x) => skyCrossing(elongationAt, 0, x + 29.53, SYNODIC_RATE);
+  const sunSidAt = (jd) => drikSun(jd).longitude;
+  /** The dṛk saṅkrāntis in [a, b): [{ at, index }] (index 0 = Meṣa). */
+  function skySankrantisBetween(a, b) {
+    const out = [];
+    let s = Math.floor(sunSidAt(a) / 30);
+    const sEnd = Math.floor(sunSidAt(b) / 30), n = mod(sEnd - s, 12);
+    for (let i = 1; i <= n; i++) {
+      const idx = mod(s + i, 12), target = idx * 30;
+      const at = skyCrossing(sunSidAt, target, a + mod(target - sunSidAt(a), 360) / SUN_RATE, SUN_RATE);
+      out.push({ at, index: idx });
+    }
+    return out.filter((x) => x.at >= a && x.at < b);
+  }
+  /** The dṛk amānta month holding jd, named by Panchanga.nameMonth (the text tier's one rule) from the tier's own new
+   *  moons and saṅkrāntis. Refused (TierSpanError) when any instant it needs is outside the span (EDGE RULE). */
+  function skyLunarMonth(jd) {
+    const hit = skyMonthCache.get("drik", jd);
+    if (hit) return hit;
+    const start = skyNewMoonBefore(jd), end = skyNewMoonAfter(start);
+    const sank = skySankrantisBetween(start, end);
+    const next = sank.length ? undefined : mod(Math.floor(sunSidAt(end) / 30) + 1, 12);
+    const P = ssTier().calendar({ samskara: null });
+    const nm = P.nameMonth(sank.map((s) => s.index), next);
+    return skyMonthCache.put("drik", start, end, Object.freeze({ ...nm, startJd: start, endJd: end, sankrantis: sank, source: "own",
+      rule: "the text tier's naming rule (panchanga.js nameMonth) on the dṛk new moons and saṅkrāntis [standard rule; no local text]" }));
+  }
+  /** The dṛk year holding jd: the nija Caitra new moon (the month holding the Meṣa saṅkrānti) and the next. */
+  function skyYear(jd) {
+    const hit = skyYearCache.get("drik", jd);
+    if (hit) return hit;
+    const meshaNear = (x) => skyCrossing(sunSidAt, 0, x - wrap180deg(sunSidAt(x)) / SUN_RATE, SUN_RATE);
+    let mesha, start;
+    try {
+      mesha = meshaNear(jd - mod(sunSidAt(jd), 360) / SUN_RATE);
+      start = skyNewMoonBefore(mesha);
+      if (start > jd) { mesha = meshaNear(mesha - 365.2564); start = skyNewMoonBefore(mesha); }
+    } catch (e) {
+      // EDGE RULE at 1850.0: the Meṣa saṅkrānti before jd is outside the span, but the year holding jd may start inside it
+      // (between the nija Caitra new moon and its Meṣa saṅkrānti). Then it is the tier's own: found from the saṅkrānti
+      // after jd, it needs no instant before its own start. Otherwise the refusal stands.
+      if (!(e && e.code === "TIER_OUT_OF_SPAN")) throw e;
+      const m = meshaNear(jd + mod(-sunSidAt(jd), 360) / SUN_RATE), s = skyNewMoonBefore(m);
+      if (!(s <= jd)) throw e;
+      mesha = m; start = s;
+    }
+    // EDGE RULE: the year's end may lie beyond 2150.0 (the year that starts in 2149). Then the number, the start and the
+    // saṃvatsara stay the tier's own and the end is refused (null), never filled from elsewhere.
+    const endOf = (m) => { try { return skyNewMoonBefore(meshaNear(m + 365.2564)); } catch (e) { if (e && e.code === "TIER_OUT_OF_SPAN") return null; throw e; } };
+    let end = endOf(mesha);
+    if (end !== null && end <= jd) { start = end; mesha = meshaNear(mesha + 365.2564); end = endOf(mesha); }
+    const civil = jdToCivil(start, 0, "gregorian");
+    const vikramYear = civil.year + 57, shakaYear = civil.year - 78;
+    const sv = ssTier().samvatsara(start);
+    const y = Object.freeze({ startJd: start, endJd: end, meshaJd: mesha, vikramYear, shakaYear, kaliYear: vikramYear + 3044,
+      samvatsara: sv, yearStartRule: TIERS.drik.yearStart, samvatsaraRule: TIERS.drik.samvatsara, source: "own",
+      endRefused: end === null ? "the year's end lies after 2150.0, outside the tier's span (EDGE RULE): refused" : null });
+    return end === null ? y : skyYearCache.put("drik", start, end, y);
+  }
+  /** The Moon's nakṣatra at jd in the dṛk tier, with its entry and exit instants (for the daśā balance by time). */
+  function skyNakshatraSpan(jd) {
+    const moonAt = (x) => drikSunMoon(x).moon, arc = 360 / 27;
+    const m = moonAt(jd), k = Math.floor(m / arc);
+    const start = skyCrossing(moonAt, k * arc, jd - (m - k * arc) / MOON_RATE, MOON_RATE);
+    const end = skyCrossing(moonAt, mod((k + 1) * arc, 360), jd + ((k + 1) * arc - m) / MOON_RATE, MOON_RATE);
+    return { nakshatraIndex: k, startJd: start, endJd: end };
+  }
+
+  /** The civil day of a tier at a site holding jd (sunrise to sunrise): { tier, N, civilDate, sunriseJd, sunsetJd,
+   *  nextSunriseJd, prevSunsetJd, varaIndex (0 = ravivāra), varaName, polar, rule, ishta, ishtaCivil }. Text tiers:
+   *  Panchanga.civilDayOf through ss-tier.js (the Sun's centre, no refraction; vāra of Kali day N, SS 1.51); dṛk: the
+   *  series' sunrise (upper limb, 34′) on the local civil date, and the vāra of that date. Where the Sun does not rise or
+   *  set, the local civil date and polar: true. */
+  function tierDay(jd, latitudeDeg = UJJAIN_SITE.latitude, longitudeEastDeg = UJJAIN_SITE.longitude, timezoneHours = 5.5, tier = "ss") {
     requireFinite(jd, "Julian day");
-    requireFinite(timezoneHours, "Timezone offset");
-    if (Math.abs(timezoneHours) > 14) throw new Error("Timezone offset must be inside [-14, 14]");
+    checkSite(latitudeDeg, longitudeEastDeg);
+    requireTz(timezoneHours);
+    const id = bridgeTier(tier), key = `${TIERS[id].family}|${latitudeDeg}|${longitudeEastDeg}|${timezoneHours}`;
+    let d = dayCache.get(key, jd);
+    if (!d) {
+      if (TIERS[id].family === "ss") {
+        const S = ssTier(), site = { latitude: latitudeDeg, longitude: longitudeEastDeg };
+        const x = S.dayOf(jd, site), K = kalaDvara();
+        const prev = x.polar ? null : S.dayEvents(x.N - 1, site).sunsetJd;
+        d = { N: x.N, civilDate: K.civilFromKaliDay(x.N, "gregorian"), sunriseJd: x.sunriseJd, sunsetJd: x.sunsetJd, nextSunriseJd: x.nextSunriseJd,
+          prevSunsetJd: prev, varaIndex: x.vara.index, polar: x.polar, rule: x.rule, nadiDays: S.calendar({ samskara: null }).NADI_DAYS };
+        const start = x.polar ? Math.floor(textDaysOfJd(jd) + (longitudeEastDeg - UJJAIN_LONGITUDE_DEG) / 360) : x.sunriseJd;
+        const end = x.polar ? start : x.nextSunriseJd;
+        if (!x.polar) dayCache.put(key, start, end, d);
+      } else {
+        let mid = localMidnightJd(jd, timezoneHours);
+        let r = drikRiseSet("sun", mid, latitudeDeg, longitudeEastDeg);
+        if (r.rise !== null && jd < r.rise) { mid -= 1; r = drikRiseSet("sun", mid, latitudeDeg, longitudeEastDeg); }
+        const next = drikRiseSet("sun", mid + 1, latitudeDeg, longitudeEastDeg);
+        // the previous sunset is a convenience: on the span's first day it is refused (null), never computed from elsewhere
+        let prev; try { prev = drikRiseSet("sun", mid - 1, latitudeDeg, longitudeEastDeg); } catch (e) { if (!(e && e.code === "TIER_OUT_OF_SPAN")) throw e; prev = { set: null }; }
+        const civil = jdToCivil(mid + 0.25, timezoneHours, "gregorian"), K = kalaDvara();
+        const N = K.kaliDayFromCivil({ calendar: "gregorian", year: civil.year, month: civil.month, day: civil.day });
+        const polar = r.rise === null || r.set === null || next.rise === null;
+        d = { N, civilDate: { year: civil.year, month: civil.month, day: civil.day }, sunriseJd: polar ? null : r.rise, sunsetJd: polar ? null : r.set,
+          nextSunriseJd: polar ? null : next.rise, prevSunsetJd: prev.set, varaIndex: K.varaOfKaliDay(N).index, polar,
+          rule: polar ? "polar: the local civil date" : "sunrise to sunrise at the site (the series' sunrise: upper limb, 34′ refraction); vāra of the sunrise's local civil date", nadiDays: null };
+        if (!polar) dayCache.put(key, d.sunriseJd, d.nextSunriseJd, d);
+      }
+    }
+    const out = { tier: id, ...d, varaName: VARA_NAMES[d.varaIndex] };
+    delete out.nadiDays;
+    if (!d.polar) {
+      const since = jd - d.sunriseJd;
+      const civ = since * 60;
+      out.ishtaCivil = { ghati: Math.floor(civ), vighati: Math.floor((civ * 60) % 60), prana: Math.floor((civ * 360) % 6), unit: "sixtieths of the civil day from sunrise (ghaṭī = 24 min)" };
+      out.ishta = d.nadiDays ? { ...sexagesimal(since / d.nadiDays), unit: "nāḍī of the star-wheel's turn from sunrise (SS 1.11-1.12); pala = 1/60 ghaṭī (= vināḍī), vipala = 1/60 pala" }
+        : { ...sexagesimal(civ), unit: "sixtieths of the civil day from sunrise; pala = 1/60 ghaṭī (= vināḍī), vipala = 1/60 pala" };
+      out.ishta.vighati = out.ishta.pala;
+    } else { out.ishta = null; out.ishtaCivil = null; }
+    return out;
+  }
+
+  /** The pañcāṅga at an instant, for a tier and a site (the sunrise vāra is the site's; Ujjain when no site is given,
+   *  and siteDefaulted says so). Clock fields (ghaṭī … vipala) count from local civil midnight, labelled "civil clock". */
+  function panchangAtJd(jd, timezoneHours = 5.5, mode = "ss", site) {
+    requireFinite(jd, "Julian day");
+    requireTz(timezoneHours);
+    const tier = mode !== null && typeof mode === "object" ? resolveBijaOptions(mode, false, "panchangAtJd").mode : resolveTier(mode);
+    const T = TIERS[tier];
     const t = jd - SS.j2000JD;
     // Quantize once to the smallest reported unit (vipala = 0.4 s). This avoids
     // binary-JD underflow assigning exact civil-time boundaries to the prior unit.
     const rawVipalaTicks = mod(jd + timezoneHours / 24 - 0.5, 1) * METROLOGY.vipalasPerDay;
     const nearestVipalaTick = Math.round(rawVipalaTicks);
-    // Snap only floating-point noise at an exact mathematical boundary.
-    // General instants stay floor-classified, so midnight cannot arrive early.
-    const quantizedVipalaTick = Math.abs(rawVipalaTicks - nearestVipalaTick) < 1e-4
-      ? nearestVipalaTick
-      : Math.floor(rawVipalaTicks);
+    const quantizedVipalaTick = Math.abs(rawVipalaTicks - nearestVipalaTick) < 1e-4 ? nearestVipalaTick : Math.floor(rawVipalaTicks);
     const vipalaTicks = mod(quantizedVipalaTick, METROLOGY.vipalasPerDay);
     const localSeconds = vipalaTicks * 0.4;
     const ghati = Math.floor(vipalaTicks / 3600);
     const vighati = Math.floor(vipalaTicks / 60) % 60;
     const prana = Math.floor(vipalaTicks / 10) % 6;
     const vipala = vipalaTicks % 10;
-    
-    const rows = sphutaGrahaModel(jd, mode);
-    const surya = rows.find(row => row.key === "surya").longitude;
-    const chandra = rows.find(row => row.key === "candra").longitude;
 
-    const lunar = mod360(chandra - surya);
-    const tithiIndex = Math.floor(lunar / 12);
-    const paksha = tithiIndex < 15 ? "शुक्ल" : "कृष्ण";
-    const tithiName = tithiIndex === 14 ? "पूर्णिमा" : tithiIndex === 29 ? "अमावस्या" : TITHI_NAMES[tithiIndex % 15];
-
-    const nakArc = FULL_CIRCLE / 27;
-    const nakshatraIndex = Math.floor(mod360(chandra) / nakArc) % 27;
-    const nakWithin = mod360(chandra) - nakshatraIndex * nakArc;
-    const nakPada = Math.min(4, Math.floor(nakWithin / (nakArc / 4)) + 1);
-    const nakLord = VIMSHOTTARI_SEQUENCE[nakshatraIndex % 9];
-    const nakBhuktaPct = (nakWithin / nakArc * 100).toFixed(1);
-
-    const sauraMasaIndex = Math.floor(mod360(surya) / 30) % 12;
-    // Civil vara uses the local civil date. Sunrise vara is intentionally not
-    // attempted: this API has neither a location nor a sunrise calculation.
-    const varaIndex = mod(Math.floor(jd + timezoneHours / 24 + 1.5), 7);
-    const ahargana = jd - KALI_EPOCH_JD;
-
-    const yogaSum = mod360(chandra + surya);
-    const yogaIndex = Math.floor(yogaSum / (360 / 27)) % 27;
-    const yogaName = YOGA_NAMES[yogaIndex];
-
-    const karanaHalf = Math.floor(lunar / 6);
-    let karanaIndex;
-    let karanaName;
-    let karanaType;
-    if (karanaHalf === 0) {
-      karanaIndex = 10;
-      karanaName = KARANA_NAMES[10]; // Kimstughna / Kintughna
-      karanaType = "Sthira";
-    } else if (karanaHalf >= 1 && karanaHalf <= 56) {
-      karanaIndex = (karanaHalf - 1) % 7;
-      karanaName = KARANA_NAMES[karanaIndex];
-      karanaType = "Chara";
-    } else if (karanaHalf === 57) {
-      karanaIndex = 7;
-      karanaName = KARANA_NAMES[7]; // Shakuni
-      karanaType = "Sthira";
-    } else if (karanaHalf === 58) {
-      karanaIndex = 8;
-      karanaName = KARANA_NAMES[8]; // Chatushpada
-      karanaType = "Sthira";
+    const siteDefaulted = !site;
+    const lat = site ? site.latitude : UJJAIN_SITE.latitude, lon = site ? site.longitude : UJJAIN_SITE.longitude;
+    let limbs;
+    if (T.family === "ss") {
+      const L = ssTier().limbsAt(jd, { samskara: T.samskara });
+      const surya = L.sun, chandra = L.moon, lunar = L.elongation, tithiIndex = L.tithi - 1;
+      const nakshatraIndex = L.nakshatra - 1, nakArc = FULL_CIRCLE / 27, nakWithin = mod360(chandra) - nakshatraIndex * nakArc;
+      const karanaIndex = karanaIndexSS(L.karana);
+      limbs = { surya, chandra, lunar, tithiIndex, paksha: tithiIndex < 15 ? "शुक्ल" : "कृष्ण",
+        tithiName: tithiIndex === 14 ? "पूर्णिमा" : tithiIndex === 29 ? "अमावस्या" : TITHI_NAMES[tithiIndex % 15],
+        nakshatraIndex, nakshatraName: NAKSHATRA_NAMES[nakshatraIndex], nakshatraPada: L.pada, nakshatraLord: VIMSHOTTARI_SEQUENCE[nakshatraIndex % 9],
+        nakshatraBhuktaPct: (nakWithin / nakArc * 100).toFixed(1), nakshatraWithinDeg: nakWithin,
+        yogaIndex: L.yoga - 1, yogaName: YOGA_NAMES[L.yoga - 1], karanaIndex, karanaName: KARANA_NAMES[karanaIndex],
+        karanaType: karanaIndex <= 6 ? "Chara" : "Sthira", karanaOrder: T.karanaOrder, limbTier: tier };
     } else {
-      karanaIndex = 9;
-      karanaName = KARANA_NAMES[9]; // Naga
-      karanaType = "Sthira";
+      const p = drikSunMoon(jd);
+      limbs = { ...limbsFromSphuta(p.sun, p.moon), lunar: mod360(p.moon - p.sun), limbTier: tier };
     }
-
+    const sauraMasaIndex = Math.floor(mod360(limbs.surya) / 30) % 12;
+    const day = tierDay(jd, lat, lon, timezoneHours, tier);
+    const civilVaraIndex = mod(Math.floor(jd + timezoneHours / 24 + 1.5), 7);
+    // dṛk, EDGE RULE: a month that needs an instant outside 1850.0–2150.0 (the first and last months of the span) is
+    // refused as a block — masa says so and masaName is null; the limbs and the day stay served.
+    let m = null, monthRefused = null;
+    if (T.family === "ss") m = ssTier().lunarMonth(jd, { samskara: T.samskara });
+    else { try { m = skyLunarMonth(jd); } catch (e) { if (!(e && e.code === "TIER_OUT_OF_SPAN")) throw e; monthRefused = e; } }
+    const masaIndex = m ? MONTH_IAST.indexOf(m.name) : null;
+    const masa = m ? { name: m.name, nameSa: LUNAR_MASA_SA[masaIndex], adhika: m.adhika, kshaya: m.kshaya, kshayaDropped: m.kshayaDropped,
+      startJd: m.startJd, endJd: m.endJd, scheme: "amānta", rule: m.rule }
+      : { name: null, nameSa: null, refused: true, reason: monthRefused.message, code: monthRefused.code, span: monthRefused.span, scheme: "amānta" };
     return {
-      jd,
-      t,
-      ahargana,
-      localSeconds,
-      vipalaTicks,
-      ghati,
-      vighati,
-      prana,
-      vipala,
-      surya,
-      chandra,
-      lunar,
-      tithiIndex,
-      tithiName,
-      paksha,
-      nakshatraIndex,
-      nakshatraName: NAKSHATRA_NAMES[nakshatraIndex],
-      nakshatraPada: nakPada,
-      nakshatraLord: nakLord,
-      nakshatraBhuktaPct: nakBhuktaPct,
-      nakshatraWithinDeg: nakWithin,
-      yogaIndex,
-      yogaName,
-      karanaIndex,
-      karanaName,
-      karanaType,
-      sauraMasaIndex,
-      sauraMasaName: MASA_SA[sauraMasaIndex],
-      masaIndex: sauraMasaIndex,
-      masaName: MASA_SA[sauraMasaIndex],
-      mode: resolveBijaOptions(mode).mode,
-      varaIndex,
-      civilVaraIndex: varaIndex,
-      varaName: VARA_NAMES[varaIndex],
+      jd, t, tier, mode: tier, tierLabel: T.label,
+      ahargana: textDaysOfJd(jd), aharganaRule: "civil days since midnight at Laṅkā at the Kali epoch (SS 1.45-1.47)",
+      localSeconds, vipalaTicks, ghati, vighati, prana, vipala, clock: "civil clock from local midnight",
+      ...limbs,
+      sauraMasaIndex, sauraMasaName: RASHI_SA[sauraMasaIndex], sauraMasaRule: "the Sun's rāśi (nirayaṇa)",
+      masa, masaIndex, masaName: m ? (m.adhika ? "अधिक " : "") + LUNAR_MASA_SA[masaIndex] : null,
+      siteDefaulted, site: { latitude: lat, longitude: lon },
+      varaIndex: day.varaIndex, varaName: day.varaName, varaRule: day.rule,
+      civilVaraIndex, civilVaraName: VARA_NAMES[civilVaraIndex],
+      day, rules: { karanaOrder: T.karanaOrder, month: T.month, dayBoundary: T.dayBoundary, samvatsara: T.samvatsara, yearStart: T.yearStart },
     };
   }
 
-  function getSolarCoordinates(jd, ayanamshaVariant = "spica_lahiri") {
-    const t = jd - SS.j2000JD;
-    const sidereal = ssSphutaAt("surya", t).sphuta;
-    if (ayanamshaVariant === "calibrated") {
-      const modern = drigCoordinates("surya", jd);
-      return { sidereal, tropical: modern.longitude,
-        declinationDeg: modern.declinationDeg, declinationRad: modern.declinationDeg * Math.PI / 180,
-        rightAscensionDeg: modern.rightAscensionDeg, rightAscensionRad: modern.rightAscensionDeg * Math.PI / 180,
-        obliquityDeg: meanObliquityDeg(jd), ayanamsaDeg: coordinateFrameOffsetDeg(jd, "calibrated") };
-    }
-    const ayana = ayanamshaDeg(jd, ayanamshaVariant);
-    const tropical = mod360(sidereal + ayana);
-    const eps = meanObliquityDeg(jd) * Math.PI / 180;
-    const lambda = tropical * Math.PI / 180;
-    const sinDec = Math.sin(eps) * Math.sin(lambda);
-    const dec = Math.asin(sinDec);
-    const ra = Math.atan2(Math.cos(eps) * Math.sin(lambda), Math.cos(lambda));
-    return {
-      sidereal,
-      tropical,
-      declinationRad: dec,
-      declinationDeg: dec * 180 / Math.PI,
-      rightAscensionRad: ra,
-      rightAscensionDeg: mod360(ra * 180 / Math.PI),
-      obliquityDeg: eps * 180 / Math.PI,
-      ayanamsaDeg: ayana,
+  /** The true obliquity (degrees) the dṛk tier's own reduction used at jd, recovered from one body's apparent direction
+   *  in both frames (the ecliptic of date: λ, β; the equator of date: α, δ): the two frames differ by a rotation ε about
+   *  the equinox line, so ε = atan2(y·Z − z·Y, y·Y + z·Z) with (y, z) = (cos β sin λ, sin β) and (Y, Z) = (cos δ sin α, sin δ).
+   *  The Sun is used unless it is within ~3° of the equinox line, then the Moon. No foreign obliquity model enters. */
+  function drikTrueObliquityDeg(jd, sunRow) {
+    const R = Math.PI / 180;
+    const epsOf = (lam, bet, alp, del) => {
+      const y = Math.cos(bet * R) * Math.sin(lam * R), z = Math.sin(bet * R), Y = Math.cos(del * R) * Math.sin(alp * R), Z = Math.sin(del * R);
+      return { eps: Math.atan2(y * Z - z * Y, y * Y + z * Z) / R, lever: Math.hypot(y, z) };
     };
+    const lam = pickNum(sunRow, ["sunTrop", "tropical"]), bet = pickNum(sunRow, ["sunLat", "latitude"]);
+    const alp = pickNum(sunRow, ["ra", "rightAscensionDeg"]), del = pickNum(sunRow, ["dec", "declinationDeg"]);
+    if (lam !== null && bet !== null) { const e = epsOf(lam, bet, alp, del); if (e.lever > 0.05) return e.eps; }
+    const m = drikCall(sdFn("sunMoon")(jd), jd, "the Moon");
+    const e = epsOf(pickNum(m, ["moonTrop"]), pickNum(m, ["moonLat"]), pickNum(m, ["moonRa"]), pickNum(m, ["moonDec"]));
+    if (!Number.isFinite(e.eps) || e.lever <= 0.05) throw new Error("the dṛk tier's obliquity could not be recovered from the series' Sun and Moon at this instant");
+    return e.eps;
   }
 
-  function solarRiseSet(jdMidnight, latitudeDeg, longitudeEastDeg, timezoneHours = 5.5, ayanamshaVariant = "spica_lahiri") {
+  /** The Sun at jd in a tier: { sidereal, tropical (sāyana in the tier's frame), declination, right ascension, obliquity,
+   *  ayanāṃśa }. Text tiers: the text's Sun, SS 3.9-3.10 and the text's ε (SS 2.28). dṛk: the series' Sun and its true
+   *  Citrā-pakṣa; RA/dec from siddhanta-tier.js when it gives them. */
+  function getSolarCoordinates(jd, tier = "ss") {
+    requireFinite(jd, "Julian day");
+    const id = bridgeTier(tier);
+    let sidereal, eps, epsSource, raDec = null;
+    if (TIERS[id].family === "ss") {
+      sidereal = ssTier().sunMoon(jd, { samskara: TIERS[id].samskara }).sun; eps = ssTier().EPSILON_DEG; epsSource = TIERS[id].obliquity;
+    } else {
+      const s = drikSun(jd); sidereal = s.longitude;
+      const ra = pickNum(s.row, ["ra", "rightAscensionDeg"]), dec = pickNum(s.row, ["dec", "declinationDeg"]);
+      if (ra === null || dec === null) throw new Error("siddhanta-tier.js sun() gave no right ascension and declination: the Modern Bhāratīya (dṛk) contract needs them");
+      raDec = { ra, dec };
+      eps = drikTrueObliquityDeg(jd, s.row); epsSource = "the true obliquity of the series' own apparent Sun (or Moon) — its ecliptic and equatorial directions (siddhanta-tier.js)";
+    }
+    const ayana = tierAyanamsha(jd, id).deg, tropical = mod360(sidereal + ayana);
+    const e = eps * Math.PI / 180, lambda = tropical * Math.PI / 180;
+    const dec = raDec ? raDec.dec * Math.PI / 180 : Math.asin(Math.sin(e) * Math.sin(lambda));
+    const ra = raDec ? raDec.ra * Math.PI / 180 : Math.atan2(Math.cos(e) * Math.sin(lambda), Math.cos(lambda));
+    return { tier: id, sidereal, tropical, declinationRad: dec, declinationDeg: dec * 180 / Math.PI, rightAscensionRad: ra, rightAscensionDeg: mod360(ra * 180 / Math.PI),
+      obliquityDeg: eps, obliquitySource: epsSource, ayanamsaDeg: ayana };
+  }
+
+  /** Sunrise and sunset of the local date whose midnight (UT JD) is given, in a tier. Text tiers: civil day N =
+   *  SSTier.dayOf(jdMidnight + 0.5).N (the day whose sunrise precedes local noon), the Sun's centre with no refraction;
+   *  dṛk: the series' sunrise (upper limb, 34′ refraction). */
+  function solarRiseSet(jdMidnight, latitudeDeg, longitudeEastDeg, timezoneHours = 5.5, tier = "ss") {
     requireFinite(jdMidnight, "Julian day midnight");
     requireFinite(latitudeDeg, "Latitude");
     requireFinite(longitudeEastDeg, "Longitude");
-    requireFinite(timezoneHours, "Timezone offset");
+    requireTz(timezoneHours);
     if (Math.abs(latitudeDeg) >= 90) throw new Error("Latitude must be strictly between -90 and 90 degrees");
     if (Math.abs(longitudeEastDeg) > 180) throw new Error("Longitude must be inside [-180, 180]");
-
-    const rad = Math.PI / 180;
-    const phi = latitudeDeg * rad;
-    const z0 = 90.8333 * rad; // 90° 50' standard refraction + semidiameter
-
-    let jdNoon = jdMidnight + 0.5;
-    for (let iter = 0; iter < 3; iter++) {
-      const sun = getSolarCoordinates(jdNoon, ayanamshaVariant);
-      const lst = localSiderealTimeDeg(jdNoon, longitudeEastDeg);
-      const ha = mod360(lst - sun.rightAscensionDeg);
-      const haSigned = ha > 180 ? ha - 360 : ha;
-      jdNoon -= (haSigned / 360) * (365.25 / 366.25);
+    const id = bridgeTier(tier);
+    let rise, set, noon, rule;
+    if (TIERS[id].family === "ss") {
+      const S = ssTier(), site = { latitude: latitudeDeg, longitude: longitudeEastDeg };
+      const N = S.dayOf(jdMidnight + 0.5, site).N, ev = S.dayEvents(N, site);
+      rise = ev.sunriseJd; set = ev.sunsetJd; noon = rise !== null && set !== null ? (rise + set) / 2 : jdMidnight + 0.5;
+      rule = "the Sun's centre on the horizon, no refraction (SS); noon = the middle of the day (SS 2.60-2.63)";
+    } else {
+      const r = drikRiseSet("sun", jdMidnight, latitudeDeg, longitudeEastDeg);
+      rise = r.rise; set = r.set; noon = r.noon !== null ? r.noon : rise !== null && set !== null ? (rise + set) / 2 : jdMidnight + 0.5;
+      rule = TIERS.drik.sunrise;
     }
-
-    const sunNoon = getSolarCoordinates(jdNoon, ayanamshaVariant);
-    const cosH0 = (Math.cos(z0) - Math.sin(phi) * Math.sin(sunNoon.declinationRad)) /
-                  (Math.cos(phi) * Math.cos(sunNoon.declinationRad));
-
-    if (cosH0 > 1) {
-      return { isPolarNight: true, isMidnightSun: false, jdNoon };
+    if (rise === null || set === null) {
+      const s = getSolarCoordinates(noon, id);
+      const sunUp = latitudeDeg * s.declinationDeg > 0;
+      return { tier: id, isPolarNight: !sunUp, isMidnightSun: sunUp, jdNoon: noon, rule };
     }
-    if (cosH0 < -1) {
-      return { isPolarNight: false, isMidnightSun: true, jdNoon };
-    }
-
-    const H0Deg = Math.acos(cosH0) * 180 / Math.PI;
-    const H0Days = (H0Deg / 360) * (365.25 / 366.25);
-
-    let jdRise = jdNoon - H0Days;
-    let jdSet = jdNoon + H0Days;
-
-    for (let iter = 0; iter < 2; iter++) {
-      const sRise = getSolarCoordinates(jdRise, ayanamshaVariant);
-      const cosHRise = (Math.cos(z0) - Math.sin(phi) * Math.sin(sRise.declinationRad)) /
-                       (Math.cos(phi) * Math.cos(sRise.declinationRad));
-      if (Math.abs(cosHRise) <= 1) {
-        const hDeg = Math.acos(cosHRise) * 180 / Math.PI;
-        const targetLst = mod360(sRise.rightAscensionDeg - hDeg);
-        const curLst = localSiderealTimeDeg(jdRise, longitudeEastDeg);
-        let diff = mod360(targetLst - curLst);
-        if (diff > 180) diff -= 360;
-        jdRise += (diff / 360) * (365.25 / 366.25);
-      }
-
-      const sSet = getSolarCoordinates(jdSet, ayanamshaVariant);
-      const cosHSet = (Math.cos(z0) - Math.sin(phi) * Math.sin(sSet.declinationRad)) /
-                      (Math.cos(phi) * Math.cos(sSet.declinationRad));
-      if (Math.abs(cosHSet) <= 1) {
-        const hDegSet = Math.acos(cosHSet) * 180 / Math.PI;
-        const targetLstSet = mod360(sSet.rightAscensionDeg + hDegSet);
-        const curLstSet = localSiderealTimeDeg(jdSet, longitudeEastDeg);
-        let diffSet = mod360(targetLstSet - curLstSet);
-        if (diffSet > 180) diffSet -= 360;
-        jdSet += (diffSet / 360) * (365.25 / 366.25);
-      }
-    }
-
-    const formatTime = (jd) => {
-      const localDays = mod(jd + timezoneHours / 24 + 0.5, 1);
-      const totalSec = Math.round(localDays * 86400);
-      const h = Math.floor(totalSec / 3600) % 24;
-      const m = Math.floor((totalSec % 3600) / 60);
-      const s = totalSec % 60;
-      return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-    };
-
-    const dayDurationHours = (jdSet - jdRise) * 24;
-    const dayDurationGhati = dayDurationHours * 2.5;
-    const nightDurationHours = 24 - dayDurationHours;
-
-    return {
-      isPolarNight: false,
-      isMidnightSun: false,
-      jdRise,
-      jdSet,
-      jdNoon,
-      riseTime: formatTime(jdRise),
-      setTime: formatTime(jdSet),
-      noonTime: formatTime(jdNoon),
-      dayDurationHours,
-      nightDurationHours,
-      dayDurationGhati,
-    };
+    const dayDurationHours = (set - rise) * 24;
+    return { tier: id, isPolarNight: false, isMidnightSun: false, jdRise: rise, jdSet: set, jdNoon: noon,
+      riseTime: formatHms(rise, timezoneHours), setTime: formatHms(set, timezoneHours), noonTime: formatHms(noon, timezoneHours),
+      dayDurationHours, nightDurationHours: 24 - dayDurationHours, dayDurationGhati: dayDurationHours * 2.5, rule };
   }
 
   function rahuKaal(jdRise, jdSet, varaIndex, timezoneHours = 5.5) {
@@ -2500,156 +2831,127 @@ function chartPrecision(
     const segmentDays = (jdSet - jdRise) / 8;
     const startJd = jdRise + (slotNumber - 1) * segmentDays;
     const endJd = jdRise + slotNumber * segmentDays;
-
-    const formatTime = (jd) => {
-      const localDays = mod(jd + timezoneHours / 24 + 0.5, 1);
-      const totalSec = Math.round(localDays * 86400);
-      const h = Math.floor(totalSec / 3600) % 24;
-      const m = Math.floor((totalSec % 3600) / 60);
-      return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
-    };
-
-    return {
-      slotNumber,
-      startJd,
-      endJd,
-      startTime: formatTime(startJd),
-      endTime: formatTime(endJd),
-      windowText: `${formatTime(startJd)} – ${formatTime(endJd)}`,
-    };
+    const formatTime = (jd) => formatHms(jd, timezoneHours).slice(0, 5);
+    return { slotNumber, startJd, endJd, startTime: formatTime(startJd), endTime: formatTime(endJd), windowText: `${formatTime(startJd)} – ${formatTime(endJd)}` };
   }
 
   function abhijitMuhurta(jdRise, jdSet, timezoneHours = 5.5) {
     const muhurtaDays = (jdSet - jdRise) / 15;
     const startJd = jdRise + 7 * muhurtaDays;
     const endJd = jdRise + 8 * muhurtaDays;
-
-    const formatTime = (jd) => {
-      const localDays = mod(jd + timezoneHours / 24 + 0.5, 1);
-      const totalSec = Math.round(localDays * 86400);
-      const h = Math.floor(totalSec / 3600) % 24;
-      const m = Math.floor((totalSec % 3600) / 60);
-      return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
-    };
-
-    return {
-      startJd,
-      endJd,
-      startTime: formatTime(startJd),
-      endTime: formatTime(endJd),
-      windowText: `${formatTime(startJd)} – ${formatTime(endJd)}`,
-    };
+    const formatTime = (jd) => formatHms(jd, timezoneHours).slice(0, 5);
+    return { startJd, endJd, startTime: formatTime(startJd), endTime: formatTime(endJd), windowText: `${formatTime(startJd)} – ${formatTime(endJd)}` };
   }
 
-  function panchangExtended(jd, latitudeDeg = 23.1765, longitudeEastDeg = 75.7885, timezoneHours = 5.5, ayanamshaVariant = "spica_lahiri", options) {
-    const mode = engineModeForFrame(ayanamshaVariant, options);
-    if (mode === "calibrated") ayanamshaVariant = "calibrated";
-    const base = panchangAtJd(jd, timezoneHours, mode);
-    const jdMidnight = Math.floor(jd + timezoneHours / 24 - 0.5) + 0.5 - timezoneHours / 24;
-    const solar = solarRiseSet(jdMidnight, latitudeDeg, longitudeEastDeg, timezoneHours, ayanamshaVariant);
-    const rahu = !solar.isPolarNight && !solar.isMidnightSun ? rahuKaal(solar.jdRise, solar.jdSet, base.varaIndex, timezoneHours) : null;
-    const abhijit = !solar.isPolarNight && !solar.isMidnightSun ? abhijitMuhurta(solar.jdRise, solar.jdSet, timezoneHours) : null;
-
-    let ishtaGhati = 0;
-    let ishtaVighati = 0;
-    let ishtaPrana = 0;
-    if (solar.jdRise && jd >= solar.jdRise) {
-      const elapsedDays = jd - solar.jdRise;
-      const totalGhatis = elapsedDays * 60;
-      ishtaGhati = Math.floor(totalGhatis) % 60;
-      ishtaVighati = Math.floor((totalGhatis * 60) % 60);
-      ishtaPrana = Math.floor((totalGhatis * 360) % 6);
+  /** The tier's Abhijit for its civil day: text tiers — the 8th muhūrta of the day by muhurta.js (source unverified, as
+   *  muhurta.js says); dṛk — the 8th fifteenth of the series' day. */
+  function tierAbhijit(day, latitudeDeg, longitudeEastDeg, timezoneHours, tier) {
+    if (day.polar) return null;
+    if (TIERS[tier].family === "ss") {
+      const mu = ssTier().muhurtas(day.N, { latitude: latitudeDeg, longitude: longitudeEastDeg }, { samskara: TIERS[tier].samskara });
+      if (!mu) return null;
+      const a = mu.abhijit, f = (x) => formatHms(x, timezoneHours).slice(0, 5);
+      return { startJd: a.startJd, endJd: a.endJd, startTime: f(a.startJd), endTime: f(a.endJd), windowText: `${f(a.startJd)} – ${f(a.endJd)}`, source: a.source };
     }
+    return { ...abhijitMuhurta(day.sunriseJd, day.sunsetJd, timezoneHours), source: "the 8th of 15 equal parts of the day [standard usage; unverified]" };
+  }
 
-    const iso = julianDayToIsoDate(jd, timezoneHours);
-    const gregYear = Number(iso.slice(0, 4));
-    const vikramYear = base.sauraMasaIndex >= 11 || Number(iso.slice(5, 7)) >= 4 ? gregYear + 57 : gregYear + 56;
-    const samvatsaraIndex = mod(vikramYear + 9, 60);
-    const samvatsaraName = SAMVATSARA_NAMES[samvatsaraIndex];
+  /** The tier's year holding jd: { kaliYear, vikramYear, shakaYear, yearStartJd, yearEndJd, yearStartRule, samvatsara }. */
+  function tierYear(jd, tier) {
+    const T = TIERS[tier];
+    if (T.family === "ss") {
+      const S = ssTier(), y = S.lunarYear(jd, { samskara: T.samskara }), sv = S.samvatsara(jd);
+      return { kaliYear: y.k, vikramYear: y.k - 3044, shakaYear: y.k - 3179, yearStartJd: y.startJd, yearEndJd: y.endJd, yearStartRule: y.yearStartRule,
+        samvatsara: { name: SAMVATSARA_NAMES[sv.prabhavaIndex], nameIast: sv.name, index: sv.prabhavaIndex, rule: sv.rule, source: sv.source, reading: sv.reading, at: "the instant" } };
+    }
+    // EDGE RULE: a year that starts before 1850.0 is refused as a block (its number, start and saṃvatsara are null and
+    // the reason is given); a year whose end is after 2150.0 keeps its number and start, with the end refused.
+    let y;
+    try { y = skyYear(jd); } catch (e) {
+      if (!(e && e.code === "TIER_OUT_OF_SPAN")) throw e;
+      return { kaliYear: null, vikramYear: null, shakaYear: null, yearStartJd: null, yearEndJd: null, yearStartRule: TIERS.drik.yearStart,
+        samvatsara: { name: null, nameIast: null, index: null, rule: T.samvatsara, refused: true }, yearRefused: e.message };
+    }
+    const sv = y.samvatsara;
+    return { kaliYear: y.kaliYear, vikramYear: y.vikramYear, shakaYear: y.shakaYear, yearStartJd: y.startJd, yearEndJd: y.endJd, yearStartRule: y.yearStartRule,
+      yearEndRefused: y.endRefused,
+      samvatsara: { name: SAMVATSARA_NAMES[sv.prabhavaIndex], nameIast: sv.name, index: sv.prabhavaIndex, rule: T.samvatsara, source: sv.source, reading: sv.reading, at: "the year start" } };
+  }
 
-    const bhava = bhavaModel(jd, latitudeDeg, longitudeEastDeg, ayanamshaVariant, { mode });
-
-    const ayana = (base.surya >= 90 && base.surya < 270) ? "दक्षिणायन" : "उत्तरायण";
-    const ayanaSa = (base.surya >= 90 && base.surya < 270) ? "दक्षिणायने" : "उत्तरायणे";
-    // ṛtu by SS 14.9–10 ("द्विराशिनाथ ऋतवस्ततो अपि शिशिरादयः"): two nirayaṇa saura months each, counted from the
-    // Makara saṅkrānti with śiśira first ⇒ Mīna+Meṣa = Vasanta … Kanyā+Tulā = Śarad … Makara+Kumbha = Śiśira.
-    const rituIndex = Math.floor(((base.sauraMasaIndex + 1) % 12) / 2) % 6;
-    const ritu = RITU_NAMES[rituIndex];
-
+  /** The extended pañcāṅga of a tier at a site: the base (panchangAtJd at the site) + the day (solar, Rāhu-kāla, Abhijit,
+   *  ishṭa from the tier's sunrise), the year (Kali, Vikrama, Śaka, saṃvatsara by the tier's rule), ayana, ṛtu, lagna and
+   *  bhāvas. */
+  function panchangExtended(jd, latitudeDeg = UJJAIN_SITE.latitude, longitudeEastDeg = UJJAIN_SITE.longitude, timezoneHours = 5.5, tier = "ss", options) {
+    const id = bridgeTier(tier);
+    const base = panchangAtJd(jd, timezoneHours, id, { latitude: latitudeDeg, longitude: longitudeEastDeg });
+    const day = base.day;
+    const solar = day.polar ? solarRiseSet(localMidnightJd(jd, timezoneHours), latitudeDeg, longitudeEastDeg, timezoneHours, id) : {
+      tier: id, isPolarNight: false, isMidnightSun: false, jdRise: day.sunriseJd, jdSet: day.sunsetJd, jdNoon: (day.sunriseJd + day.sunsetJd) / 2,
+      riseTime: formatHms(day.sunriseJd, timezoneHours), setTime: formatHms(day.sunsetJd, timezoneHours), noonTime: formatHms((day.sunriseJd + day.sunsetJd) / 2, timezoneHours),
+      dayDurationHours: (day.sunsetJd - day.sunriseJd) * 24, nightDurationHours: 24 - (day.sunsetJd - day.sunriseJd) * 24, dayDurationGhati: (day.sunsetJd - day.sunriseJd) * 60,
+      rule: TIERS[id].sunrise, civilDay: "the civil day holding the instant (sunrise to sunrise)" };
+    const rahu = day.polar ? null : rahuKaal(day.sunriseJd, day.sunsetJd, day.varaIndex, timezoneHours);
+    const abhijit = tierAbhijit(day, latitudeDeg, longitudeEastDeg, timezoneHours, id);
+    const year = tierYear(jd, id);
+    const bhava = bhavaModel(jd, latitudeDeg, longitudeEastDeg, id, options && typeof options === "object" ? { applyBija: options.applyBija, bijaModel: options.bijaModel } : {});
+    const dakshina = base.surya >= 90 && base.surya < 270;
+    const ritu = rituOfSauraMasa(base.sauraMasaIndex);
     return {
       ...base,
-      latitudeDeg,
-      longitudeEastDeg,
-      timezoneHours,
-      isoDate: iso,
-      vikramYear,
-      samvatsaraIndex,
-      samvatsaraName,
-      shakaYear: vikramYear - 135,
-      ayana,
-      ayanaSa,
-      rituIndex,
-      rituName: ritu.sa,
-      rituEn: ritu.en,
-      solar,
-      rahu,
-      abhijit,
-      ishtaGhati,
-      ishtaVighati,
-      ishtaPrana,
-      lagna: bhava.lagna,
-      lagnaRashi: bhava.lagnaRashi,
-      lagnaRashiSa: RASHI_SA[bhava.lagnaRashi],
-      bhavas: bhava.bhavas,
-      grahas: bhava.grahas,
+      latitudeDeg, longitudeEastDeg, timezoneHours,
+      isoDate: julianDayToIsoDate(jd, timezoneHours),
+      kaliYear: year.kaliYear, vikramYear: year.vikramYear, shakaYear: year.shakaYear, yearStartJd: year.yearStartJd, yearEndJd: year.yearEndJd, yearStartRule: year.yearStartRule,
+      yearRefused: year.yearRefused || null, yearEndRefused: year.yearEndRefused || null,
+      samvatsara: year.samvatsara, samvatsaraIndex: year.samvatsara.index, samvatsaraName: year.samvatsara.name,
+      ayana: dakshina ? "दक्षिणायन" : "उत्तरायण", ayanaSa: dakshina ? "दक्षिणायने" : "उत्तरायणे", ayanaRule: "the Sun's nirayaṇa place: Karka … Dhanu = dakṣiṇāyana",
+      rituIndex: ritu.index, rituName: ritu.sa, rituEn: ritu.en,
+      solar, rahu, abhijit,
+      ishtaGhati: day.ishtaCivil ? day.ishtaCivil.ghati : null, ishtaVighati: day.ishtaCivil ? day.ishtaCivil.vighati : null, ishtaPrana: day.ishtaCivil ? day.ishtaCivil.prana : null,
+      ishta: day.ishta, ishtaCivil: day.ishtaCivil,
+      lagna: bhava.lagna, lagnaRashi: bhava.lagnaRashi, lagnaRashiSa: RASHI_SA[bhava.lagnaRashi],
+      bhavas: bhava.bhavas, grahas: bhava.grahas,
     };
   }
 
+  /** The saṅkalpa from an extended pañcāṅga. Every field is required; a missing one is named (no default year, saṃvatsara,
+   *  month, weekday or limb is put in its place). */
   function generateSankalpaText(p, temple = TEMPLE_PRESETS[0]) {
+    if (!p || typeof p !== "object") throw new RangeError("generateSankalpaText: give it a panchangExtended() result");
+    const need = ["vikramYear", "samvatsaraName", "shakaYear", "masaName", "paksha", "tithiName", "varaName", "nakshatraName", "yogaName", "karanaName", "ishtaGhati", "ishtaVighati"];
+    for (const k of need) if (p[k] === undefined || p[k] === null || p[k] === "") throw new RangeError(`generateSankalpaText: ${k} is missing`);
+    const ayanaText = p.ayanaSa || (Number.isFinite(p.surya) ? ((p.surya >= 90 && p.surya < 270) ? "दक्षिणायने" : "उत्तरायणे") : null);
+    if (!ayanaText) throw new RangeError("generateSankalpaText: ayanaSa is missing (and no surya to derive it)");
+    const rituName = p.rituName || (Number.isInteger(p.sauraMasaIndex) ? rituOfSauraMasa(p.sauraMasaIndex).sa : null);
+    if (!rituName) throw new RangeError("generateSankalpaText: rituName is missing (and no sauraMasaIndex to derive it)");
     const kshetraText = temple.kshetra || "जम्बूद्वीपे भरतवर्षे भरतखण्डे";
     const deityText = temple.deity || "श्री परमेश्वर";
     const templeName = temple.nameSa || temple.name;
-    const samvatNum = p.vikramYear || 2083;
-    const samvatName = p.samvatsaraName || "कालयुक्त";
-    const shakaNum = p.shakaYear || (samvatNum - 135);
-    const ayanaText = p.ayanaSa || ((p.surya >= 90 && p.surya < 270) ? "दक्षिणायने" : "उत्तरायणे");
-    const rituName = p.rituName || RITU_NAMES[Math.floor((((p.sauraMasaIndex || 0) + 1) % 12) / 2) % 6].sa;
-    const rituText = rituName + " ऋतौ";
-    const sauraMasaText = p.sauraMasaName || "श्रावण";
-    const pakshaText = p.paksha || "शुक्ल";
-    const tithiText = p.tithiName || "प्रतिपदा";
-    const varaText = (p.varaName || "शुक्रवार") + " वासरे";
-    const nakshatraText = (p.nakshatraName || "रोहिणी") + " नक्षत्रे";
-    const yogaText = (p.yogaName || "सिद्धि") + " योगे";
-    const karanaText = (p.karanaName || "बव") + " करणे";
     const lagnaText = p.lagnaRashiSa ? p.lagnaRashiSa + " लग्ने" : "";
-    const ishtaText = `${p.ishtaGhati || 0} घटी ${p.ishtaVighati || 0} पलोन्मिते इष्टकाले`;
+    const ishtaText = `${p.ishtaGhati} घटी ${p.ishtaVighati} पलोन्मिते इष्टकाले`;
 
     return `ॐ विष्णुर्विष्णुर्विष्णुः श्रीमद्भगवतो महापुरुषस्य विष्णोराज्ञया प्रवर्तमानस्य अद्य श्रीब्रह्मणो द्वितीये परार्धे श्रीश्वेतवाराहकल्पे वैवस्वतमन्वन्तरे अष्टाविंशतितमे कलियुगे कलिप्रथमचरणे जम्बूद्वीपे भरतवर्षे भरतखण्डे ${kshetraText}।
 
-अस्मिन् वर्तमाने श्रीविक्रमादित्य नृपतेः संवत्सरे श्रीविक्रम संवत् ${samvatNum} (‘${samvatName}’ नाम संवत्सरे), श्रीशालिवाहन शके ${shakaNum}, ${ayanaText}, ${rituText}, महामाङ्गल्यप्रदे शुभे सौर ${sauraMasaText} मासे, ${pakshaText} पक्षे, ${tithiText} शुभतिथौ, ${varaText}, ${nakshatraText}, ${yogaText}, ${karanaText}${lagnaText ? ", " + lagnaText : ""}, ${ishtaText}।
+अस्मिन् वर्तमाने श्रीविक्रमादित्य नृपतेः संवत्सरे श्रीविक्रम संवत् ${p.vikramYear} (‘${p.samvatsaraName}’ नाम संवत्सरे), श्रीशालिवाहन शके ${p.shakaYear}, ${ayanaText}, ${rituName} ऋतौ, महामाङ्गल्यप्रदे शुभे ${p.masaName} मासे, ${p.paksha} पक्षे, ${p.tithiName} शुभतिथौ, ${p.varaName} वासरे, ${p.nakshatraName} नक्षत्रे, ${p.yogaName} योगे, ${p.karanaName} करणे${lagnaText ? ", " + lagnaText : ""}, ${ishtaText}।
 
 अस्मिन् ${templeName} मन्दिरे, ${deityText} प्रीत्यर्थं, मम आत्मनः श्रुतिस्मृतिपुराणोक्त फलप्राप्त्यर्थं, कायिक-वाचिक-मानसिक सकलदुरितोपशमनार्थं, धर्मार्थकाममोक्ष चतुर्विध पुरुषार्थसिद्धये, सर्वोपद्रवशान्तिपूर्वक दीर्घायुर्विपुलधनधान्यकीर्तिलाभाय, विश्वकल्याणार्थं च प्रातःकाले/दैनिक-पूजायां सङ्कल्पं अहं करिष्ये ॥ ॐ तत्सत् श्रीब्रह्मार्पणमस्तु ॥`;
   }
 
   /* ═══════════ Full bhāva model · all twelve houses, lagna-anchored ═══════════
-     Consumes the classical bhāva-madhya geometry (above) plus the Sūrya
-     Siddhānta sphuta engine, and places every graha by exact longitude.
-     Returns both reckoning systems so the caller can compare:
+     The tier's lagna and madhya-lagna, both in the tier's own frame (text tiers: Panchanga.lagnaAt and meridianAt — the
+     text's ε and SS 3.9-3.10; dṛk: the series' lagna and MC), quadrant-trisected [convention: math-core's quadrant
+     trisection]; every graha of the tier placed by exact longitude. Both reckonings are returned:
        · bhāva-madhya (cusp)  — bhava.n, graha.bhava         (advanced)
        · whole-sign (rāśi)     — bhava.wholeSignBhava          (reference) */
-  function bhavaModel(jd, latitudeDeg, longitudeEastDeg, ayanamshaVariant = "spica_lahiri", opts = {}) {
+  function bhavaModel(jd, latitudeDeg, longitudeEastDeg, tier = "ss", opts = {}) {
     requireFinite(jd, "Julian day");
-    const mode = engineModeForFrame(ayanamshaVariant, opts.mode === undefined ? undefined : opts);
-    if (mode === "calibrated") ayanamshaVariant = "calibrated";
-    const ayana = coordinateFrameOffsetDeg(jd, ayanamshaVariant);
-    const madhyasTrop = bhavaMadhyasTropicalDeg(jd, latitudeDeg, longitudeEastDeg);
-    const madhyas = Array(13);
-    for (let n = 1; n <= 12; n++) madhyas[n] = mod360(madhyasTrop[n] - ayana);
+    const id = bridgeTier(tier);
+    const lagnaSid = siderealAscendantDeg(jd, latitudeDeg, longitudeEastDeg, id);
+    const meridian = tierMeridian(jd, latitudeDeg, longitudeEastDeg, id);
+    const madhyas = bhavaMadhyasFrom(lagnaSid, meridian.madhyaLagnaSidereal);
+    const ayana = tierAyanamsha(jd, id).deg;
     const sandhis = bhavaSandhisDeg(madhyas);
-    const lagnaSid = mod360(tropicalAscendantDeg(jd, latitudeDeg, longitudeEastDeg) - ayana);
     const lagnaRashi = Math.floor(lagnaSid / 30) % 12;
-    const grahas = sphutaGrahaModel(jd, { ...opts, mode });
+    const grahas = sphutaGrahaModel(jd, { applyBija: opts && opts.applyBija === true, bijaModel: (opts && opts.bijaModel) || "classical", mode: id });
     const spans = Array.from({ length: 12 }, (_, index) =>
       bhavaForwardArc(sandhis[index + 1], sandhis[index + 2]));
     const minSpanDeg = Math.min(...spans);
@@ -2715,20 +3017,50 @@ function chartPrecision(
 
     return {
       jd,
+      tier: id,
       latitude: latitudeDeg,
       longitude: longitudeEastDeg,
       ayanamsha: ayana,
-      ayanamshaVariant,
+      ayanamshaVariant: id,
       lagna: lagnaSid,
       lagnaRashi,
       lagnaBhava: bhavaIndexForLongitude(lagnaSid, sandhis),
+      madhyaLagna: meridian.madhyaLagnaSidereal,
       madhyas,
       sandhis,
       bhavas,
       grahas: placed,
       reliability,
-      method: "Bhāva-madhya · classical quadrant trisection (lagna + madhya-lagna anchors, unequal sandhis)",
+      method: "Bhāva-madhya · quadrant trisection between the tier's lagna and madhya-lagna [convention: math-core's quadrant trisection]",
+      meridianMethod: meridian.method,
     };
+  }
+
+  /** Vimśottarī of a tier: the birth nakṣatra by the tier's Moon and its elapsed part by time (BPHS 46.16), the tier's
+   *  year (text tiers: the text's solar year; dṛk: the sidereal year 365.25636 d [unverified convention]), and the
+   *  mahādaśā and antardaśā running at atJd. */
+  function vimshottariTier(birthJd, atJd = birthJd, tier = "ss", opts = {}) {
+    requireFinite(birthJd, "Birth Julian day");
+    requireFinite(atJd, "Julian day");
+    const id = resolveTier(tier), T = TIERS[id], S = ssTier();
+    const shape = (p) => p ? { lord: p.name, startJd: p.startJd, endJd: p.endJd } : null;
+    if (T.family === "ss") {
+      const v = S.vimshottari(birthJd, atJd, 2, { samskara: T.samskara });
+      return { tier: id, birthState: { nakshatraIndex: v.birth.nakshatra - 1, lord: v.lordAtBirthName, elapsedFraction: Number(v.birth.elapsed.num) / Number(v.birth.elapsed.den),
+        balanceYears: Number(v.balanceYears.num) / Number(v.balanceYears.den), method: "time (BPHS 46.16)", nakshatraStartJd: v.birth.nakshatraStartJd, nakshatraEndJd: v.birth.nakshatraEndJd },
+        maha: shape(v.chain[0]), antara: shape(v.chain[1]), periods: v.periods.map(shape), year: { days: T.dashaYear.days, source: T.dashaYear.source } };
+    }
+    const D = S.dasha({ samskara: null });
+    const span = skyNakshatraSpan(birthJd), Sp = (jd) => S.spandasOfJd(jd);
+    const elapsed = D.q(Sp(birthJd) - Sp(span.startJd), Sp(span.endJd) - Sp(span.startJd));
+    const yearDays = T.dashaYear.days, cycles = Math.max(1, Math.ceil((atJd - birthJd) / (120 * yearDays)) + 1);
+    const md = D.mahadashas(Sp(birthJd), span.nakshatraIndex + 1, elapsed, { year: { num: 36525636n, den: 100000n, source: T.dashaYear.source }, cycles });
+    const toJd = (r) => { const q = r.num / r.den, rem = r.num % r.den, spd = 328050000000n; return S.jdOfDays(Number(q / spd) + (Number(q % spd) + Number(rem) / Number(r.den)) / 328050000000); };
+    const conv = (p) => ({ name: p.name, startJd: toJd(p.start), endJd: toJd(p.end) });
+    const chain = D.chainAt(md, Sp(atJd), 2).map(conv);
+    return { tier: id, birthState: { nakshatraIndex: span.nakshatraIndex, lord: D.LORDS[md.lordAtBirth], elapsedFraction: Number(elapsed.num) / Number(elapsed.den),
+      balanceYears: Number(md.balanceYears.num) / Number(md.balanceYears.den), method: "time (BPHS 46.16)", nakshatraStartJd: span.startJd, nakshatraEndJd: span.endJd },
+      maha: shape(chain[0]), antara: shape(chain[1]), periods: md.periods.map(conv).map(shape), year: { days: yearDays, source: T.dashaYear.source } };
   }
 
   /* ═══════════ Pāṇini hash · Anuvṛtti + Pratyāhāra (panini_hash.py JS port) ═══════════ */
@@ -2765,10 +3097,23 @@ function chartPrecision(
     timezone: "5.5",
     latitude: "23.1765",
     longitude: "75.7885",
-    ayanamsha: "effective_49",
-    engineMode: "classical",
+    calendar: "gregorian",
+    tier: "",                       // '' = the page default (pageTier(): 'ss+parameshvara')
     applyBija: "false",
   });
+  /* 2026-10-08: 'ayanamsha' and 'engineMode' are gone (a tier carries its own ayanāṃśa). A stored or linked engineMode is
+     migrated when no tier is given: calibrated → drik (the retired hybrid's nearest tier; it was only ever an explicit
+     choice); classical → '' (the page default, 'ss+parameshvara'), because the old code wrote engineMode 'classical' into
+     every visitor's storage and every shared link as its default, so it records no choice — mapping it to 'ss' would pin
+     every returning visitor to the plain text against the owner's default. Anything else is not persisted (R-15). */
+  const LEGACY_ENGINE_MODE = Object.freeze({ classical: "", calibrated: "drik" });
+  function migrateLegacyState(obj) {
+    if (!obj || typeof obj !== "object") return obj;
+    const out = { ...obj };
+    if ((out.tier === undefined || out.tier === "") && Object.prototype.hasOwnProperty.call(LEGACY_ENGINE_MODE, String(out.engineMode))) out.tier = LEGACY_ENGINE_MODE[String(out.engineMode)];
+    delete out.engineMode; delete out.ayanamsha;
+    return out;
+  }
 
   function yantraState() {
     const hasStorage = typeof localStorage !== "undefined";
@@ -2781,10 +3126,9 @@ function chartPrecision(
       const v = String(value == null ? "" : value).trim();
       const num = Number(v);
       switch (key) {
-        case "engineMode": return v === "classical" || v === "calibrated";
+        case "tier": if (v === "") return true; try { resolveTier(v); return true; } catch (e) { return false; }
+        case "calendar": return v === "gregorian" || v === "julian";
         case "applyBija": return v === "true" || v === "false";
-        case "ayanamsha": return v === "classical" || v === "calibrated" ||
-          Object.prototype.hasOwnProperty.call(AYANAMSHA_MODES, v) || Object.prototype.hasOwnProperty.call(AYANAMSHA_MODES_EXTENDED, v);
         case "date": return /^-?\d{1,6}-\d{2}-\d{2}$/.test(v);
         case "time": return /^\d{2}:\d{2}(:\d{2})?$/.test(v);
         case "timezone": return v !== "" && Number.isFinite(num) && num >= -14 && num <= 14;
@@ -2796,6 +3140,7 @@ function chartPrecision(
     function sanitizeState(obj) {
       const out = {};
       if (!obj || typeof obj !== "object") return out;
+      obj = migrateLegacyState(obj);
       for (const key of Object.keys(YANTRA_STATE_DEFAULTS)) {
         if (Object.prototype.hasOwnProperty.call(obj, key) && validStateValue(key, obj[key])) out[key] = obj[key];
       }
@@ -2809,6 +3154,7 @@ function chartPrecision(
       for (const key of Object.keys(YANTRA_STATE_DEFAULTS)) {
         if (params.has(key)) out[key] = params.get(key);
       }
+      if (!out.tier && params.has("engineMode") && Object.prototype.hasOwnProperty.call(LEGACY_ENGINE_MODE, params.get("engineMode"))) out.tier = LEGACY_ENGINE_MODE[params.get("engineMode")];
       return out;
     }
 
@@ -3331,60 +3677,56 @@ function chartPrecision(
 
   const RIKTA_TITHIS = Object.freeze([4, 9, 14, 19, 24, 29]);
 
-  function scanAuspiciousMuhurtas(startJd, daysToScan = 30, category = "business", latitude = 23.1765, longitude = 75.7885, timezone = 5.5, mode = "classical") {
-    requireEngineMode(mode);
+  /** Auspicious days in a tier at a site: for each local civil date from startJd's, the tier's civil day that begins on it
+   *  (its sunrise), scored with the limbs and the vāra AT SUNRISE, and that day's Abhijit (text tiers: muhurta.js's 8th
+   *  muhūrta, source unverified; dṛk: the 8th fifteenth of the series' day). row.jd = the sunrise; row.isoDate = the local
+   *  civil date. The scoring rules are the page's [unverified convention]. */
+  function scanAuspiciousMuhurtas(startJd, daysToScan = 30, category = "business", latitude = UJJAIN_SITE.latitude, longitude = UJJAIN_SITE.longitude, timezone = 5.5, mode = "ss") {
+    requireFinite(startJd, "Julian day");
+    const tier = resolveTier(mode);
     const windows = [];
     const validNakshatras = MUHURTA_NAKSHATRAS[category] || MUHURTA_NAKSHATRAS.business;
-
+    const midnight0 = localMidnightJd(startJd, timezone);
+    const site = { latitude, longitude };
     for (let day = 0; day < daysToScan; day++) {
-      const currentJd = startJd + day;
-      const panchang = panchangAtJd(currentJd, timezone, mode);
+      const noon = midnight0 + day + 0.5;
+      const d = tierDay(noon, latitude, longitude, timezone, tier);
+      if (d.polar) continue;
+      const panchang = panchangAtJd(d.sunriseJd, timezone, tier, site);
       const isRikta = RIKTA_TITHIS.includes(panchang.tithiIndex + 1);
       const isAuspiciousNak = validNakshatras.includes(panchang.nakshatraIndex);
-      const isShubhVara = [1, 3, 4, 5].includes(panchang.civilVaraIndex);
-
+      const vIdx = d.varaIndex, nIdx = panchang.nakshatraIndex;
+      const isShubhVara = [1, 3, 4, 5].includes(vIdx);
       let score = 50;
       const positives = [];
       const cautions = [];
-
       if (!isRikta) { score += 20; positives.push(`Pūrṇa/Bhadra Tithi (${panchang.tithiName})`); }
       else { score -= 30; cautions.push(`Riktā Tithi (${panchang.tithiName}) - Avoid major commitments`); }
-
       if (isAuspiciousNak) { score += 25; positives.push(`Auspicious Nakṣatra (${panchang.nakshatraName})`); }
       else { score -= 10; cautions.push(`Neutral Nakṣatra (${panchang.nakshatraName})`); }
-
-      if (isShubhVara) { score += 15; positives.push(`Favorable Day (${panchang.varaName})`); }
-
-      const vIdx = panchang.civilVaraIndex;
-      const nIdx = panchang.nakshatraIndex;
-      if ((vIdx === 4 && nIdx === 7) || (vIdx === 0 && nIdx === 7)) {
-        score += 30;
-        positives.push("🌟 GURU/RAVI PUSHYA YOGA (Supreme Auspiciousness)");
-      }
-      if ((vIdx === 1 && nIdx === 3) || (vIdx === 3 && nIdx === 3) || (vIdx === 4 && nIdx === 9)) {
-        score += 25;
-        positives.push("✨ AMṚTA SIDDHI YOGA (Indestructible Success)");
-      }
-
+      if (isShubhVara) { score += 15; positives.push(`Favorable Day (${d.varaName})`); }
+      if ((vIdx === 4 && nIdx === 7) || (vIdx === 0 && nIdx === 7)) { score += 30; positives.push("🌟 GURU/RAVI PUSHYA YOGA (Supreme Auspiciousness)"); }
+      if ((vIdx === 1 && nIdx === 3) || (vIdx === 3 && nIdx === 3) || (vIdx === 4 && nIdx === 9)) { score += 25; positives.push("✨ AMṚTA SIDDHI YOGA (Indestructible Success)"); }
       if (score >= 65) {
-        const isoDate = julianDayToIsoDate(currentJd);
-        const muhurta = abhijitMuhurta(currentJd - 0.5, currentJd + 0.5, timezone);
+        const abhijit = tierAbhijit(d, latitude, longitude, timezone, tier);
         windows.push({
-          jd: currentJd,
-          isoDate,
-          varaName: panchang.varaName,
+          jd: d.sunriseJd,
+          isoDate: julianDayToIsoDate(noon, timezone),
+          tier,
+          varaName: d.varaName,
           tithiName: panchang.tithiName,
           nakshatraName: panchang.nakshatraName,
           yogaName: panchang.yogaName,
           score: Math.min(score, 100),
           quality: score >= 90 ? "Apex Sovereign (90%+)" : score >= 75 ? "Highly Auspicious (75%+)" : "Auspicious (65%+)",
-          bestWindowTime: muhurta ? `${muhurta.startTime} – ${muhurta.endTime} (Abhijit Muhūrta)` : "Abhijit Muhūrta (compute pending)",
+          abhijit: abhijit ? { startJd: abhijit.startJd, endJd: abhijit.endJd, source: abhijit.source } : null,
+          bestWindowTime: abhijit ? `${abhijit.startTime} – ${abhijit.endTime} (Abhijit Muhūrta)` : "Abhijit Muhūrta (not computed: polar day)",
+          rule: "limbs and vāra at the tier's sunrise; scoring is the page's [unverified convention]",
           positives,
           cautions,
         });
       }
     }
-
     windows.sort((a, b) => b.score - a.score);
     return windows;
   }
@@ -3392,45 +3734,41 @@ function chartPrecision(
   // ═══════════════════════════════════════════════════════════════════════════
   // BPHS CHAPTER 5: SPECIAL LAGNAS (विशेष लग्नाध्यायः)
   // ═══════════════════════════════════════════════════════════════════════════
-  function computeSpecialLagnas(jd, lat, lon, sunDeg, moonDeg, lagnaDeg, tzHours = 5.5) {
-    const riseSet = solarRiseSet(jd, lat, lon);
-    const sunriseJd = riseSet.sunriseJd || (jd - 0.25);
-    const dayFractionElapsed = Math.max(0, jd - sunriseJd);
-    const ishtaGhati = dayFractionElapsed * 60;
+  /** The ishṭa ghaṭī is the civil sixtieths of the day since the sunrise of the tier's civil day holding jd (the previous
+   *  sunrise before today's) [reading: BPHS ch. 5 ghaṭī of the day]. Indu lagna is a rāśi only (BPHS gives no degree). */
+  function computeSpecialLagnas(jd, lat, lon, sunDeg, moonDeg, lagnaDeg, tzHours = 5.5, tier = "ss") {
+    const id = bridgeTier(tier);
+    const d = tierDay(jd, lat, lon, tzHours, id);
+    if (d.polar) return { error: "not computed: polar day or night (the tier's day needs a sunrise)", tier: id };
+    const ishtaGhati = (jd - d.sunriseJd) * 60;
 
     // 1. Bhāva Lagna: 1 sign per 5 ghatis from Sun
     const bhavaLagnaDeg = mod360(sunDeg + (ishtaGhati / 5) * 30);
-
     // 2. Horā Lagna: 1 sign per 2.5 ghatis from Sun
     const horaLagnaDeg = mod360(sunDeg + (ishtaGhati / 2.5) * 30);
-
     // 3. Ghaṭī Lagna: 1 sign per 1 ghati from Sun
     const ghatiLagnaDeg = mod360(sunDeg + ishtaGhati * 30);
-
     // 4. Prāṇapada Lagna: 1 sign per 1 vighati (ishtaGhati * 4 * 30 = ishtaGhati * 120 deg)
     const sunSign = Math.floor(sunDeg / 30);
     let baseSign = sunSign;
     if (sunSign % 3 === 1) baseSign = (sunSign + 8) % 12; // Sthira
     else if (sunSign % 3 === 2) baseSign = (sunSign + 4) % 12; // Dwisvabhava
     const pranapadaLagnaDeg = mod360(baseSign * 30 + ishtaGhati * 120);
-
     // 5. Śrī Lagna: Lagna + fraction of nakshatra elapsed * 360
     const moonNak = computeNakshatraDetails(moonDeg);
     const sriLagnaDeg = mod360(lagnaDeg + moonNak.fractionDone * 360);
-
-    // 6. Indu Lagna
-    const induResult = computeInduLagna(lagnaDeg, moonDeg, {
-      sun: sunDeg, moon: moonDeg, mars: 0, mercury: 0, jupiter: 0, venus: 0, saturn: 0
-    });
+    // 6. Indu Lagna (a rāśi)
+    const induResult = computeInduLagna(lagnaDeg, moonDeg);
 
     return {
-      ishtaGhati,
+      tier: id, sunriseJd: d.sunriseJd,
+      ishtaGhati, ishtaRule: "civil sixtieths of the day since the tier's sunrise [reading: BPHS ch. 5 ghaṭī of the day]",
       bhavaLagna: { deg: bhavaLagnaDeg, rashi: Math.floor(bhavaLagnaDeg / 30), nameSa: "भाव लग्न" },
       horaLagna: { deg: horaLagnaDeg, rashi: Math.floor(horaLagnaDeg / 30), nameSa: "होरा लग्न" },
       ghatiLagna: { deg: ghatiLagnaDeg, rashi: Math.floor(ghatiLagnaDeg / 30), nameSa: "घटी लग्न" },
       pranapadaLagna: { deg: pranapadaLagnaDeg, rashi: Math.floor(pranapadaLagnaDeg / 30), nameSa: "प्राणपद लग्न" },
       sriLagna: { deg: sriLagnaDeg, rashi: Math.floor(sriLagnaDeg / 30), nameSa: "श्री लग्न" },
-      induLagna: { deg: induResult.induLagnaDeg, rashi: induResult.induLagnaRashi, nameSa: "इन्दु लग्न" }
+      induLagna: { deg: null, rashi: induResult.induLagnaIndex, rashiName: induResult.induLagnaRashi, nameSa: "इन्दु लग्न", note: "a rāśi: BPHS gives no degree" },
     };
   }
 
@@ -3442,47 +3780,39 @@ function chartPrecision(
   // by day the parts' lords run in weekday order from the vāra-lord, by night from the 5th lord from it; the 8th part has
   // no lord. Gulika = the lagna at Saturn's part; Kāla, Mṛtyu, Ardhaprahara (saumya = Budha) and Yamaghaṇṭaka at the
   // parts of the Sun, Mars, Mercury and Jupiter. Whether the part's start or its middle is meant is a convention
-  // [unverified]; this engine takes the START and says so. The vāra runs sunrise to sunrise.
-  function kalaUpagrahaParts(jd, lat, lon, tz = 5.5) {
-    const m0 = Math.floor(jd + tz / 24 - 0.5) + 0.5 - tz / 24;            // this civil date's local midnight, as a UT JD
-    const rs = (m) => solarRiseSet(m, lat, lon, tz);
-    const today = rs(m0);
-    if (!today || today.jdRise == null || today.jdSet == null) return null; // polar day or night: the text's division fails
-    let start, end, isDay, varaMidnight;
-    if (jd >= today.jdRise && jd < today.jdSet) { start = today.jdRise; end = today.jdSet; isDay = true; varaMidnight = m0; }
-    else if (jd >= today.jdSet) {
-      const next = rs(m0 + 1); if (!next || next.jdRise == null) return null;
-      start = today.jdSet; end = next.jdRise; isDay = false; varaMidnight = m0;
-    } else {
-      const prev = rs(m0 - 1); if (!prev || prev.jdSet == null) return null;
-      start = prev.jdSet; end = today.jdRise; isDay = false; varaMidnight = m0 - 1;
-    }
-    const vara = (Math.round(varaMidnight + tz / 24 + 0.5) + 1) % 7;      // 0 = Ravivāra … 6 = Śanivāra
+  // [unverified]; this engine takes the START and says so. The vāra runs sunrise to sunrise (the tier's day).
+  function kalaUpagrahaParts(jd, lat, lon, tz = 5.5, tier = "ss") {
+    const d = tierDay(jd, lat, lon, tz, bridgeTier(tier));
+    if (d.polar) return null;                                              // polar day or night: the text's division fails
+    const isDay = jd < d.sunsetJd;
+    const start = isDay ? d.sunriseJd : d.sunsetJd, end = isDay ? d.sunsetJd : d.nextSunriseJd;
+    const vara = d.varaIndex;                                              // 0 = Ravivāra … 6 = Śanivāra
     const first = isDay ? vara : (vara + 4) % 7;                           // by night: the 5th lord from the vāra-lord
     const partLen = (end - start) / 8;
     const partStart = (lord) => start + ((lord - first + 7) % 7) * partLen; // lords 0 Sun 1 Moon 2 Mars 3 Mercury 4 Jupiter 5 Venus 6 Saturn
-    return { isDay, vara, start, end, partLen, partStart };
+    return { tier: d.tier, isDay, vara, start, end, partLen, partStart };
   }
 
-  function computeUpagrahas(sunDeg, jd, lat = 23.1765, lon = 75.7685, tz = 5.5, frame = "classical") {
+  function computeUpagrahas(sunDeg, jd, lat = UJJAIN_SITE.latitude, lon = UJJAIN_SITE.longitude, tz = 5.5, frame = "ss") {
+    const tier = bridgeTier(frame);
     const dhuma = mod360(sunDeg + 133 + 20 / 60);
     const vyatipata = mod360(360 - dhuma);
     const parivesha = mod360(vyatipata + 180);
     const indrachapa = mod360(360 - parivesha);
     const upaketu = mod360(indrachapa + 16 + 40 / 60);
 
-    let parts = null;
-    try { parts = kalaUpagrahaParts(jd, lat, lon, tz); } catch (e) { parts = null; }
-    const lagnaAtPart = (lord) => (parts ? siderealAscendantDeg(parts.partStart(lord), lat, lon, frame) : null);
+    const parts = kalaUpagrahaParts(jd, lat, lon, tz, tier);
+    const lagnaAtPart = (lord) => (parts ? siderealAscendantDeg(parts.partStart(lord), lat, lon, tier) : null);
     const timed = (lord, nameSa, nameEn) => {
       const deg = lagnaAtPart(lord);
       return deg == null
         ? { deg: null, rashi: null, nameSa, nameEn, note: "not computed (polar day/night: BPHS 3.66–70 needs a sunrise and a sunset)" }
-        : { deg, rashi: Math.floor(deg / 30), nameSa, nameEn, jdPartStart: parts.partStart(lord), isDay: parts.isDay,
+        : { deg, rashi: Math.floor(deg / 30), nameSa, nameEn, jdPartStart: parts.partStart(lord), isDay: parts.isDay, tier,
             rule: "BPHS 3.66–70: lagna at the start of the lord's 1/8 part of the " + (parts.isDay ? "day" : "night") };
     };
 
     return {
+      tier,
       dhuma: { deg: dhuma, rashi: Math.floor(dhuma / 30), nameSa: "धूम", nameEn: "Dhuma" },
       vyatipata: { deg: vyatipata, rashi: Math.floor(vyatipata / 30), nameSa: "व्यतीपात (उपग्रह)", nameEn: "Vyatipata Upagraha" },
       parivesha: { deg: parivesha, rashi: Math.floor(parivesha / 30), nameSa: "परिवेष (परिधि)", nameEn: "Parivesha" },
@@ -3690,8 +4020,8 @@ function chartPrecision(
   // ═══════════════════════════════════════════════════════════════════════════
   // BPHS CHAPTERS 84-96: VEDIC BIRTH DOSHAS & SHANTI (अशुभजन्म एवं शान्ति)
   // ═══════════════════════════════════════════════════════════════════════════
-  function computeBirthDoshasAndShanti(jd, lat, lon, sunDeg, moonDeg, lagnaDeg, tz = 5.5, mode = "classical") {
-    const pan = panchangAtJd(jd, tz, mode);
+  function computeBirthDoshasAndShanti(jd, lat, lon, sunDeg, moonDeg, lagnaDeg, tz = 5.5, mode = "ss") {
+    const pan = panchangAtJd(jd, tz, resolveTier(mode), { latitude: lat, longitude: lon });
     const doshas = [];
 
     // 1. Darsha Janma (Amavasya Birth - Ch. 86)
@@ -3774,67 +4104,198 @@ function chartPrecision(
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
+  // ECLIPSES: one row shape for every tier (Stage C contract, 2026-10-09)
+  // ═══════════════════════════════════════════════════════════════════════════
+  /* Every eclipse row math-core gives (tierEclipses, and the 14 adhikāras' lists) carries these common fields, in
+     addition to its tier's own:
+       kind            'lunar' | 'solar'
+       middleJd        JD (UT) of the middle at the site (text: madhya; dṛk lunar: greatest eclipse; dṛk solar: the
+                       site's maximum)
+       contacts        { sparsha, madhya, moksha, nimilana, unmilana }: JD (UT), null where there is none (text: the
+                       text's contacts; dṛk lunar: the umbral contacts U1, U4 and the total phase U2, U3 — a penumbral
+                       eclipse has none, its P1/P4 are in penumbralContacts; dṛk solar: the site's C1, C4, C2, C3)
+       magnitude       the covered part of the eclipsed disc's diameter at the middle: the umbral magnitude for a lunar
+                       eclipse (text: the text's shadow, SS 4.11), the site's magnitude for a solar one; null for a
+                       penumbral-only lunar eclipse
+       penumbral       true only for a penumbral-only lunar eclipse (the text tiers have no penumbra: always false)
+       penumbralMagnitude   dṛk lunar: the penumbral magnitude; otherwise null
+       grasa           the grāsa shown: = magnitude (≥ 0), or null for a penumbral-only eclipse — never negative
+       seenAtSite      solar: seen at the site (the tier's rule, TIERS[tier].eclipses); lunar: the Moon above the
+                       tier's horizon at mid-eclipse (seenDuringEclipse keeps the tier's whole-eclipse verdict)
+       tier, source    the tier id; 'text' (both text tiers) or 'own' (dṛk)
+     The tier's own fields stay (text: contactsJd, channa, latitude, discs, method, …; dṛk: type, umbralMagnitude,
+     radiiDeg, gamma, local, …; the dṛk row's own contacts {P1 … P4} are kept as contactsDetail, and a dṛk solar row's
+     global type, magnitude and maximum as global). */
+  const ECLIPSE_ROW_FIELDS = Object.freeze(["kind", "middleJd", "contacts", "magnitude", "penumbral", "penumbralMagnitude", "grasa", "seenAtSite", "tier", "source"]);
+  const ECLIPSE_MAX_WINDOW_DAYS = 3660;
+  const contactsOf = (c) => Object.freeze({ sparsha: c.sparsha ?? null, madhya: c.madhya ?? null, moksha: c.moksha ?? null, nimilana: c.nimilana ?? null, unmilana: c.unmilana ?? null });
+  /** A text tier's row (ss-tier.js eclipsesNear) → the common row. */
+  function textEclipseRow(E, tier) {
+    const mag = Number.isFinite(E.magnitude) && E.magnitude >= 0 ? E.magnitude : null;
+    const c = E.contactsJd || {};
+    return Object.freeze({ ...E, kind: E.kind, middleJd: E.middleJd, contacts: contactsOf({ ...c, madhya: c.madhya ?? E.middleJd }),
+      magnitude: mag, penumbral: false, penumbralMagnitude: null, grasa: mag, type: E.total === true || mag >= 1 ? "total" : "partial",
+      seenAtSite: E.kind === "lunar" ? E.aboveAtMiddle === true : E.seenAtSite === true, seenDuringEclipse: E.seenAtSite === true,
+      tier, source: "text" });
+  }
+  /** A dṛk row (siddhanta-tier.js eclipses with a site) → the common row; null for a solar eclipse the site is not in. */
+  function drikEclipseRow(E, tier) {
+    const ut = (x) => (x && Number.isFinite(x.jdUT) ? x.jdUT : null);
+    const { contacts: own, ...rest } = E;
+    if (E.kind === "lunar") {
+      const penumbral = E.type === "penumbral", umb = Number.isFinite(E.umbralMagnitude) ? E.umbralMagnitude : E.magnitude;
+      const mag = penumbral || !(umb >= 0) ? null : umb;
+      const alt = E.local && E.local.moonAltitudeDeg ? E.local.moonAltitudeDeg.max : null;
+      const horizon = siddhantaTier().CONSTANTS.MOON_HORIZON_DEG;      // the tier's moonrise horizon (DK-5)
+      return Object.freeze({ ...rest, contactsDetail: own, kind: "lunar", middleJd: E.maxJdUT,
+        contacts: contactsOf({ sparsha: ut(own.U1), madhya: E.maxJdUT, moksha: ut(own.U4), nimilana: ut(own.U2), unmilana: ut(own.U3) }),
+        penumbralContacts: Object.freeze({ first: ut(own.P1), last: ut(own.P4) }),
+        magnitude: mag, penumbral, penumbralMagnitude: Number.isFinite(E.penumbralMagnitude) ? E.penumbralMagnitude : null, grasa: mag,
+        seenAtSite: Number.isFinite(alt) ? alt > horizon : null, seenDuringEclipse: E.local ? E.local.visible === true : null, tier, source: "own" });
+    }
+    const L = E.local;
+    if (!L || L.eclipsed !== true) return null;                         // as the text tier: a solar eclipse is the site's
+    const mag = Number.isFinite(L.magnitude) && L.magnitude >= 0 ? L.magnitude : null;
+    return Object.freeze({ ...rest, contactsDetail: own, kind: "solar", middleJd: L.maxJdUT,
+      contacts: contactsOf({ sparsha: ut(L.contacts.C1), madhya: L.maxJdUT, moksha: ut(L.contacts.C4), nimilana: ut(L.contacts.C2), unmilana: ut(L.contacts.C3) }),
+      type: L.type, global: Object.freeze({ type: E.type, magnitude: E.magnitude, maxJdUT: E.maxJdUT, greatest: E.greatest }),
+      magnitude: mag, penumbral: false, penumbralMagnitude: null, grasa: mag, obscuration: L.obscuration,
+      seenAtSite: L.visible === true, seenDuringEclipse: L.visible === true, tier, source: "own" });
+  }
+  /** The tier's eclipses at a site whose middle falls in [fromJd, toJd] (JD UT, at most ten years), oldest first, as
+   *  common rows (ECLIPSE_ROW_FIELDS). Text tiers: ss-tier.js eclipsesNear (the plain text: ss-grahana.js; the saṃskāra:
+   *  samskara.js on the record). dṛk: siddhanta-tier.js eclipses (drik-grahana.js), solar rows only where the site is in
+   *  the eclipse. EDGE RULE: when the dṛk search window (±0.6 d, and each eclipse's ±0.35-d interpolation window) needs
+   *  an instant outside 1850.0–2150.0 the whole list is refused with a TierSpanError (code TIER_OUT_OF_SPAN, edgeRule
+   *  true, block 'eclipses'); a caller that serves other blocks catches it and refuses this block alone.
+   *  → { tier, list, method, label (TIERS[tier].eclipses), window: { fromJd, toJd }, site } */
+  function tierEclipses(fromJd, toJd, latitudeDeg = UJJAIN_SITE.latitude, longitudeEastDeg = UJJAIN_SITE.longitude, tier = "ss") {
+    requireFinite(fromJd, "Julian day (from)"); requireFinite(toJd, "Julian day (to)");
+    requireFinite(latitudeDeg, "Latitude"); requireFinite(longitudeEastDeg, "Longitude");
+    if (!(toJd >= fromJd)) throw new RangeError("tierEclipses: toJd must not precede fromJd");
+    if (toJd - fromJd > ECLIPSE_MAX_WINDOW_DAYS) throw new RangeError(`tierEclipses: ask for at most ${ECLIPSE_MAX_WINDOW_DAYS} days at a time`);
+    if (Math.abs(latitudeDeg) >= 90) throw new RangeError("tierEclipses: latitude must lie strictly between −90° and 90°");
+    const id = bridgeTier(tier), T = TIERS[id], site = { latitude: latitudeDeg, longitude: longitudeEastDeg };
+    let list, method;
+    if (T.family === "ss") {
+      // the text tiers search parvas around the middle of the window; one day more each side catches a solar middle that
+      // the chapter-5 parallax moves across an end, then every row is kept by its own middle
+      const mid = (fromJd + toJd) / 2, half = (toJd - fromJd) / 2 + 1;
+      list = ssTier().eclipsesNear(mid, site, half, { samskara: T.samskara }).map((E) => textEclipseRow(E, id));
+      method = T.samskara ? "SS 4-5 on the saṃskāra model (samskara.js)" : "SS 4-5 (ss-grahana.js)";
+    } else {
+      // a window wholly outside the span is refused as any dṛk request; one that reaches across an edge (the window itself,
+      // its ±0.6-d margin, or an eclipse's ±0.35-d interpolation window) is refused by the EDGE RULE, as a block
+      const [first, last] = sdFn("spanJdUT")();
+      if (fromJd > last || toJd < first) throw new TierSpanError("drik", fromJd > last ? fromJd : toJd, "the eclipse search");
+      const r = sdFn("eclipses")(fromJd, toJd, site);
+      if (r === null || r === undefined) {
+        const err = new TierSpanError("drik", fromJd - first < last - toJd ? first - 1 : last + 1,
+          "the eclipse search (EDGE RULE: its window, ±0.6 d, and each eclipse's ±0.35-d interpolation window must lie inside the span; only this block is refused)");
+        err.edgeRule = true; err.block = "eclipses";
+        throw err;
+      }
+      list = r.map((E) => drikEclipseRow(E, id)).filter(Boolean);
+      method = "our eclipse search on the series (siddhanta-tier.js eclipses, owner decision DK-3); solar: the eclipses the site is in";
+    }
+    list = list.filter((E) => E.middleJd >= fromJd && E.middleJd <= toJd).sort((a, b) => a.middleJd - b.middleJd);
+    return { tier: id, list, method, label: T.eclipses, window: { fromJd, toJd }, site };
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
   // SURYA SIDDHANTA: COMPLETE 14-ADHIKARA GRAND AUDIT & COMPUTATIONAL SUITE
   // ═══════════════════════════════════════════════════════════════════════════
-  function computeSuryaSiddhanta14Adhikaras(jd, lat, lon, planets, lagnaDeg, tz = 5.5, mode = "classical") {
+  function computeSuryaSiddhanta14Adhikaras(jd, lat, lon, planets, lagnaDeg, tz = 5.5, mode = "ss") {
+    const tier = bridgeTier(mode), T = TIERS[tier];
     const deg = (r) => (r * 180) / Math.PI;
-    const sun = planets.find(p => p.key === "surya") || { longitude: 0, name: "सूर्य" };
-    const moon = planets.find(p => p.key === "candra") || { longitude: 0, name: "चन्द्र" };
-    const mars = planets.find(p => p.key === "mangala") || { longitude: 0, name: "मङ्गल" };
-    const merc = planets.find(p => p.key === "budha") || { longitude: 0, name: "बुध" };
-    const jup = planets.find(p => p.key === "guru") || { longitude: 0, name: "गुरु" };
-    const ven = planets.find(p => p.key === "shukra") || { longitude: 0, name: "शुक्र" };
-    const sat = planets.find(p => p.key === "shani") || { longitude: 0, name: "शनि" };
-    const rahu = planets.find(p => p.key === "rahu") || { longitude: 0, name: "राहु" };
+    // Every graha is required (2026-10-08: a missing one used to become longitude 0, a fabricated place); the rows'
+    // Devanagari name is `sa` (the old code read a `name` field the rows do not have, so the names were blank).
+    const pick = (key, nameSa) => {
+      const p = Array.isArray(planets) ? planets.find((x) => x && x.key === key) : null;
+      if (!p || !Number.isFinite(p.longitude)) throw new RangeError(`computeSuryaSiddhanta14Adhikaras: the ${key} row (with a finite longitude) is missing`);
+      return { ...p, name: p.name || p.sa || nameSa };
+    };
+    const sun = pick("surya", "सूर्य"), moon = pick("candra", "चन्द्र"), mars = pick("mangala", "मङ्गल"), merc = pick("budha", "बुध");
+    const jup = pick("guru", "गुरु"), ven = pick("shukra", "शुक्र"), sat = pick("shani", "शनि"), rahu = pick("rahu", "राहु");
+    const site = { latitude: lat, longitude: lon };
 
-    const pan = panchangAtJd(jd, tz, mode);
+    const pan = panchangAtJd(jd, tz, tier, site);
 
-    // 1. Madhyamādhikāra: Ahargana & Mean Motion
-    const ahargana = jd - KALI_EPOCH_JD;
+    // 1. Madhyamādhikāra: the ahargaṇa is the text's count (civil days from midnight at Laṅkā, SS 1.45-1.47)
+    const ahargana = textDaysOfJd(jd);
     const hours = Math.floor((pan.localSeconds || 0) / 3600);
     const mins = Math.floor(((pan.localSeconds || 0) % 3600) / 60);
     const secs = Math.floor((pan.localSeconds || 0) % 60);
     const timeStr = `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-    const ujjainTime = ujjainMeanTime(timeStr, tz, lon);
+    const ujjainTime = ujjainMeanTime(timeStr, tz, UJJAIN_LONGITUDE_DEG);
+    const localMeanTime = ujjainMeanTime(timeStr, tz, lon);
 
-    // 2. Spaṣṭādhikāra: Daily Velocities & True Anomaly
-    const vels = computePlanetaryVelocities(jd, { mode });
+    // 2. Spaṣṭādhikāra: daily velocities of the tier's grahas
+    const vels = computePlanetaryVelocities(jd, { mode: tier });
 
-    // 3. Tripraśnādhikāra: Gnomon shadow & Ascensional difference
-    const gnomonLen = 12.0; // 12-angula standard
-    const latRad = rad(lat);
-    const sunDecRad = Math.asin(Math.sin(rad(23.44)) * Math.sin(rad(sun.longitude)));
-    const sinAlt = Math.sin(latRad) * Math.sin(sunDecRad) + Math.cos(latRad) * Math.cos(sunDecRad);
-    const altDeg = deg(Math.asin(Math.max(-1, Math.min(1, sinAlt))));
-    const zenithDeg = Math.max(0.1, 90 - altDeg);
-    const shankuShadowAngula = gnomonLen * Math.tan(rad(zenithDeg));
-    const palabha = gnomonLen * Math.tan(latRad);
+    // 3. Tripraśnādhikāra: the gnomon's shadow
+    const gnomonLen = 12.0;
+    let altDeg = null, zenithDeg = null, shankuShadowAngula = null, palabha = null, shanku;
+    if (T.family === "ss") {
+      const sh = ssTier().shadow(jd, site);
+      if (sh.error) shanku = { error: sh.error, method: "ss-chaya.js (SS 3.14-3.36)" };
+      else {
+        const sinAlt = Math.max(-1, Math.min(1, sh.atInstant.shanku / SS.radius));
+        altDeg = deg(Math.asin(sinAlt)); zenithDeg = 90 - altDeg;
+        shankuShadowAngula = sh.atInstant.chaya; palabha = sh.palabha;
+        shanku = { noon: sh.noon, atInstant: sh.atInstant, method: sh.method, sayanaSun: sh.sayanaSun, ayanamsha: sh.ayanamsha };
+      }
+    } else {
+      const s = getSolarCoordinates(jd, tier), gast = drikCall(sdFn("gast")(jd), jd, "the sidereal time");
+      const H = rad(gast + lon - s.rightAscensionDeg), phi = rad(lat), d = s.declinationRad;
+      const sinAlt = Math.sin(phi) * Math.sin(d) + Math.cos(phi) * Math.cos(d) * Math.cos(H);
+      altDeg = deg(Math.asin(Math.max(-1, Math.min(1, sinAlt)))); zenithDeg = 90 - altDeg;
+      shankuShadowAngula = altDeg > 0 ? gnomonLen / Math.tan(rad(altDeg)) : Infinity;
+      palabha = gnomonLen * Math.tan(phi);
+      shanku = { atInstant: { altitudeDeg: altDeg, chaya: shankuShadowAngula }, method: "the series' Sun (RA/dec) and IAU 2006 apparent sidereal time (siddhanta-tier.js); geocentric, no refraction (the Sun's parallax is not applied)" };
+    }
 
-    // 4. Candragrahaṇādhikāra: Lunar Eclipse
+    // 4-5. Eclipses within ±16 days, by the tier's own method, as common rows (tierEclipses); the node distance is to the
+    // nearer node (Rāhu or Ketu). EDGE RULE: within about 17 days of a dṛk span edge the eclipse search needs instants
+    // outside the span, so this block alone is refused and named (refused, refusal; the lists null, the verdicts null);
+    // every other adhikāra is served. A date outside the span is refused whole, above, by the pañcāṅga.
     const nodeDist = Math.abs(mod360(moon.longitude - rahu.longitude));
-    const lunarNodeDist = nodeDist > 180 ? 360 - nodeDist : nodeDist;
-    const isLunarEclipsePossible = (pan.tithiIndex === 14) && (lunarNodeDist < 14.5);
+    const fromRahu = nodeDist > 180 ? 360 - nodeDist : nodeDist;
+    const nearestNodeDeg = Math.min(fromRahu, 180 - fromRahu);
+    let eclipses = [], eclipseMethod, eclipseError = null, eclipseRefusal = null;
+    try {
+      const E = tierEclipses(jd - 16, jd + 16, lat, lon, tier);
+      eclipses = E.list; eclipseMethod = E.method;
+    } catch (e) {
+      if (e && e.code === "TIER_OUT_OF_SPAN") { eclipses = null; eclipseRefusal = e.message; eclipseMethod = "refused (EDGE RULE)"; }
+      else { eclipses = []; eclipseMethod = "not computed"; eclipseError = String(e && e.message || e); }
+    }
+    const refused = eclipses === null;
+    const lunarList = refused ? null : eclipses.filter((e) => e.kind === "lunar"), solarList = refused ? null : eclipses.filter((e) => e.kind === "solar");
+    const isLunarEclipsePossible = refused ? null : lunarList.length > 0;
     const shadowDiamArcmin = 80.0;
     const moonDiamArcmin = 31.5;
-    const lunarGrasa = isLunarEclipsePossible ? Math.max(0, (shadowDiamArcmin + moonDiamArcmin - 2 * lunarNodeDist * 60) / (2 * moonDiamArcmin)) : 0;
-
-    // 5. Sūryagrahaṇādhikāra: Solar Eclipse & Parallax
-    const isSolarEclipsePossible = (pan.tithiIndex === 29) && (lunarNodeDist < 18.5);
-    // RETIRED 2026-09-02: the former 4·sin(Sun−Lagna) / 48·sin(lat−dec)
-    // shortcut is not S-S V.3-12. It omitted the madhyalagna→madhyajya→
-    // drkksepa→drggati→cheda chain and even contradicted the generated dossier's
-    // own denominator. This mirror is a UI/research surface, not an independent
-    // eclipse kernel; the text's chapter-5 lambana and nati are computed by
-    // ss-grahana.js (the sovereign engine). Null prevents a false zero or fabricated number from
-    // silently entering downstream arithmetic.
+    // the grāsa of the first lunar eclipse in the window (≥ 0; 0 with none, and for a penumbral-only eclipse, which has
+    // no grāsa: lunarPenumbralOnly says so); null when the block is refused
+    const firstLunar = refused || !lunarList.length ? null : lunarList[0];
+    const lunarGrasa = refused ? null : firstLunar && firstLunar.grasa !== null ? firstLunar.grasa : 0;
+    const lunarPenumbralOnly = refused ? null : firstLunar ? firstLunar.penumbral === true : false;
+    const isSolarEclipsePossible = refused ? null : solarList.length > 0;
+    const eclipseBlock = (list) => ({ list, method: eclipseMethod, label: T.eclipses, nearestNodeDeg, error: eclipseError, refused, refusal: eclipseRefusal, fields: ECLIPSE_ROW_FIELDS });
+    // RETIRED 2026-09-02: the former 4·sin(Sun−Lagna) / 48·sin(lat−dec) shortcut is not S-S V.3-12; the text's chapter-5
+    // lambana and nati are computed by ss-grahana.js (the eclipse list above). Null prevents a fabricated number.
     const lambanaGhati = null;
     const natiArcmin = null;
     const parallaxImplemented = false;
     const parallaxProvenance = "generated 4×sin/48×sin shortcut retired; the text's chapter-5 lambana and nati are computed by ss-grahana.js";
 
-    // 6. Chedyakādhikāra: Graphical Projection & Deflection
-    const akshaValana = Math.sin(latRad) * Math.sin(rad(sun.longitude));
-    const ayanaValana = Math.sin(rad(23.44)) * Math.cos(rad(sun.longitude));
+    // 6. Chedyakādhikāra: valana from the tier's sāyana Sun and the tier's obliquity
+    const ayanamshaNow = tierAyanamsha(jd, tier).deg;
+    const sunSayana = mod360(sun.longitude + ayanamshaNow);
+    const epsDeg = T.family === "ss" ? ssTier().EPSILON_DEG : getSolarCoordinates(jd, tier).obliquityDeg;
+    const latRad = rad(lat);
+    const akshaValana = Math.sin(latRad) * Math.sin(rad(sunSayana));
+    const ayanaValana = Math.sin(rad(epsDeg)) * Math.cos(rad(sunSayana));
 
     // 7. Grahayutyādhikāra: Planetary War
     const taraPlanets = [mars, merc, jup, ven, sat];
@@ -3850,34 +4311,29 @@ function chartPrecision(
           if (separation < 0.1) warType = "भेद (Bhedha - Occultation)";
           else if (separation < 0.3) warType = "उल्लेख (Ullekha - Grazing)";
           else if (separation < 0.6) warType = "अपसव्य (Apasavya - Southern Bypass)";
-          wars.push({
-            p1: p1.name,
-            p2: p2.name,
-            separationArcmin: (separation * 60).toFixed(2),
-            warType
-          });
+          wars.push({ p1: p1.name, p2: p2.name, separationArcmin: (separation * 60).toFixed(2), warType });
         }
       }
     }
 
-    // 8. Bha-graha-yutyādhikāra: Asterism Conjunction & Rohini Shakata
-    const isRohiniShakata = Math.abs(mod360(sat.longitude - 46.0)) < 2.0;
+    // 8. Bha-graha-yutyādhikāra: Rohiṇī-śakaṭa by SS 8.13 as printed — a graha in Vṛṣa's 17th degree (λ ∈ [46°, 47°))
+    //    with a southern latitude above 2° [text]
+    const lats = Object.fromEntries(tierGrahaRows(jd, tier).map((r) => [r.key, r.latitudeDeg]));
+    const shakataBheda = [moon, mars, merc, jup, ven, sat].filter((p) => {
+      const l = mod360(p.longitude), b = lats[p.key];
+      return l >= 46 && l < 47 && Number.isFinite(b) && b < -2;
+    }).map((p) => ({ graha: p.name || p.key, key: p.key, longitude: p.longitude, latitudeDeg: lats[p.key] }));
+    const isRohiniShakata = shakataBheda.length > 0;
 
     // 9. Udayāstādhikāra: Heliacal Rising/Setting & Combustion
-    const combustionLimits = { mars: 17, budha: 14, guru: 11, shukra: 10, shani: 15, candra: 12 };
+    const combustionLimits = { mangala: 17, budha: 14, guru: 11, shukra: 10, shani: 15, candra: 12 };
     const heliacalStatus = [];
     [moon, mars, merc, jup, ven, sat].forEach(p => {
       const limit = combustionLimits[p.key] || 15;
       const dDeg = Math.abs(mod360(p.longitude - sun.longitude));
       const dist = dDeg > 180 ? 360 - dDeg : dDeg;
       const isCombust = dist < limit;
-      heliacalStatus.push({
-        graha: p.name,
-        distFromSunDeg: dist.toFixed(2),
-        limitDeg: limit,
-        isCombust,
-        status: isCombust ? "अस्त (Combust / Invisible)" : "उदित (Visible / Resplendent)"
-      });
+      heliacalStatus.push({ graha: p.name, distFromSunDeg: dist.toFixed(2), limitDeg: limit, isCombust, status: isCombust ? "अस्त (Combust / Invisible)" : "उदित (Visible / Resplendent)" });
     });
 
     // 10. Śṛṅgonnatyādhikāra: Lunar Horn Elevation
@@ -3891,44 +4347,48 @@ function chartPrecision(
     const isVyatipataActive = Math.abs(sumDeg - 180) < 3.5;
     const isVaidhritiActive = Math.abs(sumDeg - 360) < 3.5 || sumDeg < 3.5;
 
-    // 12. Bhūgolādhyāya: Earth Dimensions & 4 Prime Meridian Cities
+    // 12. Bhūgolādhyāya: the four cities on the equator, 90° apart, from Laṅkā on the Ujjayinī meridian (75.7885° E)
+    const L0 = UJJAIN_LONGITUDE_DEG;
     const fourCities = [
-      { name: "उज्जयिनी / लङ्का (Lanka / Ujjayini)", lonDeg: 75.7685, offsetHours: "+0:00 (Prime)", role: "Prime Meridian Baseline" },
-      { name: "यमकोटि (Yamakoṭi - East)", lonDeg: 165.7685, offsetHours: "+6:00 (+15 Ghaṭīs)", role: "Eastern Quadrant Station" },
-      { name: "रोमक (Romaka - West)", lonDeg: 345.7685, offsetHours: "-6:00 (-15 Ghaṭīs)", role: "Western Quadrant Station" },
-      { name: "सिद्धपुर (Siddhāpura - Antipode)", lonDeg: 255.7685, offsetHours: "+12:00 (30 Ghaṭīs)", role: "Antipodal Meridian Station" }
+      { name: "उज्जयिनी / लङ्का (Lanka / Ujjayini)", lonDeg: L0, offsetHours: "+0:00 (Prime)", role: "Prime Meridian Baseline" },
+      { name: "यमकोटि (Yamakoṭi - East)", lonDeg: mod360(L0 + 90), offsetHours: "+6:00 (+15 Ghaṭīs)", role: "Eastern Quadrant Station" },
+      { name: "रोमक (Romaka - West)", lonDeg: mod360(L0 + 270), offsetHours: "-6:00 (-15 Ghaṭīs)", role: "Western Quadrant Station" },
+      { name: "सिद्धपुर (Siddhāpura - Antipode)", lonDeg: mod360(L0 + 180), offsetHours: "+12:00 (30 Ghaṭīs)", role: "Antipodal Meridian Station" }
     ];
 
     // 13. Jyotiṣopaniṣadadhyāya: 4 Astronomical Instruments
+    const fmt = (x, n) => (Number.isFinite(x) ? x.toFixed(n) : "—");
     const instruments = [
       { name: "घटी-यन्त्र (Kapāla / Water Bowl)", reading: `${Math.floor(pan.ghati)} Ghaṭīs, ${Math.floor(pan.vighati)} Palas`, principle: "60-Pala sinking copper bowl with calibrated orifice" },
-      { name: "शङ्कु-यन्त्र (12-Digit Gnomon)", reading: `${shankuShadowAngula.toFixed(2)} Aṅgulas`, principle: "12-digit vertical gnomon on leveled meridian circle" },
-      { name: "चक्र-यन्त्र (Armillary / Meridian Ring)", reading: `${altDeg.toFixed(2)}° Solar Altitude`, principle: "360-graduated brass ring on polar axis" },
-      { name: "धनुर्-यन्त्र (Semicircular Bow Quadrant)", reading: `${(zenithDeg).toFixed(2)}° Zenith Distance`, principle: "180-graduated sighting quadrant with plumb line" }
+      { name: "शङ्कु-यन्त्र (12-Digit Gnomon)", reading: `${fmt(shankuShadowAngula, 2)} Aṅgulas`, principle: "12-digit vertical gnomon on leveled meridian circle" },
+      { name: "चक्र-यन्त्र (Armillary / Meridian Ring)", reading: `${fmt(altDeg, 2)}° Solar Altitude`, principle: "360-graduated brass ring on polar axis" },
+      { name: "धनुर्-यन्त्र (Semicircular Bow Quadrant)", reading: `${fmt(zenithDeg, 2)}° Zenith Distance`, principle: "180-graduated sighting quadrant with plumb line" }
     ];
 
-    // 14. Mānādhyāya: 9 Classical Time Scales
+    // 14. Mānādhyāya: 9 Classical Time Scales (no fallback names: each reads the tier's own value)
+    const year = tierYear(jd, tier);
     const nineManas = [
       { name: "ब्राह्म मान (Brāhma Māna)", span: "4.32 Billion Years / Kalpa", activeUnit: `Kalpa Progress: ${(ahargana / 1577917828000 * 100).toFixed(6)}%` },
-      { name: "दैव मान (Daiva Māna)", span: "360 Solar Years = 1 Deva Year", activeUnit: "Ayana Ingress: " + pan.ayana },
+      { name: "दैव मान (Daiva Māna)", span: "360 Solar Years = 1 Deva Year", activeUnit: "Ayana Ingress: " + ((pan.surya >= 90 && pan.surya < 270) ? "दक्षिणायन" : "उत्तरायण") },
       { name: "मानुष मान (Mānuṣa Māna)", span: "Civil Human Lifetime", activeUnit: "Julian Day: " + jd.toFixed(4) },
       { name: "पित्र्य मान (Pitrya Māna)", span: "1 Lunar Month = 1 Pitri Day", activeUnit: "Paksha: " + pan.paksha },
-      { name: "सौर मान (Saura Māna)", span: "Sun's stay in 1 Rāśi (Saura Masa)", activeUnit: pan.sauraMasaName + " मास" },
-      { name: "सावन मान (Sāvana Māna)", span: "Sunrise to Sunrise (60 Ghaṭīs)", activeUnit: pan.varaName + " (Day " + Math.floor(ahargana) + ")" },
-      { name: "चान्द्र मान (Cāndra Māna)", span: "30 Tithis (Amānta / Pūrṇimānta)", activeUnit: pan.tithiName + ` (Tithi ${pan.tithiIndex + 1})` },
+      { name: "सौर मान (Saura Māna)", span: "Sun's stay in 1 Rāśi (Saura Masa)", activeUnit: pan.sauraMasaName + " (rāśi)" },
+      { name: "सावन मान (Sāvana Māna)", span: "Sunrise to Sunrise (60 Ghaṭīs)", activeUnit: pan.varaName + " (sunrise vāra; Kali day " + Math.floor(ahargana) + ", SS 1.45-1.47)" },
+      { name: "चान्द्र मान (Cāndra Māna)", span: "30 Tithis (amānta month)", activeUnit: pan.masaName + " · " + pan.tithiName + ` (Tithi ${pan.tithiIndex + 1})` },
       { name: "नाक्षत्र मान (Nākṣatra Māna)", span: "Sidereal Rotation (27 Nakṣatras)", activeUnit: pan.nakshatraName + ` (Pada ${pan.nakshatraPada})` },
-      { name: "बार्हस्पत्य मान (Bārhaspatya Māna)", span: "Jupiter in 1 Rāśi (~1 Year)", activeUnit: "60-Samvatsara: " + (pan.samvatsaraName || "पिङ्गल") }
+      { name: "बार्हस्पत्य मान (Bārhaspatya Māna)", span: "Mean Jupiter in 1 Rāśi (SS 1.55)", activeUnit: year.samvatsara.name === null ? "60-Samvatsara: refused — " + year.yearRefused : "60-Samvatsara: " + year.samvatsara.name + " (" + year.samvatsara.rule + ")" }
     ];
 
     return {
-      adhikara1_madhyama: { ahargana, ujjainTime },
+      tier,
+      adhikara1_madhyama: { ahargana, aharganaRule: "civil days since midnight at Laṅkā at the Kali epoch (SS 1.45-1.47)", ujjainTime, localMeanTime },
       adhikara2_spashta: { vels },
-      adhikara3_triprashna: { gnomonLen, altDeg, zenithDeg, shankuShadowAngula, palabha },
-      adhikara4_chandra_grahana: { isLunarEclipsePossible, shadowDiamArcmin, moonDiamArcmin, lunarGrasa },
-      adhikara5_surya_grahana: { isSolarEclipsePossible, lambanaGhati, natiArcmin, parallaxImplemented, parallaxProvenance },
-      adhikara6_chedyaka: { akshaValana, ayanaValana },
+      adhikara3_triprashna: { gnomonLen, altDeg, zenithDeg, shankuShadowAngula, palabha, shanku },
+      adhikara4_chandra_grahana: { isLunarEclipsePossible, shadowDiamArcmin, moonDiamArcmin, lunarGrasa, lunarPenumbralOnly, eclipses: eclipseBlock(lunarList) },
+      adhikara5_surya_grahana: { isSolarEclipsePossible, lambanaGhati, natiArcmin, parallaxImplemented, parallaxProvenance, eclipses: eclipseBlock(solarList) },
+      adhikara6_chedyaka: { akshaValana, ayanaValana, sayanaSun: sunSayana, obliquityDeg: epsDeg },
       adhikara7_graha_yuti: { wars },
-      adhikara8_bha_graha_yuti: { isRohiniShakata },
+      adhikara8_bha_graha_yuti: { isRohiniShakata, shakataBheda, rule: "SS 8.13 as printed: a graha in Vṛṣa's 17th degree with a southern latitude above 2° [text]" },
       adhikara9_udaya_asta: { heliacalStatus },
       adhikara10_shringonnati: { elongation, illuminatedFraction, crescentWidthAngula, elevatedHorn },
       adhikara11_pata: { isVyatipataActive, isVaidhritiActive, sumDeg },
@@ -4682,6 +5142,7 @@ function chartPrecision(
       formula: isExact ? `${years} varsh = ${breaths.toLocaleString("en-IN")} prana = 972 x ${(breaths / 972).toLocaleString("en-IN")}` : `${years} varsh = ${Math.round(breaths).toLocaleString("en-IN")} prana (approx)`,
       ajapaMalasPerDay: BREATHS_PER_DAY / 108,     // 200
       breathsPerNakshatra: BREATHS_PER_DAY / 27,   // 800
+      note: "BE-S06 prāṇa lattice, a 360-day year; not the daśā calendar (see vimshottariTier)",
       seal: "SIDDHA",
     };
   }
@@ -4739,93 +5200,62 @@ function chartPrecision(
     };
   }
 
-  // ── Moonrise / candrodaya (SIDDHA; mirrors solarRiseSet) ───────────────────
-  // Net horizon altitude for the Moon: parallax (+57') − refraction (34') −
-  // semidiameter (16') ≈ +7' → zenith distance 90° − 7/60°.
-  function getLunarCoordinates(jd, ayanamshaVariant = "spica_lahiri") {
-    const t = jd - SS.j2000JD;
-    if (ayanamshaVariant === "calibrated") {
-      const modern = drigCoordinates("candra", jd);
-      return { sidereal: drigGrahaLongitude("candra", jd), tropical: modern.longitude,
-        latitudeDeg: modern.latitude,
-        declinationDeg: modern.declinationDeg, declinationRad: modern.declinationDeg * Math.PI / 180,
-        rightAscensionDeg: modern.rightAscensionDeg, rightAscensionRad: modern.rightAscensionDeg * Math.PI / 180 };
+  // ── The Moon of a tier: coordinates and its rising ───────────────────────
+  /** The Moon at jd in a tier: sidereal and tropical (the tier's frame) longitude, latitude, declination and RA. Text
+   *  tiers: the tier's Moon and latitude (SS 2.57), SS 3.9-3.10, the text's ε. dṛk: the series' Moon (RA/dec from
+   *  siddhanta-tier.js sunMoon). */
+  function getLunarCoordinates(jd, tier = "ss") {
+    requireFinite(jd, "Julian day");
+    const id = bridgeTier(tier);
+    const ayana = tierAyanamsha(jd, id).deg;
+    if (TIERS[id].family === "drik") {
+      const r = drikCall(sdFn("sunMoon")(jd), jd, "the Moon");
+      const sidereal = mod360(pickNum(r, ["moonSid"])), beta = pickNum(r, ["moonLat"]), ra = pickNum(r, ["moonRa"]), dec = pickNum(r, ["moonDec"]);
+      return { tier: id, sidereal, tropical: mod360(sidereal + ayana), latitudeDeg: beta, declinationDeg: dec, declinationRad: dec * Math.PI / 180,
+        rightAscensionDeg: mod360(ra), rightAscensionRad: mod360(ra) * Math.PI / 180, source: "own" };
     }
-    const sidereal = ssSphutaAt("chandra", t).sphuta;
-    const beta = ssLatitudeAt("chandra", t).latitude;
-    const ayana = ayanamshaDeg(jd, ayanamshaVariant);
-    const tropical = mod360(sidereal + ayana);
-    const eps = meanObliquityDeg(jd) * Math.PI / 180;
-    const lam = tropical * Math.PI / 180;
-    const bet = beta * Math.PI / 180;
+    const g = textGrahas(jd, TIERS[id].samskara);
+    const sidereal = g.candra, beta = g.latitudeDeg.candra, tropical = mod360(sidereal + ayana);
+    const eps = ssTier().EPSILON_DEG * Math.PI / 180, lam = tropical * Math.PI / 180, bet = beta * Math.PI / 180;
     const sinDec = Math.sin(bet) * Math.cos(eps) + Math.cos(bet) * Math.sin(eps) * Math.sin(lam);
     const dec = Math.asin(Math.max(-1, Math.min(1, sinDec)));
-    const ra = Math.atan2(
-      Math.sin(lam) * Math.cos(eps) - Math.tan(bet) * Math.sin(eps),
-      Math.cos(lam),
-    );
-    return {
-      sidereal, tropical, latitudeDeg: beta,
-      declinationRad: dec, declinationDeg: dec * 180 / Math.PI,
-      rightAscensionRad: ra, rightAscensionDeg: mod360(ra * 180 / Math.PI),
-    };
+    const ra = Math.atan2(Math.sin(lam) * Math.cos(eps) - Math.tan(bet) * Math.sin(eps), Math.cos(lam));
+    return { tier: id, sidereal, tropical, latitudeDeg: beta, declinationRad: dec, declinationDeg: dec * 180 / Math.PI,
+      rightAscensionRad: ra, rightAscensionDeg: mod360(ra * 180 / Math.PI), obliquityDeg: ssTier().EPSILON_DEG };
   }
 
-  function lunarRiseSet(jdMidnight, latitudeDeg, longitudeEastDeg, timezoneHours = 5.5, ayanamshaVariant = "spica_lahiri") {
+  /** Moonrise and moonset of the local date whose midnight (UT JD) is given. Text tiers: utsava.js on the tier's Moon in
+   *  civil day N = SSTier.dayOf(jdMidnight + 0.5).N — the Moon's centre on the horizon, no parallax, no refraction
+   *  (horizonAltitudeDeg 0; no transit is computed). dṛk: the series' Moon, its centre on a net +7′ horizon (KH-13,
+   *  owner decision DK-5). */
+  function lunarRiseSet(jdMidnight, latitudeDeg, longitudeEastDeg, timezoneHours = 5.5, tier = "ss") {
     requireFinite(jdMidnight, "Julian day midnight");
     requireFinite(latitudeDeg, "Latitude");
     requireFinite(longitudeEastDeg, "Longitude");
     if (Math.abs(latitudeDeg) >= 90) throw new Error("Latitude must be strictly between -90 and 90 degrees");
-    const rad = Math.PI / 180;
-    const phi = latitudeDeg * rad;
-    const z0 = (90 - 7 / 60) * rad; // net lunar horizon: parallax - refraction - semidiameter
-    const lunarDayFactor = 360 / (360 + 13.176358); // Moon retreats ~13.18°/day vs stars
-
-    // transit near local noon start, then iterate hour angle to zero
-    let jdTransit = jdMidnight + 0.5;
-    for (let i = 0; i < 5; i++) {
-      const m = getLunarCoordinates(jdTransit, ayanamshaVariant);
-      const lst = localSiderealTimeDeg(jdTransit, longitudeEastDeg);
-      let ha = mod360(lst - m.rightAscensionDeg);
-      if (ha > 180) ha -= 360;
-      jdTransit -= (ha / 360) * lunarDayFactor;
+    const id = bridgeTier(tier);
+    let rise, set, transit = null, horizonAltitudeDeg, rule, polar = false;
+    if (TIERS[id].family === "ss") {
+      const S = ssTier(), site = { latitude: latitudeDeg, longitude: longitudeEastDeg };
+      const N = S.dayOf(jdMidnight + 0.5, site).N, ev = S.moonEvents(N, site, { samskara: TIERS[id].samskara });
+      rise = ev.riseJd; set = ev.setJd; horizonAltitudeDeg = 0; rule = ev.rule + " (the civil day from sunrise)";
+    } else {
+      const r = drikRiseSet("moon", jdMidnight, latitudeDeg, longitudeEastDeg);
+      rise = r.rise; set = r.set; transit = r.noon; horizonAltitudeDeg = 7 / 60; polar = r.polar; rule = TIERS.drik.moonrise;
     }
-    const solve = (guess, sign) => {
-      let jdX = guess;
-      for (let i = 0; i < 6; i++) {
-        const m = getLunarCoordinates(jdX, ayanamshaVariant);
-        const cosH = (Math.cos(z0) - Math.sin(phi) * Math.sin(m.declinationRad)) /
-          (Math.cos(phi) * Math.cos(m.declinationRad));
-        if (cosH < -1 || cosH > 1) return { circumpolar: cosH < -1, neverRises: cosH > 1 };
-        const hDeg = Math.acos(cosH) * 180 / Math.PI;
-        const targetLst = mod360(m.rightAscensionDeg + sign * hDeg);
-        const curLst = localSiderealTimeDeg(jdX, longitudeEastDeg);
-        let diff = mod360(targetLst - curLst);
-        if (diff > 180) diff -= 360;
-        jdX += (diff / 360) * lunarDayFactor;
-      }
-      return { jd: jdX };
-    };
-    const rise = solve(jdTransit - 0.25, -1);
-    const set = solve(jdTransit + 0.25, +1);
-    const toLocal = (jd) => {
-      if (jd == null) return null;
-      const dayFrac = jd + 0.5 + timezoneHours / 24;
-      const frac = dayFrac - Math.floor(dayFrac);
-      const totalSec = Math.round(frac * 86400);
-      const pad = (n) => String(n).padStart(2, "0");
-      return `${pad(Math.floor(totalSec / 3600) % 24)}:${pad(Math.floor(totalSec / 60) % 60)}:${pad(totalSec % 60)}`;
-    };
+    const toLocal = (jd) => (jd === null || jd === undefined ? null : formatHms(jd, timezoneHours));
     return {
-      jdTransit,
-      jdRise: rise.jd ?? null,
-      jdSet: set.jd ?? null,
-      riseLocal: rise.jd != null ? toLocal(rise.jd) : null,
-      setLocal: set.jd != null ? toLocal(set.jd) : null,
-      transitLocal: toLocal(jdTransit),
-      circumpolar: Boolean(rise.circumpolar || set.circumpolar),
-      neverRises: Boolean(rise.neverRises || set.neverRises),
-      horizonAltitudeDeg: 7 / 60, // altitude of the Moon's centre at rise/set (z0 = 90° − 7′): +7′, not −7′ (KH-13)
+      tier: id,
+      jdTransit: transit,
+      jdRise: rise ?? null,
+      jdSet: set ?? null,
+      riseLocal: toLocal(rise),
+      setLocal: toLocal(set),
+      transitLocal: toLocal(transit),
+      circumpolar: polar === "up",
+      neverRises: polar === "down",
+      horizonAltitudeDeg, // the Moon's centre at rise/set: text tiers 0 (no parallax, no refraction); dṛk +7′, not −7′ (KH-13)
+      rule,
       seal: "SIDDHA",
     };
   }
@@ -4906,48 +5336,57 @@ function chartPrecision(
       return r;
     }
 
-    const D = globalThis.DrikTier;
-    const useDrikTier = D && typeof D.available === "function" && D.available();
-    const dk = useDrikTier ? D.grahas(jd, "spica_lahiri") : null;
-
-    const out = { jd, T, lineage: "BE-S09 classical + Mañjula-layer + दृग्गणित-संस्कार v3 (clean-angle Fourier, offline दृक्-referee)", seal: "SIDDHA (terms) + MAAPIT (fit 1900-2100)" };
+    // The dṛk column is the Modern Bhāratīya tier's own value where it is served (null outside 1850-2150); the overlay is
+    // always base + its fitted correction — it is never replaced by the referee (2026-10-08: the old code returned the
+    // referee's value as "samskrita", which made the fit look perfect).
+    let dk = null;
+    try { dk = Object.fromEntries(tierGrahaRows(jd, "drik").map((r) => [r.key, r.longitude])); }
+    catch (e) { if (e && e.code === "TIER_OUT_OF_SPAN") dk = null; else throw e; }       // only the span's refusal empties the column
+    const FIT_SPAN = [1900, 2100], year = 2000 + (jd - SS.j2000JD) / 365.25;
+    const out = { jd, T, lineage: "BE-S09 classical + Mañjula-layer + दृग्गणित-संस्कार v3 (clean-angle Fourier)", seal: "SIDDHA (terms) + MAAPIT (fit 1900-2100)",
+      fitSpan: FIT_SPAN, inFitSpan: year >= FIT_SPAN[0] && year <= FIT_SPAN[1], fitFrame: "Lahiri (as fitted)",
+      fitStatus: "fitted 1900–2100 on a classical pipeline retired 2026-10-08; not re-validated",
+      base: "the plain Sūrya-Siddhānta tier ('ss') since 2026-10-08", drikColumn: dk ? "Modern Bhāratīya (dṛk) tier, own" : "not served at this date (dṛk tier: 1850–2150)" };
+    const claimFails = [];
     for (const key of ["surya", "candra", "mangala", "budha", "shukra", "guru", "shani"]) {
       const spec = DRIGGANITA_V3[key];
       const base = key === "candra" ? moonComposite : g[key];
       const feats = features(key);
       let corr = 0;
       for (let i = 0; i < feats.length; i++) corr += spec.coef[i] * feats[i];
-      const samskrita = dk ? dk[key] : mod360(base + corr);
-      out[key] = { classical: g[key], samskrita, deltaArcmin: angDiff(g[key], samskrita), rmsArcmin: spec.rms, maxArcmin: spec.max };
+      const samskrita = mod360(base + corr);
+      const drik = dk ? dk[key] : null;
+      const deltaVsDrikArcmin = drik === null ? null : angDiff(drik, samskrita);
+      if (deltaVsDrikArcmin !== null && Math.abs(deltaVsDrikArcmin) > 3 * spec.rms) claimFails.push(key);
+      out[key] = { classical: g[key], samskrita, deltaArcmin: angDiff(g[key], samskrita), drik, deltaVsDrikArcmin,
+        fitClaimRmsArcmin: spec.rms, fitClaimMaxArcmin: spec.max, fitStatus: out.fitStatus };
     }
-    out.rahu = { classical: g.rahu, samskrita: g.rahu, deltaArcmin: 0, rmsArcmin: 1 };
-    out.ketu = { classical: g.ketu, samskrita: mod360(g.rahu + 180), deltaArcmin: 0, rmsArcmin: 1 };
+    out.claimFails = claimFails;
+    out.rahu = { classical: g.rahu, samskrita: g.rahu, deltaArcmin: 0, drik: dk ? dk.rahu : null, deltaVsDrikArcmin: dk ? angDiff(dk.rahu, g.rahu) : null,
+      note: "the text's node against the dṛk tier's mean node; no fit claim" };
+    out.ketu = { classical: g.ketu, samskrita: mod360(g.rahu + 180), deltaArcmin: 0, drik: dk ? dk.ketu : null, deltaVsDrikArcmin: dk ? angDiff(dk.ketu, mod360(g.rahu + 180)) : null };
     out.surya.kerala = out.surya.samskrita; out.candra.kerala = out.candra.samskrita;
     out.guru.kerala = out.guru.samskrita; out.shani.kerala = out.shani.samskrita;
-    out.pending = { note: "inner-3 (मङ्गल/बुध/शुक्र) Nīlakaṇṭha vector-kernel = declared next mountain; use DrikTier for ≤1′ today" };
+    out.pending = { note: "inner-3 (मङ्गल/बुध/शुक्र) Nīlakaṇṭha vector-kernel = declared next mountain; the fit's own errors are measured live against the dṛk tier (claimFails)" };
     return out;
 
     function angDiff(a, b) { let d = mod360(b - a); if (d > 180) d -= 360; return d * 60; }
   }
 
   // ── Deep-time mean-model row (SIDDHA; honestly labelled) ───────────────────
+  /** The text's mean Sun and Moon at a day count (civil days since midnight at Laṅkā at the Kali epoch, SS 1.45-1.47;
+   *  ssDaysOfJd gives it for a JD), from sphuta.js's exact residues; the Kali year is floor(days × 4,320,000 ÷
+   *  1,577,917,828) (SS 1.37). */
   function deepTimeRow(ahargana) {
     requireFinite(ahargana, "Ahargana");
-    const rev = (B) => {
-      const wholeDays = Math.floor(ahargana);
-      const fracDays = ahargana - wholeDays;
-      const spandas = BigInt(wholeDays) * 328050000000n + BigInt(Math.round(fracDays * 328050000000));
-      const den = 328050000000n * 1577917828n;
-      let num = (BigInt(B) * spandas) % den;
-      if (num < 0n) num = (num + den) % den;
-      return mod360((Number(num) / Number(den)) * 360);
-    };
-    const meanSun = rev(SS.bhagana.surya);
-    const meanMoon = rev(SS.bhagana.chandra);
+    const m = ssTier().meanAtDays(ahargana);
+    const meanSun = m.sun;
+    const meanMoon = m.moon;
     const elong = mod360(meanMoon - meanSun);
     return {
       ahargana,
-      kaliYear: Math.floor(ahargana / 365.25875),
+      aharganaRule: "civil days since midnight at Laṅkā at the Kali epoch (SS 1.45-1.47)",
+      kaliYear: Math.floor(ahargana * 4320000 / 1577917828),
       meanSun, meanMoon,
       tithiIndex: Math.floor(elong / 12),
       nakshatraIndex: Math.floor(meanMoon / (360 / 27)),
@@ -7004,7 +7443,31 @@ function quantumBijaCorrection(graha, t) {
     coordinateFrameOffsetDeg,
     drigCoordinates,
     drigGeoJ2000,
-    drigGrahaLongitude,
+    // the tiers (2026-10-08)
+    TIERS,
+    TIER_IDS,
+    DEFAULT_TIER,
+    resolveTier,
+    tierFamily,
+    pageTier,
+    TierSpanError,
+    tierInSpan,
+    tierAyanamsha,
+    tierGrahaRows,
+    tierDay,
+    tierMeridian,
+    sayanaAscendantDeg,
+    vimshottariTier,
+    skyLunarMonth,
+    civilToJd,
+    jdToCivil,
+    ssDaysOfJd,
+    meanLunarNodeTropicalDeg,
+    LUNAR_MASA_SA,
+    rituOfSauraMasa,
+    karanaIndexSS,
+    NAMED_AYANAMSHAS,
+    ARYABHATA_ZERO_LABEL,
     bijaCoefficients,
     bijaDeltaDeg,
     meanGrahaModel,
@@ -7092,6 +7555,8 @@ function quantumBijaCorrection(graha, t) {
     computeAshtakavargaShodhana,
     computeBirthDoshasAndShanti,
     computeSuryaSiddhanta14Adhikaras,
+    tierEclipses,
+    ECLIPSE_ROW_FIELDS,
     aryabhataSineTable,
     aryabhataKuttaka,
     aryabhataPi,

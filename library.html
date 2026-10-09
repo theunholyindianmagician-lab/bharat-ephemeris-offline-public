@@ -39,7 +39,7 @@
           {
             "@type": "Question",
             "name": "सटीकता कितनी है?",
-            "acceptedAnswer": { "@type": "Answer", "text": "दृक्-तह पर सूर्य से शनि तक सात ग्रहों के भोगांश JPL DE440 से 1′ के भीतर हैं (1850–2150 में मापा); राहु-केतु मध्य-पात हैं; शास्त्रीय सूर्य-सिद्धान्त पथ इससे अंशों तक भिन्न है। ग्रन्थ-अध्यायों के 136 Python-output निष्पादन से पुनः-जाँचे गये हैं।" }
+            "acceptedAnswer": { "@type": "Answer", "text": "गणना की तीन तह हैं: सूर्य-सिद्धान्त + परमेश्वर-संस्कार (मूल), सूर्य-सिद्धान्त, और आधुनिक भारतीय (दृक्)। दृक्-तह पर सूर्य से शनि तक सात ग्रहों के भोगांश NASA-JPL DE440s से λ ≤ 0.9″ हैं (1850–2150, repository के tests में मापा; JPL से स्वतन्त्र नहीं); राहु-केतु मध्य-पात हैं; सूर्य-सिद्धान्त तहें इससे अंशों तक भिन्न हैं। ग्रन्थ-अध्यायों के 136 Python-output निष्पादन से पुनः-जाँचे गये हैं।" }
           }
         ]
       }
@@ -1102,7 +1102,7 @@
   <script src="global-ui.js?v=101"></script>
 <script src="edition-nav-enhancer.js?v=101"></script>
 </head>
-<body class="utility-page">
+<body class="utility-page" data-page-live="strip">
 <a href="#main-content" class="skip-link sr-only focus:not-sr-only">मुख्य सामग्री पर जाएँ (Skip to main content)</a>
 <nav class="bharat-nav" aria-label="Primary navigation">
   <a href="index.html" class="bharat-brand">BHARAT EPHEMERIS</a>
@@ -1773,7 +1773,7 @@
               <span class="badge badge-cyan">ShunyaMath.vimshottariBreathTable()</span>
             </div>
             <h3 style="font-family: var(--ser); color: var(--gold); font-size: 1.22rem; margin: 0 0 2px;">दशा-प्राण · Daśā in prāṇa units</h3>
-            <div style="color: var(--dim); font-size: 0.82rem; margin-bottom: 10px;">विंशोत्तरी 120 वर्ष की प्राण-गणना (प्राण = काल-एकक; आयु का कोई ‘कोष’ नहीं) — हर पंक्ति 972 का गुणज</div>
+            <div style="color: var(--dim); font-size: 0.82rem; margin-bottom: 10px;">विंशोत्तरी 120 वर्ष की प्राण-गणना (प्राण = काल-एकक; आयु का कोई ‘कोष’ नहीं) — हर पंक्ति 972 का गुणज · 360-दिन वर्ष की प्राण-जाली (BE-S06), दशा का पञ्चाङ्ग नहीं: दशा की तिथियाँ dasha.js से, तह के अपने वर्ष से / the prāṇa lattice of a 360-day year (BE-S06), not the daśā calendar</div>
             <div class="scroll">
               <table aria-label="Vimshottari prāṇa table">
                 <thead><tr><th>स्वामी</th><th>वर्ष</th><th>प्राण</th><th>972 ×</th></tr></thead>
@@ -9170,7 +9170,7 @@
         "formula": {
           "title": "Julian Day Kaliyuga Epoch Retroactive Anchor",
           "latex": "\\text{JD}_{\\text{Kaliyuga}} = 588465.5 \\quad (\\text{3102 BCE February 18 (proleptic Julian), 00:00 UT (Greenwich)} \\approx \\text{05:03 Ujjain mean time})",
-          "notes": "The snippet returns the stated constant; nothing is verified by it."
+          "notes": "The snippet returns the stated constant; nothing is verified by it. The text tiers count the ahargaṇa from midnight at Laṅkā (SS 1.45-1.47), on the Ujjayinī meridian 75.7885° E: JD 588465.5 − 75.7885/360 ≈ 588465.28948 (UT)."
         },
         "codeSnippet": "def verify_kali_epoch_jd():\n    return 588465.5",
         "codeOutput": "verify_kali_epoch_jd() → 588465.5\n(Julian Day constant for the Kaliyuga epoch, returned as stated in the snippet)\nComputed by executing this snippet (Python 3)."
@@ -10549,10 +10549,30 @@
       };
   }
 </script>
-<script src="vsop87-full.js?v=101"></script>
-  <script src="elp-moon.js?v=101"></script>
-  <script src="math-core.js?v=102"></script>
-<script src="page-live.js?v=107"></script>
+<!-- Loading contract (2026-10-08): the sovereign modules the text tiers need, parampara.js and the paramparā record,
+     ss-tier.js, then math-core.js; for the Modern Bhāratīya (dṛk) choice siddhanta-drik.js, siddhanta-tier.js and
+     drik-grahana.js. No vendored foreign theory is loaded here: VSOP87/ELP and Astronomy Engine are referees in the tests. -->
+<script src="kala-dvara.js"></script>
+<script src="sphuta.js"></script>
+<script src="dhruva.js"></script>
+<script src="ss-udaya.js"></script>
+<script src="spanda-ganita.js"></script>
+<script src="ss-graha.js"></script>
+<script src="ss-chaya.js"></script>
+<script src="ss-grahana.js"></script>
+<script src="ss-ahargana.js"></script>
+<script src="panchanga.js"></script>
+<script src="dasha.js"></script>
+<script src="muhurta.js"></script>
+<script src="utsava.js"></script>
+<script src="parampara.js"></script>
+<script src="ss-tier.js"></script>
+<script src="parampara-record.js"></script>
+<script src="math-core.js?v=103"></script>
+<script src="siddhanta-drik.js?v=5"></script>
+<script src="siddhanta-tier.js?v=5"></script>
+<script src="drik-grahana.js?v=1"></script>
+<script src="page-live.js?v=109"></script>
 
 <script src="access-enhance.js?v=1"></script>
 <script defer src="payment.js"></script>

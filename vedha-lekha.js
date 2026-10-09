@@ -22,7 +22,7 @@
  * SHA-256 is written out here (the published algorithm, its constants derived below as integer roots), not taken
  * from any library; the test checks it against the published vectors.
  *
- * THE KINDS (the five of corpus/vedha/README.md, read by ss-chaya.js, and six that the design needs)
+ * THE KINDS (the five of corpus/vedha/README.md, read by ss-chaya.js, and eight that the design needs)
  *   madhyahna, vishuvat, ayananta, ishta, kapala   the shadow and the bowl, exactly as "vedha-chaya/1" (SS 3, 1.12, 13.23)
  *   yamyottara      a star on the meridian: the bowl's count from sunrise, and/or its meridian altitude (unnata) in
  *                   aṃśa-kalā-vikalā with the side (disha) it was read from; upper or lower transit. The turn's phase
@@ -42,6 +42,23 @@
  *                   instrument's own graduation — a nata in ghaṭī-vināḍī-prāṇa with its side, an arc in aṃśa-kalā-vikalā
  *                   with its gola or disha — of the Sun or a junction star, optionally timed by the bowl from sunrise.
  *                   yantra.js's checkReading is the schema; its reduceReading puts the text beside it.
+ *   uttara-rekha    the owner's north–south line (3.3: drawn by the shadow circle and the fish) checked by a star near the
+ *                   dhruva: the arc (digamsha) from that provisional line to the star at its eastern (purva) and at its
+ *                   western (pashcima) greatest elongation, each with its day and the side of the line it lay on, and the
+ *                   uncertainty (sigma) of one reading. True north is the midpoint of the two (dhruva.js
+ *                   northFromElongations) [theorem].
+ *   ayananta-yugma  the two solstice noons at the ledger's site: the Sun's noon zenith distance (natamsha) and the side of
+ *                   the zenith it stood on (disha), at the karka and at the makara solstice (3.11), each with its day, and
+ *                   the uncertainty (sigma) of one reading. ε is half their signed difference, the latitude half their
+ *                   signed sum (dhruva.js fromSolsticeZenithDistances) [theorem].
+ *   These two are the FRAME kinds. Their reduction is geometric and exact (whole vikalā in, half vikalā out), with the
+ *   uncertainty propagated from one reading's sigma. Refraction does not cancel in these readings, and nothing here
+ *   removes it. What they give is a PREVIEW beside the text's own values — ε = arc of 1397/3438 (SS 2.28), the default
+ *   — and beside the ledger's own place: never applied, never replacing a constant. Using a measured value is the
+ *   owner's explicit choice, made elsewhere (dhruva.js and the pañcāṅga take an `epsilon` argument). The text tier is
+ *   complete without any observation; a ledger is an optional extra. (The text tier's default, the Sūrya-Siddhānta with
+ *   Parameśvara's saṃskāra [owner's decision, 2026-10-08], corrects only the Moon, its apogee and its node — the Sun gets
+ *   none (parahita-madhyama.js) — so its ε is still SS 2.28's.)
  *
  * THE CERTIFIER refuses, with a reason each: any field outside the schema; any field of a modern clock, Julian day,
  * equatorial or horizontal coordinate, geodetic datum or ephemeris (named so in the reason); any string naming a modern
@@ -77,6 +94,7 @@
   const wrap180 = (a) => mod(a + 180, 360) - 180;
   const wrapAsus = (a) => mod(a + HALF, TURN) - HALF;
   const isObj = (x) => x !== null && typeof x === "object" && !Array.isArray(x);
+  const own = (o, k) => typeof k === "string" && Object.prototype.hasOwnProperty.call(o, k);   // "constructor" is not a kind
 
   // ── SHA-256 ─────────────────────────────────────────────────────────────────────────────────────
   // The constants are the first 32 bits of the fractional parts of the square roots (H) and cube roots (K) of the first
@@ -179,6 +197,10 @@
     ganita: Object.freeze({ fields: Object.freeze(["for", "model", "values"]), source: "design §4.5 step 1: the prediction is written first" }),
     yantra: Object.freeze({ fields: Object.freeze(["yantra", "body", "reading", "kapala", "calibration"]),
       source: "yantra.js: the instrument's own graduation (SS 3.34b-3.39 and 3.42 for the frame; Jai Singh II's instruments, geometry derived from the sphere)" }),
+    "uttara-rekha": Object.freeze({ fields: Object.freeze(["star", "purva", "pashcima", "sigma"]),
+      source: "SS 3.1-3.3 (the north–south line drawn by the shadow circle and the fish), 12.72-12.73 (the dhruva); dhruva.js northFromElongations: true north is the midpoint of the two greatest elongations [theorem]" }),
+    "ayananta-yugma": Object.freeze({ fields: Object.freeze(["karka", "makara", "sigma"]),
+      source: "SS 3.11 (at the solstices and the equinoxes the computed place is checked against what is seen), 2.28 (the text's ε, which stays the default); dhruva.js fromSolsticeZenithDistances: ε and the latitude from the two noon zenith distances [theorem]" }),
   });
   const OBSERVATION_KINDS = Object.freeze(Object.keys(KINDS).filter((k) => k !== "ganita"));
   const TOP = Object.freeze(["format", "site", "shanku", "entries", "seal"]);
@@ -267,6 +289,137 @@
   }
   const asusOfKapala = (k, where) => C.asusOf(k, where || "kapala");
 
+  // ── the frame from the owner's readings: true north, ε and the latitude (dhruva.js) ─────────────────
+  // Validated here, in full, before dhruva.js sees a number: this module does not lean on dhruva.js's own guards.
+  const FRAME_KINDS = Object.freeze(["uttara-rekha", "ayananta-yugma"]);
+  const ELONGATION = Object.freeze(["day", "digamsha", "side"]);
+  const NOON = Object.freeze(["day", "natamsha", "disha"]);
+  const FRAME_READINGS = Object.freeze({
+    "uttara-rekha": Object.freeze({ purva: ELONGATION, pashcima: ELONGATION }),
+    "ayananta-yugma": Object.freeze({ karka: NOON, makara: NOON }),
+  });
+  const QUARTER = 90 * 3600;                                                         // vikalā in 90°
+  const NORTH_NOTE = "Geometric: true north is the midpoint of the two greatest elongations (dhruva.js northFromElongations), exact in half vikalā; "
+    + "σ = √(σ² + σ²) ÷ 2 from one reading's σ. Refraction does not cancel here and nothing removes it: it lifts the star along its own vertical circle, "
+    + "which leaves an azimuth unchanged only where the air is level [standard]; whatever bends the line of sight sideways stays in the result. "
+    + "A preview: no line and no constant is changed by it.";
+  const SOLSTICE_NOTE = "Geometric: ε = (makara − karka) ÷ 2 and the latitude = (makara + karka) ÷ 2 from the signed noon zenith distances, south of the zenith positive "
+    + "(dhruva.js fromSolsticeZenithDistances), exact in half vikalā; σ = √(σ² + σ²) ÷ 2 for each. Refraction does not cancel in these readings and nothing here removes it: "
+    + "it lifts the Sun toward the zenith, and more at the larger zenith distance, so ε and the size of the latitude both come out somewhat small [theorem, given refraction as standard]. "
+    + "Both noons are taken as solstice noons; a noon away from the solstice gives a smaller ε. A preview beside the text's ε (arc of 1397/3438, SS 2.28), "
+    + "which stays the engine's value: nothing measured is applied.";
+  const arcText = (v) => { const a = Math.abs(v), d = Math.floor(a / 3600), m = Math.floor((a - d * 3600) / 60); return `${d}° ${m}′ ${a - d * 3600 - m * 60}″`; };
+  const onlyKeys = (x, keys, where, what) => {
+    if (!isObj(x)) throw new TypeError(`vedha-lekha: ${where} is { ${keys.join(", ")} }: ${what}`);
+    for (const k of Object.keys(x)) if (!keys.includes(k)) throw new RangeError(`vedha-lekha: ${where} has a field "${k}" (only ${keys.join(", ")})`);
+  };
+  /** An arc read to the whole vikalā → integer vikalā (arcseconds), as dhruva.js's exact arithmetic takes it. */
+  function wholeVikala(a, where) {
+    arcOf(a, where);
+    const d = a.amsha || 0, m = a.kala || 0, s = a.vikala || 0;
+    if (!(Number.isInteger(d) && Number.isInteger(m) && Number.isInteger(s))) throw new RangeError(`vedha-lekha: ${where} is read to the whole vikalā (dhruva.js reduces it exactly, in vikalā)`);
+    return d * 3600 + m * 60 + s;
+  }
+  /** The uncertainty (1σ) of one reading, { amsha, kala, vikala } → vikalā; more than zero. */
+  function sigmaVikala(a, where) {
+    if (a === undefined) throw new RangeError(`vedha-lekha: ${where} is needed: the uncertainty (1σ) of one reading, { amsha, kala, vikala }`);
+    arcOf(a, where);
+    const v = (a.amsha || 0) * 3600 + (a.kala || 0) * 60 + (a.vikala || 0);
+    if (!(v > 0)) throw new RangeError(`vedha-lekha: ${where} is more than zero: every reading has an uncertainty`);
+    return v;
+  }
+  /** One greatest elongation → { N, vikala }: signed vikalā on the provisional line's scale, east (purva) positive. */
+  function elongationReading(x, where) {
+    onlyKeys(x, ELONGATION, where, "the day, the arc from your north line to the star, and the side of the line it lay on");
+    const N = C.kaliDayOf(x.day, `${where}.day`);
+    enumOf(x.side, ["purva", "pashcima"], `${where}.side`);
+    const v = wholeVikala(x.digamsha, `${where}.digamsha`);
+    if (v > QUARTER) throw new RangeError(`vedha-lekha: ${where}.digamsha is at most 90° from the north line`);
+    return { N, vikala: x.side === "purva" ? v : -v };
+  }
+  /** One solstice noon → { N, vikala }: the signed zenith distance, south of the zenith positive. */
+  function noonReading(x, where) {
+    onlyKeys(x, NOON, where, "the day, the Sun's noon zenith distance, and the side of the zenith it stood on");
+    const N = C.kaliDayOf(x.day, `${where}.day`);
+    enumOf(x.disha, ["S", "N"], `${where}.disha`);
+    const v = wholeVikala(x.natamsha, `${where}.natamsha`);
+    if (v >= QUARTER) throw new RangeError(`vedha-lekha: ${where}.natamsha is less than 90°: at noon the Sun stands above the horizon`);
+    return { N, vikala: x.disha === "S" ? v : -v };
+  }
+  const lineSide = (v) => `${arcText(v)} ${v >= 0 ? "east" : "west"} of the line`;
+  const zenithSide = (v) => `${arcText(v)} ${v >= 0 ? "south" : "north"} of the zenith`;
+  /** An uttara-rekha record's readings, checked: { e, w, sigma } (vikalā). Throws, with the reason, on the first fault. */
+  function northLineReadings(r, where) {
+    if (typeof r.star !== "string" || !r.star.trim()) throw new TypeError(`vedha-lekha: ${where}.star names the star read at its two greatest elongations (a star near the dhruva)`);
+    if (r.day !== undefined) throw new RangeError(`vedha-lekha: ${where}: the days are the two readings' own (purva.day, pashcima.day), not the record's`);
+    const e = elongationReading(r.purva, `${where}.purva`), w = elongationReading(r.pashcima, `${where}.pashcima`);
+    const sigma = sigmaVikala(r.sigma, `${where}.sigma`);
+    if (e.vikala <= w.vikala) throw new RangeError(`vedha-lekha: ${where}: the eastern greatest elongation (purva, ${lineSide(e.vikala)}) must lie east of the western one (pashcima, ${lineSide(w.vikala)}): a star circling the dhruva swings to either side of it. Check which reading is which, and the side of each`);
+    if (e.vikala - w.vikala >= 2 * QUARTER) throw new RangeError(`vedha-lekha: ${where}: two elongations half a circle apart are not a star circling the dhruva`);
+    return { e, w, sigma };
+  }
+  /** An ayananta-yugma record's readings, checked: { k, m, sigma } (vikalā). Throws, with the reason, on the first fault. */
+  function solsticeReadings(r, where) {
+    if (r.day !== undefined) throw new RangeError(`vedha-lekha: ${where}: the days are the two noons' own (karka.day, makara.day), not the record's`);
+    const k = noonReading(r.karka, `${where}.karka`), m = noonReading(r.makara, `${where}.makara`);
+    const sigma = sigmaVikala(r.sigma, `${where}.sigma`);
+    if (k.N === m.N) throw new RangeError(`vedha-lekha: ${where}: the karka and the makara noon are on one day; the two solstices are half a year apart`);
+    if (m.vikala <= k.vikala) throw new RangeError(`vedha-lekha: ${where}: at the makara noon the Sun must stand further south than at the karka noon (karka ${zenithSide(k.vikala)}, makara ${zenithSide(m.vikala)}) — ε, half the difference, is more than zero. Check which reading is which, and the side (disha) of each`);
+    return { k, m, sigma };
+  }
+  const halfQuadrature = (s) => Math.sqrt(s * s + s * s) / 2;                       // σ of (a ± b) ÷ 2, each read to σ
+  /** One uttara-rekha record → where true north lies on the owner's line, east (purva) positive, with its σ. A PREVIEW:
+   *  nothing is applied. Validates the record itself before dhruva.js sees it, and throws a readable error if it fails. */
+  function northLine(record) {
+    const r = record, where = `record ${isObj(r) ? r.id : "?"}`;
+    if (!isObj(r) || r.kind !== "uttara-rekha") throw new TypeError(`vedha-lekha: ${where} is not an uttara-rekha record`);
+    const { e, w, sigma } = northLineReadings(r, where);
+    let q;
+    try { q = Dh.northFromElongations({ east: e.vikala, west: w.vikala }); }
+    catch (err) { throw new RangeError(`vedha-lekha: ${where}: dhruva.js refused the readings (${err.message})`); }
+    const north = Number(q.num) / Number(q.den);
+    return {
+      star: r.star,
+      observed: { purva: { day: e.N, vikala: e.vikala }, pashcima: { day: w.N, vikala: w.vikala }, sigmaVikala: sigma, scale: "vikalā from the owner's north line, east (purva) positive" },
+      trueNorth: { vikala: north, deg: north / 3600, exact: `${q.num}/${q.den} vikalā`, sigmaVikala: halfQuadrature(sigma), side: north > 0 ? "purva" : north < 0 ? "pashcima" : "on the line" },
+      halfSpanVikala: (e.vikala - w.vikala) / 2,
+      text: null, preview: true, applied: false,
+      source: KINDS["uttara-rekha"].source, note: NORTH_NOTE,
+    };
+  }
+  /** One ayananta-yugma record → ε and the latitude, each with its σ, beside the text's ε (SS 2.28) and the given place
+   *  (placeOf; optional). A PREVIEW: nothing is applied. Validates the record itself before dhruva.js sees it, and throws
+   *  a readable error if it fails. warnings: a noon that the text's own Sun puts more than 15° (about 15 days) from its
+   *  solstice — a check of this module against a mis-dated reading, not a rule of the text. */
+  function solsticePair(record, place) {
+    const r = record, where = `record ${isObj(r) ? r.id : "?"}`;
+    if (!isObj(r) || r.kind !== "ayananta-yugma") throw new TypeError(`vedha-lekha: ${where} is not an ayananta-yugma record`);
+    const { k, m, sigma } = solsticeReadings(r, where);
+    let q;
+    try { q = Dh.fromSolsticeZenithDistances({ summer: k.vikala, winter: m.vikala }); }
+    catch (err) { throw new RangeError(`vedha-lekha: ${where}: dhruva.js refused the readings (${err.message})`); }
+    const eps = Number(q.epsilon.num) / Number(q.epsilon.den), lat = Number(q.latitude.num) / Number(q.latitude.den), s = halfQuadrature(sigma);
+    const textEps = Dh.SS_EPSILON_DEG * 3600;
+    const siteLat = place && typeof place.latitude === "number" ? place.latitude * 3600 : null;
+    const warnings = [];
+    for (const [which, x, point] of [["karka", k, 90], ["makara", m, 270]]) {
+      const off = Math.abs(wrap180(C.textSun(x.N + 0.5 - ((place && place.deshantara) || 0) / 360).sayana - point));
+      if (off > 15) warnings.push(`the ${which} noon (Kali day ${x.N}) is about ${Math.round(off)}° of the Sun — some ${Math.round(off)} days — from the ${which} solstice by the text's Sun; it is reduced as a solstice noon. Check its day.`);
+    }
+    return {
+      observed: { karka: { day: k.N, vikala: k.vikala }, makara: { day: m.N, vikala: m.vikala }, sigmaVikala: sigma, daysApart: Math.abs(m.N - k.N),
+        scale: "signed noon zenith distance in vikalā, south of the zenith positive" },
+      epsilon: { vikala: eps, deg: eps / 3600, exact: `${q.epsilon.num}/${q.epsilon.den} vikalā`, sigmaVikala: s },
+      latitude: { vikala: lat, deg: lat / 3600, exact: `${q.latitude.num}/${q.latitude.den} vikalā`, sigmaVikala: s },
+      correlation: 0,                                                                  // (σm² − σk²) ÷ (σm² + σk²): one σ for both readings
+      text: { epsilonDeg: Dh.SS_EPSILON_DEG, epsilon: "arc of 1397/3438", source: "SS 2.28", default: true },
+      site: place ? { latitudeDeg: place.latitude, from: place.from } : null,
+      antara: { epsilonArcmin: (eps - textEps) / 60, latitudeArcmin: siteLat === null ? null : (lat - siteLat) / 60 },
+      preview: true, applied: false,
+      source: KINDS["ayananta-yugma"].source, note: SOLSTICE_NOTE, warnings,
+    };
+  }
+
   // ── one record, against the schema ──────────────────────────────────────────────────────────────
   const enumOf = (v, allowed, where) => { if (!allowed.includes(v)) throw new RangeError(`vedha-lekha: ${where} is ${allowed.map((x) => JSON.stringify(x)).join(" or ")}`); };
   /** The kind's own fields (the chāyā kinds by ss-chaya.js's own validate). Throws on the first fault. */
@@ -296,6 +449,8 @@
       }
       return;
     }
+    if (r.kind === "uttara-rekha") { northLineReadings(r, where); return; }
+    if (r.kind === "ayananta-yugma") { solsticeReadings(r, where); return; }
     C.kaliDayOf(r.day, `${where}.day`);
     if (r.calibration !== undefined) enumOf(r.calibration, ["nakshatra", "savana"], `${where}.calibration`);
     if (r.kind === "yamyottara") {
@@ -332,7 +487,12 @@
       if (r.kapala !== undefined) asusOfKapala(r.kapala, `${where}.kapala`);
     }
   }
-  const dayOf = (r) => (r.day === undefined ? null : C.kaliDayOf(r.day, `record ${r.id}.day`));
+  /** The record's day: its own, or for a frame kind the later of its two readings' days (the record is whole only then). */
+  const dayOf = (r) => {
+    const two = own(FRAME_READINGS, r.kind) ? FRAME_READINGS[r.kind] : null;
+    if (two) return Math.max(...Object.keys(two).map((k) => C.kaliDayOf(isObj(r[k]) ? r[k].day : undefined, `record ${r.id}.${k}.day`)));
+    return r.day === undefined ? null : C.kaliDayOf(r.day, `record ${r.id}.day`);
+  };
 
   /** Every fault of one record that does not need the rest of the ledger, as { where, reason }. */
   function recordFaults(r, where, opts) {
@@ -340,7 +500,7 @@
     if (!isObj(r)) { refuse(where, "a record must be an object"); return out; }
     scanModern(r, where, refuse);
     if (typeof r.id !== "string" || !r.id) refuse(`${where}.id`, "every record needs an id");
-    if (!KINDS[r.kind]) { refuse(`${where}.kind`, `unknown kind ${JSON.stringify(r.kind)} (${Object.keys(KINDS).join(", ")})`); return out; }
+    if (!own(KINDS, r.kind)) { refuse(`${where}.kind`, `unknown kind ${JSON.stringify(r.kind)} (${Object.keys(KINDS).join(", ")})`); return out; }
     onlyFields(r, [...COMMON, ...KINDS[r.kind].fields], where, refuse);
     for (const k of ["observer", "note"]) if (r[k] !== undefined && typeof r[k] !== "string") refuse(`${where}.${k}`, `${k} is text`);
     if (r.synthetic !== undefined && typeof r.synthetic !== "boolean") refuse(`${where}.synthetic`, "synthetic is true or false");
@@ -671,6 +831,8 @@
 
   /** Reduces a certified ledger. The chāyā records go, as a "vedha-chaya/1" file, to ss-chaya.js's reduce; each of the
    *  other observations comes back with what it measured [measured], the text's prediction beside it, and the antara.
+   *  The frame kinds (uttara-rekha, ayananta-yugma) come back as a preview (northLine, solsticePair) beside the text's ε
+   *  and the ledger's place, applied to nothing; summary.uttaraRekha and summary.ayanantaYugma list them.
    *  opts: allowSynthetic (passed to the certifier), catalogue (yogatara.json) or stars, sunrise ("text"), drishya,
    *  grahana, chaya (options for ss-chaya.js's reduce). Throws when the ledger is not certified. */
   function reduce(ledgerOrFile, opts) {
@@ -693,7 +855,7 @@
     }
     const place = placeOf(L.site, L.shanku, chaya);
     const others = recs.filter((r) => !CHAYA_KINDS.includes(r.kind) && r.kind !== "ganita");
-    if (!place && others.length) throw new RangeError("vedha-lekha: no place — give site.palabha or site.latitude (the dhruva), or a vishuvat record");
+    if (!place && others.some((r) => !FRAME_KINDS.includes(r.kind))) throw new RangeError("vedha-lekha: no place — give site.palabha or site.latitude (the dhruva), or a vishuvat record");
     const site = place ? modelSite(place) : null;
 
     // the bowl's own count of a turn (1.12, 13.23)
@@ -793,6 +955,19 @@
         out.push({ ...base, yantra: r.yantra, body: r.body, observed: x.observed, instant: x.instant, text: x.text, antara: x.antara });
         continue;
       }
+      if (FRAME_KINDS.includes(r.kind)) {
+        // the frame: a PREVIEW beside the text's values; nothing is applied (the certifier has already checked the readings)
+        try {
+          const x = r.kind === "uttara-rekha" ? northLine(r) : solsticePair(r, place);
+          for (const w of x.warnings || []) warnings.push(`${r.id}: ${w}`);
+          delete x.warnings;
+          out.push({ ...base, ...x });
+        } catch (e) {
+          warnings.push(`${r.id}: ${e.message.replace(/^vedha-lekha: /, "")}`);
+          out.push({ ...base, refused: e.message, preview: true, applied: false });
+        }
+        continue;
+      }
     }
 
     // ── what the records say together ──
@@ -820,7 +995,9 @@
       const whole = (d) => Math.abs(d * 3600 - Math.round(d * 3600)) < 1e-6;
       let latitude, polarDistance, exact = false;
       if (whole(up) && whole(lo) && s.upper.length === 1 && s.lower.length === 1) {   // dhruva.js: exact, in arcseconds
-        const q = Dh.dhruvaFromCulminations({ upper: Math.round(up * 3600), lower: Math.round(lo * 3600) });
+        let q;
+        try { q = Dh.dhruvaFromCulminations({ upper: Math.round(up * 3600), lower: Math.round(lo * 3600) }); }
+        catch (e) { warnings.push(`${name}: ${e.message}; no dhruva from this pair`); continue; }
         latitude = Number(q.elevation.num) / Number(q.elevation.den) / 3600; polarDistance = Number(q.polarDistance.num) / Number(q.polarDistance.den) / 3600; exact = true;
       } else { latitude = (up + lo) / 2; polarDistance = (up - lo) / 2; }
       dhruva.push({ star: name, tag, upperDeg: up, lowerDeg: lo, latitudeDeg: latitude, polarDistanceDeg: polarDistance, exact,
@@ -861,6 +1038,11 @@
     const yantra = { tag, n: T("yantra").length, byInstrument: {} };
     for (const k of ["natAsus", "krantiArcmin", "unnataArcmin", "digamshaArcmin", "natamshaArcmin", "sphutaArcmin"]) yantra[k] = stats(yan.filter((x) => x.antara[k] !== undefined).map((x) => x.antara[k]));
     for (const x of T("yantra")) yantra.byInstrument[x.yantra] = (yantra.byInstrument[x.yantra] || 0) + 1;
+    // the frame from the owner's readings: each record on its own (a north line is one drawn line), a preview only
+    const uttaraRekha = T("uttara-rekha").filter((x) => x.trueNorth).map((x) => ({ id: x.id, tag, star: x.star, trueNorthVikala: x.trueNorth.vikala,
+      sigmaVikala: x.trueNorth.sigmaVikala, side: x.trueNorth.side, preview: true, applied: false }));
+    const ayanantaYugma = T("ayananta-yugma").filter((x) => x.epsilon).map((x) => ({ id: x.id, tag, epsilonDeg: x.epsilon.deg, latitudeDeg: x.latitude.deg,
+      sigmaVikala: x.epsilon.sigmaVikala, textEpsilonDeg: x.text.epsilonDeg, antara: x.antara, preview: true, applied: false }));
     // the predictions written first
     const ganita = recs.filter((r) => r.kind === "ganita").map((g) => {
       const citedBy = recs.filter((r) => r.ganita === g.id).map((r) => ({ id: r.id, seq: seqOf.get(r.id) }));
@@ -877,6 +1059,7 @@
         dhruva, grahana: ecl, candraDarshana: crescent,
         candraYoga: { moonArcmin: stats(T("candra-yoga").filter((x) => x.antara).map((x) => x.antara.moonArcmin)) },
         yantra,
+        uttaraRekha, ayanantaYugma,
         ganita,
       },
     };
@@ -884,11 +1067,12 @@
 
   return Object.freeze({
     sine: S.sine || "table", withSine: (name) => vedhaLekhaOf(K, S.withSine(name), Dh, U.withSine(name), C.withSine(name), G.withSine(name), D.withSine(name), Y ? Y.withSine(name) : Y),
-    FORMAT, KINDS, CHAYA_KINDS, OBSERVATION_KINDS, COMMON, CONTACTS, TOP, SITE, ENTRY, SEAL, ASUS_PER_DAY,
+    FORMAT, KINDS, CHAYA_KINDS, OBSERVATION_KINDS, FRAME_KINDS, FRAME_READINGS, COMMON, CONTACTS, TOP, SITE, ENTRY, SEAL, ASUS_PER_DAY,
     GATE_FORBIDDEN, MODERN_ACRONYMS, MODERN_PRODUCTS, MODERN_FIELDS,
     sha256, canonical, utf8,
     create, append, verify, seal, toJSON, fromJSON, certify, reduce,
     arcOf, arcOfDegrees, kapalaOfAsus, asusOfKapala, placeOf, sunriseAt, sunsetAt, turnAsusBetween, afterTurnAsus,
     predictTransit, eclipseFor, predictContact, shadowAtTurnAsus, turnAsusFromShadow, predictCrescent, moonPolarAt, predictYuti,
+    northLine, solsticePair,
   });
 });

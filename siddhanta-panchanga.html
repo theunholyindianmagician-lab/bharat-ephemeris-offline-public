@@ -6,15 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#03060e">
   <title>सिद्धान्त-पञ्चाङ्ग · Siddhānta Pañcāṅga — Bharat Ephemeris</title>
-  <meta name="description" content="The Sūrya-Siddhānta's pañcāṅga for your place and day — tithi, nakṣatra, yoga, karaṇa, the month, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā — computed on your device. Nothing leaves it.">
+  <meta name="description" content="The pañcāṅga for your place and day in three choices — the Sūrya-Siddhānta with Parameśvara's saṃskāra, the plain Sūrya-Siddhānta, or Modern Bhāratīya (dṛk) — tithi, nakṣatra, yoga, karaṇa, the month and year, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā, computed on your device. Nothing leaves it.">
   <meta property="og:title" content="सिद्धान्त-पञ्चाङ्ग · Siddhānta Pañcāṅga — Bharat Ephemeris">
-  <meta property="og:description" content="The Sūrya-Siddhānta's pañcāṅga for your place and day — tithi, nakṣatra, yoga, karaṇa, the month, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā — computed on your device. Nothing leaves it.">
+  <meta property="og:description" content="The pañcāṅga for your place and day in three choices — the Sūrya-Siddhānta with Parameśvara's saṃskāra, the plain Sūrya-Siddhānta, or Modern Bhāratīya (dṛk) — tithi, nakṣatra, yoga, karaṇa, the month and year, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā, computed on your device. Nothing leaves it.">
   <meta property="og:image" content="https://offline.bharatephemeris.com/og/siddhanta-panchanga.png">
   <meta property="og:url" content="https://offline.bharatephemeris.com/siddhanta-panchanga.html">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="सिद्धान्त-पञ्चाङ्ग · Siddhānta Pañcāṅga — Bharat Ephemeris">
-  <meta name="twitter:description" content="The Sūrya-Siddhānta's pañcāṅga for your place and day — tithi, nakṣatra, yoga, karaṇa, the month, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā — computed on your device. Nothing leaves it.">
+  <meta name="twitter:description" content="The pañcāṅga for your place and day in three choices — the Sūrya-Siddhānta with Parameśvara's saṃskāra, the plain Sūrya-Siddhānta, or Modern Bhāratīya (dṛk) — tithi, nakṣatra, yoga, karaṇa, the month and year, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā, computed on your device. Nothing leaves it.">
   <meta name="twitter:image" content="https://offline.bharatephemeris.com/og/siddhanta-panchanga.png">
   <link rel="stylesheet" href="global.css?v=107">
   <link rel="manifest" href="manifest.webmanifest">
@@ -123,6 +123,21 @@
     .dasha tr.cur > td { background: var(--vh); }
     .dasha td.sub { padding: 0 0 4px 12px; }
     .dasha td.sub table { margin: 0; font-size: 0.84rem; }
+    /* the three choices, their labels in every block, and the dṛk choice's refusal */
+    #tier-pick { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+    #tier-pick label { flex-direction: row; align-items: center; gap: 6px; color: var(--vi); font-size: 0.92rem; }
+    #tier-note { margin: 4px 0 0; }
+    details.tl { margin: 4px 0 8px; border-left: 3px solid var(--va); padding: 2px 0 2px 8px; font-size: 0.82rem; }
+    details.tl > summary { color: var(--vm); }
+    details.tl dl { display: grid; grid-template-columns: minmax(7em, max-content) 1fr; gap: 2px 10px; margin: 4px 0 0; }
+    details.tl dt { color: var(--vm); }
+    details.tl dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+    .refusal { border: 1px solid var(--vr); border-radius: 8px; padding: 10px 12px; margin: 6px 0; }
+    .refusal button { margin: 6px 6px 0 0; }
+    .dhelp { color: var(--vm); font-size: 0.8rem; margin: 2px 0 0; }
+    input.date { width: 11em; font-family: var(--font-num); }
+    input.year { width: 7.5em; font-family: var(--font-num); }
+    @media (max-width: 480px) { details.tl dl { grid-template-columns: 1fr; } }
     @media (max-width: 480px) {
       main { padding: 10px; }
       section { padding: 12px 10px; }
@@ -152,9 +167,14 @@
       <h1>सिद्धान्त-पञ्चाङ्ग · Siddhānta Pañcāṅga</h1>
       <button id="theme" type="button">रंग · theme: auto</button>
     </div>
-    <p>The Sūrya-Siddhānta's pañcāṅga for your place and day: its own true Sun and Moon, its own rules, computed here on your device. Nothing is fetched and nothing leaves it.</p>
+    <p>The pañcāṅga for your place and day, computed here on your device in the choice you make below. Nothing is fetched from elsewhere and nothing leaves it.</p>
+    <fieldset id="tier-field">
+      <legend>गणना · the computation (three choices, one code path each)</legend>
+      <div id="tier-pick" role="radiogroup" aria-label="the computation"></div>
+      <p id="tier-note" class="muted small"></p>
+    </fieldset>
     <nav class="toc" aria-label="On this page">
-      <a href="#sthana">१ स्थान</a><a href="#aaj">२ आज</a><a href="#kala">३ काल</a><a href="#masa">४ मास</a><a href="#utsava">५ उत्सव</a><a href="#grahana">६ ग्रहण</a><a href="#dasha">७ दशा</a><a href="#parichaya">८ परिचय</a>
+      <a href="#sthana">१ स्थान</a><a href="#aaj">२ आज</a><a href="#kala">३ काल</a><a href="#masa">४ मास</a><a href="#varsha">५ वर्ष</a><a href="#utsava">६ उत्सव</a><a href="#grahana">७ ग्रहण</a><a href="#dasha">८ दशा</a><a href="#parichaya">९ परिचय</a>
     </nav>
     <p id="msg" role="status" aria-live="polite"></p>
   </header>
@@ -171,7 +191,9 @@
     </div>
     <p id="geo-note" class="muted small">The position stays on this device: the page sends nothing anywhere (your browser finds the position itself). The UTC offset is fixed; enter a summer-time offset yourself.</p>
     <div class="row">
-      <label>दिन · date <input id="date" type="date"></label>
+      <label>दिन · date (YYYY-MM-DD) <input id="date" class="date" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="2026-10-08"></label>
+      <label>पत्रक · calendar
+        <select id="calendar"><option value="gregorian">Gregorian (proleptic)</option><option value="julian">Julian (proleptic)</option></select></label>
       <button id="prev" type="button" aria-label="Previous day">← दिन</button>
       <button id="today-btn" type="button">आज · today</button>
       <button id="next" type="button" aria-label="Next day">दिन →</button>
@@ -181,52 +203,72 @@
         <label class="radio"><input type="radio" name="scheme" value="purnimanta"> पूर्णिमान्त · pūrṇimānta</label>
       </fieldset>
     </div>
+    <p id="date-help" class="dhelp">Astronomical years: 0 = 1 BCE, −1 = 2 BCE. The two Sūrya-Siddhānta choices take any day from −50,000 to +50,000; the dṛk choice is served for 1850–2150 only and says so outside it.</p>
     <details>
       <summary>उन्नत · advanced: the Ujjayinī meridian</summary>
-      <p class="muted">The engine counts days from midnight on the Laṅkā–Ujjayinī meridian. 75.7885° E is the modern position of Ujjain (the value the rest of this product uses), not a figure from the text; change it here if you hold another. A place's deśāntara is its longitude less this.</p>
+      <p class="muted">The text counts days from midnight on the Laṅkā–Ujjayinī meridian. 75.7885° E is the modern position of Ujjain (the value the rest of this product uses), not a figure from the text; change it here if you hold another. A place's deśāntara is its longitude less this.</p>
       <label>Ujjayinī meridian ° east <input id="mer" type="number" step="any" min="-180" max="180" inputmode="decimal"></label>
     </details>
     <p id="place-state" class="muted"></p>
-    <p class="muted small">Clock times: the instant the engine gives, less the meridian's longitude (÷ 360 of a day), plus your UTC offset. The Sūrya-Siddhānta's civil day is a turn of the Earth, sunrise to sunrise, so no ΔT enters. Beside each time is its count from sunrise in ghaṭī (घ) and vināḍī (वि) of the star-wheel's turn (SS 1.11-1.12), as the engine returns it.</p>
+    <p class="muted small">Clock times are your UTC offset's. In the two Sūrya-Siddhānta choices an instant is the text's count of days from midnight at Laṅkā, so a clock time is that count less the meridian's longitude (÷ 360 of a day) plus your offset, and no other correction enters; the dṛk choice gives universal time from its own series. Beside each time is its count from sunrise in ghaṭī (घ) and vināḍī (वि): of the star-wheel's turn (SS 1.11-1.12) in the text's choices, of the civil day in the dṛk choice.</p>
   </section>
 
   <section id="aaj" aria-labelledby="h-aaj">
     <h2 id="h-aaj">२ · आज का पञ्चाङ्ग — the day's pañcāṅga</h2>
+    <div id="tl-aaj"></div>
     <div id="today"><p class="muted">Computing…</p></div>
     <p id="t-today" class="muted small"></p>
   </section>
 
   <section id="kala" aria-labelledby="h-kala">
     <h2 id="h-kala">३ · काल-खण्ड — the parts of the day</h2>
+    <div id="tl-kala"></div>
     <div id="kala-out"><p class="muted">—</p></div>
     <p id="t-kala" class="muted small"></p>
   </section>
 
   <section id="masa" aria-labelledby="h-masa">
     <h2 id="h-masa">४ · मास — the month, day by day</h2>
+    <div id="tl-masa"></div>
     <p class="muted small">Each day shows the tithi and nakṣatra at its sunrise. A tithi that begins and ends between two sunrises is marked kṣaya; one that runs through two sunrises, vṛddhi. Choose a day to see its pañcāṅga.</p>
     <div id="month"><p class="muted">—</p></div>
     <p id="t-month" class="muted small"></p>
   </section>
 
+  <section id="varsha" aria-labelledby="h-varsha">
+    <h2 id="h-varsha">५ · वर्ष — the year: its months, adhika and kṣaya</h2>
+    <div id="tl-varsha"></div>
+    <form id="yr-form" class="row">
+      <label>वर्ष · year (astronomical: 0 = 1 BCE) <input id="yr-in" class="year" type="text" inputmode="text" autocomplete="off" spellcheck="false"></label>
+      <button type="submit" id="yr-go">वर्ष दिखाएँ · show this year</button>
+      <button type="button" id="yr-day">the chosen day's year</button>
+    </form>
+    <p class="dhelp">The year numbered Y here is the lunisolar year of Kali Y + 3101 (years gone at its start), which in our era begins in March or April of Y. Any year from −50,000 to +50,000 in the two Sūrya-Siddhānta choices; 1850–2149 in the dṛk choice.</p>
+    <div id="varsha-out"><p class="muted">—</p></div>
+    <p id="t-varsha" class="muted small"></p>
+  </section>
+
   <section id="utsava" aria-labelledby="h-utsava">
-    <h2 id="h-utsava">५ · वर्ष के उत्सव — the year's festivals, saṅkrāntis and ayanas</h2>
+    <h2 id="h-utsava">६ · वर्ष के उत्सव — the year's festivals, saṅkrāntis and ayanas</h2>
+    <div id="tl-utsava"></div>
     <div id="year"><p class="muted">—</p></div>
     <p id="t-year" class="muted small"></p>
   </section>
 
   <section id="grahana" aria-labelledby="h-grahana">
-    <h2 id="h-grahana">६ · ग्रहण — eclipses in the next 400 days</h2>
-    <p class="muted small">The text's eclipses at this place (SS chapters 4, 5 and 6.13), from the chosen day: this is the text's eclipse, not the sky's, until the vedha says how far apart they are.</p>
-    <p class="caution" id="eclipse-caution">सूर्य-ग्रहण को कभी भी नंगी आँखों, धूप के चश्मे या कैमरे से सीधे न देखें; केवल प्रमाणित सौर-फ़िल्टर या पिनहोल-प्रक्षेपण से। · Never look at a solar eclipse with the naked eye, sunglasses or through a camera; use only a certified solar filter or pinhole projection. The text's magnitude is the text's prediction, not a safety guide.</p>
+    <h2 id="h-grahana">७ · ग्रहण — eclipses in the next 400 days</h2>
+    <div id="tl-grahana"></div>
+    <p class="muted small" id="ecl-intro"></p>
+    <p class="caution" id="eclipse-caution">सूर्य-ग्रहण को कभी भी नंगी आँखों, धूप के चश्मे या कैमरे से सीधे न देखें; केवल प्रमाणित सौर-फ़िल्टर या पिनहोल-प्रक्षेपण से। · Never look at a solar eclipse with the naked eye, sunglasses or through a camera; use only a certified solar filter or pinhole projection. The magnitude below is a computed prediction, not a safety guide.</p>
     <div id="ecl"><p class="muted">—</p></div>
     <p id="t-ecl" class="muted small"></p>
   </section>
 
   <section id="dasha" aria-labelledby="h-dasha">
-    <h2 id="h-dasha">७ · विंशोत्तरी दशा — Vimśottarī daśā</h2>
+    <h2 id="h-dasha">८ · विंशोत्तरी दशा — Vimśottarī daśā</h2>
+    <div id="tl-dasha"></div>
     <form id="dasha-form" class="row">
-      <label>जन्म-दिन · birth date <input id="b-date" type="date" required></label>
+      <label>जन्म-दिन · birth date (YYYY-MM-DD) <input id="b-date" class="date" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="1990-05-17" required></label>
       <label>समय · time (your clock) <input id="b-time" type="time" value="12:00" required></label>
       <label>जन्म-स्थान · birth place
         <select id="b-city"></select></label>
@@ -237,39 +279,56 @@
         <select id="b-bal"><option value="time">by time in the nakṣatra (BPHS 46.16)</option><option value="arc">by the Moon's arc in it</option></select></label>
       <button type="submit" class="primary" id="b-go">दशा निकालें · compute</button>
     </form>
-    <p class="muted small">Only the birth instant matters: the Moon's nakṣatra then. The place gives the clock's UTC offset (enter the offset in force at the birth, summer time included); its latitude and longitude are not used. Birth details are not stored.</p>
+    <p class="muted small">Only the birth instant matters: the Moon's nakṣatra then, in the choice above. The birth date is read in the calendar chosen in section १. The place gives the clock's UTC offset (enter the offset in force at the birth, summer time included); its latitude and longitude are not used. Birth details are not stored. In the dṛk choice the year and the balance are the tier's own (shown with the table).</p>
     <div id="dasha-out"></div>
   </section>
 
   <section id="parichaya" aria-labelledby="h-parichaya">
-    <h2 id="h-parichaya">८ · परिचय — about these numbers</h2>
+    <h2 id="h-parichaya">९ · परिचय — about these numbers</h2>
     <ul>
-      <li>These are the Sūrya-Siddhānta's numbers: its own revolutions, true Sun and Moon (chapter 2, with Mādhava's sine), ayanāṃśa (3.9-3.10) and eclipse rules (chapters 4-6). They are computed on your device by the engine's files, and nothing is fetched.</li>
-      <li>They are not yet checked against the sky. Observations are what correct them: that is the work of the observation companion, <a href="vedha.html">वेध · vedha</a>.</li>
+      <li><b>सूर्य-सिद्धान्त + परमेश्वर-संस्कार · Sūrya-Siddhānta + Parameśvara's saṃskāra</b> (the default): the text's own model, with the mean places that the paramparā's record names moved by its arcminutes. The record is read on this device from <code>corpus/parampara/samskara.json</code>: it was fitted to the eclipses Parameśvara recorded. Every block below names this choice and its rules.</li>
+      <li><b>सूर्य-सिद्धान्त · Sūrya-Siddhānta</b>: the text exactly as it stands — its revolutions, true Sun and Moon (chapter 2, with Mādhava's sine), ayanāṃśa (3.9-3.10) and eclipse rules (chapters 4-6).</li>
+      <li><b>आधुनिक भारतीय (दृक्) · Modern Bhāratīya (dṛk)</b>: the owner's own series, served for 1850–2150 and refused outside it. Its engine, span and the agreement measured in this repository's tests are printed in each block's label as the engine states them; nothing else is computed in the browser to compare it with.</li>
+      <li>Your own observations are optional. The default choice already carries the saṃskāra from the paramparā's recorded observations; if you wish to keep your own beside the text, the observation companion <a href="vedha.html">वेध · vedha</a> does that, and nothing you record there changes a value on this page.</li>
       <li>Printed pañcāṅgas use other models and other ayanāṃśas, so a tithi's end can differ by hours, and a festival or a saṅkrānti can fall a day apart.</li>
       <li>Festival rules (which tithi, in which part of the day, which of two days) are simplified common practice and are marked unverified, unless a row is marked as from the text: there is no Rohiṇī check for Janmāṣṭamī and no daśamī-vedha for Ekādaśī. The names of most yogas, of the movable karaṇas after Bava and of the tithis are the standard lists; no text in this repository states them.</li>
     </ul>
     <h3>मान्यताएँ · conventions</h3>
     <ul>
-      <li>Months come from the engine as amānta (new moon to new moon), named by the saṅkrānti in them. The pūrṇimānta name is derived on this page — the dark half takes the next month's name, and an adhika month stays adhika — and is labelled common practice.</li>
-      <li>The karaṇas around amāvāsyā follow SS 2.67's order: Śakuni, Nāga, Catuṣpada, Kiṃstughna (Nāga before Catuṣpada; the later common order differs).</li>
-      <li>panchanga.js does not flag kṣaya or vṛddhi tithis. The month grid derives them by comparing the tithis at two sunrises.</li>
-      <li>The daśā year is the Sūrya-Siddhānta's solar year, 365.2587565 civil days (SS 14.10 with 1.37), and the balance at birth is by the time gone in the birth nakṣatra (BPHS 46.16); the other choices dasha.js offers are in the form.</li>
+      <li>Months are amānta (new moon to new moon), named by the saṅkrānti in them, with adhika and kṣaya months; the rule is printed in each block's label. The pūrṇimānta name is derived on this page — the dark half takes the next month's name, and an adhika month stays adhika — and is labelled common practice.</li>
+      <li>The karaṇas around amāvāsyā follow SS 2.67's order in the two Sūrya-Siddhānta choices (Śakuni, Nāga, Catuṣpada, Kiṃstughna); the dṛk choice uses the common order, labelled as such.</li>
+      <li>The month grid derives kṣaya and vṛddhi tithis by comparing the tithis at two sunrises.</li>
+      <li>The daśā year in the text's choices is the Sūrya-Siddhānta's solar year, 365.2587565 civil days (SS 14.10 with 1.37), and the balance at birth is by the time gone in the birth nakṣatra (BPHS 46.16); the other choices dasha.js offers are in the form.</li>
       <li>Clock times use 75.7885° E for Ujjain's meridian, its modern position, not a figure from the text.</li>
     </ul>
   </section>
 </main>
 
+<script src="katapayadi.js"></script>
 <script src="kala-dvara.js"></script>
+<script src="parahita-madhyama.js"></script>
 <script src="sphuta.js"></script>
 <script src="dhruva.js"></script>
 <script src="ss-udaya.js"></script>
 <script src="spanda-ganita.js"></script>
+<script src="ss-graha.js"></script>
+<script src="ss-chaya.js"></script>
 <script src="ss-grahana.js"></script>
+<script src="ss-ahargana.js"></script>
 <script src="panchanga.js"></script>
 <script src="utsava.js"></script>
-<script src="muhurta.js"></script>
+<script src="ss-drishya.js"></script>
 <script src="dasha.js"></script>
+<script src="muhurta.js"></script>
+<script src="yantra.js"></script>
+<script src="vedha-lekha.js"></script>
+<script src="samskara.js"></script>
+<script src="parampara.js"></script>
+<script src="ss-tier.js"></script>
+<script src="math-core.js"></script>
+<script src="siddhanta-drik.js"></script>
+<script src="siddhanta-tier.js"></script>
+<script src="drik-grahana.js"></script>
 <script src="siddhanta-panchanga-page.js"></script>
 </body>
 </html>

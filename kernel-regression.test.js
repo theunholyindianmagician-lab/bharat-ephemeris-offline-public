@@ -67,16 +67,26 @@ const LEGACY_ROUNDED_ANCHORS = Object.freeze({
 // +0.00100″ at this 2026 anchor (the placeholder was ~0.079″ at the apogee here, damped by
 // the manda equation). candra re-pinned from the same formula; numerical regression pin,
 // not accuracy evidence. All other eight anchors unchanged.
+// 2026-10-08 (owner decision D2: math-core's classical path IS the text tier — the Sūrya-Siddhānta's own day count from
+// midnight at Laṅkā, no ΔT, no modern lunar terms, Mādhava's sine — through ss-tier.js and the sovereign modules). Every
+// anchor moved. Re-derived by scripts/refreeze-text-tier.cjs as mod360(sphuta.js / ss-graha.js longitude at
+// t = jd − 588465.5 + 75.7885/360 + bijaDeltaDeg(key, jd, 'empirical-2026-08-29')), and cross-checked against the
+// independent path (math-core.js of 68905b9, ΔT cancelled, epoch moved to Laṅkā, its three-term Moon removed): max |Δ|
+// 1.07e-6° over the fixture epochs and this anchor. Owner seal: SANKALP BE-S08 lets anchors change only byte-identically;
+// this re-pin is D2's, sealed by the owner as SANKALP BE-S08b (2026-10-09). Numerical regression, not accuracy evidence.
+// Previous (2026-10-05) anchors, for audit:
+//   surya 119.86240065735433, candra 173.77049354272822, mangala 69.4334005645494, budha 111.51530066841423,
+//   guru 106.14523304561624, shukra 164.0931569841573, shani 350.35614056129725, rahu 305.8671423179045, ketu 125.8671423179045
 const CANONICAL_ANCHORS = Object.freeze({
-  surya: 119.86240065735433,
-  candra: 173.77049354272822,
-  mangala: 69.4334005645494,
-  budha: 111.51530066841423,
-  guru: 106.14523304561624,
-  shukra: 164.0931569841573,
-  shani: 350.35614056129725,
-  rahu: 305.8671423179045,
-  ketu: 125.8671423179045,
+  surya: 120.06344647404876,
+  candra: 175.78451220752964,
+  mangala: 69.57106436497712,
+  budha: 111.86980827404358,
+  guru: 106.19234911527126,
+  shukra: 164.2624842867894,
+  shani: 350.3448113294056,
+  rahu: 305.8560302194535,
+  ketu: 125.85603021945347,
 });
 
 test("anchor instant resolves to JD 2461269.4375", () => {

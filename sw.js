@@ -1,4 +1,4 @@
-const CACHE = "bharat-ephemeris-s9-v24-downloads40";
+const CACHE = "bharat-ephemeris-s9-v25-tiers";
 const CORE = [
   "./",
   "./index.html",
@@ -39,7 +39,13 @@ const CORE = [
   "./ss-grahana.js", "./panchanga.js", "./utsava.js", "./ss-drishya.js", "./yantra.js", "./vedha-lekha.js",
   "./corpus/surya-siddhanta/yogatara.json",
   // siddhanta-panchanga.html, the public pañcāṅga on the same engine (with muhurta.js and dasha.js)
-  "./siddhanta-panchanga.html", "./siddhanta-panchanga-page.js", "./muhurta.js", "./dasha.js"
+  "./siddhanta-panchanga.html", "./siddhanta-panchanga-page.js", "./muhurta.js", "./dasha.js",
+  // the three tiers (2026-10-08): every page that loads math-core.js loads the text tiers' modules, the paramparā record
+  // (parampara-record.js = corpus/parampara/registry.json + samskara.json as one script; the JSON files too, for a page
+  // that reads them), ss-tier.js, and for the Modern Bhāratīya (dṛk) choice siddhanta-tier.js and drik-grahana.js;
+  // samskara.js and parahita-madhyama.js serve the saṃskāra tier's eclipses (ss-tier.js eclipsesNear)
+  "./ss-graha.js", "./ss-ahargana.js", "./parampara.js", "./parampara-record.js", "./ss-tier.js", "./drik-grahana.js",
+  "./corpus/parampara/registry.json", "./corpus/parampara/samskara.json", "./samskara.js", "./parahita-madhyama.js"
 ];
 
 // Library downloads (offline-complete after the lazy warm-up, like the editions): every file library.html links —

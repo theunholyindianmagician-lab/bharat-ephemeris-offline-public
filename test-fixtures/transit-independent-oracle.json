@@ -1,23 +1,32 @@
 {
-  "schema": 1,
+  "schema": 2,
   "jdUt": 2460676.5,
   "civilInput": { "date": "2025-01-01", "time": "05:30:00", "timezoneHours": 5.5 },
-  "uiMode": "calibrated",
+  "uiMode": "drik",
   "source": {
     "independentEngine": "mangalkaalyantra",
     "independentCall": "computeGrahas(2460676.5, 'siddhanta', 'calibrated')",
-    "classification": "frozen UI-frame vector plus independent frame-free elongation oracle",
-    "note": "Absolute coordinates preserve the reviewed Offline frame. Planet-minus-Sun elongations come from Mangal and are the independent mathematical gate. Nodes are tested for frozen placement and exact antipodality because the engines intentionally use different pata conventions."
+    "classification": "frozen UI-frame vector (regression) plus independent frame-free elongation oracle",
+    "note": "Planet-minus-Sun elongations come from Mangal and are the independent mathematical gate; they are unchanged. The absolute UI-frame vector is a regression freeze of this page's Modern Bhāratīya (dṛk) tier, not an independent value: re-derived 2026-10-08 as math-core canonicalGrahaModel(2460676.5, { mode: 'drik' }) rounded to 1e-6° (sidereal, true Citrā-pakṣa 24.206398° applied), when the retired 'calibrated' mode was replaced by the three tiers. Against Mangal's elongations this tier differs by at most 0.0019° (Saturn) at this instant. Nodes are tested for frozen placement and exact antipodality because the engines use different pāta conventions (the dṛk tier's Rāhu is the series' mean node)."
   },
   "displayToleranceDeg": 0.011,
   "elongationToleranceDeg": 0.07,
   "uiFramePlanets": {
-    "surya": 256.087675, "candra": 269.188442, "mangala": 97.191894,
-    "budha": 235.144060, "guru": 48.489500, "shukra": 302.986177,
-    "shani": 319.798115, "rahu": 341.251439, "ketu": 161.251439
+    "surya": 256.607217, "candra": 269.707219, "mangala": 97.711503,
+    "budha": 235.663589, "guru": 49.009017, "shukra": 303.505703,
+    "shani": 320.317652, "rahu": 337.292938, "ketu": 157.292938
   },
   "independentElongationFromSun": {
     "candra": 13.100426, "mangala": 201.103425, "budha": 339.056511,
     "guru": 152.400912, "shukra": 46.898493, "shani": 63.708533
+  },
+  "retired": {
+    "note": "The vector frozen for the retired 'calibrated' mode (VSOP87/ELP Sun-frame hybrid), kept for the record only; no test reads it.",
+    "uiMode": "calibrated",
+    "uiFramePlanets": {
+      "surya": 256.087675, "candra": 269.188442, "mangala": 97.191894,
+      "budha": 235.144060, "guru": 48.489500, "shukra": 302.986177,
+      "shani": 319.798115, "rahu": 341.251439, "ketu": 161.251439
+    }
   }
 }

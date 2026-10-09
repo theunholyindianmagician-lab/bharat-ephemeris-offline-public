@@ -1,0 +1,408 @@
+{
+  "format": "time-units/1",
+  "_provenance": {
+    "what": "Every unit of time from the paramāṇu to Brahmā's life: the ratio the engine computes with, every attestation a local text gives (with its file and line or verse), the loci the code claims, the owner's attributions, the other ladders in the owner's repositories, and the conflicts between them. Built 2026-10-08 from the verified research of that day (the owner: 'add the Purāṇas and Upaniṣads from which the time ladder and names were built').",
+    "decisions": "Owner, 2026-10-08. P1: the engine's chain stays canonical (canonical, below); the other ladders are alternative readings (ladders). 'pala' = 1/60 ghaṭī = vināḍī everywhere; vipala = 1/60 pala [standard; no local text]. P2: the Bhagavad Gītā, the Chāndogya Upaniṣad, the Navagraha Stotra, the Bhāgavata and the Viṣṇu Purāṇa are in no repository; the owner's attributions to them are recorded as class owner-statement, status 'awaiting edition' (corpus/parampara/registry.json), with a locus only where a repository file gives one, and are upgraded to [text] when an edition is added. No verse and no verse number is supplied before then.",
+    "quotes": "Every 'from' is a local file and line (editions/…html:N), a BPHS verse (corpus/bphs/canon.json#chapter.verse), or a line of an e-text kept outside the repository (etext:<file>:N), whose quoted lines are copied in corpus/parampara/etext-lines.json. 'sa' is verbatim from that line. A reference in another of the owner's repositories is given as 'at' (not checked here) and is never [text]. This repository's code is cited by its symbol, 'symbol': '<file> <NAME>' (e.g. math-core.js SUBDAY_CHAIN), never by a line number, so a citation does not move when the file grows; parampara.test.js checks that the file declares the name and that SUBDAY_CHAIN is the chain below.",
+    "derive": "Each attestation that states a ratio carries 'states' (1 unit = equals × of) and 'expr', an expression over numberWords whose inflected 'forms' stand in the quoted lines; parampara.test.js evaluates it and checks it gives 'equals'. Expressions: a stem; {\"×\": [...]} product; {\"+\": [...]} sum; {\"bh\": [...]} bhūtasaṅkhyā, first word the units.",
+    "tags": "[text] stated by a local source edition or e-text; [reading] this repository's reading of it; [standard] a convention of the tradition no local text states; [claim-only] stated in code or derived prose with no local source; [owner-statement] the owner's attribution, no local edition; [theorem] exact arithmetic on the stated numbers."
+  },
+  "sources": {
+    "SS": { "edition": "Sūrya-Siddhānta, Sanskrit Wikisource text as carried in this repository's edition", "file": "editions/surya-siddhanta-full-edition.html" },
+    "SS-gloss": { "edition": "the same edition's own Hindi/English glosses (the editor's words, not the verse)", "file": "editions/surya-siddhanta-full-edition.html" },
+    "BPHS": { "edition": "Bṛhat Parāśara Horāśāstra, sa.wikisource witness, sanskritdocuments.org second witness", "file": "corpus/bphs/canon.json" },
+    "ABh1931": { "edition": "Āryabhaṭīya, Kālakriyāpāda with Nīlakaṇṭha's bhāṣya, Trivandrum 1931 (e-text; see corpus/parampara/registry.json sources.ABh1931)", "file": "etext:jm/abh2.md" },
+    "JM": { "edition": "Jyotirmīmāṃsā, ed. K. V. Sarma 1977 (e-text; see corpus/parampara/registry.json sources.JM)", "file": "etext:jm/mulam.md" },
+    "code": { "edition": "this repository's code and derived editions", "file": "the file named in each entry" },
+    "other-repos": { "edition": "the owner's other repositories (sphuta, mangalkaalyantra, kaal-sacred-discovery, vedic-ghadi); not in this repository and not checked by its tests", "file": null },
+    "owner": { "edition": "the owner's statements of 2026-10-08 (corpus/parampara/registry.json, class owner-statement)", "file": null }
+  },
+  "numberWords": {
+    "tag": "[standard]",
+    "what": "Sanskrit number stems (cardinals, ordinals as fractions, and the bhūtasaṅkhyā words used here), IAST. Fractions are written n/d.",
+    "values": {
+      "eka": 1, "dvi": 2, "tri": 3, "catur": 4, "pañca": 5, "ṣaṣ": 6, "ṣaṭka": 6, "sapta": 7, "aṣṭa": 8, "aṣṭadhā": 8,
+      "daśa": 10, "dvādaśa": 12, "caturdaśa": 14, "pañcadaśa": 15, "triṃśat": 30, "ṣaṣṭi": 60, "saptati": 70,
+      "śata": 100, "sahasra": 1000, "ayuta": 10000, "sāgara": 4,
+      "daśama": "1/10", "ṣaṣṭha": "1/6", "ṣaḍaṃśa": "1/6", "ṣaṣṭyaṃśa": "1/60", "ardha": "1/2", "dviguṇa": 2
+    }
+  },
+  "canonical": {
+    "what": "The engine's chain (decision P1): math-core.js SUBDAY_CHAIN, each pair [unit, how many of it make the next]; the last makes the ahorātra. kala-dvara.js uses its product per turn of the star-wheel and divides it only by SS 1.11-1.12 (6 prāṇa, 60 vināḍī, 60 nāḍī).",
+    "symbol": "math-core.js SUBDAY_CHAIN",
+    "chain": [["spanda", 100], ["paramanu", 2], ["anu", 3], ["trasarenu", 3], ["truti", 100], ["vedha", 3], ["lava", 3], ["nimesha", 3], ["kshana", 5], ["kashtha", 15], ["laghu", 15], ["nadika", 2], ["muhurta", 30]],
+    "paramanuPerAhoratra": 3280500000,
+    "spandasPerAhoratra": 328050000000,
+    "factors": { "paramanu": "2^5·3^8·5^6", "spanda": "2^7·3^8·5^8" },
+    "label": {
+      "text": "Bhāgavata 3.11",
+      "where": ["museum.html (its भागवत 3.11 label)"],
+      "at": ["mangalkaalyantra jyotisha.ts:93 ('Bhāgavata III.11 chain'; commit 33619ac, 2026-08-06, the earliest)"],
+      "status": "awaiting edition", "tag": "[claim-only]", "record": "OWNER-bhagavata-ladder",
+      "note": "no Bhāgavata text is in any repository; the twelve steps paramāṇu → ahorātra carry this label in code only, and math-core.js itself gives no source"
+    },
+    "spandaFactor": {
+      "value": 100, "tag": "[claim-only]",
+      "note": "the 13th factor, 100 spandas to a paramāṇu, has no located source; its arithmetic role is to make 1″ of the turn a whole number of cells (3,280,500,000 ÷ 1,296,000 = 10125/4 paramāṇu, so ×4 would already do); the name 'spanda' is shared with the Spanda-kārikā, which states no unit or ratio"
+    },
+    "ahoratra": "kala-dvara.js counts the lattice per turn of the star-wheel (SS 1.12's nākṣatra ahorātra; SS 13.23's bowl sinks sixty times in it); math-core.js counts it per civil day. Both are 'the ahorātra' of the chain; the caller says which (kala-dvara.js SPANDAS_PER_DAY).",
+    "agreesWithText": "60 nāḍikā to the ahorātra = SS 1.12's 60 nāḍī; one prāṇa of SS 1.11 = 151,875 paramāṇu = 15,187,500 spandas, a whole number. Below the prāṇa the local SS names only the truṭi (1.11) and gives no ratio, so nothing in a local text checks the chain there."
+  },
+  "units": [
+    {
+      "id": "spanda", "sa": "स्पन्द", "iast": "spanda", "size": { "equals": "1/100", "of": "paramanu" }, "spandas": 1, "status": "canonical",
+      "attestations": [
+        { "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN", "note": "the chain's first factor; kala-dvara.js SPANDAS_PER_DAY" },
+        { "tag": "[owner-statement]", "source": "owner", "record": "OWNER-gita-units", "status": "awaiting edition", "note": "the owner's synthesis: spanda from the Bhagavad Gītā" }
+      ]
+    },
+    { "id": "paramanu", "sa": "परमाणु", "iast": "paramāṇu", "size": { "equals": 100, "of": "spanda" }, "spandas": 100, "status": "canonical",
+      "attestations": [{ "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN", "note": "chain; 'Bhāgavata 3.11' label (canonical.label)" }] },
+    { "id": "anu", "sa": "अणु", "iast": "aṇu", "size": { "equals": 2, "of": "paramanu" }, "spandas": 200, "status": "canonical",
+      "attestations": [{ "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN" }] },
+    { "id": "trasarenu", "sa": "त्रसरेणु", "iast": "trasareṇu", "size": { "equals": 3, "of": "anu" }, "spandas": 600, "status": "canonical",
+      "attestations": [{ "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN" }] },
+    {
+      "id": "truti", "sa": "त्रुटि", "iast": "truṭi", "size": { "equals": 3, "of": "trasarenu" }, "spandas": 1800, "status": "canonical",
+      "attestations": [
+        { "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.11", "quote": [{ "sa": "प्राणादिः कथितो मूर्तस्त्रुट्याद्यो अमूर्तसंज्ञकः ।", "from": "editions/surya-siddhanta-full-edition.html:367" }], "note": "amūrta time begins with the truṭi; no ratio is given" }
+      ],
+      "conflicts": ["nimesha-values"]
+    },
+    { "id": "vedha", "sa": "वेध", "iast": "vedha", "size": { "equals": 100, "of": "truti" }, "spandas": 180000, "status": "canonical",
+      "attestations": [{ "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN" }] },
+    { "id": "lava", "sa": "लव", "iast": "lava", "size": { "equals": 3, "of": "vedha" }, "spandas": 540000, "status": "canonical",
+      "attestations": [{ "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN" }], "conflicts": ["nimesha-values"] },
+    {
+      "id": "nimesha", "sa": "निमेष", "iast": "nimeṣa", "size": { "equals": 3, "of": "lava" }, "spandas": 1620000, "status": "canonical",
+      "attestations": [
+        { "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN" },
+        { "tag": "[text]", "source": "JM", "locus": "Kālanirṇaya, quoted JM p.23", "quote": [{ "sa": "निमेषादिपरार्ध", "from": "etext:jm/mulam.md:663" }], "record": "KALANIRNAYA-nimesadi", "note": "names the division of time from the nimeṣa to the parārdha; gives no ratio" }
+      ],
+      "conflicts": ["nimesha-values"]
+    },
+    { "id": "kshana", "sa": "क्षण", "iast": "kṣaṇa", "size": { "equals": 3, "of": "nimesha" }, "spandas": 4860000, "status": "canonical",
+      "attestations": [
+        { "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN" },
+        { "tag": "[text]", "source": "BPHS", "locus": "BPHS 3.33", "quote": [{ "sa": "अयनक्षणवारर्तुमासपक्षसमा द्विज।", "from": "corpus/bphs/canon.json#3.33" }], "note": "names kṣaṇa among the grahas' time measures (corpus/parampara/graha.json); no ratio" }
+      ] },
+    { "id": "kashtha", "sa": "काष्ठा", "iast": "kāṣṭhā", "size": { "equals": 5, "of": "kshana" }, "spandas": 24300000, "status": "canonical",
+      "attestations": [{ "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN" }], "conflicts": ["kala-time", "nimesha-values"] },
+    { "id": "laghu", "sa": "लघु", "iast": "laghu", "size": { "equals": 15, "of": "kashtha" }, "spandas": 364500000, "status": "canonical",
+      "attestations": [{ "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN" }] },
+    {
+      "id": "nadika", "sa": "नाडिका", "iast": "nāḍikā", "aliases": ["nāḍī", "ghaṭī", "ghaṭikā", "daṇḍa [standard]"], "size": { "equals": 60, "of": "vinadi" }, "spandas": 5467500000, "status": "text",
+      "attestations": [
+        { "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN", "note": "the chain: 15 laghu" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.11", "quote": [{ "sa": "षड्भिः प्राणैर्विनाडी स्यात्तत्षष्ट्या नाडिका स्मृता ॥", "from": "editions/surya-siddhanta-full-edition.html:367" }],
+          "states": { "unit": "nadika", "equals": 60, "of": "vinadi" }, "forms": ["षष्ट्या"], "expr": "ṣaṣṭi" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 1", "quote": [{ "sa": "षष्टिर्नाड्यो दिवसः षष्टिश्च", "from": "etext:jm/abh2.md:172" }, { "sa": "विनाडिका नाडी ॥ १ ॥", "from": "etext:jm/abh2.md:172" }],
+          "states": { "unit": "nadika", "equals": 60, "of": "vinadi" }, "forms": ["षष्टिश्च"], "expr": "ṣaṣṭi", "note": "'ṣaṣṭiś ca vināḍikā nāḍī': sixty vināḍikā a nāḍī; the 1931 edition notes the printed reading 'ṣaṣṭis tu' (fn 2)" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 3.47", "quote": [{ "sa": "अभीष्टघटिकासुभ्यो भोग्यासून्प्रविशोधयेत् ।", "from": "editions/surya-siddhanta-full-edition.html:2579" }], "note": "the text's own word ghaṭikā for its nāḍī, counted in asus" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 5.8", "quote": [{ "sa": "रवीन्द्वोर्लम्बनं ज्ञेयं प्राक्पश्चाद्घटिकादिकम् ।।", "from": "editions/surya-siddhanta-full-edition.html:3074" }], "note": "parallax in ghaṭikās and their parts" },
+        { "tag": "[text]", "source": "BPHS", "locus": "BPHS 5.7", "quote": [{ "sa": "तदेव घटिकालग्नं कथितं नारदादिभिः", "from": "corpus/bphs/canon.json#5.7" }], "note": "the ghaṭikā-lagna moves one sign in each ghaṭikā" },
+        { "tag": "[text]", "source": "BPHS", "locus": "BPHS 9.14", "quote": [{ "sa": "सायं संध्या त्रिनाडिका", "from": "corpus/bphs/canon.json#9.14" }], "note": "the evening and morning sandhyā of three nāḍikā" },
+        { "tag": "[owner-statement]", "source": "owner", "record": "OWNER-gita-units", "status": "awaiting edition", "note": "the owner's synthesis: ghaṭī from the Bhagavad Gītā" }
+      ],
+      "conflicts": ["ahoratra-turn-or-civil"]
+    },
+    {
+      "id": "muhurta", "sa": "मुहूर्त", "iast": "muhūrta", "size": { "equals": 2, "of": "nadika" }, "spandas": 10935000000, "status": "claim-only",
+      "attestations": [
+        { "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN", "note": "the chain: 2 nāḍikā; 30 to the ahorātra" },
+        { "tag": "[standard]", "source": "code", "from": "muhurta.js:25", "note": "muhurta.js: fifteen muhūrtas of the day and fifteen of the night, 'standard usage; no local text states it'" }
+      ],
+      "conflicts": ["muhurta", "prahara"]
+    },
+    {
+      "id": "ahoratra", "sa": "अहोरात्र", "iast": "ahorātra", "aliases": ["dina", "divasa"], "size": { "equals": 60, "of": "nadika" }, "spandas": 328050000000, "status": "text",
+      "attestations": [
+        { "tag": "[claim-only]", "source": "code", "symbol": "math-core.js SUBDAY_CHAIN", "note": "the chain: 30 muhūrta" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.12", "quote": [{ "sa": "नाडीषष्ट्या तु नाक्षत्रं अहोरात्रं प्रकीर्तितम् ।", "from": "editions/surya-siddhanta-full-edition.html:379" }],
+          "states": { "unit": "ahoratra", "equals": 60, "of": "nadika" }, "forms": ["षष्ट्या"], "expr": "ṣaṣṭi", "note": "the nākṣatra ahorātra" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 1", "quote": [{ "sa": "षष्टिर्नाड्यो दिवसः", "from": "etext:jm/abh2.md:172" }],
+          "states": { "unit": "ahoratra", "equals": 60, "of": "nadika" }, "forms": ["षष्टिर्नाड्यो"], "expr": "ṣaṣṭi" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 13.23", "quote": [{ "sa": "षष्टिर्मज्जत्यहोरात्रे स्फुटं यन्त्रं कपालकम्", "from": "editions/surya-siddhanta-full-edition.html:6137" }],
+          "states": { "unit": "ahoratra", "equals": 60, "of": "nadika" }, "forms": ["षष्टिर्मज्जत्यहोरात्रे"], "expr": "ṣaṣṭi", "note": "the bowl sinks sixty times in an ahorātra; which ahorātra is not said (the nākṣatra one by 1.12 [reading])" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 12.5", "quote": [{ "sa": "पित्र्यं मासेन भवति नाडीषष्ट्या तु मानुषम् ।", "from": "editions/surya-siddhanta-full-edition.html:4850" }], "note": "a question verse: the human day by sixty nāḍīs" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 14.15", "quote": [{ "sa": "भचक्रभ्रमणं नित्यम् नाक्षत्रं दिनं उच्यते ।", "from": "editions/surya-siddhanta-full-edition.html:6359" }], "note": "the nākṣatra day is one turn of the star-wheel" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 14.18", "quote": [{ "sa": "उदयादुदयं भानोः सावनं तत्प्रकीर्तितम् ।", "from": "editions/surya-siddhanta-full-edition.html:6395" }], "note": "the sāvana (civil) day, sunrise to sunrise" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 5", "quote": [{ "sa": "रविभूयोगा दिवसा भावर्ताश्चापि नाक्षत्राः ॥ ५ ॥", "from": "etext:jm/abh2.md:254" }], "note": "civil days are the Sun's conjunctions with the Earth (horizon); the turns of the stars are the nākṣatra days" }
+      ],
+      "conflicts": ["ahoratra-turn-or-civil"]
+    },
+    {
+      "id": "prana", "sa": "प्राण", "iast": "prāṇa", "aliases": ["asu"], "size": { "equals": "1/6", "of": "vinadi" }, "spandas": 15187500, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.11", "quote": [{ "sa": "प्राणादिः कथितो मूर्तस्त्रुट्याद्यो अमूर्तसंज्ञकः ।", "from": "editions/surya-siddhanta-full-edition.html:367" }], "note": "mūrta time begins with the prāṇa" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 3.47", "quote": [{ "sa": "अभीष्टघटिकासुभ्यो भोग्यासून्प्रविशोधयेत् ।", "from": "editions/surya-siddhanta-full-edition.html:2579" }], "note": "asu = prāṇa; 360 to a ghaṭikā by 1.11 [reading]" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Nīlakaṇṭha on Kālakriyā 1-2", "quote": [{ "sa": "स्वस्थस्य जन्तोर्निःश्वासश्च तस्या एव षडंशः।", "from": "etext:jm/abh2.md:181" }], "note": "the commentator's own gloss: a healthy creature's breath is a sixth of that (sidereal) vināḍikā — a unit of time, glossed by a breath" }
+      ]
+    },
+    {
+      "id": "vinadi", "sa": "विनाडी", "iast": "vināḍī", "aliases": ["vināḍikā", "pala (decision P1)", "vighaṭī", "vighaṭikā"], "size": { "equals": 6, "of": "prana" }, "spandas": 91125000, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.11", "quote": [{ "sa": "षड्भिः प्राणैर्विनाडी स्यात्तत्षष्ट्या नाडिका स्मृता ॥", "from": "editions/surya-siddhanta-full-edition.html:367" }],
+          "states": { "unit": "vinadi", "equals": 6, "of": "prana" }, "forms": ["षड्भिः"], "expr": "ṣaṣ" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 2", "quote": [{ "sa": "गुर्वक्षराणि षष्टिर्विनाडिकार्क्षी षडेव वा प्राणाः ।", "from": "etext:jm/abh2.md:176" }],
+          "states": { "unit": "vinadi", "equals": 6, "of": "prana" }, "forms": ["षडेव"], "expr": "ṣaṣ", "note": "the sidereal (ārkṣī) vināḍikā is sixty gurvakṣaras or six prāṇas" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 2", "quote": [{ "sa": "एवं कालविभागः क्षेत्रविभागस्तथा भगणात् ॥ २ ॥", "from": "etext:jm/abh2.md:178" }], "note": "the circle is divided as time is: the vināḍī of the turn is 6′ of arc, the prāṇa 1′ (kala-dvara.js)" },
+        { "tag": "[reading]", "source": "BPHS", "locus": "BPHS 5.8", "quote": [{ "sa": "राशयस्तु घटीतुल्याः पलार्धप्रमितांशकाः।", "from": "corpus/bphs/canon.json#5.8" }], "note": "a rāśi (30°) for each ghaṭī, the degrees measured as half the palas ('palārdha-pramita'): 30° = 60 pala, so 60 pala to the ghaṭī and pala = vināḍī (decision P1)" },
+        { "tag": "[reading]", "source": "BPHS", "locus": "BPHS 46.90", "quote": [{ "sa": "गतनाडीपलादिभिः", "from": "corpus/bphs/canon.json#46.90" }], "note": "'by the elapsed nāḍīs, palas and the rest': the pala is the next unit below the nāḍī" },
+        { "tag": "[reading]", "source": "SS-gloss", "locus": "the SS edition's gloss on 1.11 and its measure line", "quote": [{ "sa": "6 prāṇa = 1 vināḍī (pala)", "from": "editions/surya-siddhanta-full-edition.html:373" }, { "sa": "1 दिन = 60 घड़ी = 3,600 पल = 2,16,000 विपल = 21,600 प्राण", "from": "editions/surya-siddhanta-full-edition.html:220" }], "note": "the editor's words, not the verse: pala = vināḍī, vipala = 1/60 pala" },
+        { "tag": "[text]", "source": "JM", "locus": "JM p.36", "quote": [{ "sa": "देशन्तरकालो 'नख' (२०) विनाड्यः ।", "from": "etext:jm/mulam.md:1178" }], "record": "PAR-village", "note": "Parameśvara's village is 20 vināḍī of the turn (2°) west: the vināḍī as 6′ of arc" },
+        { "tag": "[owner-statement]", "source": "owner", "record": "OWNER-gita-units", "status": "awaiting edition", "note": "the owner's synthesis: pala from the Bhagavad Gītā" }
+      ],
+      "conflicts": ["pala"]
+    },
+    {
+      "id": "gurvakshara", "sa": "गुर्वक्षर", "iast": "gurvakṣara", "size": { "equals": "1/60", "of": "vinadi" }, "spandas": 1518750, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 2", "quote": [{ "sa": "गुर्वक्षराणि षष्टिर्विनाडिकार्क्षी षडेव वा प्राणाः ।", "from": "etext:jm/abh2.md:176" }],
+          "states": { "unit": "vinadi", "equals": 60, "of": "gurvakshara" }, "forms": ["षष्टिर्विनाडिकार्क्षी"], "expr": "ṣaṣṭi" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Nīlakaṇṭha on Kālakriyā 1-2", "quote": [{ "sa": "आर्क्ष्या विनाड्याः षष्ट्यंश एव मध्यमवृत्त्या गुर्वक्षरोच्चारणकालः।", "from": "etext:jm/abh2.md:181" }],
+          "states": { "unit": "gurvakshara", "equals": "1/60", "of": "vinadi" }, "forms": ["षष्ट्यंश"], "expr": "ṣaṣṭyaṃśa", "note": "the time of uttering a long syllable at a middling pace" }
+      ],
+      "note": "the same size as the vipala (1/10 prāṇa)"
+    },
+    {
+      "id": "vipala", "sa": "विपल", "iast": "vipala", "size": { "equals": "1/60", "of": "vinadi" }, "spandas": 1518750, "status": "standard",
+      "attestations": [
+        { "tag": "[standard]", "source": "SS-gloss", "quote": [{ "sa": "1 दिन = 60 घड़ी = 3,600 पल = 2,16,000 विपल = 21,600 प्राण", "from": "editions/surya-siddhanta-full-edition.html:220" }], "note": "decision P1: vipala = 1/60 pala = 1/10 prāṇa, 216,000 to the ahorātra; no local source text names it" },
+        { "tag": "[claim-only]", "source": "other-repos", "at": "vedic-ghadi backend/vedic_ghadi/substrate.py:590 (the 'Aditi' ladder: 6 prāṇa, 10 vipala)" },
+        { "tag": "[owner-statement]", "source": "owner", "record": "OWNER-gita-units", "status": "awaiting edition", "note": "the owner's synthesis: vipala from the Bhagavad Gītā" }
+      ],
+      "conflicts": ["vipala", "pala"]
+    },
+    {
+      "id": "prahara", "sa": "प्रहर", "iast": "prahara", "aliases": ["yāma"], "size": { "equals": "1/8", "of": "ahoratra", "approx": "a quarter of the day or of the night" }, "status": "reading",
+      "attestations": [
+        { "tag": "[reading]", "source": "BPHS", "locus": "BPHS 3.66-3.69", "quote": [
+            { "sa": "दिवसानष्टधा भक्त्वा", "from": "corpus/bphs/canon.json#3.66" },
+            { "sa": "रात्रिमप्यष्टधा कृत्वा", "from": "corpus/bphs/canon.json#3.67" },
+            { "sa": "सोम्यांशोऽर्धप्रहरकः", "from": "corpus/bphs/canon.json#3.69" }],
+          "states": { "unit": "divasa (the day, or the night)", "equals": 8, "of": "ardhaprahara" }, "forms": ["दिवसानष्टधा", "रात्रिमप्यष्टधा"], "expr": "aṣṭadhā",
+          "note": "the day and the night are each divided into eight parts and one part is named ardhaprahara: so a prahara is a quarter of the day or of the night and eight make the ahorātra [reading]; with equal day and night 3¾ muhūrta" }
+      ],
+      "conflicts": ["prahara"]
+    },
+    {
+      "id": "tithi", "sa": "तिथि", "iast": "tithi", "size": { "equals": "1/30", "of": "candra-masa" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 14.12", "quote": [{ "sa": "तच्चान्द्रमानं अंशैस्तु ज्ञेया द्वादशभिस्तिथिः ।।", "from": "editions/surya-siddhanta-full-edition.html:6321" }],
+          "states": { "unit": "tithi", "equals": 12, "of": "elongation-degree" }, "forms": ["द्वादशभिस्तिथिः"], "expr": "dvādaśa" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 14.14", "quote": [{ "sa": "त्रिंशता तिथिभिर्मासश्चान्द्रः पित्र्यं अहः स्मृतम् ।", "from": "editions/surya-siddhanta-full-edition.html:6346" }],
+          "states": { "unit": "candra-masa", "equals": 30, "of": "tithi" }, "forms": ["त्रिंशता"], "expr": "triṃśat" }
+      ]
+    },
+    {
+      "id": "paksha", "sa": "पक्ष", "iast": "pakṣa", "size": { "equals": 15, "of": "tithi" }, "status": "reading",
+      "attestations": [
+        { "tag": "[reading]", "source": "SS", "locus": "SS 14.14", "quote": [{ "sa": "निशा च मासपक्षान्तौ तयोर्मध्ये विभागतः", "from": "editions/surya-siddhanta-full-edition.html:6346" }], "note": "names the ends of the month's halves; no verse says fifteen tithis a pakṣa" },
+        { "tag": "[text]", "source": "BPHS", "locus": "BPHS 3.33", "quote": [{ "sa": "अयनक्षणवारर्तुमासपक्षसमा द्विज।", "from": "corpus/bphs/canon.json#3.33" }], "note": "names pakṣa among the grahas' time measures" },
+        { "tag": "[claim-only]", "source": "code", "from": "editions/maha-grantha-full-edition.html:3771", "note": "'1 Pakṣa (15 days)' under a 'Bhāgavata 3.11' heading" }
+      ]
+    },
+    {
+      "id": "masa", "sa": "मास", "iast": "māsa", "size": { "equals": 30, "of": "ahoratra", "kind": "sāvana" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.12", "quote": [{ "sa": "तत्त्रिंशता भवेन्मासः सावनो अर्कोदयैस्तथा ॥", "from": "editions/surya-siddhanta-full-edition.html:379" }],
+          "states": { "unit": "masa", "equals": 30, "of": "ahoratra" }, "forms": ["तत्त्रिंशता"], "expr": "triṃśat", "note": "thirty days a month; the sāvana month likewise by sunrises" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.13", "quote": [{ "sa": "ऐन्दवस्तिथिभिस्तद्वत्संक्रान्त्या सौर उच्यते ।", "from": "editions/surya-siddhanta-full-edition.html:391" }], "note": "the lunar month by tithis, the solar by saṅkrānti" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 1", "quote": [{ "sa": "वर्षं द्वादश मासास्त्रिंशद्दिवसो भवेत् स मासस्तु ।", "from": "etext:jm/abh2.md:170" }],
+          "states": { "unit": "masa", "equals": 30, "of": "ahoratra" }, "forms": ["त्रिंशद्दिवसो"], "expr": "triṃśat" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 5", "quote": [{ "sa": "रविभगणा रव्यव्दा रविशशियोगा भवन्ति शशिमासाः।", "from": "etext:jm/abh2.md:252" }], "note": "the lunar months are the Sun–Moon conjunctions ('रव्यव्दा' is the e-text's spelling)" },
+        { "tag": "[text]", "source": "BPHS", "locus": "BPHS 3.33", "quote": [{ "sa": "अयनक्षणवारर्तुमासपक्षसमा द्विज।", "from": "corpus/bphs/canon.json#3.33" }], "note": "names māsa among the grahas' time measures" }
+      ]
+    },
+    {
+      "id": "rtu", "sa": "ऋतु", "iast": "ṛtu", "size": { "equals": 2, "of": "masa", "kind": "saura (two rāśis of the Sun)" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 14.10", "quote": [{ "sa": "द्विराशिनाथ ऋतवस्ततो अपि शिशिरादयः ।", "from": "editions/surya-siddhanta-full-edition.html:6295" }],
+          "states": { "unit": "rtu", "equals": 2, "of": "rashi-of-the-sun" }, "forms": ["द्विराशिनाथ"], "expr": "dvi", "note": "the seasons each govern two rāśis, beginning with śiśira" },
+        { "tag": "[text]", "source": "BPHS", "locus": "BPHS 3.45-3.46", "quote": [{ "sa": "भृगोरृतुर्वसन्तश्च कुजभान्वोश्च ग्रीष्मकः।", "from": "corpus/bphs/canon.json#3.45" }, { "sa": "हेमन्तोऽपि गुरोर्ज्ञेयः शनेस्तु शिशिरो द्विज।", "from": "corpus/bphs/canon.json#3.46" }], "note": "the ṛtus given to the grahas (corpus/parampara/graha.json)" }
+      ],
+      "conflicts": ["rtu-start"]
+    },
+    {
+      "id": "ayana", "sa": "अयन", "iast": "ayana", "size": { "equals": 6, "of": "masa", "kind": "saura" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 14.9", "quote": [{ "sa": "भानोर्मकरसङ्क्रान्तेः षण्मासा उत्तरायणम् ।", "from": "editions/surya-siddhanta-full-edition.html:6283" }],
+          "states": { "unit": "ayana", "equals": 6, "of": "masa" }, "forms": ["षण्मासा"], "expr": "ṣaṣ" },
+        { "tag": "[text]", "source": "BPHS", "locus": "BPHS 3.33", "quote": [{ "sa": "अयनक्षणवारर्तुमासपक्षसमा द्विज।", "from": "corpus/bphs/canon.json#3.33" }], "note": "ayana is the Sun's measure" }
+      ]
+    },
+    {
+      "id": "varsha", "sa": "वर्ष", "iast": "varṣa", "aliases": ["abda", "samā", "vatsara", "mānuṣa varṣa"], "size": { "equals": 12, "of": "masa", "kind": "saura" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.13", "quote": [{ "sa": "मासैर्द्वादशभिर्वर्षं दिव्यं तदह उच्यते ॥", "from": "editions/surya-siddhanta-full-edition.html:391" }],
+          "states": { "unit": "varsha", "equals": 12, "of": "masa" }, "forms": ["मासैर्द्वादशभिर्वर्षं"], "expr": "dvādaśa" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 14.10", "quote": [{ "sa": "मेषादयो द्वादशैते मासास्तैरेव वत्सरः ।।", "from": "editions/surya-siddhanta-full-edition.html:6295" }],
+          "states": { "unit": "varsha", "equals": 12, "of": "masa" }, "forms": ["द्वादशैते"], "expr": "dvādaśa" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 1", "quote": [{ "sa": "वर्षं द्वादश मासास्त्रिंशद्दिवसो भवेत् स मासस्तु ।", "from": "etext:jm/abh2.md:170" }],
+          "states": { "unit": "varsha", "equals": 12, "of": "masa" }, "forms": ["द्वादश"], "expr": "dvādaśa" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 7", "quote": [{ "sa": "रविवर्षं मानुष्यं तदपि त्रिंशद्गुणं भवति पित्र्यम्।", "from": "etext:jm/abh2.md:308" }], "note": "the human year is the solar year" },
+        { "tag": "[text]", "source": "BPHS", "locus": "BPHS 3.33", "quote": [{ "sa": "अयनक्षणवारर्तुमासपक्षसमा द्विज।", "from": "corpus/bphs/canon.json#3.33" }], "note": "samā (the year) is Saturn's measure" }
+      ]
+    },
+    {
+      "id": "pitrya-ahoratra", "sa": "पित्र्य अहोरात्र", "iast": "pitrya ahorātra", "size": { "equals": 1, "of": "candra-masa" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 14.14", "quote": [{ "sa": "त्रिंशता तिथिभिर्मासश्चान्द्रः पित्र्यं अहः स्मृतम् ।", "from": "editions/surya-siddhanta-full-edition.html:6346" }], "note": "the lunar month is a day of the pitṛs" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 7", "quote": [{ "sa": "रविवर्षं मानुष्यं तदपि त्रिंशद्गुणं भवति पित्र्यम्।", "from": "etext:jm/abh2.md:308" }],
+          "states": { "unit": "pitrya-varsha", "equals": 30, "of": "varsha" }, "forms": ["त्रिंशद्गुणं"], "expr": "triṃśat", "note": "the pitṛs' year is thirty human years" }
+      ],
+      "conflicts": ["pitrya-day"]
+    },
+    {
+      "id": "divya-ahoratra", "sa": "दिव्य अहोरात्र", "iast": "divya ahorātra", "size": { "equals": 1, "of": "varsha" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.13", "quote": [{ "sa": "मासैर्द्वादशभिर्वर्षं दिव्यं तदह उच्यते ॥", "from": "editions/surya-siddhanta-full-edition.html:391" }], "note": "the year is a day of the gods" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 14.20", "quote": [{ "sa": "यत्प्रोक्तं तद्भवेद्दिव्यं भानोर्भगणपूरणात् ।।", "from": "editions/surya-siddhanta-full-edition.html:6419" }], "note": "from one revolution of the Sun" }
+      ]
+    },
+    {
+      "id": "divya-varsha", "sa": "दिव्य वर्ष", "iast": "divya varṣa", "size": { "equals": 360, "of": "varsha" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.14", "quote": [{ "sa": "तत्षष्टिः षड्गुणा दिव्यं वर्षं आसुरं एव च ॥", "from": "editions/surya-siddhanta-full-edition.html:403" }],
+          "states": { "unit": "divya-varsha", "equals": 360, "of": "divya-ahoratra" }, "forms": ["तत्षष्टिः", "षड्गुणा"], "expr": { "×": ["ṣaṣṭi", "ṣaṣ"] } },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 7", "quote": [{ "sa": "पित्र्यं द्वादशगुणितं दिव्यं वर्षं समुद्दिष्टम् ॥ ७ ॥", "from": "etext:jm/abh2.md:310" }, { "sa": "रविवर्षं मानुष्यं तदपि त्रिंशद्गुणं भवति पित्र्यम्।", "from": "etext:jm/abh2.md:308" }],
+          "states": { "unit": "divya-varsha", "equals": 360, "of": "varsha" }, "forms": ["त्रिंशद्गुणं", "द्वादशगुणितं"], "expr": { "×": ["triṃśat", "dvādaśa"] } }
+      ]
+    },
+    {
+      "id": "yuga", "sa": "चतुर्युग", "iast": "caturyuga", "aliases": ["mahāyuga", "yuga"], "size": { "equals": 4320000, "of": "varsha" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.15", "quote": [{ "sa": "तद्द्वादशसहस्राणि चतुर्युगं उदाहृतम् ।", "from": "editions/surya-siddhanta-full-edition.html:415" }],
+          "states": { "unit": "yuga", "equals": 12000, "of": "divya-varsha" }, "forms": ["तद्द्वादशसहस्राणि"], "expr": { "×": ["dvādaśa", "sahasra"] } },
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.15", "quote": [{ "sa": "सूर्याब्दसंख्यया द्वित्रिसागरैरयुताहतैः ॥", "from": "editions/surya-siddhanta-full-edition.html:415" }],
+          "states": { "unit": "yuga", "equals": 4320000, "of": "varsha" }, "forms": ["द्वित्रिसागरैरयुताहतैः"], "expr": { "×": [{ "bh": ["dvi", "tri", "sāgara"] }, "ayuta"] } },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 8", "quote": [{ "sa": "दिव्यं वर्षसहस्रं ग्रहसामान्यं युगं द्विषट्कगुणम् ।", "from": "etext:jm/abh2.md:312" }],
+          "states": { "unit": "yuga", "equals": 12000, "of": "divya-varsha" }, "forms": ["वर्षसहस्रं", "द्विषट्कगुणम्"], "expr": { "×": ["sahasra", "dvi", "ṣaṭka"] } },
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.16-1.17", "quote": [{ "sa": "युगस्य दशमो भागश्चतुस्त्रिद्व्येकसङ्गुणः ।", "from": "editions/surya-siddhanta-full-edition.html:439" }, { "sa": "क्रमात्कृतयुगादीनां षष्ठांशः सन्ध्ययोः स्वकः ॥", "from": "editions/surya-siddhanta-full-edition.html:439" }],
+          "states": { "unit": "kali-yuga", "equals": "1/10", "of": "yuga" }, "forms": ["दशमो"], "expr": "daśama",
+          "note": "a tenth of the yuga × 4, 3, 2, 1 gives Kṛta, Tretā, Dvāpara, Kali (1,728,000; 1,296,000; 864,000; 432,000 years); a sixth of each is its pair of twilights" },
+        { "tag": "[claim-only]", "source": "code", "from": "editions/maha-grantha-full-edition.html:3272", "note": "the Mahā-grantha gives the same table 'per Bhāgavata-Purāṇa 3.11 and Viṣṇu-Purāṇa 1.3' (no local text of either); it agrees with SS 1.15-1.17", "record": "OWNER-vishnupurana-yuga" }
+      ]
+    },
+    {
+      "id": "manvantara", "sa": "मन्वन्तर", "iast": "manvantara", "size": { "equals": 308448000, "of": "varsha", "with": "its Kṛta-length sandhi" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.18", "quote": [{ "sa": "युगानां सप्ततिः सैका मन्वन्तरं इहोच्यते ।", "from": "editions/surya-siddhanta-full-edition.html:454" }, { "sa": "कृताब्दसंख्यास्तस्यान्ते सन्धिः प्रोक्तो जलप्लवः ॥", "from": "editions/surya-siddhanta-full-edition.html:454" }],
+          "states": { "unit": "manvantara", "equals": 71, "of": "yuga" }, "forms": ["सप्ततिः", "सैका"], "expr": { "+": ["saptati", "eka"] }, "note": "seventy-one yugas, then a sandhi as long as a Kṛta (1,728,000 years)" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 14.21", "quote": [{ "sa": "मन्वन्तरव्यवस्था च प्राजापत्यं उदाहृतम् ।", "from": "editions/surya-siddhanta-full-edition.html:6431" }], "note": "the prājāpatya measure" }
+      ],
+      "conflicts": ["manvantara-72"]
+    },
+    {
+      "id": "kalpa", "sa": "कल्प", "iast": "kalpa", "aliases": ["brāhma ahaḥ (Brahmā's day)"], "size": { "equals": 1000, "of": "yuga" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.20", "quote": [{ "sa": "इत्थं युगसहस्रेण भूतसंहारकारकः ।", "from": "editions/surya-siddhanta-full-edition.html:481" }, { "sa": "कल्पो ब्राह्मं अहः प्रोक्तं शर्वरी तस्य तावती ॥", "from": "editions/surya-siddhanta-full-edition.html:481" }],
+          "states": { "unit": "kalpa", "equals": 1000, "of": "yuga" }, "forms": ["युगसहस्रेण"], "expr": "sahasra" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.19", "quote": [{ "sa": "ससन्धयस्ते मनवः कल्पे ज्ञेयास्चतुर्दश ।", "from": "editions/surya-siddhanta-full-edition.html:467" }, { "sa": "कृतप्रमाणः कल्पादौ सन्धिः पञ्चदशः स्मृतः ॥", "from": "editions/surya-siddhanta-full-edition.html:467" }],
+          "states": { "unit": "kalpa", "equals": 14, "of": "manvantara", "plus": "a fifteenth Kṛta-length sandhi at its start" }, "forms": ["ज्ञेयास्चतुर्दश"], "expr": "caturdaśa",
+          "note": "14 × (71 yugas + 0.4 yuga) + 0.4 yuga = 1000 yugas [theorem]" },
+        { "tag": "[text]", "source": "SS", "locus": "SS 14.21", "quote": [{ "sa": "न तत्र द्युनिशोर्भेदो ब्राह्मं कल्पः प्रकीर्तितम् ।।", "from": "editions/surya-siddhanta-full-edition.html:6431" }], "note": "the brāhma measure is the kalpa" },
+        { "tag": "[text]", "source": "ABh1931", "locus": "Āryabhaṭīya, Kālakriyā 8", "quote": [{ "sa": "अष्टोत्तरं सहस्रं ब्राह्मो दिवसो ग्रहयुगानाम् ॥ ८ ॥", "from": "etext:jm/abh2.md:314" }],
+          "states": { "unit": "brahma-divasa-aryabhata", "equals": 1008, "of": "yuga" }, "forms": ["अष्टोत्तरं", "सहस्रं"], "expr": { "+": ["aṣṭa", "sahasra"] }, "note": "Āryabhaṭa's day of Brahmā is 1008 yugas (14 Manus of 72 yugas, his Gītikā as Nīlakaṇṭha reads it)" }
+      ],
+      "conflicts": ["manvantara-72"]
+    },
+    {
+      "id": "brahma-ahoratra", "sa": "ब्राह्म अहोरात्र", "iast": "brāhma ahorātra", "size": { "equals": 2, "of": "kalpa" }, "years": 8640000000, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.20", "quote": [{ "sa": "कल्पो ब्राह्मं अहः प्रोक्तं शर्वरी तस्य तावती ॥", "from": "editions/surya-siddhanta-full-edition.html:481" }], "note": "his night is as long as his day" }
+      ]
+    },
+    {
+      "id": "brahma-varsha", "sa": "ब्राह्म वर्ष", "iast": "brāhma varṣa", "size": { "equals": 360, "of": "brahma-ahoratra" }, "years": 3110400000000, "status": "reading",
+      "attestations": [
+        { "tag": "[reading]", "source": "SS", "locus": "SS 1.21", "quote": [{ "sa": "परमायुः शतं तस्य तयाहोरात्रसंख्यया ।", "from": "editions/surya-siddhanta-full-edition.html:494" }], "note": "the verse counts his life in years 'by that day-and-night count'; the year of 360 such days is a reading (the divine year of 1.14 is 360 divine days)" },
+        { "tag": "[claim-only]", "source": "code", "from": "editions/maha-grantha-full-edition.html:3784", "note": "corrected 2026-10-08 from a figure 100 times too large" }
+      ]
+    },
+    {
+      "id": "brahma-ayus", "sa": "ब्रह्मणः परमायुः", "iast": "brahmaṇaḥ paramāyuḥ", "aliases": ["para"], "size": { "equals": 100, "of": "brahma-varsha" }, "years": 311040000000000, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "SS", "locus": "SS 1.21", "quote": [{ "sa": "परमायुः शतं तस्य तयाहोरात्रसंख्यया ।", "from": "editions/surya-siddhanta-full-edition.html:494" }],
+          "states": { "unit": "brahma-ayus", "equals": 100, "of": "brahma-varsha" }, "forms": ["शतं"], "expr": "śata", "note": "half of it has passed; this kalpa is the first of the second half" },
+        { "tag": "[text]", "source": "JM", "locus": "Kālanirṇaya, quoted JM p.23", "quote": [{ "sa": "निमेषादिपरार्ध", "from": "etext:jm/mulam.md:663" }], "note": "the ladder from the nimeṣa to the parārdha (half of Brahmā's life) is named; no ratio" }
+      ]
+    },
+    {
+      "id": "kala-time", "sa": "कला", "iast": "kalā (as a unit of time)", "size": null, "status": "conflict",
+      "attestations": [
+        { "tag": "[claim-only]", "source": "other-repos", "at": "sphuta engine-src/L0-kaal/yuga-samvatsara.ts:9 ('SS I.15: 30 kāṣṭhā = 1 kalā, 30 kalā = 1 ghaṭikā')" },
+        { "tag": "[claim-only]", "source": "code", "from": "editions/maha-grantha-full-edition.html:3768", "note": "'1 Kalā (30 kāṣṭhā)' and '1 Muhūrta (30 kalā)'" }
+      ],
+      "conflicts": ["kala-time"]
+    },
+    {
+      "id": "vara", "sa": "वार", "iast": "vāra", "size": { "equals": 1, "of": "ahoratra", "kind": "sāvana, named by its lord" }, "status": "text",
+      "attestations": [
+        { "tag": "[text]", "source": "BPHS", "locus": "BPHS 3.33", "quote": [{ "sa": "अयनक्षणवारर्तुमासपक्षसमा द्विज।", "from": "corpus/bphs/canon.json#3.33" }], "note": "vāra is Mars's measure (corpus/parampara/graha.json)" }
+      ]
+    }
+  ],
+  "ladders": [
+    {
+      "id": "canonical", "what": "the engine's chain (canonical, above)", "nimeshaPerAhoratra": 202500, "paramanuPerAhoratra": 3280500000, "status": "canonical (decision P1)",
+      "symbol": "math-core.js SUBDAY_CHAIN", "label": "Bhāgavata 3.11 [claim-only, awaiting edition]"
+    },
+    {
+      "id": "sphuta", "what": "1 ahorātra = 60 ghaṭī = 3,600 vighaṭī = 21,600 prāṇa = 324,000 nimeṣa = 32,400,000 tatpara = 97,200,000 truṭi = 1,166,400,000 paramāṇu",
+      "chain": [["prana", 15, "nimesha"], ["nimesha", 100, "tatpara"], ["tatpara", 3, "truti"], ["truti", 12, "paramanu"]],
+      "nimeshaPerAhoratra": 324000, "paramanuPerAhoratra": 1166400000, "tag": "[claim-only]", "status": "alternative reading",
+      "at": "sphuta engine-src/L4-vibhaga/panchang.ts:180-181 (kalamana.ts:224, 'panchang.ts time-chain (60·6·15·100·3·12)'); no source cited"
+    },
+    {
+      "id": "maha-grantha", "what": "15 nimeṣa = 1 kāṣṭhā, 30 kāṣṭhā = 1 kalā, 30 kalā = 1 muhūrta, 30 muhūrta = 1 day; it also writes lava = 15 nimeṣa",
+      "nimeshaPerAhoratra": 405000, "tag": "[claim-only]", "status": "alternative reading",
+      "from": "editions/maha-grantha-full-edition.html:3761", "label": "'Master Time-Scale Table (Bhāgavata 3.11)' — a second ladder under the same label, disagreeing with the canonical one"
+    },
+    {
+      "id": "kaal-maha-sphota", "what": "18 nimeṣa = 1 kāṣṭhā, 30 kāṣṭhā = 1 kalā, 15 kalā = 1 nāḍikā; with 60 nāḍikā a day",
+      "nimeshaPerAhoratra": 486000, "tag": "[claim-only]", "status": "alternative reading",
+      "at": "kaal-sacred-discovery maha_sphota.py:94-97; its own tatpara chain (nimeṣa = 45 tatpara) gives a nāḍikā of about 18 minutes against its label '~24 min'"
+    },
+    {
+      "id": "vedic-ghadi-aditi", "what": "per civil day: 30 muhūrta, 60 ghaṭī, 60 vighaṭī, 6 prāṇa, 10 vipala (216,000 vipala a day)",
+      "tag": "[claim-only]", "status": "alternative reading (its vipala agrees with decision P1)",
+      "at": "vedic-ghadi backend/vedic_ghadi/substrate.py:590 ('standard Vedic day subdivision', no source)"
+    },
+    {
+      "id": "vedic-ghadi-diti", "what": "a 10/20/20/2/10 cascade, vipala 10.8 s",
+      "tag": "[claim-only]", "status": "alternative reading (an engine invention by its own note)",
+      "at": "vedic-ghadi backend/vedic_ghadi/substrate.py:580-586"
+    }
+  ],
+  "conflicts": [
+    { "id": "pala", "what": "'pala' names two sizes 60 times apart: = vināḍī (1/60 ghaṭī) in BPHS 5.8 and 46.90 [reading] and the SS edition's gloss (:220, :373); = 1/60 vināḍī in panchanga.js's sexagesimal {ghati, vinadi, pala} and the design document (VEDHA-YANTRA-DESIGN-2026-10-07.md:65-66, '31 vi 31 pala 24').",
+      "resolution": "decision P1: pala = 1/60 ghaṭī = vināḍī everywhere. panchanga.js's third place should be named vipala (it is 1/60 vināḍī); that file belongs to another stage (listed as outside this stage)." },
+    { "id": "vipala", "what": "vipala (1/60 pala = 1/10 prāṇa, 216,000 a day) is named by no local source text; the SS edition's gloss uses it (:220); vedic-ghadi's 'Diti' cascade makes a vipala of 10.8 s.",
+      "resolution": "decision P1: vipala = 1/60 pala [standard; no local text]. On the lattice it is 1,518,750 spandas, the same size as Āryabhaṭa's gurvakṣara (Kālakriyā 2)." },
+    { "id": "muhurta", "what": "no local text gives the muhūrta: the canonical chain makes it 2 nāḍikā (30 to the ahorātra) [claim-only]; muhurta.js uses fifteen of the day and fifteen of the night as standard usage; BPHS 3.66-3.68 divide day and night into eight parts each, not fifteen.",
+      "resolution": "kept as the chain gives it, tagged [claim-only]; awaiting an edition (the Brahma-Vaivarta and others are cited in code only)." },
+    { "id": "prahara", "what": "BPHS 3.66-3.69 divide the day and the night each into eight parts and name one part ardhaprahara, so the prahara is a quarter of the day or night and eight make the ahorātra [reading]; KAAL maha_sphota.py:98-99 has 7.5 muhūrta to a prahara and 8 prahara to the ahorātra, which makes 60 muhūrta a day.",
+      "resolution": "the BPHS reading is recorded; the KAAL table is inconsistent and is not used." },
+    { "id": "rtu-start", "what": "SS 14.10 begins the seasons with śiśira, each of two rāśis; read with 14.9 ('tataḥ' = from the Makara saṅkrānti) śiśira is Makara–Kumbha [reading]; sphuta's table begins vasanta at Meṣa (citing the Jyotiṣa-vedāṅga, which is not local).",
+      "resolution": "the SS order is the text's; sphuta's is an alternative reading with no local source." },
+    { "id": "kala-time", "what": "kalā as a unit of time: sphuta labels 'SS I.15: 30 kāṣṭhā = 1 kalā, 30 kalā = 1 ghaṭikā', but the local SS 1.15 is the caturyuga verse and no SS verse has a time-kalā; the Mahā-grantha has 30 kalā = 1 muhūrta; KAAL has 15 kalā = 1 nāḍikā; the canonical chain has no kalā (kala-dvara.js uses kalā only as the minute of arc, = the prāṇa of the turn).",
+      "resolution": "no time-kalā is used; three disagreeing claims are listed." },
+    { "id": "nimesha-values", "what": "nimeṣa per ahorātra: 202,500 (canonical chain), 324,000 (sphuta), 405,000 (Mahā-grantha; = 16/75 s of the civil day), 486,000 (KAAL maha_sphota); truṭi < nimeṣa by 900× in the chain and 300× in sphuta; no local text gives a nimeṣa ratio (the Kālanirṇaya, JM p.23, only names it).",
+      "resolution": "decision P1: the canonical chain; the rest are alternative readings (ladders)." },
+    { "id": "ahoratra-turn-or-civil", "what": "the same 328,050,000,000 is per turn of the star-wheel in kala-dvara.js (SS 1.12's nākṣatra ahorātra) and per civil day in math-core.js; vedic-ghadi and the web site divide the civil day.",
+      "resolution": "the text's ghaṭī is of the turn (SS 1.11-1.12; muhurta.js, panchanga.js); the civil sixtieth is given beside it where printed pañcāṅgas use it." },
+    { "id": "manvantara-72", "what": "SS 1.18-1.20: a manvantara of 71 yugas with a Kṛta-length sandhi, a kalpa of 1000 yugas; Āryabhaṭa (Kālakriyā 8): Brahmā's day is 1008 yugas (14 Manus × 72, as Nīlakaṇṭha reads the Gītikā).",
+      "resolution": "two local texts differ; the engine's SS canon takes 1000, the 'aryabhata' canon's yuga integers do not depend on it." },
+    { "id": "pitrya-day", "what": "SS 14.14 makes the lunar month a day of the pitṛs; Āryabhaṭa's Kālakriyā 7 makes the pitṛs' year thirty human years, which makes their day a solar month; Nīlakaṇṭha argues (abh2.md:316) that the lunar month is meant.",
+      "resolution": "both are listed; neither is used in a computation." },
+    { "id": "brahma-year", "what": "the 360-day year of Brahmā is not in SS 1.21 (a reading); the Mahā-grantha printed Brahmā's year and life 100 times too large (corrected 2026-10-08, editions/maha-grantha-full-edition.html:3784-3787).",
+      "resolution": "3,110,400,000,000 years a year, 311,040,000,000,000 a life [theorem on the reading]." }
+  ],
+  "owner": {
+    "what": "The owner's attributions (decision P2), each a registry record of class owner-statement, status 'awaiting edition'. No verse or verse number is supplied; each is upgraded to [text] when an edition is added to corpus/.",
+    "records": ["OWNER-gita-units", "OWNER-chandogya-units", "OWNER-navagraha-units", "OWNER-bhagavata-ladder", "OWNER-vishnupurana-yuga"]
+  }
+}

@@ -5,8 +5,8 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; manifest-src 'self'; media-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#03060e">
-  <meta name="description" content="आज का पञ्चाङ्ग — तिथि, नक्षत्र, योग, करण; दृक्-तह (VSOP87/ELP) प्रदर्शित, शास्त्रीय सूर्य-सिद्धान्त पथ साथ में। हर अंक आपके browser में computed। केवल गणना, भविष्यवाणी नहीं।">
-  <title>आज का पञ्चाङ्ग · तिथि नक्षत्र योग करण · Sūrya-Siddhānta + दृक् — Bharat Ephemeris</title>
+  <meta name="description" content="आज का पञ्चाङ्ग — तिथि, नक्षत्र, योग, करण; तीन गणना-तह: सूर्य-सिद्धान्त + परमेश्वर-संस्कार (मूल), सूर्य-सिद्धान्त, आधुनिक भारतीय (दृक्)। हर अंक आपके browser में computed। केवल गणना, भविष्यवाणी नहीं।">
+  <title>आज का पञ्चाङ्ग · तिथि नक्षत्र योग करण · Sūrya-Siddhānta + Parameśvara · दृक् — Bharat Ephemeris</title>
   <meta property="og:title" content="आज का पञ्चाङ्ग · तिथि नक्षत्र योग करण (Offline) — Bharat Ephemeris">
   <meta property="og:description" content="मन्दिर-आधारित घड़ी · 10 तीर्थ-anchor · केवल गणना, भविष्यवाणी नहीं।">
   <meta property="og:image" content="https://offline.bharatephemeris.com/og/panchang.png">
@@ -18,7 +18,7 @@
     {"@type":"WebApplication","name":"Bharat Ephemeris — पञ्चाङ्ग यन्त्र","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (offline PWA)","description":"मन्दिर-आधारित नागरिक घड़ी — तिथि, नक्षत्र, योग, करण; हर अंक आपके browser में computed। केवल गणना, भविष्यवाणी नहीं।","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}},
     {"@type":"FAQPage","mainEntity":[
       {"@type":"Question","name":"क्या यह बिना इंटरनेट चलता है?","acceptedAnswer":{"@type":"Answer","text":"हाँ — offline PWA; हर अंक आपके यन्त्र में गणित से जन्मता है; गणना के लिये कोई server नहीं, पहली बार खोलने पर site डाउनलोड होती है।"}},
-      {"@type":"Question","name":"सटीकता कितनी है?","acceptedAnswer":{"@type":"Answer","text":"दृक्-तह पर सूर्य से शनि तक सात ग्रहों के भोगांश JPL DE440 से 1′ के भीतर हैं (1850–2150 में मापा)। राहु-केतु मध्य-पात हैं। शास्त्रीय सूर्य-सिद्धान्त पथ इससे अंशों तक भिन्न है और समानान्तर दर्ज रहता है (PathBhang)।"}}
+      {"@type":"Question","name":"सटीकता कितनी है?","acceptedAnswer":{"@type":"Answer","text":"मूल तह सूर्य-सिद्धान्त + परमेश्वर-संस्कार है — पाठ का अपना गणित, आकाश से मिलान का दावा नहीं। आधुनिक भारतीय (दृक्) तह पर सूर्य से शनि तक सात ग्रहों के भोगांश NASA-JPL DE440s से λ ≤ 0.9″ हैं (1850–2150, repository के tests में मापा; JPL से स्वतन्त्र नहीं); इस अवधि के बाहर दृक्-तह अस्वीकृत है। राहु-केतु मध्य-पात हैं। तीनों तह साथ-साथ दर्ज रहती हैं (PathBhang)।"}}
     ]}
   ]}
   </script>
@@ -68,7 +68,7 @@
     code { color: var(--green); overflow-wrap: anywhere; }
     .seal { font-weight: 700; color: var(--gold); letter-spacing: .08em; }
     .instrument { display: grid; grid-template-columns: minmax(250px, .72fr) minmax(320px, 1.28fr); gap: 26px; align-items: start; }
-    .instrument-copy { display: grid; gap: 14px; }
+    .instrument-copy { display: grid; gap: 14px; min-width: 0; }   /* min-width 0: a long tier label must not widen the column past a 390 px screen */
     .frame-label { margin: 0; padding: 0; border: none; color: var(--dim); background: none; font-size: .72rem; letter-spacing: .04em; }
     .summary-band { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
     .summary-item { min-width: 0; padding: 12px 14px 10px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,.022), transparent 60%), var(--surface-0); box-shadow: inset 0 1px 0 rgba(255,255,255,.035); }
@@ -233,7 +233,7 @@
     <p class="ds-sub" style="max-width:56ch">केवल गणना, भविष्यवाणी नहीं। <span lang="en" style="color:var(--dim);font-size:.88em">Temple-anchored civil clock. Computation only — not a prediction.</span></p>
     <div class="hero-chips">
       <span class="chip2">◈ Living Ghaṭī Yantra</span>
-      <span class="chip2">दृक्-तह (VSOP87/ELP) · सूर्य-सिद्धान्त साथ में <span lang="en">/ Dṛk tier (VSOP87/ELP) · Sūrya-Siddhānta alongside</span></span>
+      <span class="chip2">तीन गणना-तह: सूर्य-सिद्धान्त + परमेश्वर-संस्कार (मूल) · सूर्य-सिद्धान्त · आधुनिक भारतीय (दृक्) <span lang="en">/ Three tiers, one code path each</span></span>
       <span class="chip2" id="activeTempleBadge">Ujjayini (Prime Meridian)</span>
     </div>
     <div class="hero-cta">
@@ -263,19 +263,25 @@
     <div class="temple-grid" id="templePresetsPublic" style="margin-bottom:14px"></div>
     <div class="instrument">
       <div class="instrument-copy">
-        <p class="frame-label" id="instrument-title"><span lang="en"><span id="frameOffset">UTC+05:30</span> civil clock · <span id="instrumentTemple">Ujjain astronomical location</span> · limbs from the tier named in the गणना-तह chip; the Sūrya-Siddhānta limbs are in the comparison row</span></p>
-        <p id="ganaTahChip" class="chip2 live" style="margin: 0; width: fit-content; max-width: 100%; font-size: 0.72rem;" title="DrikTier.grahas(jd) — सूर्य/चन्द्र दृक्-tier से पञ्च-अङ्ग पुनर्गणित; अनुपस्थित होने पर शास्त्रीय पथ">गणना-तह: …</p>
+        <p class="frame-label" id="instrument-title"><span lang="en"><span id="frameOffset">UTC+05:30</span> civil clock · <span id="instrumentTemple">Ujjain astronomical location</span> · every value below from the tier chosen here; the other two tiers are in the comparison row</span></p>
+        <div class="tier-row" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+          <label for="tierSelect" style="color: var(--gold); font-size: 0.74rem; font-weight: 700;">गणना-तह / tier</label>
+          <select id="tierSelect" style="width:100%;max-width:100%;min-height:36px;font:600 .74rem var(--mono);color-scheme:dark"></select>
+        </div>
+        <p id="ganaTahChip" class="chip2 live" style="margin: 0; width: fit-content; max-width: 100%; font-size: 0.72rem;" title="गणना-तह — हर अंक इसी तह से (math-core: one panchangExtended(…, tier))">गणना-तह: …</p>
+        <div id="tierRefusal" hidden></div>
+        <div id="tierLabels"></div>
         <div class="summary-band" aria-label="Immediate daily summary">
           <div class="summary-item"><span>तिथि</span><strong id="s-tithi">…</strong></div>
           <div class="summary-item"><span>नक्षत्र</span><strong id="s-nakshatra">…</strong></div>
           <div class="summary-item"><span>वार</span><strong id="s-vara">…</strong></div>
-          <div class="summary-item"><span>सौर मास</span><strong id="s-masa">…</strong></div>
+          <div class="summary-item"><span>मास (अमान्त) · सौर</span><strong id="s-masa">…</strong></div>
           <div class="summary-item"><span>योग · करण</span><strong id="s-yoga-karana">…</strong></div>
           <div class="summary-item" title="ऋतु: सू.सि. 14.9–10 — मकर-संक्रान्ति से शिशिर, प्रत्येक ऋतु दो राशि (निरयण सौर-मास)"><span>अयन · ऋतु (सू.सि. 14.9–10)</span><strong id="s-ayana-ritu">…</strong></div>
           <div class="summary-item time"><span>घटी · पल (<span id="summaryBoundary">UTC+05:30 civil midnight</span>)</span><strong id="s-ghati">…</strong></div>
         </div>
-        <p id="classicalCompareRow" hidden style="margin: 0; padding: 6px 10px; border: 1px dashed var(--line); font-size: 0.72rem; color: var(--soft); overflow-wrap: anywhere;" title="PathBhang — दोनों पथ दर्ज: दृक् (प्रदर्शित) एवं शास्त्रीय सूर्य-सिद्धान्त (यह पंक्ति)"><span class="seal">(SIDDHA)</span> शास्त्रीय पथ · <span id="classicalCompareValues">—</span></p>
-        <p id="pathBhedRow" hidden title="पथ-भेद सेतु — दोनों पथों का जीवित अन्तर; चन्द्र-स्फुट Δ arcmin में प्रति-क्षण computed (MAAPIT)">—</p>
+        <p id="tierCompareRow" hidden style="margin: 0; padding: 6px 10px; border: 1px dashed var(--line); font-size: 0.72rem; color: var(--soft); overflow-wrap: anywhere;" title="PathBhang — तीनों तह दर्ज: चुनी हुई (ऊपर) एवं अन्य दो (यह पंक्ति), इसी क्षण और इसी स्थान पर, math-core से"><span class="seal">(SIDDHA)</span> अन्य तह / the other tiers · <span id="tierCompareValues">—</span></p>
+        <p id="pathBhedRow" hidden title="पथ-भेद सेतु — तहों का जीवित अन्तर; चन्द्र-स्फुट Δ arcmin में प्रति-क्षण computed (MAAPIT)">—</p>
         <div class="share-row" aria-label="आज का पञ्चाङ्ग साझा करें">
           <button type="button" id="waShareBtn" title="आज का computed पञ्चाङ्ग WhatsApp-text के रूप में — click पर आपका app खुलता है; यह page स्वयं कोई network अनुरोध नहीं करता">WhatsApp पर भेजें</button>
           <button type="button" id="copyShareBtn" title="computed पञ्चाङ्ग-text clipboard में">कॉपी</button>
@@ -285,7 +291,11 @@
         <div class="controls" aria-label="Date and time controls">
           <div class="control">
             <label for="dateInput">Civil date</label>
-            <input id="dateInput" type="date">
+            <input id="dateInput" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="YYYY-MM-DD · -3101-01-23" aria-describedby="dateNote">
+          </div>
+          <div class="control">
+            <label for="calendarInput">Calendar</label>
+            <select id="calendarInput" style="min-height:44px"><option value="gregorian">Gregorian (proleptic)</option><option value="julian">Julian</option></select>
           </div>
           <div class="control">
             <label for="timeInput">Civil time</label>
@@ -296,6 +306,7 @@
             <input id="offsetInput" type="text" inputmode="decimal" value="+05:30" aria-describedby="offsetNote">
           </div>
           <p class="control-note" id="offsetNote">Format ±HH:MM. Sets the civil clock and midnight ghati/pala boundary; sphuṭa positions and geodetic solar times recompute for the active temple anchor.</p>
+          <p class="control-note" id="dateNote">तिथि: [-]YYYY-MM-DD, खगोलीय वर्ष (0 = 1 BCE, −1 = 2 BCE) · पाठ-तह −50,000…+50,000 वर्ष · आधुनिक भारतीय (दृक्) केवल 1850–2150, बाहर अस्वीकृत / Date: [-]YYYY-MM-DD, astronomical years; the text tiers take −50,000…+50,000; the dṛk tier only 1850–2150 and refuses outside.</p>
           <div class="actions">
             <button type="button" id="liveButton" class="primary" aria-pressed="true">Live Now</button>
             <button type="button" id="pauseButton" aria-pressed="false">Pause</button>
@@ -323,9 +334,9 @@
 
   <div class="rib-grid">
     <div class="rib-tile">
-      <span class="k">Ahargaṇa (Kali-Yuga)</span>
+      <span class="k">Ahargaṇa (from Laṅkā midnight, SS 1.45-1.47)</span>
       <div id="rib-ahargana" class="num-display">—</div>
-      <div class="rib-note">Live from panchangExtended</div>
+      <div class="rib-note">civil days since midnight at Laṅkā at the Kali epoch · every tier</div>
     </div>
     <div class="rib-tile">
       <span class="k">सूर्य स्फुट</span>
@@ -356,15 +367,16 @@
       <div class="metric"><span>नक्‍षत्र (Nakshatra)</span><strong id="m-nakshatra">…</strong></div>
       <div class="metric"><span>योग (Yoga)</span><strong id="m-yoga">…</strong></div>
       <div class="metric"><span>करण (Karana)</span><strong id="m-karana">…</strong></div>
-      <div class="metric"><span>सौर मास (Saura Masa)</span><strong id="m-masa">…</strong></div>
-      <div class="metric"><span>वार (Vara)</span><strong id="m-vara">…</strong></div>
-      <div class="metric"><span>संवत्सर (Samvatsara)</span><strong id="m-samvatsara">…</strong></div>
+      <div class="metric"><span>मास (अमान्त, अधिक/क्षय) · सौर मास (राशि)</span><strong id="m-masa">…</strong></div>
+      <div class="metric"><span>वार (सूर्योदय से · civil)</span><strong id="m-vara">…</strong></div>
+      <div class="metric"><span>संवत्सर · विक्रम · शक</span><strong id="m-samvatsara">…</strong></div>
       <div class="metric" title="ऋतु: सू.सि. 14.9–10 — मकर-संक्रान्ति से शिशिर, प्रत्येक ऋतु दो राशि (निरयण सौर-मास)"><span>अयन एवं ऋतु · ऋतु: सू.सि. 14.9–10 — मकर-संक्रान्ति से शिशिर, प्रत्येक ऋतु दो राशि (निरयण सौर-मास)</span><strong id="m-ayana-ritu">…</strong></div>
-      <div class="metric"><span>अहर्गण (कलि-युग से)</span><strong id="m-ahargana">…</strong></div>
+      <div class="metric"><span>अहर्गण (लङ्का-मध्यरात्रि से · SS 1.45-1.47)</span><strong id="m-ahargana">…</strong></div>
       <div class="metric"><span>सूर्य स्फुट (Surya)</span><strong id="m-surya">…</strong></div>
       <div class="metric"><span>चन्द्र स्फुट (Chandra)</span><strong id="m-chandra">…</strong></div>
       <div class="metric"><span>स्थानीय लग्न (Ascendant)</span><strong id="m-lagna">…</strong></div>
     </div>
+    <p class="tier-tag" data-tier-tag style="margin:6px 0 0;color:var(--dim);font-size:.7rem;overflow-wrap:anywhere">गणना-तह: —</p>
 
         </div><!-- end panel-body-collapsible -->
 </section>
@@ -450,6 +462,7 @@
           </div>
         </div>
 
+        <p id="solRule" style="margin: 6px 0 0; font-size: 0.68rem; color: var(--dim); overflow-wrap: anywhere;">सूर्योदय-नियम: —</p>
         <!-- चन्द्रोदय row — lunar rise/set/transit for the active anchor (SIDDHA) -->
         <div class="solar-grid" id="lunarGrid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
           <div class="solar-card glass-panel" style="border-color: rgba(234,201,123,0.45);">
@@ -468,7 +481,8 @@
             <em id="lun-horizon">—</em>
           </div>
         </div>
-        <p style="margin: 6px 0 0; font-size: 0.68rem; color: var(--dim);">Horizon convention: +7′ (Moon's centre, geocentric: parallax − refraction − semidiameter) <span class="seal">(SIDDHA)</span> — iterative hour-angle solve, live-computed per civil day &amp; anchor.</p>
+        <p style="margin: 6px 0 0; font-size: 0.68rem; color: var(--dim); overflow-wrap: anywhere;">चन्द्रोदय-नियम / moonrise rule: <span id="lun-rule">—</span> <span class="seal">(SIDDHA)</span> — live-computed per civil day, anchor &amp; tier.</p>
+        <p class="tier-tag" data-tier-tag style="margin:6px 0 0;color:var(--dim);font-size:.7rem;overflow-wrap:anywhere">गणना-तह: —</p>
       </div>
     </div>
 
@@ -512,10 +526,10 @@
 
       <!-- Tool 2: Batch Calendar Exporter -->
       <div class="pricing-card">
-        <span class="badge badge-cyan" style="width: fit-content;">Publishers & ERP · शास्त्रीय पथ</span>
+        <span class="badge badge-cyan" style="width: fit-content;">Publishers & ERP · चुनी गणना-तह</span>
         <h3 style="margin: 8px 0 4px; font-size: 1.1rem; color: var(--ink);">Batch Panchang Exporter</h3>
         <p style="font-size: 0.8rem; color: var(--soft); margin-bottom: 14px;">
-          Download 30 / 365 / 1000 / 10000-day Sūrya-Siddhānta astronomical datasets (Tithi, Nakshatra, Yoga, Karana, Solar longitudes, Rahu Kaal, Ghati times) — every value computed in your browser via ShunyaMath for the active temple anchor. निर्यात <b>शास्त्रीय पथ</b> (Sūrya-Siddhānta sphuṭa) पर चलते हैं — दृक्-tier केवल जीवित यन्त्र-प्रदर्शन के लिये।
+          Download 30 / 365 / 1000 / 10000-day datasets (Tithi, Nakshatra, Yoga, Karana, the amānta month, Solar longitudes, Rahu Kaal, Ghati times) — every value computed in your browser via ShunyaMath for the active temple anchor, <b>in the tier chosen above</b>; every row names its tier and the file names the tier's engine and ayanāṃśa (from M.TIERS). The dṛk tier stops with its refusal at 2150.0.
         </p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto;">
           <button type="button" class="btn-preview" onclick="exportBatchPanchang(30, 'csv')">30-Day CSV</button>
@@ -526,10 +540,14 @@
           <button type="button" class="btn-preview" onclick="exportBatchPanchang(10000, 'json')">10000-Day JSON</button>
         </div>
         <div style="display: grid; grid-template-columns: 108px 1fr; gap: 8px; margin-top: 8px; align-items: stretch;">
-          <input id="deepTimeRows" type="number" min="1" max="100000" step="1" value="4320" aria-label="Deep-time rows (1 row per 100 days, max 100000)" style="min-height: 44px; border: 1px solid var(--line-cyan); border-radius: 4px; padding: 8px 9px; background: var(--hero); color: var(--ink); font: 16px var(--mono); color-scheme: dark;">
+          <input id="deepTimeRows" type="number" min="1" max="100000" step="1" value="4320" aria-label="Deep-time rows (max 100000)" style="min-height: 44px; border: 1px solid var(--line-cyan); border-radius: 4px; padding: 8px 9px; background: var(--hero); color: var(--ink); font: 16px var(--mono); color-scheme: dark;">
           <button type="button" class="btn-preview" onclick="exportDeepTimeCSV()">दीर्घ-काल mean-model CSV (432,000-दिन default · काल-गणना)</button>
         </div>
-        <p style="font-size: 0.68rem; color: var(--dim); margin: 4px 0 0;">N rows × 100-day stride from the current ahargaṇa (default 4320 ≈ 1183 yr) · mean-only linear extrapolation — not observed sky <span class="seal">(SIDDHA)</span> · UI cap 100,000 rows.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
+          <label style="font-size:.7rem;color:var(--dim)">दिन प्रति पंक्ति / days per row <input id="deepTimeStride" type="number" min="1" max="36525" step="1" value="100" style="width:100%;min-height:36px;font:14px var(--mono);color-scheme:dark"></label>
+          <label style="font-size:.7rem;color:var(--dim)">दिशा / direction <select id="deepTimeDirection" style="width:100%;min-height:36px;color-scheme:dark"><option value="1">आगे / forward</option><option value="-1">पीछे / backward</option></select></label>
+        </div>
+        <p id="deepTimeNote" style="font-size: 0.68rem; color: var(--dim); margin: 4px 0 0;">N rows × the stride from the selected instant's ahargaṇa (civil days since Laṅkā midnight, SS 1.45-1.47) · the plain Sūrya-Siddhānta's mean places only (tier 'ss'; no manda/śīghra, no saṃskāra) — not observed sky <span class="seal">(SIDDHA)</span> · UI cap 100,000 rows; rows are cut at the text tier's tested span (−50,000…+50,000) and the file says so.</p>
         <p id="exportStatus" style="font-size: 0.72rem; color: var(--green); margin: 6px 0 0; display: none;"></p>
       </div>
 
@@ -549,8 +567,9 @@
 
     <p class="subtitle">
       लग्न + मध्य-लग्न (MC) के सहारे चतुर्थांश-त्रिभाजन से असमान भाव। हर ग्रह स्फुट निरयण
-      रेखांश से भाव-मध्य के सापेक्ष रखा जाता है। गणित <code>math-core.js</code> के <code>bhavaModel()</code> से सक्रिय तीर्थ मन्दिर के geodetic coordinates पर जीवित अवस्था।
+      रेखांश से भाव-मध्य के सापेक्ष रखा जाता है। गणित <code>math-core.js</code> के <code>panchangExtended(…, tier)</code> (उसी का <code>bhavaModel</code>) से सक्रिय तीर्थ मन्दिर के geodetic coordinates पर जीवित अवस्था — लग्न, मध्य-लग्न और ग्रह एक ही तह के फ्रेम में।
     </p>
+    <p class="tier-tag" data-tier-tag style="margin:6px 0 0;color:var(--dim);font-size:.7rem;overflow-wrap:anywhere">गणना-तह: —</p>
     <div class="grid" style="margin-top:14px">
       <div class="metric"><span>लग्न (निरयण)</span><strong id="b-lagna">…</strong></div>
       <div class="metric"><span>भाव-१० मध्य (MC)</span><strong id="b-madhya10">…</strong></div>
@@ -596,14 +615,14 @@
   <section class="panel boundary">
 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
 <div>
-    <strong>दो पथ: दृक्-तह और शास्त्रीय सूर्य-सिद्धान्त स्फुट <span lang="en">/ Two paths: the dṛk tier and the classical Sūrya-Siddhānta sphuṭa</span></strong></div>
+    <strong>तीन गणना-तह, हर एक का एक पथ <span lang="en">/ Three tiers, one code path each</span></strong></div>
 <button type="button" class="btn-panel-minimize" onclick="toggleSectionCollapse(this)">— Minimize</button>
 </div>
         <div class="panel-body-collapsible">
 
     <p>
-      इस पृष्ठ के पाँच अङ्ग और सूर्य/चन्द्र-स्फुट दृक्-तह (आधुनिक VSOP87/ELP सिद्धान्त) से हैं; सूर्य-सिद्धान्त स्फुट (manda चतुःसंस्कार सहित) से गिने अङ्ग 'शास्त्रीय पथ' पंक्ति में हैं।
-      <span lang="en">The five limbs and the Sun/Moon sphuṭa on this page come from the dṛk tier (modern VSOP87/ELP theory); the limbs from the Sūrya-Siddhānta sphuṭa (with the manda four-step correction) are in the 'classical path' row.</span>
+      इस पृष्ठ का हर अंक ऊपर चुनी गणना-तह से है: सूर्य-सिद्धान्त + परमेश्वर-संस्कार (मूल), सूर्य-सिद्धान्त (पाठ जैसा है), या आधुनिक भारतीय (दृक्: हमारी अपनी श्रेणी, केवल 1850–2150)। अन्य दो तहों के अङ्ग 'अन्य तह' पंक्ति में हैं। VSOP87/ELP और Astronomy Engine केवल tests में referee हैं — इस पृष्ठ पर नहीं चलते।
+      <span lang="en">Every number on this page comes from the tier chosen above: Sūrya-Siddhānta + Parameśvara's saṃskāra (the default), the plain Sūrya-Siddhānta, or Modern Bhāratīya (dṛk: our own series, 1850–2150 only). The other two tiers' limbs are in the 'other tiers' row. VSOP87/ELP and Astronomy Engine are referees in the tests only — they do not run on this page.</span>
       तिथि = (चन्द्र − सूर्य) स्फुट कोण ÷ 12°; नक्‍षत्र = चन्द्र स्फुट ÷ 13°20′; सौर मास = सूर्य राशि; योग = (सूर्य + चन्द्र) ÷ 13°20′; करण = तिथि अर्ध (6°)।
       स्थानीय सूर्योदय, दिनमान, इष्टकाल (सूर्योदयात् घटी), राहु-काल तथा लग्न का गणित 10 प्रमुख वैश्विक तीर्थ मन्दिरों के geodetic anchor (जाँच-प्रतीक्षित) रेखांश/अक्षांश पर आधारित है।
     </p>
@@ -677,33 +696,33 @@
         <tbody>
           <tr>
             <th>संवत्सर / वर्ष</th>
-            <td id="cardSamvat">विक्रम संवत् २०८३ (‘कालयुक्त’ नाम) · शके १९४८</td>
+            <td id="cardSamvat">—</td>
             <th title="ऋतु: सू.सि. 14.9–10 — मकर-संक्रान्ति से शिशिर, प्रत्येक ऋतु दो राशि (निरयण सौर-मास)">अयन / ऋतु (सू.सि. 14.9–10)</th>
             <td id="cardAyanaRitu">—</td>
           </tr>
           <tr>
             <th>मास / पक्ष</th>
-            <td id="cardMasaPaksha">सौर श्रावण मास · शुक्ल पक्ष</td>
+            <td id="cardMasaPaksha">—</td>
             <th>तिथि (Tithi)</th>
-            <td id="cardTithi">प्रतिपदा</td>
+            <td id="cardTithi">—</td>
           </tr>
           <tr>
             <th>वार / नक्षत्र</th>
-            <td id="cardVaraNakshatra">शुक्रवार · रोहिणी</td>
+            <td id="cardVaraNakshatra">—</td>
             <th>योग / करण</th>
-            <td id="cardYogaKarana">सिद्धि योग · बव करण</td>
+            <td id="cardYogaKarana">—</td>
           </tr>
           <tr>
             <th>सूर्योदय / सूर्यास्त</th>
-            <td id="cardSunTimes">सूर्योदय ०५:५६ · सूर्यास्त १८:५६</td>
+            <td id="cardSunTimes">—</td>
             <th>दिनमान / इष्टकाल</th>
-            <td id="cardDinamana">३२.५ घटी · इष्ट ०२ घटी १५ पल</td>
+            <td id="cardDinamana">—</td>
           </tr>
           <tr>
             <th>राहु-काल</th>
-            <td id="cardRahu">१०:३० – १२:००</td>
+            <td id="cardRahu">—</td>
             <th>अभिजित-मुहूर्त</th>
-            <td id="cardAbhijit">११:५२ – १२:४४</td>
+            <td id="cardAbhijit">—</td>
           </tr>
         </tbody>
       </table>
@@ -717,7 +736,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 0.72rem; color: var(--dim); border-top: 1px solid rgba(234,201,123,0.2); padding-top: 8px;">
         <span>मुद्रा (PaniniHash): <b class="seal" id="cardSeal">…</b></span>
         <span>अहर्गण कटपयादि: <b class="seal" id="cardKatapayadi">…</b></span>
-        <span>Bharat Ephemeris · दृक्-तह + शास्त्रीय पथ</span>
+        <span id="cardTier">Bharat Ephemeris · गणना-तह: —</span>
       </div>
       <div style="text-align: center; margin-top: 8px; font-size: 0.74rem; color: var(--gold);">अपने मन्दिर के प्रधान देवता के नाम से यह पत्र — मन्दिर-वार्षिक license · api@bharatephemeris.com</div>
     </div>
@@ -733,13 +752,30 @@
   </div>
 </div>
 
-<script src="vsop87-full.js?v=101"></script>
-  <script src="elp-moon.js?v=101"></script>
-  <script src="math-core.js?v=102"></script>
-<script src="drik-engine.js?v=1"></script>
-<script src="drik-tier.js?v=1"></script>
-<script src="siddhanta-drik.js?v=1"></script>
-<script src="siddhanta-tier.js?v=1"></script>
+<!-- Loading contract (2026-10-08): the sovereign modules the text tiers need, parampara.js and the paramparā record,
+     ss-tier.js, then math-core.js; for the Modern Bhāratīya (dṛk) choice siddhanta-drik.js, siddhanta-tier.js and
+     drik-grahana.js. No vendored foreign theory is loaded here: VSOP87/ELP and Astronomy Engine are referees in the tests. -->
+<script src="kala-dvara.js"></script>
+<script src="sphuta.js"></script>
+<script src="dhruva.js"></script>
+<script src="ss-udaya.js"></script>
+<script src="spanda-ganita.js"></script>
+<script src="ss-graha.js"></script>
+<script src="ss-chaya.js"></script>
+<script src="ss-grahana.js"></script>
+<script src="ss-ahargana.js"></script>
+<script src="panchanga.js"></script>
+<script src="dasha.js"></script>
+<script src="muhurta.js"></script>
+<script src="utsava.js"></script>
+<script src="parampara.js"></script>
+<script src="ss-tier.js"></script>
+<script src="parampara-record.js"></script>
+<script src="math-core.js?v=103"></script>
+<script src="siddhanta-drik.js?v=5"></script>
+<script src="siddhanta-tier.js?v=5"></script>
+<script src="drik-grahana.js?v=1"></script>
+<script src="page-live.js?v=109"></script>
 <script src="field-gl.js?v=113"></script>
 <script>
 "use strict";
@@ -747,6 +783,7 @@
   const $ = id => document.getElementById(id);
   const setText = (id, value) => { const el = $(id); if (el) el.textContent = value; };
   const M = globalThis.ShunyaMath;
+  const LT = globalThis.LegacyTier;                 // page-live.js: the tier helper (labels from M.TIERS)
 
   const fatal = (message, error) => {
     $('fatalMessage').textContent = message;
@@ -756,8 +793,8 @@
     if (error) console.error(error);
   };
 
-  if (!M || typeof M.panchangAtJd !== 'function') {
-    fatal('ShunyaMath is missing or incomplete. Panchang calculations cannot run.');
+  if (!M || typeof M.panchangAtJd !== 'function' || !M.TIERS || !LT) {
+    fatal('ShunyaMath (with its tiers) or page-live.js is missing. Panchang calculations cannot run.');
     return;
   }
   // bhavaModel is optional for basic dial; warn only
@@ -786,6 +823,7 @@
   const state = {
     mode: 'live',
     instantMs: Date.now(),
+    calendar: 'gregorian',
     offset: 330, // in minutes
     temple: M.TEMPLE_PRESETS[0], // default Ujjain
     panchang: null,
@@ -812,32 +850,23 @@
     return (match[1] === '-' ? -1 : 1) * (Number(match[2]) * 60 + Number(match[3]));
   }
 
+  // The instant is kept as ms since 1970 (UT) only for the clock; every date goes through M.civilToJd / M.jdToCivil
+  // (kala-dvara.js: proleptic Gregorian or Julian, astronomical years), never through Date, so −50,000…+50,000 holds.
+  const jdOfMs = (ms) => ms / 86400000 + 2440587.5;
+  const msOfJd = (jd) => (jd - 2440587.5) * 86400000;
   function inputInstant() {
-    const date = $('dateInput').value;
     const time = $('timeInput').value;
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^\d{2}:\d{2}(?::\d{2})?$/.test(time)) {
-      throw new Error('Enter a complete civil date and time.');
-    }
-    const [year, month, day] = date.split('-').map(Number);
-    const [hour, minute, second = 0] = time.split(':').map(Number);
-    const checkDate = new Date(0);
-    checkDate.setUTCFullYear(year, month - 1, day);
-    checkDate.setUTCHours(hour, minute, second, 0);
-    const ms = checkDate.getTime() - offsetMinutes($('offsetInput').value) * 60000;
-    const check = new Date(ms + offsetMinutes($('offsetInput').value) * 60000);
-    if (check.getUTCFullYear() !== year || check.getUTCMonth() !== month - 1 || check.getUTCDate() !== day || check.getUTCHours() !== hour || check.getUTCMinutes() !== minute) {
-      throw new Error('The civil date or time is invalid.');
-    }
-    return ms;
+    if (!/^\d{2}:\d{2}(?::\d{2})?$/.test(time)) throw new Error('Enter a complete civil time (HH:MM[:SS]).');
+    const civil = LT.parseCivil($('dateInput').value, $('calendarInput').value);
+    const jd = M.civilToJd(civil, time.length === 5 ? time + ':00' : time, offsetMinutes($('offsetInput').value) / 60);
+    state.calendar = civil.calendar;
+    return msOfJd(jd);
   }
 
   function civilParts(ms, offset) {
-    const date = new Date(ms + offset * 60000);
+    const c = M.jdToCivil(jdOfMs(ms), offset / 60, state.calendar);
     const pad = value => String(value).padStart(2, '0');
-    return {
-      date: `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`,
-      time: `${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}`
-    };
+    return { date: c.iso, time: `${pad(c.hour)}:${pad(c.minute)}:${pad(c.second)}` };
   }
 
   function updateLiveInputs(ms, offset = state.offset) {
@@ -854,8 +883,7 @@
 
   function civilLabel(ms, offset) {
     const parts = civilParts(ms, offset);
-    const date = new Date(ms + offset * 60000).toLocaleDateString('hi-IN', { timeZone: 'UTC', day: 'numeric', month: 'short', year: 'numeric' });
-    return { time: parts.time, date };
+    return { time: parts.time, date: `${parts.date}${state.calendar === 'julian' ? ' (Julian)' : ''}` };
   }
 
   function setMode(mode) {
@@ -996,9 +1024,10 @@
       ['नक्षत्र', s.nakshatraName],
       ['योग', ext ? ext.yogaName : (s.yogaName || '—')],
       ['करण', ext ? ext.karanaName : (s.karanaName || '—')],
-      ['सौर मास', masa.name],
+      ['मास', masa.name],
       ['वार', s.varaName],
-      ['अहर्गण', Math.floor(s.ahargana).toLocaleString('en-IN')]
+      ['अहर्गण (लङ्का)', Math.floor(s.ahargana).toLocaleString('en-IN')],
+      ['तह', LT.short(s.tier)]
     ];
     const fragment = document.createDocumentFragment();
     for (const [key, value] of values) {
@@ -1017,46 +1046,8 @@
     return graha ? graha.sa : key;
   }
 
-  // दृक्-tier limb re-derivation (BE-S10). Takes DrikTier.grahas(jd) sun/moon
-  // (चित्रा-पक्ष sidereal; VSOP87/ELP — 7 grahas within 1′ of JPL DE440, 1850–2150; Rāhu/Ketu mean node) and re-derives the five limbs with the
-  // EXACT index→name mappings math-core's panchangExtended uses — so only the
-  // substrate (sphuṭa longitudes) changes, never the शास्त्र of the boundaries.
-  function drikLimbs(dk) {
-    if (typeof M.limbsFromSphuta === 'function') return M.limbsFromSphuta(dk.surya, dk.candra);   // shared reduction (math-core)
-    const sun = M.mod360(dk.surya);
-    const moon = M.mod360(dk.candra);
-    const lunar = M.mod360(moon - sun);
-    const tithiIndex = Math.floor(lunar / 12);
-    const paksha = tithiIndex < 15 ? 'शुक्ल' : 'कृष्ण';
-    const tithiName = tithiIndex === 14 ? 'पूर्णिमा' : tithiIndex === 29 ? 'अमावस्या' : M.TITHI_NAMES[tithiIndex % 15];
-    const nak = M.computeNakshatraDetails(moon);
-    const yogaIndex = Math.floor(M.mod360(sun + moon) / (360 / 27)) % 27;
-    // Karana from half-tithi — mirrors panchangExtended's mapping exactly.
-    const karanaHalf = Math.floor(lunar / 6);
-    let karanaIndex, karanaType;
-    if (karanaHalf === 0) { karanaIndex = 10; karanaType = 'Sthira'; }
-    else if (karanaHalf >= 1 && karanaHalf <= 56) { karanaIndex = (karanaHalf - 1) % 7; karanaType = 'Chara'; }
-    else if (karanaHalf === 57) { karanaIndex = 7; karanaType = 'Sthira'; }
-    else if (karanaHalf === 58) { karanaIndex = 8; karanaType = 'Sthira'; }
-    else { karanaIndex = 9; karanaType = 'Sthira'; }
-    return {
-      tithiIndex,
-      tithiName,
-      paksha,
-      nakshatraIndex: nak.index,
-      nakshatraName: nak.name,
-      nakshatraPada: nak.pada,
-      nakshatraLord: nak.lord,
-      nakshatraBhuktaPct: nak.percentDone,
-      nakshatraWithinDeg: nak.withinDeg,
-      yogaIndex,
-      yogaName: M.YOGA_NAMES[yogaIndex],
-      karanaIndex,
-      karanaName: M.KARANA_NAMES[karanaIndex],
-      karanaType,
-      limbTier: 'drik'
-    };
-  }
+  // The limbs, the month, the year, the day and the lagna all come from one panchangExtended(…, tier) (rules R4/R7):
+  // no limb is re-derived on this page, so there is no second karaṇa mapping.
 
   function bhavaSeed(value) {
     const K = {'क':1,'ख':2,'ग':3,'घ':4,'ङ':5,'च':6,'छ':7,'ज':8,'झ':9,'ञ':0,'ट':1,'ठ':2,'ड':3,'ढ':4,'ण':5,'त':6,'थ':7,'द':8,'ध':9,'न':0,'प':1,'फ':2,'ब':3,'भ':4,'म':5,'य':1,'र':2,'ल':3,'ळ':9,'व':4,'श':5,'ष':6,'स':7,'ह':8};
@@ -1103,80 +1094,105 @@
     state.tableRenders += 1;
   }
 
+  function tierTagText(tier, jd) {
+    let ay = '';
+    try { const a = M.tierAyanamsha(jd, tier); ay = ` · अयनांश ${a.name} = ${a.deg.toFixed(4)}°`; } catch (e) { if (!LT.isRefusal(e)) throw e; }
+    return `गणना-तह: ${LT.name(tier)}${ay} · सूर्योदय-नियम: ${M.TIERS[tier].sunrise}`;
+  }
+
+  // The Kaṭapayādi form encodes a whole number ≥ 0; before the Kali epoch the ahargaṇa is negative and is not encoded.
+  const katapayadiOfAhargana = (ah) => (ah >= 0 ? M.katapayadiEncodeInteger(Math.floor(ah)) : '— (ऋण अहर्गण: कटपयादि केवल धन पूर्णांक का / negative ahargaṇa: not encoded)');
+
+  function clearValues() {
+    for (const id of ['s-tithi', 's-nakshatra', 's-vara', 's-masa', 's-yoga-karana', 's-ayana-ritu', 's-ghati', 'm-ghati', 'm-vighati', 'm-prana', 'm-tithi', 'm-nakshatra', 'm-yoga',
+      'm-karana', 'm-masa', 'm-vara', 'm-samvatsara', 'm-ayana-ritu', 'm-ahargana', 'm-surya', 'm-chandra', 'm-lagna', 'rib-ahargana', 'rib-surya', 'rib-lagna', 'sol-rise',
+      'sol-set', 'sol-noon', 'sol-dinamana', 'sol-dinamana-ghati', 'sol-ishta', 'sol-rahu', 'sol-rahu-slot', 'sol-abhijit', 'sol-lagna', 'sol-lagna-deg', 'solRule',
+      'lun-rise', 'lun-set', 'lun-transit', 'lun-horizon', 'lun-rule', 'b-lagna', 'b-madhya10', 'b-kendra', 'seal-panini', 'seal-katapayadi', 'clockSub']) setText(id, '—');
+    state.lunarKey = null;
+    if ($('metaRow')) $('metaRow').replaceChildren();
+    if ($('bhavas-body')) $('bhavas-body').replaceChildren();
+    if ($('bhavas-graha-body')) $('bhavas-graha-body').replaceChildren();
+    if ($('tierCompareRow')) $('tierCompareRow').hidden = true;
+    if ($('pathBhedRow')) $('pathBhedRow').hidden = true;
+  }
+
   function updateText(ms, forceModel = false) {
     try {
       const offset = offsetMinutes($('offsetInput').value);
-      const jd = ms / 86400000 + 2440587.5;
+      const jd = jdOfMs(ms);
       const temple = state.temple;
-      const ext = M.panchangExtended(jd, temple.lat, temple.lon, offset / 60);
-      // गणना-तह selection: when the दृक्-tier is present, the five displayed
-      // limbs are re-derived from DrikTier sun/moon (VSOP87/ELP); the classical
-      // Sūrya-Siddhānta values stay visible in the तुलना row — PathBhang.
-      let s = ext;
-      let drikActive = false;
-      let dkMoon = null;
-      if (globalThis.DrikTier && typeof DrikTier.available === 'function' && DrikTier.available()) {
-        try {
-          const dk = DrikTier.grahas(jd);
-          if (dk) { s = Object.assign({}, ext, drikLimbs(dk), { surya: M.mod360(dk.surya), chandra: M.mod360(dk.candra) }); drikActive = true; dkMoon = M.mod360(dk.candra); } // बाल-पत्र समेत हर consumer एक ही दृक्-तह पर
-        } catch (drikError) {
-          console.warn('DrikTier limb derivation failed — classical path used:', drikError);
-        }
-      }
-      // Display copy with nukta-free nakshatra spelling (engine object untouched).
-      s = Object.assign({}, s, { nakshatraName: nakClean(s.nakshatraName) });
-      const chip = $('ganaTahChip');
-      if (chip) {
-        chip.textContent = drikActive
-          ? 'गणना-तह: दृक् (VSOP87/ELP) · शास्त्रीय तुलना नीचे'
-          : 'गणना-तह: शास्त्रीय';
-        chip.dataset.tier = drikActive ? 'drik' : 'classical';
-      }
-      const cmpRow = $('classicalCompareRow');
-      if (cmpRow) {
-        cmpRow.hidden = !drikActive;
-        if (drikActive) {
-          setText('classicalCompareValues',
-            `तिथि ${ext.paksha} ${ext.tithiName} · नक्षत्र ${nakClean(ext.nakshatraName)} · योग ${ext.yogaName} · करण ${ext.karanaName} (सूर्य-सिद्धान्त स्फुट)`);
-        }
-      }
-      // पथ-भेद सेतु-पंक्ति (§A4) — auto: shown only when the classical and dṛk
-      // limbs actually straddle a boundary; Δ is the live computed moon offset.
-      const pbRow = $('pathBhedRow');
-      if (pbRow) {
-        let pbMsg = '';
-        if (drikActive && dkMoon !== null) {
-          const dMoonDeg = ((dkMoon - M.mod360(ext.chandra) + 540) % 360) - 180;
-          const dMoonMin = Math.abs(dMoonDeg * 60).toFixed(1);
-          if (ext.tithiIndex !== s.tithiIndex) {
-            pbMsg = `आज पथ-भेद: शास्त्रीय ${ext.paksha} ${ext.tithiName} · दृक् ${s.paksha} ${s.tithiName} — चन्द्र-स्फुट का ~${dMoonMin}′ अन्तर तिथि-सन्धि पार कर गया (BE-S03 सीमा में)`;
-          } else if (ext.nakshatraIndex !== s.nakshatraIndex) {
-            pbMsg = `आज पथ-भेद: शास्त्रीय ${nakClean(ext.nakshatraName)} · दृक् ${s.nakshatraName} — चन्द्र-स्फुट का ~${dMoonMin}′ अन्तर नक्षत्र-सन्धि पार कर गया (BE-S03 सीमा में)`;
-          }
-        }
-        pbRow.hidden = !pbMsg;
-        if (pbMsg) pbRow.textContent = pbMsg;
-      }
-      const masa = { name: s.sauraMasaName, index: s.sauraMasaIndex };
-
+      const tier = LT.current();
+      const site = { latitude: temple.lat, longitude: temple.lon };
       const civil = civilLabel(ms, offset);
       const zone = offsetLabel(offset);
       state.instantMs = ms;
       state.offset = offset;
+      state.tier = tier;
+      setText('clockDigital', `${civil.time} ${zone}`);
+      setText('frameOffset', zone);
+      setText('summaryBoundary', `${zone} civil midnight`);
+      const chip = $('ganaTahChip');
+      if (chip) { chip.textContent = `गणना-तह: ${LT.name(tier)}${LT.problem() ? ' · ' + LT.problem() : ''}`; chip.dataset.tier = tier; }
+      const labelKey = `${tier}|${Math.floor(jd)}`;
+      if (state.labelKey !== labelKey) { state.labelKey = labelKey; LT.renderLabels($('tierLabels'), tier, jd); }
+      document.querySelectorAll('[data-tier-tag]').forEach(n => { n.textContent = tierTagText(tier, jd); n.dataset.tier = tier; });
+
+      let ext;
+      try {
+        ext = M.panchangExtended(jd, temple.lat, temple.lon, offset / 60, tier);
+      } catch (error) {
+        if (!LT.isRefusal(error)) throw error;
+        // The dṛk tier outside 1850.0–2150.0: said plainly; nothing is filled in from elsewhere.
+        LT.renderRefusal($('tierRefusal'), error, () => { const sel = $('tierSelect'); if (sel) sel.value = LT.current(); updateText(state.instantMs, true); if (state.visible) drawCanvas(); });
+        state.panchang = null; state.extended = null; state.masa = null;
+        clearValues();
+        setText('clockSub', `${civil.date} · ${temple.nameSa}`);
+        setStatus(`${M.TIERS.drik.labelSa}: ${error.message}`);
+        return;
+      }
+      if ($('tierRefusal')) { $('tierRefusal').hidden = true; $('tierRefusal').replaceChildren(); }
+      // Display copy with nukta-free nakshatra spelling (engine object untouched).
+      const s = Object.assign({}, ext, { nakshatraName: nakClean(ext.nakshatraName) });
+
+      // अन्य तह — the other two tiers at the same instant and site, each through math-core (PathBhang)
+      const others = M.TIER_IDS.filter(id => id !== tier).map(id => {
+        try { return { id, p: M.panchangAtJd(jd, offset / 60, id, site) }; }
+        catch (e) { if (LT.isRefusal(e)) return { id, refused: e }; throw e; }
+      });
+      const cmpRow = $('tierCompareRow');
+      if (cmpRow) {
+        cmpRow.hidden = false;
+        setText('tierCompareValues', others.map(o => o.refused
+          ? `${LT.short(o.id)}: इस क्षण अस्वीकृत (${M.TIERS.drik.span.years[0]}–${M.TIERS.drik.span.years[1]} के बाहर)`
+          : `${LT.short(o.id)}: तिथि ${o.p.paksha} ${o.p.tithiName} · नक्षत्र ${nakClean(o.p.nakshatraName)} · योग ${o.p.yogaName} · करण ${o.p.karanaName}`).join(' ‖ '));
+      }
+      // पथ-भेद सेतु-पंक्ति (§A4) — shown only when another tier's limbs straddle a boundary; Δ is the live Moon offset
+      const pbRow = $('pathBhedRow');
+      if (pbRow) {
+        const msgs = [];
+        for (const o of others) {
+          if (o.refused) continue;
+          const dMoonMin = Math.abs(((((o.p.chandra - s.chandra) % 360) + 540) % 360 - 180) * 60).toFixed(1);
+          if (o.p.tithiIndex !== s.tithiIndex) msgs.push(`तिथि — ${LT.short(tier)}: ${s.paksha} ${s.tithiName} · ${LT.short(o.id)}: ${o.p.paksha} ${o.p.tithiName} (चन्द्र-स्फुट में ~${dMoonMin}′ अन्तर)`);
+          else if (o.p.nakshatraIndex !== s.nakshatraIndex) msgs.push(`नक्षत्र — ${LT.short(tier)}: ${s.nakshatraName} · ${LT.short(o.id)}: ${nakClean(o.p.nakshatraName)} (चन्द्र-स्फुट में ~${dMoonMin}′ अन्तर)`);
+        }
+        pbRow.hidden = !msgs.length;
+        if (msgs.length) pbRow.textContent = `आज पथ-भेद: ${msgs.join(' ‖ ')}`;
+      }
+      const masa = { name: s.sauraMasaName, index: s.sauraMasaIndex };
+      const lunarMasa = s.masaName ? `${s.masaName}${s.masa && s.masa.kshaya ? ' (क्षय)' : ''}` : (s.masa && s.masa.refused ? 'अस्वीकृत (EDGE RULE)' : '—');
+
       state.panchang = s;
       state.masa = masa;
       state.extended = ext;
       state.domUpdates += 1;
 
       // Primary header & digital clock
-      setText('clockDigital', `${civil.time} ${zone}`);
       setText('clockSub', `${civil.date} · ${s.varaName} · ${s.nakshatraName} नक्षत्र (${s.nakshatraPada} चरण) · ${temple.nameSa}`);
-      setText('frameOffset', zone);
-      setText('summaryBoundary', `${zone} civil midnight`);
       setText('s-tithi', `${s.paksha} ${s.tithiName}`);
       setText('s-nakshatra', `${s.nakshatraIndex + 1} · ${s.nakshatraName} (चरण ${s.nakshatraPada}) · ${s.nakshatraLord}`);
       setText('s-vara', s.varaName);
-      setText('s-masa', masa.name);
+      setText('s-masa', `${lunarMasa} · सौर ${masa.name}`);
       setText('s-yoga-karana', `${s.yogaName} · ${s.karanaName}`);
       setText('s-ayana-ritu', `${s.ayana} · ${s.rituName}`);
       setText('s-ghati', `${hiNum(s.ghati)} घटी · ${hiNum(s.vighati)} पल`);
@@ -1186,12 +1202,12 @@
       setText('m-tithi', `${s.paksha} ${s.tithiName} (${s.tithiIndex + 1}/३०)`);
       setText('m-nakshatra', `${s.nakshatraIndex + 1} · ${s.nakshatraName} · चरण ${s.nakshatraPada} · स्वामी ${s.nakshatraLord} (${s.nakshatraBhuktaPct}% भुक्त)`);
       setText('m-yoga', `${s.yogaIndex + 1} · ${s.yogaName}`);
-      setText('m-karana', `${s.karanaName} (${s.karanaType})`);
-      setText('m-masa', masa.name);
-      setText('m-vara', s.varaName);
-      setText('m-samvatsara', `संवत् ${s.vikramYear} (${s.samvatsaraName})`);
+      setText('m-karana', `${s.karanaName} (${s.karanaType}) · क्रम: ${s.karanaOrder}`);
+      setText('m-masa', `${lunarMasa} (अमान्त) · सौर ${masa.name}`);
+      setText('m-vara', `${s.varaName} (सूर्योदय से)${s.civilVaraName !== s.varaName ? ` · civil ${s.civilVaraName}` : ''}`);
+      setText('m-samvatsara', s.yearRefused ? `अस्वीकृत: ${s.yearRefused}` : `${s.samvatsaraName} · विक्रम ${s.vikramYear} · शक ${s.shakaYear} (${s.samvatsara.rule})`);
       setText('m-ayana-ritu', `${s.ayana} · ${s.rituName} (${s.rituEn})`);
-      setText('m-ahargana', Math.floor(s.ahargana).toLocaleString('en-IN'));
+      setText('m-ahargana', `${Math.floor(s.ahargana).toLocaleString('en-IN')} (${s.aharganaRule})`);
       setText('m-surya', `${s.surya.toFixed(4)}° · ${RASHI_SA[Math.floor(s.surya / 30) % 12]}`);
       setText('m-chandra', `${s.chandra.toFixed(4)}° · ${NAK[Math.floor(s.chandra / NAKW) % 27]} (चरण ${s.nakshatraPada})`);
       setText('m-lagna', `${s.lagna.toFixed(4)}° · ${s.lagnaRashiSa}`);
@@ -1208,14 +1224,16 @@
         });
       }
 
-      // Solar & Muhurta telemetry card
+      // Solar & Muhurta telemetry card — the tier's own day (sunrise to sunrise) and its rule
+      setText('solRule', `सूर्योदय-नियम (${LT.short(tier)}): ${s.solar && s.solar.rule ? s.solar.rule : M.TIERS[tier].sunrise}`);
       if (s.solar && !s.solar.isPolarNight && !s.solar.isMidnightSun) {
         setText('sol-rise', s.solar.riseTime || '—');
         setText('sol-set', s.solar.setTime || '—');
         setText('sol-noon', s.solar.noonTime || '—');
         setText('sol-dinamana', `${s.solar.dayDurationHours.toFixed(2)} घण्टा`);
         setText('sol-dinamana-ghati', `${s.solar.dayDurationGhati.toFixed(1)} घटी`);
-        setText('sol-ishta', `${hiNum(s.ishtaGhati)} घटी · ${hiNum(s.ishtaVighati)} पल`);
+        const ishtaEl = $('sol-ishta');
+        if (ishtaEl) { ishtaEl.textContent = s.ishta ? `${hiNum(s.ishta.ghati)} घटी · ${hiNum(s.ishta.pala)} पल` : '—'; ishtaEl.title = s.ishta ? s.ishta.unit : ''; }
         setText('sol-rahu', s.rahu ? s.rahu.windowText : '—');
         setText('sol-rahu-slot', s.rahu ? `${PRAHAR_ORD[s.rahu.slotNumber - 1] || hiNum(s.rahu.slotNumber)} प्रहर` : '—');
         setText('sol-abhijit', s.abhijit ? s.abhijit.windowText : '—');
@@ -1223,18 +1241,17 @@
         setText('sol-lagna-deg', `${s.lagna.toFixed(3)}° Nirayana`);
       }
 
-      // चन्द्रोदय — lunar rise/set/transit via ShunyaMath.lunarRiseSet (SIDDHA).
-      // Iterative hour-angle solver: recompute only when civil day / offset /
-      // temple anchor changes, not every ticking second.
+      // चन्द्रोदय — ShunyaMath.lunarRiseSet in the page's tier (text tiers: the Moon's centre on the horizon; dṛk: +7′).
+      // Recomputed only when the civil day, the anchor or the tier changes, not every ticking second.
       if (typeof M.lunarRiseSet === 'function' && $('lun-rise')) {
         const tzHours = offset / 60;
         const dayFrac = jd + 0.5 + tzHours / 24;
         const jdMidnight = Math.floor(dayFrac) - 0.5 - tzHours / 24;
-        const lunarKey = `${jdMidnight.toFixed(5)}|${temple.id}`;
+        const lunarKey = `${jdMidnight.toFixed(5)}|${temple.id}|${tier}`;
         if (state.lunarKey !== lunarKey) {
           state.lunarKey = lunarKey;
           try {
-            const lr = M.lunarRiseSet(jdMidnight, temple.lat, temple.lon, tzHours);
+            const lr = M.lunarRiseSet(jdMidnight, temple.lat, temple.lon, tzHours, tier);
             if (lr.circumpolar) {
               setText('lun-rise', 'सदोदित'); setText('lun-set', 'circumpolar');
             } else if (lr.neverRises) {
@@ -1245,25 +1262,32 @@
             }
             setText('lun-transit', lr.transitLocal || '—');
             setText('lun-horizon', `${lr.horizonAltitudeDeg > 0 ? '+' : ''}${(lr.horizonAltitudeDeg * 60).toFixed(0)}′ altitude of the Moon's centre (net horizon) · ${lr.seal || 'SIDDHA'}`);
+            setText('lun-rule', lr.rule || M.TIERS[tier].moonrise || '—');
           } catch (lunarError) {
             setText('lun-rise', '—'); setText('lun-set', '—'); setText('lun-transit', '—');
-            console.warn('lunarRiseSet failed:', lunarError);
+            setText('lun-rule', LT.isRefusal(lunarError) ? lunarError.message : '—');
+            if (!LT.isRefusal(lunarError)) console.warn('lunarRiseSet failed:', lunarError);
           }
         }
       }
       const sealInput = `${s.ahargana.toFixed(3)}|g${s.ghati}.${s.vighati}.${s.prana}|ti${s.tithiIndex}|na${s.nakshatraIndex}|ma${masa.index}|${s.surya.toFixed(4)}|${s.chandra.toFixed(4)}`;
       setText('seal-panini', M.paniniHash(sealInput));
-      setText('seal-katapayadi', M.katapayadiEncodeInteger(Math.floor(s.ahargana)));
+      setText('seal-katapayadi', katapayadiOfAhargana(s.ahargana));
 
-      renderMetadata(s, masa, s);
-      // Same ayanāṁśa frame as every other section of this page (spica_lahiri); 'effective_49' here
-      // produced a second lagna 3.35° away and housed the grahas in a different frame (audit 2026-09-20).
-      renderBhavas(M.bhavaModel(jd, temple.lat, temple.lon, 'spica_lahiri'));
-      state.minuteBucket = `${Math.floor(ms / 60000)}|${offset}|${masa.index}|${temple.id}`;
+      renderMetadata(s, { name: `${lunarMasa} · सौर ${masa.name}` }, s);
+      // The bhāvas are the same panchangExtended's (its bhavaModel(…, tier)): the lagna, the madhya-lagna and the grahas
+      // in the tier's one frame (AY-12).
+      const madhyas = Array(13);
+      ext.bhavas.forEach(item => { madhyas[item.no] = item.madhya; });
+      renderBhavas({ lagna: ext.lagna, lagnaRashi: ext.lagnaRashi, madhyas, bhavas: ext.bhavas, grahas: ext.grahas });
+      state.minuteBucket = `${Math.floor(ms / 60000)}|${offset}|${masa.index}|${temple.id}|${tier}`;
 
       state.lastSecond = Math.floor(ms / 1000);
-      setStatus(`Continuous Vedic state updated · Active Nakṣatra: ${s.nakshatraName} (चरण ${s.nakshatraPada})`);
+      setStatus(`Continuous Vedic state updated · ${LT.short(tier)} · Active Nakṣatra: ${s.nakshatraName} (चरण ${s.nakshatraPada})`);
     } catch (error) {
+      // no value of an earlier instant stays on the page beside the error
+      state.panchang = null; state.extended = null; state.masa = null;
+      clearValues();
       setStatus(`Continuous update failed: ${error.message}`, true);
     }
   }
@@ -1314,7 +1338,7 @@
 
   function drawCanvas() {
     const s = state.panchang;
-    if (!s || !state.css || !ctx) return;
+    if (!s || !state.masa || !state.css || !ctx) { if (ctx && state.css) { ctx.setTransform(state.dpr, 0, 0, state.dpr, 0, 0); ctx.clearRect(0, 0, state.css, state.css); } return; }
     const masa = state.masa;
     const R = state.css / 2;
     const C = { cyan: '#5FD3E8', gold: '#EAC97B', green: '#84D69A', soft: 'rgba(220,230,234,.55)', line: 'rgba(234,201,123,.24)' };
@@ -1400,6 +1424,15 @@
       updateText(ms, true);
     if (state.visible) drawCanvas();
     } catch (error) {
+      // the input failed: the page holds no instant, so it shows no values (none of the previous instant stay)
+      setMode('fixed');
+      if (state.animationRequest) cancelAnimationFrame(state.animationRequest);
+      state.animationRequest = 0;
+      state.panchang = null; state.extended = null; state.masa = null;
+      clearValues();
+      setText('clockDigital', '—');
+      if ($('tierCompareValues')) $('tierCompareValues').textContent = '—';
+      if (state.visible) drawCanvas();
       setStatus(`Calculation failed: ${error.message}`, true);
     }
   });
@@ -1416,31 +1449,43 @@
 
   // Sankalpa Modal Functions
   window.openSankalpaModal = function() {
-    const ext = state.extended || M.panchangExtended(state.instantMs / 86400000 + 2440587.5, state.temple.lat, state.temple.lon, state.offset / 60);
     const temple = state.temple;
-    
+    const tier = LT.current();
     $('cardTempleName').textContent = `${temple.nameSa} (${temple.name})`;
     $('cardGeodeticCoords').textContent = `Geodetic Anchor: ${temple.lat.toFixed(4)}° N, ${temple.lon.toFixed(4)}° E · ${temple.offset} · ${temple.river} पावनतट · मुख्य देवता: ${temple.deity}`;
-    
-    $('cardSamvat').textContent = `विक्रम संवत् ${ext.vikramYear} (‘${ext.samvatsaraName}’ नाम) · शके ${ext.shakaYear}`;
+    $('cardTier').textContent = `Bharat Ephemeris · गणना-तह: ${LT.name(tier)}`;
+    let ext = state.extended && state.extended.tier === tier ? state.extended : null;
+    try {
+      if (!ext) ext = M.panchangExtended(jdOfMs(state.instantMs), temple.lat, temple.lon, state.offset / 60, tier);
+    } catch (error) {
+      if (!LT.isRefusal(error)) throw error;
+      for (const id of ['cardSamvat', 'cardAyanaRitu', 'cardMasaPaksha', 'cardTithi', 'cardVaraNakshatra', 'cardYogaKarana', 'cardSunTimes', 'cardDinamana', 'cardRahu', 'cardAbhijit', 'cardSeal', 'cardKatapayadi']) $(id).textContent = '—';
+      $('sankalpaText').textContent = `${error.message}`;
+      $('sankalpaModal').classList.add('open');
+      return;
+    }
+    $('cardSamvat').textContent = ext.yearRefused ? `अस्वीकृत: ${ext.yearRefused}` : `विक्रम संवत् ${ext.vikramYear} (‘${ext.samvatsaraName}’ नाम) · शके ${ext.shakaYear}`;
     $('cardAyanaRitu').textContent = `${ext.ayana} · ${ext.rituName} (${ext.rituEn})`;
-    $('cardMasaPaksha').textContent = `सौर ${ext.sauraMasaName} मास · ${ext.paksha} पक्ष`;
+    $('cardMasaPaksha').textContent = `${ext.masaName || '—'} मास (अमान्त) · सौर ${ext.sauraMasaName} · ${ext.paksha} पक्ष`;
     $('cardTithi').textContent = `${ext.tithiName} (तिथि ${ext.tithiIndex + 1}/३०)`;
     $('cardVaraNakshatra').textContent = `${ext.varaName} · ${nakClean(ext.nakshatraName)} नक्षत्र`;
     $('cardYogaKarana').textContent = `${ext.yogaName} योग · ${ext.karanaName} करण (${ext.karanaType})`;
     $('cardSunTimes').textContent = `सूर्योदय ${ext.solar.riseTime || '—'} · सूर्यास्त ${ext.solar.setTime || '—'} · मध्याह्न ${ext.solar.noonTime || '—'}`;
-    $('cardDinamana').textContent = `${ext.solar.dayDurationGhati.toFixed(1)} घटी (${ext.solar.dayDurationHours.toFixed(2)} h) · इष्ट ${hiNum(ext.ishtaGhati)} घटी ${hiNum(ext.ishtaVighati)} पल`;
+    $('cardDinamana').textContent = ext.solar.dayDurationGhati ? `${ext.solar.dayDurationGhati.toFixed(1)} घटी (${ext.solar.dayDurationHours.toFixed(2)} h) · इष्ट ${hiNum(ext.ishtaGhati)} घटी ${hiNum(ext.ishtaVighati)} पल` : '—';
     $('cardRahu').textContent = ext.rahu ? ext.rahu.windowText : '—';
     $('cardAbhijit').textContent = ext.abhijit ? ext.abhijit.windowText : '—';
 
-    // Full Sanskrit Recitation Text
-    const text = M.generateSankalpaText(ext, temple);
-    $('sankalpaText').textContent = text;
+    // Full Sanskrit Recitation Text — every field required; a missing one is named (generateSankalpaText throws)
+    try {
+      $('sankalpaText').textContent = M.generateSankalpaText(ext, temple);
+    } catch (error) {
+      $('sankalpaText').textContent = `सङ्कल्प नहीं बना — ${error.message}`;
+    }
 
     // Seals
     const sealInput = `${ext.ahargana.toFixed(3)}|g${ext.ghati}.${ext.vighati}|ti${ext.tithiIndex}|na${ext.nakshatraIndex}|ma${ext.sauraMasaIndex}`;
     $('cardSeal').textContent = M.paniniHash(sealInput);
-    $('cardKatapayadi').textContent = M.katapayadiEncodeInteger(Math.floor(ext.ahargana));
+    $('cardKatapayadi').textContent = katapayadiOfAhargana(ext.ahargana);
 
     $('sankalpaModal').classList.add('open');
   };
@@ -1471,6 +1516,7 @@
     return `🕉 आज का पञ्चाङ्ग · ${s.varaName} ${civil.date}\n` +
       `तिथि: ${s.paksha} ${s.tithiName} · नक्षत्र: ${nakClean(s.nakshatraName)} (चरण ${s.nakshatraPada})\n` +
       `योग: ${s.yogaName} · घटी ${hiNum(s.ghati)}/६०\n` +
+      `गणना-तह: ${M.TIERS[s.tier].labelSa}\n` +
       `— हर अंक आपके phone में computed, बिना इंटरनेट\noffline.bharatephemeris.com`;
   }
 
@@ -1570,36 +1616,55 @@ ${limbHtml}
     });
   }
 
-  // Batch Exporter — every value computed via ShunyaMath at export time
+  // Batch Exporter — every value computed via ShunyaMath at export time, in the page's tier; every row names its tier
   window.exportBatchPanchang = function(days, format) {
     const statusEl = $('exportStatus');
     const temple = state.temple;
+    const tier = LT.current(), T = M.TIERS[tier];
     if (statusEl) {
       statusEl.style.display = 'block';
-      statusEl.textContent = `⏳ Computing ${days}-day ephemeris for ${temple.name}...`;
+      statusEl.textContent = `⏳ Computing ${days}-day ephemeris for ${temple.name} · ${T.label}...`;
     }
 
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
         const ms = state.instantMs || Date.now();
         const tzHours = state.offset / 60;
-        const startJd = ms / 86400000 + 2440587.5;
+        const startJd = jdOfMs(ms);
         const records = [];
+        let refused = null;
 
         for (let i = 0; i < days; i++) {
+          // the dṛk tier costs tens of ms a day: yield to the page every 20 rows and say how far it has got
+          if (i && i % 20 === 0) {
+            if (statusEl) statusEl.textContent = `⏳ ${i.toLocaleString('en-IN')} / ${days.toLocaleString('en-IN')} दिन · ${T.label}...`;
+            await new Promise(resolve => setTimeout(resolve, 0));
+          }
           const currentJd = startJd + i;
-          const p = M.panchangExtended(currentJd, temple.lat, temple.lon, tzHours);
-          records.push(p);
+          try {
+            records.push(M.panchangExtended(currentJd, temple.lat, temple.lon, tzHours, tier));
+          } catch (error) {
+            if (!LT.isRefusal(error)) throw error;
+            refused = error;          // the dṛk tier stops at its span edge; nothing is filled in from elsewhere
+            break;
+          }
         }
+        if (!records.length) throw refused || new Error('no rows');
+        const ayanamshaOf = (r) => { try { return M.tierAyanamsha(r.jd, tier).deg; } catch (e) { return null; } };
 
-        const fileNameBase = `Bharat_Ephemeris_${temple.id}_${days}Day_${records[0].isoDate}`;
+        const fileNameBase = `Bharat_Ephemeris_${temple.id}_${tier.replace(/[^a-z]+/g, '-')}_${records.length}Day_${records[0].isoDate}`;
 
         if (format === 'csv') {
-          let csv = "Date,DayOfWeek,TithiIndex,TithiName,Paksha,NakshatraIndex,NakshatraName,YogaName,KaranaName,SauraMasa,VikramSamvat,SamvatsaraName,Ayana,Ritu,SuryaSphutaDeg,ChandraSphutaDeg,LagnaRashi,SunriseTime,SunsetTime,SolarNoonTime,DayDurationGhati,RahuKaal,AbhijitMuhurta,PaniniSeal\n";
+          const head = [`# Bharat Ephemeris · tier ${tier} — ${T.label} · engine: ${T.engine}`, `# ayanamsha: ${T.ayanamsha.name} (${T.ayanamsha.source})`,
+            `# sunrise: ${T.sunrise} · day: ${T.dayBoundary} · karana order: ${T.karanaOrder} · month: ${T.month} · samvatsara: ${T.samvatsara}`,
+            `# Date = local civil date at ${temple.offset}; DayOfWeek = the vara from sunrise; CivilDayOfWeek = the civil date's weekday`];
+          if (refused) head.push(`# stopped after ${records.length} rows: ${refused.message}`);
+          let csv = head.join('\n') + '\n' + "Tier,Date,DayOfWeek,CivilDayOfWeek,TithiIndex,TithiName,Paksha,NakshatraIndex,NakshatraName,YogaName,KaranaName,AmantaMasa,SauraMasa,VikramSamvat,SamvatsaraName,Ayana,Ritu,SuryaSphutaDeg,ChandraSphutaDeg,AyanamshaDeg,LagnaRashi,SunriseTime,SunsetTime,SolarNoonTime,DayDurationGhati,RahuKaal,AbhijitMuhurta,PaniniSeal\n";
           for (const r of records) {
             const sealInput = `${r.ahargana.toFixed(3)}|g${r.ghati}.${r.vighati}|ti${r.tithiIndex}|na${r.nakshatraIndex}|ma${r.sauraMasaIndex}`;
             const seal = M.paniniHash(sealInput);
-            csv += `"${r.isoDate}","${r.varaName}",${r.tithiIndex + 1},"${r.tithiName}","${r.paksha}",${r.nakshatraIndex + 1},"${r.nakshatraName}","${r.yogaName}","${r.karanaName}","${r.sauraMasaName}",${r.vikramYear},"${r.samvatsaraName}","${r.ayana}","${r.rituName}",${r.surya.toFixed(4)},${r.chandra.toFixed(4)},"${r.lagnaRashiSa}","${r.solar.riseTime || '—'}","${r.solar.setTime || '—'}","${r.solar.noonTime || '—'}",${r.solar.dayDurationGhati ? r.solar.dayDurationGhati.toFixed(2) : '—'},"${r.rahu ? r.rahu.windowText : '—'}","${r.abhijit ? r.abhijit.windowText : '—'}","${seal}"\n`;
+            const ay = ayanamshaOf(r);
+            csv += `"${r.tier}","${r.isoDate}","${r.varaName}","${r.civilVaraName}",${r.tithiIndex + 1},"${r.tithiName}","${r.paksha}",${r.nakshatraIndex + 1},"${r.nakshatraName}","${r.yogaName}","${r.karanaName}","${r.masaName || '—'}","${r.sauraMasaName}",${r.vikramYear == null ? '' : r.vikramYear},"${r.samvatsaraName || '—'}","${r.ayana}","${r.rituName}",${r.surya.toFixed(4)},${r.chandra.toFixed(4)},${ay === null ? '' : ay.toFixed(6)},"${r.lagnaRashiSa}","${r.solar.riseTime || '—'}","${r.solar.setTime || '—'}","${r.solar.noonTime || '—'}",${r.solar.dayDurationGhati ? r.solar.dayDurationGhati.toFixed(2) : '—'},"${r.rahu ? r.rahu.windowText : '—'}","${r.abhijit ? r.abhijit.windowText : '—'}","${seal}"\n`;
           }
           const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
           const url = URL.createObjectURL(blob);
@@ -1622,27 +1687,40 @@ ${limbHtml}
               kshetra_description: temple.kshetra,
               sacred_river: temple.river
             },
-            calculation_engine: "Surya Siddhanta Canonical Sphuta (Four-Fold Manda/Shighra Correction)",
-            ayanamsa: "Effective 49.2 arcsec/year (Aryabhata Anchor)",
-            range_days: days,
+            tier: tier,
+            tier_label: T.label,
+            calculation_engine: T.engine,
+            ayanamsa: `${T.ayanamsha.name} — ${T.ayanamsha.source}`,
+            rules: { sunrise: T.sunrise, day_boundary: T.dayBoundary, karana_order: T.karanaOrder, month: T.month, year_start: T.yearStart, samvatsara: T.samvatsara, ahargana: T.ahargana },
+            span: T.span,
+            provenance: T.provenance,
+            stopped: refused ? `stopped after ${records.length} rows: ${refused.message}` : null,
+            range_days: records.length,
             start_date: records[0].isoDate,
             end_date: records[records.length - 1].isoDate,
             generated_at: new Date().toISOString(),
             dataset: records.map(r => ({
+              tier: r.tier,
               date: r.isoDate,
               weekday: r.varaName,
+              weekday_rule: r.varaRule,
+              civil_weekday: r.civilVaraName,
               tithi: { index: r.tithiIndex + 1, name: r.tithiName, paksha: r.paksha },
               nakshatra: { index: r.nakshatraIndex + 1, name: r.nakshatraName },
               yoga: { index: r.yogaIndex + 1, name: r.yogaName },
               karana: { index: r.karanaIndex + 1, name: r.karanaName, type: r.karanaType },
+              masa: r.masa,
               saura_masa: { index: r.sauraMasaIndex + 1, name: r.sauraMasaName },
-              samvatsara: { vikram_samvat: r.vikramYear, name: r.samvatsaraName, shaka_samvat: r.shakaYear },
+              samvatsara: { vikram_samvat: r.vikramYear, name: r.samvatsaraName, shaka_samvat: r.shakaYear, refused: r.yearRefused || null },
               ayana: r.ayana,
               ritu: { name_sanskrit: r.rituName, name_english: r.rituEn },
               solar_longitude_deg: Number(r.surya.toFixed(4)),
               lunar_longitude_deg: Number(r.chandra.toFixed(4)),
+              ayanamsha_deg: ayanamshaOf(r),
+              ahargana: Math.floor(r.ahargana),
               lagna: { rashi: r.lagnaRashiSa, degrees: Number(r.lagna.toFixed(4)) },
               solar_timings: {
+                rule: r.solar.rule,
                 sunrise: r.solar.riseTime,
                 sunset: r.solar.setTime,
                 solar_noon: r.solar.noonTime,
@@ -1666,7 +1744,9 @@ ${limbHtml}
         }
 
         if (statusEl) {
-          statusEl.textContent = `✅ ${days}-दिन ${format.toUpperCase()} dataset तैयार (${temple.name}) — अपने पण्डित/पञ्चाङ्ग-प्रकाशक को forward करें · संस्था-अनुरोध: api@bharatephemeris.com`;
+          statusEl.textContent = refused
+            ? `⚠ ${records.length} of ${days} दिन (${T.labelSa}) — फिर अस्वीकृत: ${refused.message}`
+            : `✅ ${days}-दिन ${format.toUpperCase()} dataset तैयार (${temple.name} · ${T.labelSa}) — अपने पण्डित/पञ्चाङ्ग-प्रकाशक को forward करें · संस्था-अनुरोध: api@bharatephemeris.com`;
           setTimeout(() => { statusEl.style.display = 'none'; }, 9000);
         }
       } catch (err) {
@@ -1675,9 +1755,10 @@ ${limbHtml}
     }, 50);
   };
 
-  // Deep-time exporter — N rows of ShunyaMath.deepTimeRow (100-day stride).
-  // Honesty note is baked into the CSV header: mean-only linear extrapolation,
-  // NOT observed sky. Chunked string building, UI cap 100,000 rows.
+  // Deep-time exporter — N rows of ShunyaMath.deepTimeRow: the plain Sūrya-Siddhānta's mean Sun and Moon (tier 'ss', no
+  // manda/śīghra, no saṃskāra), from the selected instant's ahargaṇa (civil days since Laṅkā midnight, SS 1.45-1.47),
+  // a stride of 1…36,525 days, forward or backward. UI cap 100,000 rows; the rows stop at the text tier's tested span
+  // (−50,000-01-01 … +50,000-12-31, M.TIERS.ss.span) and the file says where. Chunked string building.
   window.exportDeepTimeCSV = function() {
     const statusEl = $('exportStatus');
     const input = $('deepTimeRows');
@@ -1685,38 +1766,48 @@ ${limbHtml}
     if (!Number.isFinite(rows) || rows < 1) rows = 4320;
     if (rows > 100000) rows = 100000;
     if (input) input.value = rows;
+    let step = Math.floor(Number($('deepTimeStride') && $('deepTimeStride').value));
+    if (!Number.isFinite(step) || step < 1) step = 100;
+    if (step > 36525) step = 36525;
+    if ($('deepTimeStride')) $('deepTimeStride').value = step;
+    const dir = $('deepTimeDirection') && $('deepTimeDirection').value === '-1' ? -1 : 1;
     if (statusEl) {
       statusEl.style.display = 'block';
-      statusEl.textContent = `⏳ Computing ${rows.toLocaleString('en-IN')} mean-model rows (100-day stride) via ShunyaMath.deepTimeRow...`;
+      statusEl.textContent = `⏳ Computing ${rows.toLocaleString('en-IN')} mean-model rows (${step}-day stride) via ShunyaMath.deepTimeRow...`;
     }
     setTimeout(() => {
       try {
-        if (typeof M.deepTimeRow !== 'function') throw new Error('deepTimeRow unavailable in ShunyaMath');
-        const startAhargana = state.panchang
-          ? Math.floor(state.panchang.ahargana)
-          : Math.floor((Date.now() / 86400000 + 2440587.5) - M.KALI_EPOCH_JD);
-        const step = 100; // days per row
+        if (typeof M.deepTimeRow !== 'function' || typeof M.ssDaysOfJd !== 'function') throw new Error('deepTimeRow / ssDaysOfJd unavailable in ShunyaMath');
+        const span = M.TIERS.ss.span.years;
+        const lo = Math.ceil(M.ssDaysOfJd(M.civilToJd({ calendar: 'gregorian', year: span[0], month: 1, day: 1 }, '00:00:00', 0)));
+        const hi = Math.floor(M.ssDaysOfJd(M.civilToJd({ calendar: 'gregorian', year: span[1], month: 12, day: 31 }, '00:00:00', 0)));
+        const startAhargana = Math.floor(M.ssDaysOfJd(jdOfMs(state.instantMs || Date.now())));
         const chunks = [
-          '# Bharat Ephemeris deep-time kala-ganana — mean-only linear extrapolation (no manda/sighra) — not observed sky (SIDDHA)\n',
-          `# start ahargana ${startAhargana} · ${rows} rows × ${step}-day stride · engine ShunyaMath.deepTimeRow\n`,
+          `# Bharat Ephemeris deep-time kala-ganana — tier ss (${M.TIERS.ss.label}): mean places only, linear (no manda/sighra, no samskara) — not observed sky (SIDDHA)\n`,
+          `# ahargana = ${M.TIERS.ss.ahargana}\n`,
+          `# start ahargana ${startAhargana} · ${rows} rows requested × ${step}-day stride, ${dir > 0 ? 'forward' : 'backward'} · engine ShunyaMath.deepTimeRow · tested span ${span[0]}..${span[1]} (${M.TIERS.ss.span.basis}) = ahargana ${lo}..${hi}\n`,
           'Ahargana,KaliYear,MeanSunDeg,MeanMoonDeg,TithiIndex,NakshatraIndex,Model\n'
         ];
-        let buffer = [];
+        let buffer = [], written = 0, cut = false;
         for (let i = 0; i < rows; i++) {
-          const r = M.deepTimeRow(startAhargana + i * step);
+          const day = startAhargana + dir * i * step;
+          if (day < lo || day > hi) { cut = true; break; }
+          const r = M.deepTimeRow(day);
           buffer.push(`${r.ahargana},${r.kaliYear},${r.meanSun.toFixed(4)},${r.meanMoon.toFixed(4)},${r.tithiIndex},${r.nakshatraIndex},"${r.model}"`);
+          written += 1;
           if (buffer.length >= 2000) { chunks.push(buffer.join('\n') + '\n'); buffer = []; }
         }
         if (buffer.length) chunks.push(buffer.join('\n') + '\n');
+        if (cut) chunks.push(`# cut after ${written} rows: the next row would leave the text tier's tested span (${span[0]}..${span[1]})\n`);
         const blob = new Blob(chunks, { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `Bharat_Ephemeris_DeepTime_MeanModel_${rows}rows_${step}dStride_from_ahargana_${startAhargana}.csv`;
+        a.download = `Bharat_Ephemeris_DeepTime_ss_MeanModel_${written}rows_${step}dStride_${dir > 0 ? 'fwd' : 'back'}_from_ahargana_${startAhargana}.csv`;
         a.click();
         URL.revokeObjectURL(url);
         if (statusEl) {
-          statusEl.textContent = `✅ Exported ${rows.toLocaleString('en-IN')}-row deep-time mean-model CSV (${(blob.size / 1024).toFixed(0)} KB) — honesty header included.`;
+          statusEl.textContent = `✅ Exported ${written.toLocaleString('en-IN')}-row deep-time mean-model CSV (${(blob.size / 1024).toFixed(0)} KB)${cut ? ' — cut at the text tier’s tested span' : ''} — honesty header included.`;
           setTimeout(() => { statusEl.style.display = 'none'; }, 4000);
         }
       } catch (err) {
@@ -1742,6 +1833,14 @@ ${limbHtml}
     const fatalBox = $('fatalError');
     if (fatalBox) fatalBox.hidden = true;
     renderTemplePresets();
+    LT.mountSelect($('tierSelect'), () => { state.labelKey = null; state.lunarKey = null; updateText(state.instantMs, true); if (state.visible) drawCanvas(); });
+    $('calendarInput').value = state.calendar;
+    $('calendarInput').addEventListener('change', () => {
+      // re-show the same instant in the other calendar (the date text changes, the instant does not)
+      state.calendar = $('calendarInput').value === 'julian' ? 'julian' : 'gregorian';
+      updateLiveInputs(state.instantMs);
+      updateText(state.instantMs, true);
+    });
     wireShareRow();
     demoteMinimizePills();
     sizeCanvas();
@@ -1762,7 +1861,7 @@ ${limbHtml}
       if (!badge) return;
       try {
         const checkJd = state.instantMs / 86400000 + 2440587.5;
-        const run = () => JSON.stringify(M.panchangExtended(checkJd, state.temple.lat, state.temple.lon, state.offset / 60));
+        const run = () => JSON.stringify(M.panchangExtended(checkJd, state.temple.lat, state.temple.lon, state.offset / 60, LT.current()));
         if (run() === run()) {
           badge.textContent = 'Deterministic Local Compute · verified';
         } else {
@@ -1771,7 +1870,7 @@ ${limbHtml}
           badge.style.borderColor = 'var(--red)';
         }
       } catch (error) {
-        console.warn('Determinism self-check could not run:', error);
+        if (!LT.isRefusal(error)) console.warn('Determinism self-check could not run:', error);
       }
     })();
     state.intersecting = true;
@@ -1783,8 +1882,9 @@ ${limbHtml}
         try {
           const offset = offsetMinutes($('offsetInput').value);
           const jd = Date.now() / 86400000 + 2440587.5;
-          const ext = M.panchangExtended(jd, state.temple.lat, state.temple.lon, offset / 60);
+          const ext = M.panchangExtended(jd, state.temple.lat, state.temple.lon, offset / 60, LT.current());
           state.panchang = ext;
+          state.masa = { name: ext.sauraMasaName, index: ext.sauraMasaIndex };
           drawCanvas();
         } catch(e) {}
       }

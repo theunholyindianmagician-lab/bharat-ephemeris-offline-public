@@ -2,13 +2,22 @@
 
 const assert = require("node:assert/strict");
 const M = require("./math-core.js");
+const S = require("./sphuta.js");
+const P = require("./panchanga.js");
 
+// Every test runs and every failure is named (2026-10-08: a failure no longer hides the tests after it); the exit code
+// is non-zero when any test fails.
 let passed = 0;
+const failed = [];
 function test(name, fn) {
-  fn();
+  try { fn(); } catch (e) { failed.push(name); console.log(`✗ ${name}\n  ${String(e && e.stack || e).split("\n").slice(0, 4).join("\n  ")}`); return; }
   passed += 1;
   console.log(`✓ ${name}`);
 }
+// The text tier's own day count (SS 1.45-1.47: civil days from midnight at Laṅkā; ss-tier.js daysOfJd), for checks
+// made directly against the sovereign modules.
+const textDays = (jd) => (jd - 588465.5) + 75.7885 / 360;
+const UJJAIN_TEXT_SITE = { latitude: 23.1765, deshantara: 0 };
 
 function angularDifference(a, b) {
   let difference = M.mod360(a - b);
@@ -129,7 +138,8 @@ test("canonical model is sphuta plus bīja for exactly the intended bodies", () 
 
 test("graha-model option contracts reject silently ignored positional arguments", () => {
   const jd = 2461269.4375;
-  assert.throws(() => M.sphutaGrahaModel(jd, "effective_49", { applyBija: false }), /Unknown engine mode/);
+  // a named ayanāṃśa is not a tier (2026-10-08): the rejection names the three tiers
+  assert.throws(() => M.sphutaGrahaModel(jd, "effective_49", { applyBija: false }), /Unknown engine mode 'effective_49': the tiers are 'ss\+parameshvara', 'ss' and 'drik'/);
   assert.throws(() => M.canonicalGrahaModel(jd, { applyBija: "false" }), /expected a boolean or/);
   const plainBoolean = M.canonicalGrahaModel(jd, false);
   const plainObject = M.canonicalGrahaModel(jd, { applyBija: false });
@@ -137,12 +147,19 @@ test("graha-model option contracts reject silently ignored positional arguments"
   assert.ok(plainBoolean.every((row) => row.bija === 0));
 });
 
-test("lunar three-term correction is labeled as a modern composite", () => {
-  const moon = M.ssSphutaAt("chandra", 0);
-  assert.equal(moon.lunarInequalities.model, "modern-three-term");
-  assert.equal(moon.lunarInequalities.total, moon.paksika);
-  assert.equal(moon.lunarInequalities.total,
-    moon.lunarInequalities.evection + moon.lunarInequalities.variation + moon.lunarInequalities.annualEquation);
+// Re-derived 2026-10-08 (D2/D3): the modern three-term lunar composite is gone (not moved); the text tier's Moon is the
+// Sūrya-Siddhānta's, one manda equation (SS 2.39-2.43), equal to sphuta.js at the text's own day count.
+test("the text Moon equals Sphuta's: one manda equation, no modern lunar terms", () => {
+  for (const t of [0, -1863079.5, 9586.25, 123456.7]) {
+    const moon = M.ssSphutaAt("chandra", t);
+    assert.equal(moon.lunarInequalities, null);
+    assert.equal(moon.paksika, 0);
+    assert.match(moon.lunarModel, /one manda equation/);
+    const p = S.sphutaAtDays(textDays(t + M.SS.j2000JD));
+    assert.equal(moon.sphuta, p.moon, `t = ${t}`);
+    assert.equal(moon.mandaSphuta, p.moon);
+    assert.equal(moon.manda.correction, p.equations.moon.degrees);
+  }
 });
 
 test("canonical model contract holds across epochs and preserves node parity", () => {
@@ -247,7 +264,8 @@ test("bhāva madhyas are anchored on lagna, MC, IC and DSC", () => {
 });
 
 test("bhāva sandhis tile the zodiac and every madhya owns its house", () => {
-  const model = M.bhavaModel(2451545.0, 28.6139, 77.209, "effective_49");
+  // re-derived 2026-10-08: bridges take a tier, not a named ayanāṃśa (was "effective_49"); invariants unchanged
+  const model = M.bhavaModel(2451545.0, 28.6139, 77.209, "ss");
   let total = 0;
   for (let n = 1; n <= 12; n++) total += M.mod360(model.sandhis[n + 1] - model.sandhis[n]);
   assert.ok(Math.abs(total - 360) < 1e-9);
@@ -271,7 +289,7 @@ test("bhāva sandhis tile the zodiac and every madhya owns its house", () => {
 });
 
 test("whole-sign bhāva agrees with the cusp bhāva for this sample instant", () => {
-  const model = M.bhavaModel(2451545.0, 28.6139, 77.209, "effective_49");
+  const model = M.bhavaModel(2451545.0, 28.6139, 77.209, "ss");                   // was "effective_49" (2026-10-08)
   for (const g of model.grahas) {
     const wholeSign = model.bhavas[g.wholeSignBhava - 1];
     const cusp = model.bhavas[g.bhava - 1];
@@ -280,6 +298,22 @@ test("whole-sign bhāva agrees with the cusp bhāva for this sample instant", ()
   }
   assert.equal(M.BHAVA_KARAKA[6].iast, "Kalatra");
   assert.equal(M.BHAVA_SA[0], "प्रथम");
+});
+
+test("bridges (lagna, bhāva, frame offset, sunrise, Sun, Moon) take a tier and reject a named ayanāṃśa (2026-10-08)", () => {
+  const jd = 2451545.0;
+  for (const name of ["effective_49", "spica_lahiri", "linear_54"]) {
+    const re = new RegExp(`bridges take a tier: ss\\+parameshvara, ss or drik \\(not the named ayanāṃśa '${name}'\\)`);
+    assert.throws(() => M.bhavaModel(jd, 28.6139, 77.209, name), re);
+    assert.throws(() => M.siderealAscendantDeg(jd, 28.6139, 77.209, name), re);
+    assert.throws(() => M.coordinateFrameOffsetDeg(jd, name), re);
+    assert.throws(() => M.solarRiseSet(jd, 28.6139, 77.209, 5.5, name), re);
+    assert.throws(() => M.getSolarCoordinates(jd, name), re);
+    assert.throws(() => M.getLunarCoordinates(jd, name), re);
+    assert.throws(() => M.computeUpagrahas(118.5, jd, 23.1765, 75.7885, 5.5, name), re);
+    // the named hypotheses stay readable by name, for labelled comparison rows only
+    assert.ok(Number.isFinite(M.ayanamshaDeg(jd, name)));
+  }
 });
 
 test("whole-sign occupant metadata is independent of repeated high-latitude cusp signs", () => {
@@ -333,9 +367,12 @@ test("bhāva reliability changes at the polar-circle threshold in both hemispher
 test("panchangAtJd vara is the true IST weekday (regression: +6 shift bug)", () => {
   // 2026-08-09 12:00 IST was a Sunday (रविवार). The old inline panchang port
   // used VARA[(getDay()+6)%7] + local-time getDay, which showed शनिवार here.
+  // (2026-10-08: varaName is the sunrise vāra at the site; at noon it equals the civil weekday.)
   const p1 = M.panchangAtJd(M.gregorianToJulianDay("2026-08-09", "12:00:00", 5.5), 5.5);
   assert.equal(p1.varaName, "रविवार");
   assert.equal(p1.varaIndex, 0);
+  assert.equal(p1.civilVaraName, "रविवार");
+  assert.equal(p1.civilVaraIndex, 0);
   assert.equal(
     M.panchangAtJd(M.gregorianToJulianDay("2026-08-10", "12:00:00", 5.5), 5.5).varaName,
     "सोमवार",
@@ -351,19 +388,40 @@ test("panchangAtJd vara is the true IST weekday (regression: +6 shift bug)", () 
   assert.ok(M.mod360(p1.chandra - p1.surya) === p1.lunar);
 });
 
+// 2026-10-08 (D3): the civil-date weekday moved to civilVaraIndex/civilVaraName with identical expectations; varaName is
+// now the sunrise vāra (SS 14.18, 1.36) at the site, tested below.
 test("panchang civil vara follows timezone-local date, not UTC date", () => {
   const jd = M.gregorianToJulianDay("2026-08-09", "20:00:00", 0);
-  assert.equal(M.panchangAtJd(jd, 0).varaName, "रविवार");
-  assert.equal(M.panchangAtJd(jd, 5.5).varaName, "सोमवार");
+  assert.equal(M.panchangAtJd(jd, 0).civilVaraName, "रविवार");
+  assert.equal(M.panchangAtJd(jd, 5.5).civilVaraName, "सोमवार");
 });
 
 test("panchang civil vara advances only at local midnight across timezone extremes", () => {
   for (const timezone of [-14, -5.5, 0, 5.5, 14]) {
     const beforeMidnight = M.gregorianToJulianDay("2026-08-09", "23:59:59", timezone);
     const midnight = M.gregorianToJulianDay("2026-08-10", "00:00:00", timezone);
-    assert.equal(M.panchangAtJd(beforeMidnight, timezone).varaName, "रविवार");
-    assert.equal(M.panchangAtJd(midnight, timezone).varaName, "सोमवार");
+    assert.equal(M.panchangAtJd(beforeMidnight, timezone).civilVaraName, "रविवार");
+    assert.equal(M.panchangAtJd(midnight, timezone).civilVaraName, "सोमवार");
   }
+});
+
+test("the sunrise vāra (SS 14.18, 1.36): the day runs from sunrise to sunrise at the site, and is Panchanga.civilDayOf's", () => {
+  // 2026-08-10, Ujjain: the text's sunrise (the Sun's centre, no refraction) is at 06:04 IST [measured]; at 05:00 IST
+  // the civil date is Monday but the vāra is still Sunday's.
+  const site = { latitude: 23.1765, longitude: 75.7885 };
+  const before = M.panchangAtJd(M.gregorianToJulianDay("2026-08-10", "05:00:00", 5.5), 5.5, "ss", site);
+  const after = M.panchangAtJd(M.gregorianToJulianDay("2026-08-10", "07:00:00", 5.5), 5.5, "ss", site);
+  assert.equal(before.civilVaraName, "सोमवार");
+  assert.equal(before.varaName, "रविवार");
+  assert.equal(after.varaName, "सोमवार");
+  assert.equal(before.siteDefaulted, false);
+  for (const p of [before, after]) {
+    const d = P.civilDayOf(textDays(p.jd), UJJAIN_TEXT_SITE);
+    assert.equal(p.varaIndex, d.vara.index);
+    assert.equal(p.day.N, d.N);
+  }
+  // no site given → Ujjain, and the result says so
+  assert.equal(M.panchangAtJd(after.jd, 5.5).siteDefaulted, true);
 });
 
 test("panchang exact civil-time boundaries quantize to integer vipala ticks", () => {
@@ -404,18 +462,30 @@ test("panchang vipala clock never rolls into the next civil day early", () => {
     [justBefore.ghati, justBefore.vighati, justBefore.prana, justBefore.vipala],
     [59, 59, 5, 9],
   );
-  assert.equal(justBefore.varaName, "रविवार");
+  assert.equal(justBefore.civilVaraName, "रविवार");                              // civil weekday (2026-10-08)
   assert.deepEqual(
     [atMidnight.ghati, atMidnight.vighati, atMidnight.prana, atMidnight.vipala],
     [0, 0, 0, 0],
   );
-  assert.equal(atMidnight.varaName, "सोमवार");
+  assert.equal(atMidnight.civilVaraName, "सोमवार");
+  assert.equal(atMidnight.varaName, "रविवार", "before sunrise the vāra is still Sunday's");
+  assert.equal(atMidnight.clock, "civil clock from local midnight");
 });
 
-test("panchang exposes explicit saura masa with documented compatibility aliases", () => {
+// Re-derived 2026-10-08 (D3): masaName is the amānta lunar month (with adhika/kṣaya, Panchanga.lunarMonth), no longer an
+// alias of the saura month; the saura month is named by its rāśi.
+test("panchang names the amānta lunar month and, separately, the saura month by its rāśi", () => {
   const p = M.panchangAtJd(2461262.7694, 5.5);
-  assert.equal(p.masaIndex, p.sauraMasaIndex);
-  assert.equal(p.masaName, p.sauraMasaName);
+  const m = P.lunarMonth(textDays(2461262.7694));
+  assert.equal(p.masa.name, m.name);
+  assert.equal(p.masa.adhika, m.adhika);
+  assert.equal(p.masa.scheme, "amānta");
+  assert.equal(p.masa.name, "Āṣāḍha");                       // measured 2026-10-08: the amānta Āṣāḍha (new moon 2026-08-12 ahead)
+  assert.equal(p.masaName, "आषाढ़");
+  assert.equal(p.masaIndex, M.LUNAR_MASA_SA.indexOf("आषाढ़"));
+  assert.equal(p.sauraMasaIndex, Math.floor(p.surya / 30));
+  assert.equal(p.sauraMasaName, M.RASHI_SA[p.sauraMasaIndex]);
+  assert.equal(p.sauraMasaName, "कर्क");
 });
 
 test("public calculations reject unknown grahas and non-finite inputs", () => {
@@ -435,18 +505,52 @@ test("public calculations reject unknown grahas and non-finite inputs", () => {
   assert.throws(() => M.ayanamshaDeg(2451545, "unknown"), /Unknown ayanāṃśa/);
 });
 
+test("dates: proleptic Gregorian/Julian by kala-dvara.js, astronomical years, signed ISO output, the zone honoured (2026-10-08, D4)", () => {
+  // years 0-99 and five-digit years are what they say (the old Date.UTC parser mapped 0050 to 1950)
+  assert.equal(M.gregorianToJulianDay("0050-03-01"), 1739381.5);                // JDN 1739382 by the Fliegel–Van Flandern formula
+  assert.equal(M.gregorianToJulianDay("-50000-01-01"), -16541065.5);            // the same formula, astronomical year −50000
+  assert.equal(M.gregorianToJulianDay("50000-12-31"), 19983549.5);
+  for (const d of ["0050-03-01", "-50000-01-01", "50000-12-31", "0000-02-29", "-0001-12-31"]) assert.equal(M.julianDayToIsoDate(M.gregorianToJulianDay(d)), d);
+  assert.throws(() => M.gregorianToJulianDay("0001-02-29"), /Invalid Gregorian date/);
+  assert.equal(M.julianDayToIsoDate(2461321.0), "2026-10-07");                   // 12:00 UT
+  assert.equal(M.julianDayToIsoDate(2461321.3, 5.5), "2026-10-08");             // 19:12 UT = 00:42 IST the next day
+  assert.equal(M.julianDayToIsoDate(2461321.3, 0), "2026-10-07");
+  assert.equal(M.julianDayToIsoDate(2461321.0, 0, "julian"), "2026-09-24");      // 13 days behind in this century
+  const c = M.jdToCivil(M.civilToJd({ calendar: "julian", year: -3101, month: 2, day: 18 }, "06:00:00", 5.5), 5.5, "julian");
+  assert.deepEqual([c.year, c.month, c.day, c.hour, c.minute, c.second], [-3101, 2, 18, 6, 0, 0]);
+  assert.equal(M.civilToJd({ calendar: "julian", year: -3101, month: 2, day: 18 }), M.KALI_EPOCH_JD, "the Kali epoch: 18 Feb 3102 BCE (Julian)");
+  assert.equal(M.BIJA_ANCHOR_JD, M.civilToJd({ calendar: "gregorian", year: 1800, month: 1, day: 1 }));
+  assert.equal(M.BIJA_ANCHOR_JD, 2378496.5);
+});
+
 test("panchangAtJd fixed-JD regression vector (2026-08-10 12:00 IST)", () => {
   // Pinned 2026-08-10 12:00 IST (JD 2461262.7694) against the shared engine.
   // Value-level == (not tolerance) so a real drift breaks loudly.
   // RE-PINNED under SANKALP BE-S09 (manda-sign fix): Swiss Ephemeris confirms
   // the real tithi that noon WAS त्रयोदशी (idx 27) — the old pin (द्वादशी 26)
   // had enshrined the inverted-manda output. Model now matches the sky here.
-  const p = M.panchangAtJd(M.gregorianToJulianDay("2026-08-10", "12:00:00", 5.5), 5.5);
+  // RE-DERIVED 2026-10-08 (D2/D3) from the sovereign modules at the text's day count: Panchanga.limbsAt gives tithi 28
+  // (kṛṣṇa trayodaśī, unchanged), nakṣatra 7, yoga 15, karaṇa 55 = Gara; the month is now the amānta Āṣāḍha
+  // (Panchanga.lunarMonth; the old "श्रावण" was the saura month's alias); varaName the sunrise vāra (Monday);
+  // ahargana the text's count (civil days from midnight at Laṅkā).
+  const jd = M.gregorianToJulianDay("2026-08-10", "12:00:00", 5.5);
+  const p = M.panchangAtJd(jd, 5.5);
+  const L = P.limbsAt(textDays(jd));
+  assert.deepEqual([L.tithi, L.nakshatra, L.yoga, L.karana], [28, 7, 15, 55]);
+  assert.equal(p.tithiIndex, L.tithi - 1);
+  assert.equal(p.nakshatraIndex, L.nakshatra - 1);
+  assert.equal(p.yogaIndex, L.yoga - 1);
+  assert.equal(P.karanaName(L.karana), "Gara");
+  assert.equal(p.karanaName, "गर");
   assert.equal(p.paksha, "कृष्ण");
   assert.equal(p.tithiName, "त्रयोदशी");
   assert.equal(p.tithiIndex, 27);
-  assert.equal(p.masaName, "श्रावण");
+  assert.equal(p.masaName, "आषाढ़");
+  assert.equal(p.masa.name, P.lunarMonth(textDays(jd)).name);
   assert.equal(p.varaName, "सोमवार");
+  assert.equal(p.ahargana, textDays(jd));
+  assert.equal(p.surya, L.sun);
+  assert.equal(p.chandra, L.moon);
   assert.equal(p.ghati, Math.floor(p.localSeconds / 1440));
   assert.equal(p.vighati, Math.floor((p.localSeconds % 1440) / 24));
   assert.equal(p.prana, Math.floor((p.localSeconds % 24) / 4));
@@ -454,7 +558,7 @@ test("panchangAtJd fixed-JD regression vector (2026-08-10 12:00 IST)", () => {
   assert.ok(p.vighati >= 0 && p.vighati < 60, `vighati out of range: ${p.vighati}`);
   assert.ok(p.prana >= 0 && p.prana < 6, `prana out of range: ${p.prana}`);
   // sun in Karka (115.5° ±) and moon near Ardra in Shravana 2026 → sanity band
-  assert.ok(p.surya > 112 && p.surya < 113.5, `surya ${p.surya}`); // BE-S09 re-pin (112.65)
+  assert.ok(p.surya > 112 && p.surya < 113.5, `surya ${p.surya}`); // BE-S09 re-pin (112.65); the text tier 112.851 (2026-10-08)
   assert.ok(p.chandra > 50 && p.chandra < 100, `chandra ${p.chandra}`);
   assert.ok(p.yogaIndex >= 0 && p.yogaIndex < 27, `yogaIndex ${p.yogaIndex}`);
   assert.ok(typeof p.yogaName === "string" && p.yogaName.length > 0, `yogaName ${p.yogaName}`);
@@ -544,17 +648,39 @@ test("TEMPLE_PRESETS includes 10 sacred anchors with valid geodetic coordinates"
   }
 });
 
-test("solarRiseSet computes high-precision sunrise and sunset for Ujjain", () => {
+// Re-measured 2026-10-08 per tier, each against its referee (not tuned): the text tier IS Panchanga.sunrise (the Sun's
+// centre on the horizon, no refraction: 06:04:17 IST, later than the refracted upper-limb sunrise by the text's
+// convention); the dṛk tier against Astronomy Engine's SearchRiseSet (the same convention: upper limb, 34′), measured
+// ≤ 2.24 s in the dṛk design's harness, asserted < 3 s.
+test("solarRiseSet: the text tier is Panchanga.sunrise at Ujjain", () => {
   const jdMidnight = M.gregorianToJulianDay("2026-08-14", "00:00:00", 5.5);
   const ujjain = M.TEMPLE_PRESETS.find((t) => t.id === "ujjain");
   const res = M.solarRiseSet(jdMidnight, ujjain.lat, ujjain.lon, 5.5);
-
   assert.equal(res.isPolarNight, false);
   assert.equal(res.isMidnightSun, false);
-  assert.ok(res.riseTime.startsWith("05:5"), `Sunrise time: ${res.riseTime}`);
+  const site = { latitude: ujjain.lat, deshantara: ujjain.lon - 75.7885 };
+  const N = P.civilDayOf(textDays(jdMidnight + 0.5), site).N;
+  const jdOfDays = (t) => (t - 75.7885 / 360) + 588465.5;                      // ss-tier.js jdOfDays
+  assert.equal(res.jdRise, jdOfDays(P.sunrise(N, site)));
+  assert.equal(res.jdSet, jdOfDays(P.sunset(N, site)));
+  assert.equal(res.riseTime, "06:04:17");
   assert.ok(res.setTime.startsWith("18:5"), `Sunset time: ${res.setTime}`);
   assert.ok(res.dayDurationHours > 12 && res.dayDurationHours < 14, `Day duration: ${res.dayDurationHours}`);
   assert.ok(res.dayDurationGhati > 30 && res.dayDurationGhati < 35, `Day duration in ghatis: ${res.dayDurationGhati}`);
+  assert.match(res.rule, /no refraction/);
+});
+
+test("solarRiseSet: the dṛk tier is within 3 s of Astronomy Engine's SearchRiseSet (referee, same convention)", () => {
+  const A = require("./drik-engine.js");
+  const jdMidnight = M.gregorianToJulianDay("2026-08-14", "00:00:00", 5.5);
+  const res = M.solarRiseSet(jdMidnight, 23.1765, 75.7885, 5.5, "drik");
+  const obs = new A.Observer(23.1765, 75.7885, 0);
+  const t0 = A.MakeTime(new Date((jdMidnight - 2440587.5) * 86400000));
+  const rise = A.SearchRiseSet(A.Body.Sun, obs, +1, t0, 1), set = A.SearchRiseSet(A.Body.Sun, obs, -1, t0, 1);
+  const jdOf = (t) => t.ut + 2451545.0;
+  assert.ok(Math.abs(res.jdRise - jdOf(rise)) * 86400 < 3, `rise differs by ${((res.jdRise - jdOf(rise)) * 86400).toFixed(2)} s`);
+  assert.ok(Math.abs(res.jdSet - jdOf(set)) * 86400 < 3, `set differs by ${((res.jdSet - jdOf(set)) * 86400).toFixed(2)} s`);
+  assert.match(res.rule, /upper limb/);
 });
 
 test("panchangExtended and generateSankalpaText construct institutional Vedic recitation", () => {
@@ -565,6 +691,14 @@ test("panchangExtended and generateSankalpaText construct institutional Vedic re
   assert.equal(ext.vikramYear, 2083);
   assert.ok(typeof ext.samvatsaraName === "string" && ext.samvatsaraName.length > 0);
   assert.equal(ext.shakaYear, 1948);
+  // 2026-10-08: the year is the text's lunar year (Kali 5127 at the nija Caitra start) and the saṃvatsara is SS 1.55
+  // from mean Jupiter at the instant, reading A (SSGraha.samvatsara); the (VS + 9) mod 60 rule is retired
+  assert.equal(ext.kaliYear, 5127);
+  const sv = require("./ss-graha.js").samvatsara(textDays(jd));
+  assert.equal(ext.samvatsara.nameIast, sv.name);
+  assert.equal(ext.samvatsaraIndex, sv.prabhavaIndex);
+  assert.equal(ext.samvatsaraName, M.SAMVATSARA_NAMES[sv.prabhavaIndex]);
+  assert.equal(ext.masaName, "श्रावण");                                         // the amānta Śrāvaṇa began at the new moon of 2026-08-12
   assert.ok(ext.solar.riseTime.length > 0);
   assert.ok(ext.rahu && ext.rahu.windowText.length > 0);
   assert.ok(ext.abhijit && ext.abhijit.windowText.length > 0);
@@ -574,6 +708,13 @@ test("panchangExtended and generateSankalpaText construct institutional Vedic re
   assert.ok(sankalpa.includes("श्रीविक्रम संवत् 2083"));
   assert.ok(sankalpa.includes("अवन्तिकापुर्यां"));
   assert.ok(sankalpa.includes("श्री महाकालेश्वर"));
+  assert.ok(sankalpa.includes(`‘${ext.samvatsaraName}’ नाम संवत्सरे`));
+  assert.ok(sankalpa.includes("श्रावण मासे"));
+  // no default stands in for a missing field (2026-10-08): the missing one is named
+  for (const k of ["vikramYear", "samvatsaraName", "masaName", "varaName", "tithiName"]) {
+    assert.throws(() => M.generateSankalpaText({ ...ext, [k]: undefined }, ujjain), new RegExp(`${k} is missing`));
+  }
+  assert.throws(() => M.generateSankalpaText({ sauraMasaIndex: 3 }), /is missing/);
 });
 
 test("yoginiAtJd computes 36-year cycle and active Yogini subperiods", () => {
@@ -603,7 +744,7 @@ test("computeJaiminiCharaKarakas ranks 8 Grahas and identifies Karakamsha", () =
 test("computeAshtakavarga asserts 337 SAV bindu invariant", () => {
   const jd = M.gregorianToJulianDay("1992-05-04", "10:44:00", 5.5);
   const planets = M.sphutaGrahaModel(jd, { applyBija: true });
-  const sidAsc = M.siderealAscendantDeg(jd, 22.57, 88.36, "effective_49");
+  const sidAsc = M.siderealAscendantDeg(jd, 22.57, 88.36, "ss");               // a tier since 2026-10-08 (was "effective_49")
   const av = M.computeAshtakavarga(planets, sidAsc);
 
   assert.equal(av.totalSavBindus, 337, "Sarvashtakavarga total must be exactly 337");
@@ -629,7 +770,7 @@ test("computePushkaraAndMrityuBhaga evaluates amrita and critical degrees", () =
 test("computeClassicalYogas detects active Parashari and Raja Yogas", () => {
   const jd = M.gregorianToJulianDay("1992-05-04", "10:44:00", 5.5);
   const planets = M.sphutaGrahaModel(jd, { applyBija: true });
-  const sidAsc = M.siderealAscendantDeg(jd, 22.57, 88.36, "effective_49");
+  const sidAsc = M.siderealAscendantDeg(jd, 22.57, 88.36, "ss");               // a tier since 2026-10-08 (was "effective_49")
   const yogas = M.computeClassicalYogas(planets, sidAsc);
 
   assert.ok(Array.isArray(yogas));
@@ -643,7 +784,7 @@ test("computeClassicalYogas detects active Parashari and Raja Yogas", () => {
 test("computeShadbala calculates 6-fold virupas and rupas for 7 Grahas", () => {
   const jd = M.gregorianToJulianDay("1992-05-04", "10:44:00", 5.5);
   const planets = M.sphutaGrahaModel(jd, { applyBija: true });
-  const sidAsc = M.siderealAscendantDeg(jd, 22.57, 88.36, "effective_49");
+  const sidAsc = M.siderealAscendantDeg(jd, 22.57, 88.36, "ss");               // a tier since 2026-10-08 (was "effective_49")
   const shadbala = M.computeShadbala(planets, sidAsc, jd, 22.57, 88.36);
 
   assert.equal(shadbala.length, 7);
@@ -689,6 +830,21 @@ test("scanAuspiciousMuhurtas finds ranked date windows for business/launch/vivah
   assert.ok(vivahaWindows.length > 0, "Must find auspicious vivaha windows");
   assert.ok(businessWindows[0].score >= businessWindows[businessWindows.length - 1].score);
   assert.ok(businessWindows[0].bestWindowTime.includes("Abhijit"));
+  // re-measured 2026-10-08 (D3): each row is the tier's civil day — scored at ITS sunrise, with that day's own Abhijit
+  // (the 8th day muhūrta of muhurta.js), row.jd = the sunrise and row.isoDate its local civil date
+  const site = { latitude: 23.1765, deshantara: 0 };
+  const jdOfDays = (t) => (t - 75.7885 / 360) + 588465.5;                      // ss-tier.js jdOfDays
+  for (const w of businessWindows) {
+    const d = P.civilDayOf(textDays(w.jd) + 1e-6, site);
+    assert.equal(w.jd, jdOfDays(d.sunrise), "row.jd is the text's sunrise");
+    assert.equal(w.tier, "ss");
+    assert.equal(M.julianDayToIsoDate(w.jd, 5.5), w.isoDate);
+    assert.ok(w.abhijit.startJd > w.jd && w.abhijit.endJd < M.solarRiseSet(M.gregorianToJulianDay(w.isoDate, "00:00:00", 5.5), 23.1765, 75.7885, 5.5).jdSet);
+  }
+  assert.equal(new Set(businessWindows.map((w) => w.abhijit.startJd)).size, businessWindows.length, "each day has its own Abhijit");
+  // any start instant within the same civil date gives the same rows
+  const later = M.scanAuspiciousMuhurtas(M.gregorianToJulianDay("2026-08-14", "23:30:00", 5.5), 30, "business");
+  assert.deepEqual(later, businessWindows);
 });
 
 test("computeSpecialLagnas derives Bhava, Hora, Ghati, Pranapada, Sri and Indu Lagnas (BPHS Ch 5)", () => {
@@ -700,8 +856,19 @@ test("computeSpecialLagnas derives Bhava, Hora, Ghati, Pranapada, Sri and Indu L
   assert.ok(lagnas.ghatiLagna.deg >= 0 && lagnas.ghatiLagna.deg < 360);
   assert.ok(lagnas.pranapadaLagna.deg >= 0 && lagnas.pranapadaLagna.deg < 360);
   assert.ok(lagnas.sriLagna.deg >= 0 && lagnas.sriLagna.deg < 360);
-  assert.ok(lagnas.induLagna.deg >= 0 && lagnas.induLagna.deg < 360);
+  // re-measured 2026-10-08: the Indu lagna is a rāśi (BPHS gives no degree), and the ishṭa ghaṭī counts from the
+  // tier's own sunrise (the old code read a field that did not exist and fell back to a fixed 15 ghaṭī)
+  assert.equal(lagnas.induLagna.deg, null);
+  assert.ok(Number.isInteger(lagnas.induLagna.rashi) && lagnas.induLagna.rashi >= 0 && lagnas.induLagna.rashi < 12);
   assert.equal(lagnas.bhavaLagna.nameSa, "भाव लग्न");
+  const d = M.tierDay(jd, 23.1765, 75.7685, 5.5, "ss");
+  assert.equal(lagnas.ishtaGhati, (jd - d.sunriseJd) * 60);
+  assert.ok(Math.abs(lagnas.ishtaGhati - 14.818) < 0.001, `ishṭa ${lagnas.ishtaGhati}`);   // 12:00 − the text's sunrise 06:04:22 IST at 75.7685° E [measured]
+  assert.notEqual(lagnas.ishtaGhati, 15);
+  // the sunrise moves with the latitude, and the special lagnas with it
+  const north = M.computeSpecialLagnas(jd, 35, 75.7685, 118.0, 145.0, 205.0);
+  assert.notEqual(north.ishtaGhati, lagnas.ishtaGhati);
+  assert.notEqual(north.ghatiLagna.deg, lagnas.ghatiLagna.deg);
 });
 
 test("computeUpagrahas calculates 5 mathematical & 5 time Upagrahas (BPHS Ch 25)", () => {
@@ -726,7 +893,11 @@ test("Gulika and the other time-upagrahas follow BPHS 3.66–70 (day/night in ei
   const P = M.kalaUpagrahaParts(jdSunDay, LAT, LON, TZ);
   assert.equal(P.isDay, true);
   assert.equal(P.vara, 0);
-  const up = M.computeUpagrahas(170, jdSunDay, LAT, LON, TZ, "classical");
+  // 2026-10-08: the day and night are the tier's (the text's sunrise and sunset by default)
+  const day = M.tierDay(jdSunDay, LAT, LON, TZ, "ss");
+  assert.deepEqual([P.start, P.end], [day.sunriseJd, day.sunsetJd]);
+  const up = M.computeUpagrahas(170, jdSunDay, LAT, LON, TZ, "classical");              // 'classical' = the alias of 'ss'
+  assert.equal(up.tier, "ss");
   assert.ok(Math.abs(up.gulika.jdPartStart - (P.start + 6 / 8 * (P.end - P.start))) < 1e-9);
   assert.ok(Math.abs(up.gulika.deg - M.siderealAscendantDeg(up.gulika.jdPartStart, LAT, LON, "classical")) < 1e-9);
   assert.ok(Math.abs(up.kala.jdPartStart - P.start) < 1e-9);                       // Sun's part is the first by day
@@ -750,11 +921,12 @@ test("Gulika and the other time-upagrahas follow BPHS 3.66–70 (day/night in ei
 // VAI-09 (council 2026-10-07): ṛtu by SS 14.9–10 — two nirayaṇa saura months each, from the Makara saṅkrānti, śiśira first.
 test("ṛtu follows SS 14.9–10: Mīna+Meṣa = Vasanta … Kanyā+Tulā = Śarad … Makara+Kumbha = Śiśira", () => {
   const want = ["वसन्त", "ग्रीष्म", "ग्रीष्म", "वर्षा", "वर्षा", "शरद्", "शरद्", "हेमन्त", "हेमन्त", "शिशिर", "शिशिर", "वसन्त"];
-  // sauraMasaIndex 0 = Meṣa … 11 = Mīna; check every index through the sankalpa helper's own fallback path
+  // sauraMasaIndex 0 = Meṣa … 11 = Mīna; every index through M.rituOfSauraMasa (2026-10-08: the sankalpa helper has no
+  // fallbacks any more, so the mapping is tested where it lives)
   for (let i = 0; i < 12; i++) {
-    const txt = M.generateSankalpaText({ sauraMasaIndex: i });
-    assert.ok(txt.includes(want[i] + " ऋतौ"), `saura month ${i} → ${want[i]}`);
+    assert.equal(M.rituOfSauraMasa(i).sa, want[i], `saura month ${i} → ${want[i]}`);
   }
+  assert.throws(() => M.rituOfSauraMasa(12), RangeError);
   // and the live panchang on 2026-10-07 (Sun in Kanyā) says Śarad
   const p = M.panchangExtended(M.gregorianToJulianDay("2026-10-07", "12:00:00", 5.5), 23.1765, 75.7885, 5.5);
   assert.equal(p.sauraMasaIndex, 5);
@@ -815,11 +987,11 @@ test("computeBirthDoshasAndShanti scans classical Parashari birth vulnerability 
 test("computeSuryaSiddhanta14Adhikaras audits all 14 Adhikaras end-to-end", () => {
   const jd = M.gregorianToJulianDay("2026-08-14", "12:00:00", 5.5);
   const planets = M.sphutaGrahaModel(jd, { applyBija: true });
-  const sidAsc = M.siderealAscendantDeg(jd, 23.1765, 75.7685, "effective_49");
+  const sidAsc = M.siderealAscendantDeg(jd, 23.1765, 75.7685, "ss");           // a tier since 2026-10-08 (was "effective_49")
   const ss14 = M.computeSuryaSiddhanta14Adhikaras(jd, 23.1765, 75.7685, planets, sidAsc, 5.5);
 
-  // 1. Madhyama
-  assert.ok(ss14.adhikara1_madhyama.ahargana > 0);
+  // 1. Madhyama — the text's ahargaṇa: civil days from midnight at Laṅkā (re-measured 2026-10-08)
+  assert.equal(ss14.adhikara1_madhyama.ahargana, textDays(jd));
   assert.ok(ss14.adhikara1_madhyama.ujjainTime.length > 0);
 
   // 2. Spashta
@@ -829,10 +1001,24 @@ test("computeSuryaSiddhanta14Adhikaras audits all 14 Adhikaras end-to-end", () =
   assert.equal(ss14.adhikara3_triprashna.gnomonLen, 12.0);
   assert.ok(ss14.adhikara3_triprashna.shankuShadowAngula > 0);
   assert.ok(ss14.adhikara3_triprashna.palabha > 0);
+  // the text's Śaṅku (ss-chaya.js, SS 3.20b-3.36): the noon shadow and the shadow at the instant's hour angle
+  assert.ok(ss14.adhikara3_triprashna.shanku.noon && ss14.adhikara3_triprashna.shanku.atInstant);
+  assert.match(ss14.adhikara3_triprashna.shanku.method, /SS 3\.20b/);
+  // a southern site: the text states the chain for northern places (SS 3.14)
+  const south = M.computeSuryaSiddhanta14Adhikaras(jd, -33.87, 151.21, planets, sidAsc, 10);
+  assert.match(south.adhikara3_triprashna.shanku.error, /SS 3\.14/);
 
   // 4. Chandra Grahana
   assert.equal(ss14.adhikara4_chandra_grahana.shadowDiamArcmin, 80.0);
   assert.ok(typeof ss14.adhikara4_chandra_grahana.isLunarEclipsePossible === "boolean");
+  // eclipses within ±16 days by the text (ss-grahana.js): from Ujjain the text finds the lunar eclipse of 2026-08-28 and
+  // no solar eclipse seen at the site [measured 2026-10-08]
+  assert.match(ss14.adhikara4_chandra_grahana.eclipses.method, /ss-grahana/);
+  assert.deepEqual(ss14.adhikara4_chandra_grahana.eclipses.list.map((e) => [e.kind, M.julianDayToIsoDate(e.middleJd, 5.5)]), [["lunar", "2026-08-28"]]);
+  assert.equal(ss14.adhikara4_chandra_grahana.isLunarEclipsePossible, true);
+  assert.equal(ss14.adhikara5_surya_grahana.isSolarEclipsePossible, false);
+  assert.throws(() => M.computeSuryaSiddhanta14Adhikaras(jd, 23.1765, 75.7685, planets.filter((p) => p.key !== "shani"), sidAsc, 5.5), /shani row/);
+  assert.ok(ss14.adhikara4_chandra_grahana.eclipses.nearestNodeDeg >= 0 && ss14.adhikara4_chandra_grahana.eclipses.nearestNodeDeg <= 90);
 
   // 5. Surya Grahana
   assert.equal(ss14.adhikara5_surya_grahana.lambanaGhati, null);
@@ -861,14 +1047,23 @@ test("computeSuryaSiddhanta14Adhikaras audits all 14 Adhikaras end-to-end", () =
   assert.ok(typeof ss14.adhikara11_pata.isVyatipataActive === "boolean");
   assert.ok(typeof ss14.adhikara11_pata.isVaidhritiActive === "boolean");
 
-  // 12. Bhugola
+  // 12. Bhugola — the four cities 90° apart from Laṅkā on the Ujjayinī meridian (75.7885° E)
   assert.equal(ss14.adhikara12_bhugola.fourCities.length, 4);
+  assert.deepEqual(ss14.adhikara12_bhugola.fourCities.map((c) => c.lonDeg), [75.7885, 165.7885, 345.7885, 255.7885]);
+  // 9. Mars's combustion limit is 17° (the key is 'mangala')
+  // (the names are the rows' own `sa`; they were blank before 2026-10-08)
+  const saOf = (k) => planets.find((p) => p.key === k).sa;
+  assert.deepEqual(ss14.adhikara9_udaya_asta.heliacalStatus.map((h) => [h.graha, h.limitDeg]),
+    [["candra", 12], ["mangala", 17], ["budha", 14], ["guru", 11], ["shukra", 10], ["shani", 15]].map(([k, l]) => [saOf(k), l]));
 
   // 13. Jyotishopanishad
   assert.equal(ss14.adhikara13_jyotishopanishad.instruments.length, 4);
 
-  // 14. Manadhyaya
+  // 14. Manadhyaya — the bārhaspatya māna is the tier's saṃvatsara (SS 1.55), no fallback name
   assert.equal(ss14.adhikara14_manadhyaya.nineManas.length, 9);
+  const sv = require("./ss-graha.js").samvatsara(textDays(jd));
+  assert.ok(ss14.adhikara14_manadhyaya.nineManas[8].activeUnit.includes(M.SAMVATSARA_NAMES[sv.prabhavaIndex]));
+  assert.equal(ss14.tier, "ss");
 });
 
 test("Aryabhata Sine-Table, Kuttaka algebra and Pi approximation (499 CE)", () => {
@@ -1110,4 +1305,141 @@ test("Maximum Quantum Mechanics, Relativistic Physics & Advanced Math Suite", ()
   assert.ok(hensel.isVerified);
 });
 
+// ── Stage C, C4 (2026-10-09): the engine hand-offs ─────────────────────────────────────────────────────────────────
+/** Every row of the eclipse contract (ECLIPSE_ROW_FIELDS), whatever the tier: the shapes, and a grāsa that is never
+ *  negative. */
+function assertEclipseRow(r, tier, what) {
+  for (const k of M.ECLIPSE_ROW_FIELDS) assert.ok(k in r, `${what}: ${k}`);
+  assert.ok(r.kind === "lunar" || r.kind === "solar", what);
+  assert.ok(Number.isFinite(r.middleJd), what);
+  assert.deepEqual(Object.keys(r.contacts), ["sparsha", "madhya", "moksha", "nimilana", "unmilana"], what);
+  for (const v of Object.values(r.contacts)) assert.ok(v === null || Number.isFinite(v), `${what}: a contact is a JD (UT) or null`);
+  assert.equal(r.contacts.madhya, r.middleJd, `${what}: madhya is the middle`);
+  if (r.contacts.sparsha !== null) assert.ok(r.contacts.sparsha < r.middleJd, `${what}: sparśa before the middle`);
+  if (r.contacts.moksha !== null) assert.ok(r.contacts.moksha > r.middleJd, `${what}: mokṣa after the middle`);
+  assert.equal(typeof r.penumbral, "boolean", what);
+  if (r.penumbral) { assert.equal(r.magnitude, null, what); assert.equal(r.grasa, null, what); assert.ok(r.penumbralMagnitude > 0, what); }
+  else { assert.ok(r.magnitude >= 0, `${what}: magnitude ${r.magnitude}`); assert.equal(r.grasa, r.magnitude, what); }
+  assert.ok(r.grasa === null || r.grasa >= 0, `${what}: grāsa ${r.grasa} is never negative`);
+  assert.ok(r.penumbralMagnitude === null || Number.isFinite(r.penumbralMagnitude), what);
+  assert.equal(typeof r.seenAtSite, "boolean", what);
+  assert.equal(r.tier, tier, what);
+  assert.equal(r.source, tier === "drik" ? "own" : "text", what);
+}
+
+test("C4 (a): every tier's eclipse rows carry the common fields; a penumbral eclipse is penumbral, never a negative grāsa", () => {
+  const lat = 23.1765, lon = 75.7885, at = (iso) => M.gregorianToJulianDay(iso, "00:00:00", 5.5);
+  assert.deepEqual([...M.ECLIPSE_ROW_FIELDS], ["kind", "middleJd", "contacts", "magnitude", "penumbral", "penumbralMagnitude", "grasa", "seenAtSite", "tier", "source"]);
+  const lists = {};
+  for (const [tier, a, b] of [["ss", "2025-03-01", "2026-09-30"], ["ss+parameshvara", "2025-03-01", "2026-09-30"], ["drik", "2024-01-01", "2026-12-31"]]) {
+    const E = M.tierEclipses(at(a), at(b), lat, lon, tier);
+    assert.equal(E.tier, tier); assert.equal(E.label, M.TIERS[tier].eclipses); assert.ok(E.list.length >= 4, `${tier}: ${E.list.length} eclipses`);
+    E.list.forEach((r, i) => { assertEclipseRow(r, tier, `${tier} #${i}`); assert.ok(r.middleJd >= at(a) && r.middleJd <= at(b)); if (i) assert.ok(r.middleJd > E.list[i - 1].middleJd, "oldest first"); });
+    lists[tier] = E.list;
+  }
+  // the three tiers find the lunar eclipses of 2025-03-14, 2025-09-07, 2026-03-03 and 2026-08-28 [measured 2026-10-09]
+  const lunarDays = (tier) => lists[tier].filter((r) => r.kind === "lunar" && r.middleJd >= at("2025-03-01")).map((r) => M.julianDayToIsoDate(r.middleJd, 5.5));
+  for (const tier of Object.keys(lists)) assert.deepEqual(lunarDays(tier), ["2025-03-14", "2025-09-07", "2026-03-03", "2026-08-28"], tier);
+  // 2024-03-25: a penumbral eclipse in the dṛk tier. Its umbral magnitude is negative (drik-grahana.js row), so the row
+  // shows it as penumbral: no magnitude, no grāsa, no umbral contact; the penumbral magnitude and contacts instead
+  const pen = lists.drik.find((r) => M.julianDayToIsoDate(r.middleJd, 5.5) === "2024-03-25");
+  assert.ok(pen && pen.kind === "lunar" && pen.type === "penumbral" && pen.penumbral === true);
+  assert.ok(pen.umbralMagnitude < 0, `the raw umbral magnitude ${pen.umbralMagnitude}`);
+  assert.equal(pen.magnitude, null); assert.equal(pen.grasa, null); assert.equal(pen.contacts.sparsha, null); assert.equal(pen.contacts.moksha, null);
+  assert.ok(pen.penumbralMagnitude > 0.9 && pen.penumbralMagnitude < 1);
+  assert.ok(pen.penumbralContacts.first < pen.middleJd && pen.middleJd < pen.penumbralContacts.last);
+  assert.equal(pen.contactsDetail.P1.jdUT, pen.penumbralContacts.first);
+  // the 14 adhikāras show it as penumbral, with a grāsa of 0 (never negative)
+  const pj = M.gregorianToJulianDay("2024-03-25", "12:00:00", 5.5);
+  const a14 = M.computeSuryaSiddhanta14Adhikaras(pj, lat, lon, M.canonicalGrahaModel(pj, { mode: "drik" }), 0, 5.5, "drik").adhikara4_chandra_grahana;
+  assert.equal(a14.isLunarEclipsePossible, true); assert.equal(a14.lunarPenumbralOnly, true); assert.equal(a14.lunarGrasa, 0);
+  assert.equal(a14.eclipses.list[0].grasa, null); assert.equal(a14.eclipses.refused, false); assert.equal(a14.eclipses.label, M.TIERS.drik.eclipses);
+  // a umbral dṛk lunar row: sparśa and mokṣa are U1 and U4, nimīlana and unmīlana U2 and U3 (a total eclipse)
+  const tot = lists.drik.find((r) => M.julianDayToIsoDate(r.middleJd, 5.5) === "2026-03-03");
+  assert.equal(tot.type, "total"); assert.equal(tot.magnitude, tot.umbralMagnitude);
+  assert.deepEqual([tot.contacts.sparsha, tot.contacts.nimilana, tot.contacts.unmilana, tot.contacts.moksha], ["U1", "U2", "U3", "U4"].map((k) => tot.contactsDetail[k].jdUT));
+  // lunar seenAtSite: the Moon above the tier's horizon at mid-eclipse (dṛk: +7′, the moonrise convention); the whole
+  // eclipse's verdict stays as seenDuringEclipse. 2026-03-03 at Ujjain: the Moon rises during the eclipse (the max is
+  // before moonrise) [measured]
+  for (const r of lists.drik.filter((x) => x.kind === "lunar")) assert.equal(r.seenAtSite, r.local.moonAltitudeDeg.max > 7 / 60);
+  assert.equal(tot.seenAtSite, false); assert.equal(tot.seenDuringEclipse, true);
+  // solar rows are the site's: its own contacts, maximum and magnitude; the global ones kept apart
+  for (const r of lists.drik.filter((x) => x.kind === "solar")) {
+    assert.equal(r.local.eclipsed, true); assert.equal(r.middleJd, r.local.maxJdUT); assert.equal(r.magnitude, r.local.magnitude);
+    assert.equal(r.contacts.sparsha, r.local.contacts.C1.jdUT); assert.equal(r.contacts.moksha, r.local.contacts.C4.jdUT);
+    assert.ok(r.global && r.global.type && Number.isFinite(r.global.maxJdUT)); assert.equal(r.seenAtSite, r.local.visible);
+  }
+  // text rows: the text's contacts, the covered part ÷ the eclipsed disc, total by SS 4.11; the plain tier's lunar
+  // seenAtSite is ss-grahana's own horizon at the middle
+  const GH = require("./ss-grahana.js");
+  for (const r of lists.ss) {
+    assert.equal(r.contacts.sparsha, r.contactsJd.sparsha); assert.equal(r.contacts.moksha, r.contactsJd.moksha);
+    assert.equal(r.type, r.magnitude >= 1 ? "total" : "partial");
+    if (r.kind === "lunar") {
+      const E = GH.lunarEclipse(r.middle, { latitude: lat, deshantara: lon - 75.7885 });
+      assert.equal(r.seenAtSite, E.horizon.madhya.above, M.julianDayToIsoDate(r.middleJd, 5.5));
+    }
+  }
+  for (const r of lists["ss+parameshvara"]) assert.equal(r.type, r.magnitude >= 1 ? "total" : "partial");
+  // the 14 adhikāras' lists are tierEclipses' rows
+  const jd = M.gregorianToJulianDay("2026-08-28", "12:00:00", 5.5);
+  for (const tier of ["ss", "drik"]) {
+    const s14 = M.computeSuryaSiddhanta14Adhikaras(jd, lat, lon, M.canonicalGrahaModel(jd, { mode: tier }), 0, 5.5, tier);
+    const E = M.tierEclipses(jd - 16, jd + 16, lat, lon, tier);
+    assert.deepEqual(s14.adhikara4_chandra_grahana.eclipses.list, E.list.filter((r) => r.kind === "lunar"), tier);
+    assert.deepEqual(s14.adhikara5_surya_grahana.eclipses.list, E.list.filter((r) => r.kind === "solar"), tier);
+    assert.equal(s14.adhikara4_chandra_grahana.lunarGrasa, E.list.find((r) => r.kind === "lunar").grasa);
+    assert.deepEqual(s14.adhikara4_chandra_grahana.eclipses.fields, M.ECLIPSE_ROW_FIELDS);
+  }
+  // arguments
+  assert.throws(() => M.tierEclipses(at("2026-01-01"), at("2025-01-01"), lat, lon, "ss"), /must not precede/);
+  assert.throws(() => M.tierEclipses(at("2000-01-01"), at("2026-01-01"), lat, lon, "ss"), /at most 3660 days/);
+  assert.throws(() => M.tierEclipses(NaN, at("2026-01-01"), lat, lon, "ss"), /must be finite/);
+  assert.throws(() => M.tierEclipses(at("2025-01-01"), at("2026-01-01"), lat, lon, "calibrated"), /retired/);
+  assert.throws(() => M.tierEclipses(at("2025-01-01"), at("2026-01-01"), lat, lon, "spica_lahiri"), /bridges take a tier/);
+});
+
+test("C4 (a): each tier's eclipse label is in M.TIERS, and the dṛk one is siddhanta-tier.js's, word for word, with the row rules", () => {
+  const ST = require("./siddhanta-tier.js");
+  for (const id of Object.keys(M.TIERS)) assert.ok(typeof M.TIERS[id].eclipses === "string" && M.TIERS[id].eclipses.length > 80, id);
+  assert.ok(M.TIERS.drik.eclipses.startsWith(ST.LABEL.eclipses), "no drift from SiddhantaTier.LABEL.eclipses");
+  assert.match(M.TIERS.drik.eclipses, /penumbral eclipse is listed as penumbral/);
+  assert.match(M.TIERS.ss.eclipses, /ss-grahana\.js/); assert.match(M.TIERS["ss+parameshvara"].eclipses, /samskara\.js/);
+  for (const id of ["ss", "ss+parameshvara"]) assert.match(M.TIERS[id].eclipses, /the text has no penumbra/);
+});
+
+test("C4 (f): the dṛk Śaṅku altitude is labelled geocentric, no refraction", () => {
+  const jd = M.gregorianToJulianDay("2026-08-14", "10:30:00", 5.5);
+  const s14 = M.computeSuryaSiddhanta14Adhikaras(jd, 23.1765, 75.7885, M.canonicalGrahaModel(jd, { mode: "drik" }), 0, 5.5, "drik");
+  assert.match(s14.adhikara3_triprashna.shanku.method, /geocentric, no refraction/);
+  assert.doesNotMatch(s14.adhikara3_triprashna.shanku.method, /geometric altitude/);
+  assert.ok(s14.adhikara3_triprashna.altDeg > 0 && s14.adhikara3_triprashna.altDeg < 90);
+});
+
+test("C4 (d): Astronomy Engine's FromTerrestrialTime is capped at 20 iterations in both vendored copies, and unchanged wherever the loop converged", () => {
+  const fs = require("node:fs"), path = require("node:path");
+  const CAPPED = "FromTerrestrialTime=function(a){for(var b=new O(a),i=0;;++i){var c=a-b.tt;if(1E-12>Math.abs(c)||i>=20)return b;";
+  for (const f of ["math-core.js", "drik-engine.js"]) {
+    const src = fs.readFileSync(path.join(__dirname, f), "utf8");
+    assert.ok(src.includes(CAPPED), `${f} has the capped loop`);
+    assert.equal((src.match(/FromTerrestrialTime=function/g) || []).length, 1, `${f}: one copy`);
+  }
+  // the uncapped loop, replayed with its own AstroTime: wherever it converges the capped result is the same value
+  const A = require("./drik-engine.js");
+  const uncapped = (a) => { let b = new A.AstroTime(a); for (let i = 0; i < 1000; i++) { const c = a - b.tt; if (1e-12 > Math.abs(c)) return { b, i }; b = b.AddDays(c); } return null; };
+  let n = 0, most = 0;
+  for (let k = 0; k < 2000; k++) {
+    const days = (-52000 + 104000 * ((k * 7919) % 2000) / 2000 + k * 0.013) * 365.25 + (k % 13) * 0.071;
+    const u = uncapped(days); if (!u) continue;
+    const c = A.AstroTime.FromTerrestrialTime(days);
+    assert.equal(c.ut, u.b.ut, `ut at ${days}`); assert.equal(c.tt, u.b.tt, `tt at ${days}`);
+    n += 1; most = Math.max(most, u.i);
+  }
+  assert.ok(n >= 1990 && most < 20, `${n} instants, at most ${most} iterations`);
+});
+
+if (failed.length) {
+  console.log(`\n${passed}/${passed + failed.length} mathematical checks passed; FAILED: ${failed.join(" · ")}`);
+  process.exit(1);
+}
 console.log(`\n${passed}/${passed} mathematical checks passed`);

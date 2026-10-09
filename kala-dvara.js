@@ -6,6 +6,14 @@
  *         So 21,600 prāṇa = 21,600 kalā = 360°: a prāṇa is the time of one arc-minute of that turn.
  *         TIME IS THE ANGLE THE WHEEL HAS TURNED. On the spanda lattice (328,050,000,000 per turn)
  *         1″ of the turn = 253,125 spandas, 1 prāṇa = 1′ = 15,187,500, 1 nāḍī = 6°.
+ *   THE LATTICE AND ITS SOURCES (corpus/sources/time-units.json, "canonical"; owner decision P1, 2026-10-08):
+ *         only SS 1.11-1.12 is the text here — 6 prāṇa, 60 vināḍī, 60 nāḍī to the turn — and it reaches down to the
+ *         prāṇa and no further (SS 1.11 names the truṭi but gives it no ratio). Below the prāṇa the lattice is the
+ *         engine's chain (math-core.js SUBDAY_CHAIN): its twelve steps paramāṇu → ahorātra carry the label
+ *         'Bhāgavata 3.11' in code only, a claim awaiting an edition [claim-only; no Bhāgavata text is in any
+ *         repository]; the thirteenth factor, 100 spandas to a paramāṇu, is an engine choice [claim-only; no located
+ *         source] that makes 1″ of the turn a whole number of cells. This file divides the lattice only by SS 1.11-1.12.
+ *         Names: 'pala' = 1/60 ghaṭī (= vināḍī), vipala = 1/60 pala [standard; no local text] (time-units.json, P1).
  *   1.34  In a yuga the stars rise 1,582,237,828 times; a body's own risings are that count less its
  *         own revolutions.
  *   1.39  So the Sun's own risings — the civil (sāvana) days, sunrise to sunrise (1.36, 14.18) — are the
@@ -24,6 +32,10 @@
  * Also: civil date (Julian or Gregorian, proleptic) ↔ Kali-ahargaṇa (civil days since Friday 18 Feb 3102
  * BCE Julian, JD 588465.5 at 0h); vāra. No imports, no floating point, no Earth-rotation correction: the
  * clock IS the rotation, so nothing has to be converted to or from it.
+ * Both calendars are proleptic, with astronomical year numbers (0 = 1 BCE, −3101 = 3102 BCE, −50000 = 50001 BCE),
+ * and hold for every integer year: below JDN 0 a date is carried up by whole cycles (146,097 days = 400 Gregorian
+ * years; 1,461 days = 4 Julian years) and carried back. Tested over −50,000 … +50,000 years, against round trips and
+ * independently against sums of year lengths (kala-dvara.test.js).
  * Browser: window.KalaDvara; node: module.exports.
  */
 (function (root, factory) {
@@ -114,15 +126,22 @@
     if (calendar !== "julian" && calendar !== "gregorian") throw new RangeError(`kala-dvara: calendar must be "julian" or "gregorian"`);
     const a = fl((14 - m) / 12), yy = y + 4800 - a, mm = m + 12 * a - 3;
     const base = d + fl((153 * mm + 2) / 5) + 365 * yy + fl(yy / 4);
-    const jdn = calendar === "julian" ? base - 32083 : base - fl(yy / 100) + fl(yy / 400) - 32045;
-    if (jdn < 0) throw new RangeError("kala-dvara: dates before JDN 0 are not supported");
+    const jdn = calendar === "julian" ? base - 32083 : base - fl(yy / 100) + fl(yy / 400) - 32045;   // floor division: every integer year
     const back = civilFromJdn(calendar, jdn);                       // reject 30 Feb, 31 Apr, 29 Feb in a common year
     if (back.year !== y || back.month !== m || back.day !== d) throw new RangeError(`kala-dvara: ${y}-${m}-${d} does not exist in the ${calendar} calendar`);
     return jdn;
   }
 
+  const JDN_LIMIT = 2 ** 50;                       // |4·JDN| and every intermediate below stay exact integers in a double
   function civilFromJdn(calendar, jdn) {
-    if (!isInt(jdn) || jdn < 0) throw new RangeError("kala-dvara: JDN must be a non-negative integer");
+    if (!isInt(jdn)) throw new RangeError("kala-dvara: JDN must be an integer");
+    if (calendar !== "julian" && calendar !== "gregorian") throw new RangeError(`kala-dvara: calendar must be "julian" or "gregorian"`);
+    if (Math.abs(jdn) > JDN_LIMIT) throw new RangeError("kala-dvara: JDN beyond ±2^50 is not exactly representable here");
+    if (jdn < 0) {                                  // whole cycles: 146,097 days = 400 Gregorian years; 1,461 days = 4 Julian years
+      const P = calendar === "gregorian" ? 146097 : 1461, Y = calendar === "gregorian" ? 400 : 4, k = Math.ceil(-jdn / P);
+      const c = civilFromJdn(calendar, jdn + k * P);
+      return { year: c.year - k * Y, month: c.month, day: c.day };
+    }
     let f = jdn + 1401;
     if (calendar === "gregorian") f += fl((fl((4 * jdn + 274277) / 146097) * 3) / 4) - 38;
     else if (calendar !== "julian") throw new RangeError(`kala-dvara: calendar must be "julian" or "gregorian"`);

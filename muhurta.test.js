@@ -106,6 +106,29 @@ test('every lagna-gaṇḍānta window is centred on a real change of sign, also
   assert.ok(n > 60 && early > 0, `windows ${n}, junctions before sunrise ${early}`);
 });
 
+test('muhūrtas and the day\'s lagnas are 68905b9\'s, bit for bit, at 10 days from JDN 0 to Kali day 8,388,000 (bisection guards change nothing in range)', () => {
+  const fx = require('./test-fixtures/panchanga-days-68905b9.json');
+  const days = fx.days.filter((d) => d.lagnas);
+  assert.equal(days.length, 10);
+  const J = (x) => JSON.parse(JSON.stringify(x));
+  for (const d of days) {
+    assert.deepStrictEqual(J(M.muhurtas(d.N, fx.site)), d.muhurtas, `muhurtas ${d.N}`);
+    assert.deepStrictEqual(J(M.lagnas(d.N, fx.site)), d.lagnas, `lagnas ${d.N}`);
+  }
+});
+
+test('deep time: muhūrtas, lagnas and pātas end at Kali day 8,388,700 (past 2^23, where a bisection midpoint no longer splits its bracket) and at ±49,999 years', () => {
+  for (const N of [8388700, -8388700, day(49999, 6, 1), day(-49999, 6, 1)]) {
+    const t0 = Date.now();
+    const mu = M.muhurtas(N, UJJAYINI), L = M.lagnas(N, UJJAYINI), rise = P.sunrise(N, UJJAYINI), next = P.sunrise(N + 1, UJJAYINI);
+    const ps = M.patas(rise, next);
+    assert.equal(mu.list.length, 30); assert.ok(L.length >= 12 && L.length <= 13, `${N}: ${L.length} lagnas`);
+    for (let i = 1; i < L.length; i++) assert.ok(Math.abs(L[i].start - L[i - 1].end) < 1e-6 && L[i].index === (L[i - 1].index + 1) % 12);
+    assert.ok(Array.isArray(ps));
+    assert.ok(Date.now() - t0 < 5000, `${N}: ${Date.now() - t0} ms`);
+  }
+});
+
 test('a polar day has no windows and says so', () => {
   const N = day(2026, 6, 21), POLAR = { latitude: 78.22, deshantara: 15.6 - 75.7885 };
   assert.equal(P.sunrise(N, POLAR), null);

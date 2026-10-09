@@ -75,6 +75,64 @@ test('[CAL] dates that do not exist are refused, not silently rolled over', () =
   assert.throws(() => K.kaliDayFromCivil({ calendar: 'hijri', year: 2025, month: 1, day: 1 }), RangeError);
 });
 
+test('[CAL] every integer year, proleptic and astronomical: round trips at a 997-day stride over −50,000 … +50,000 in both calendars, day by day across JDN 0, and the vāra steps by one', () => {
+  const lo = gre(-50000, 1, 1), hi = gre(50000, 12, 31);
+  assert.equal(lo, -17129531); assert.equal(hi, 19395084);                       // the Kali-day span of ±50,000 years
+  let prev = null, n = 0;
+  for (let k = lo; k <= hi; k += 997) {
+    for (const calendar of ['julian', 'gregorian']) {
+      const c = K.civilFromKaliDay(k, calendar);
+      assert.equal(K.kaliDayFromCivil({ calendar, ...c }), k, `${calendar} ${JSON.stringify(c)}`);
+      n++;
+    }
+    const w = K.varaOfKaliDay(k).index;
+    if (prev !== null) assert.equal(w, (prev + 997) % 7, `vāra at ${k}`);
+    prev = w;
+  }
+  assert.ok(n > 73000);
+  // JDN 0 is Julian −4712-01-01 (4713 BCE), a Monday; the day before it is −4713-12-31, a Sunday
+  assert.deepEqual(K.civilFromKaliDay(-K.KALI_JDN, 'julian'), { year: -4712, month: 1, day: 1 });
+  assert.deepEqual(K.civilFromKaliDay(-K.KALI_JDN - 1, 'julian'), { year: -4713, month: 12, day: 31 });
+  assert.deepEqual(K.civilFromKaliDay(-K.KALI_JDN, 'gregorian'), { year: -4713, month: 11, day: 24 });
+  assert.equal(K.varaOfKaliDay(-K.KALI_JDN).name, 'somavāra'); assert.equal(K.varaOfKaliDay(-K.KALI_JDN - 1).name, 'ravivāra');
+  for (const calendar of ['julian', 'gregorian']) {                               // day by day across JDN 0: each date follows the last
+    let d = K.civilFromKaliDay(-K.KALI_JDN - 800, calendar);
+    for (let k = -K.KALI_JDN - 799; k <= -K.KALI_JDN + 800; k++) {
+      const e = K.civilFromKaliDay(k, calendar);
+      const advanced = (e.year === d.year && e.month === d.month && e.day === d.day + 1) || (e.year === d.year && e.month === d.month + 1 && e.day === 1)
+        || (e.year === d.year + 1 && e.month === 1 && e.day === 1);
+      assert.ok(advanced, `${calendar}: ${JSON.stringify(d)} → ${JSON.stringify(e)}`);
+      assert.equal(K.kaliDayFromCivil({ calendar, ...e }), k);
+      d = e;
+    }
+  }
+  assert.throws(() => K.civilFromKaliDay(2 ** 51, 'gregorian'), RangeError, 'beyond what a double holds exactly');
+  assert.throws(() => K.civilFromKaliDay(-1.5, 'julian'), TypeError);
+});
+
+test('[CAL] independently of the conversion formulas: 1 January of every year −50,001 … +50,001 is a sum of year lengths from 2000-01-01 (JDN 2,451,545 Gregorian, 2,451,558 Julian); 31 December and 29 February convert back', () => {
+  // A consistent mis-shift below JDN 0 would pass every round trip; it cannot pass this.
+  const leap = { gregorian: (y) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0, julian: (y) => ((y % 4) + 4) % 4 === 0 };
+  const anchor = { gregorian: 2451545, julian: 2451558 };
+  let checked = 0;
+  for (const calendar of ['gregorian', 'julian']) {
+    const jan1 = new Map();
+    let j = anchor[calendar];
+    for (let y = 2000; y <= 50002; y++) { jan1.set(y, j); j += leap[calendar](y) ? 366 : 365; }
+    j = anchor[calendar];
+    for (let y = 1999; y >= -50002; y--) { j -= leap[calendar](y) ? 366 : 365; jan1.set(y, j); }
+    for (let y = -50001; y <= 50001; y++) {
+      const n = K.kaliDayFromCivil({ calendar, year: y, month: 1, day: 1 }) + K.KALI_JDN;
+      if (n !== jan1.get(y)) assert.fail(`${calendar} ${y}-01-01: ${n} vs ${jan1.get(y)}`);
+      const c = K.civilFromKaliDay(jan1.get(y + 1) - 1 - K.KALI_JDN, calendar);
+      if (c.year !== y || c.month !== 12 || c.day !== 31) assert.fail(`${calendar} ${y}-12-31 back: ${JSON.stringify(c)}`);
+      if (leap[calendar](y)) { const f = K.civilFromKaliDay(jan1.get(y) + 59 - K.KALI_JDN, calendar); if (f.month !== 2 || f.day !== 29) assert.fail(`${calendar} ${y}-02-29`); }
+      checked++;
+    }
+  }
+  assert.equal(checked, 200006);
+});
+
 test('[SS] ghaṭī / vināḍī / prāṇa on the spanda lattice, exact', () => {
   assert.equal(K.SPANDAS_PER_DAY, 328050000000n);
   assert.equal(K.SPANDAS_PER_GHATI, 5467500000n);
@@ -180,6 +238,9 @@ test('[JM p.36] deśāntara is a rotation: Parameśvara\'s "nakha" = 20 vināḍ
 });
 
 test('[CROSS-CHECK] this module agrees with the repository\'s existing civil door, day for day (the only place math-core is loaded)', () => {
+  // Whole days are compared, by BigInt division of math-core's spandas: adding less than a day to these non-negative counts
+  // (as counting from midnight at Laṅkā adds 75.7885/360 of a day to Greenwich's) leaves the quotient unchanged, so the
+  // check stays true, and is understood to, when math-core's civil door moves to the Laṅkā epoch.
   const M = require('./math-core.js');
   for (const [y, m, d] of [[2025, 1, 1], [2000, 1, 1], [1900, 3, 1], [1582, 10, 15], [1600, 2, 29], [-3101, 1, 23], [2100, 12, 31]]) {
     const viaCore = M.aharganaSpandasFromCivil({ year: y, month: m, day: d, applyDeltaT: false }) / K.SPANDAS_PER_DAY;
@@ -244,10 +305,10 @@ test('[JM] Parameśvara\'s four epoch values are inside their rāśi and in the 
 // ── the frame, as a gate ────────────────────────────────────────────────────────────────────────
 test('[FRAME] the sovereign files and corpus name no modern ephemeris, no ΔT table, no IERS product, and import only each other', () => {
   const FORBIDDEN = /\b(?:DE4\d\d|VSOP\d*|ELP\d*|Swiss|swisseph|Gaia|IERS|DrikTier)\b|finals\.all|DeltaT|astronomy-engine/;
-  const ROOTS = ['katapayadi.js', 'kala-dvara.js', 'parahita-madhyama.js', 'dhruva.js', 'sphuta.js', 'radau.js'];   // import nothing at all
+  const ROOTS = ['katapayadi.js', 'kala-dvara.js', 'parahita-madhyama.js', 'dhruva.js', 'sphuta.js', 'radau.js', 'parampara.js'];   // import nothing at all
   const LAYERS = ['panchanga.js', 'dasha.js', 'muhurta.js', 'utsava.js', 'gurutva.js', 'gurutva-candra.js', 'spanda-ganita.js', 'ss-udaya.js', 'ss-graha.js', 'ss-chaya.js', 'ss-grahana.js', 'ss-drishya.js', 'ss-ahargana.js', 'ss-parilekha.js', 'candravakya.js', 'vedha-lekha.js', 'samskara.js', 'yantra.js'];       // import only the sovereign files
   for (const f of [...ROOTS, ...LAYERS, 'corpus/jyotirmimamsa/eclipses.json', 'corpus/jyotirmimamsa/readings.json', 'scripts/parampara-samskara.cjs', 'corpus/surya-siddhanta/yogatara.json', 'corpus/surya-siddhanta/numbers.json',
-    'corpus/gurutva/candra.json', 'scripts/derive-gurutva.cjs', 'corpus/vedha/README.md', 'corpus/vedha/LEDGER.md', 'vedha.html', 'vedha-page.js',
+    'corpus/gurutva/candra.json', 'scripts/derive-gurutva.cjs', 'corpus/parampara/registry.json', 'corpus/parampara/graha.json', 'corpus/sources/time-units.json', 'corpus/vedha/README.md', 'corpus/vedha/LEDGER.md', 'vedha.html', 'vedha-page.js',
     'siddhanta-panchanga.html', 'siddhanta-panchanga-page.js']) {
     const text = fs.readFileSync(path.join(__dirname, f), 'utf8');
     assert.equal(FORBIDDEN.test(text), false, `${f} mentions a forbidden source`);
@@ -271,7 +332,7 @@ test('the trigonometry left in the sovereign files is pinned, and no module reac
   const files = fs.readdirSync(__dirname).filter((f) => /\.js$/.test(f) && !/\.test\.js$/.test(f));
   const sovereign = ['katapayadi.js', 'kala-dvara.js', 'parahita-madhyama.js', 'dhruva.js', 'sphuta.js', 'radau.js', 'panchanga.js', 'dasha.js', 'muhurta.js', 'utsava.js',
     'gurutva.js', 'gurutva-candra.js', 'spanda-ganita.js', 'ss-udaya.js', 'ss-graha.js', 'ss-chaya.js', 'ss-grahana.js', 'ss-drishya.js', 'ss-ahargana.js', 'ss-parilekha.js',
-    'candravakya.js', 'vedha-lekha.js', 'samskara.js', 'yantra.js'].filter((f) => files.includes(f));
+    'candravakya.js', 'vedha-lekha.js', 'samskara.js', 'yantra.js', 'parampara.js'].filter((f) => files.includes(f));
   for (const f of sovereign) {
     const text = fs.readFileSync(path.join(__dirname, f), 'utf8');
     const n = (text.match(/Math\.(?:sin|cos|tan|asin|acos|atan2|atan)\b/g) || []).length;

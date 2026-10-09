@@ -12,6 +12,10 @@
  *   1.45-1.47   1,953,720,000 years from creation to the end of the Kṛta; + Tretā + Dvāpara = 1,955,880,000 at the Kali
  *               epoch, which is 452¾ yugas: a yuga body is frac(R·(1811/4 + days/1,577,917,828)), exact in BigInt.
  *   1.53-1.54   mean place = days × revolutions ÷ civil days; uccas forward; nodes the same way, taken from the circle.
+ *   1.55        Jupiter's revolutions gone × 12, with the (current) signs, cleared of sixties: the years "from Vijaya" — the
+ *               sixty-year cycle from mean Jupiter since creation, exact in BigInt (samvatsara) [reading A: signs gone,
+ *               remainder 0 = Vijaya; reading B: remainder 1 = Vijaya]. The text names only Vijaya; the other 59 names are
+ *               the standard list [standard].
  *   1.57-1.58   at the end of the Kṛta every mean planet is at Meṣa 0 (and at the Kali epoch too, since 4 divides every R).
  *   1.68-1.70   greatest latitudes "trighana-randhra-arka-rasa-arka-arka, daśa-hatāḥ", Moon onward in weekday order: Moon 270′,
  *               Mars 90′, Mercury 120′, Jupiter 60′, Venus 120′, Saturn 120′ (1.69: 270′ ÷ 9 = 30′; ×2 Jupiter, ×3 Mars,
@@ -407,9 +411,55 @@
     return { t, drkA: dA, drkB: dB, latitudeA: sa.latitude, latitudeB: sb.latitude, separation: sa.latitude - sb.latitude, shiftDays: r ? r.days : 0 };
   }
 
-  return Object.freeze({ R, NAMES, PLANETS, YEARS_GONE, KALPA_YEARS, MOON_ORBIT_YOJANA_PER_ARCMIN,
+  // ── 1.55: the sixty-year cycle from mean Jupiter ─────────────────────────────────────────────────────────
+  /** The sixty names, Prabhava first: the standard list [standard]; the text (1.55) names only Vijaya, as the first of
+   *  its count. The same list, in Devanāgarī, as math-core.js SAMVATSARA_NAMES. */
+  const SAMVATSARA = Object.freeze(["Prabhava", "Vibhava", "Śukla", "Pramoda", "Prajāpati", "Aṅgirā", "Śrīmukha", "Bhāva", "Yuvā",
+    "Dhātā", "Īśvara", "Bahudhānya", "Pramāthī", "Vikrama", "Vṛṣaprajā", "Citrabhānu", "Subhānu", "Tāraṇa", "Pārthiva", "Vyaya",
+    "Sarvajit", "Sarvadhārī", "Virodhī", "Vikṛti", "Khara", "Nandana", "Vijaya", "Jaya", "Manmatha", "Durmukha", "Hemalamba",
+    "Vilambī", "Vikārī", "Śārvarī", "Plava", "Śubhakṛt", "Śobhakṛt", "Krodhī", "Viśvāvasu", "Parābhava", "Plavaṅga", "Kīlaka",
+    "Saumya", "Sādhāraṇa", "Virodhakṛt", "Paridhāvī", "Pramādī", "Ānanda", "Rākṣasa", "Nala", "Piṅgala", "Kālayukta",
+    "Siddhārthī", "Raudra", "Durmati", "Dundubhī", "Rudhirodgārī", "Raktākṣa", "Krodhana", "Kṣaya"]);
+  const VIJAYA = 26;                                                                        // Vijaya's place in that list
+  const JUP_REV = PLANETS.jupiter.rev;                                                     // 364,220 a yuga (1.31)
+  const floorDiv = (a, b) => { const q = a / b; return a % b !== 0n && (a < 0n) !== (b < 0n) ? q - 1n : q; };
+  /** Mean Jupiter's revolutions since creation at civil spandas Sp since the Kali epoch, as the exact fraction num/den:
+   *  364,220 × (1,955,880,000 years + Sp of civil time) ÷ (4,320,000 years of a yuga) (1.45-1.47, 1.53). */
+  const jupiterRevolutions = (Sp) => ({ num: JUP_REV * (YEARS_GONE * YUGA * SPD + SUN_REV * Sp), den: SUN_REV * YUGA * SPD });
+  /** SS 1.55: "dvādaśaghnā guroryātā bhagaṇā vartamānakaiḥ rāśibhiḥ sahitāḥ śuddhāḥ ṣaṣṭyā syurvijayādayaḥ" — Jupiter's
+   *  revolutions gone × 12, with the signs, cleared of sixties: the years from Vijaya. Exact (BigInt) from mean Jupiter
+   *  since creation (1.45-1.47). Reading "A" (default, opts.zero 0) [reading]: the signs gone in the current revolution
+   *  are added, and remainder 0 is Vijaya, the current year of a cycle that begins at creation; reading "B" (opts.zero 1)
+   *  counts the current sign as one, so remainder 1 is Vijaya. `days`: civil days since the Kali epoch at Laṅkā midnight. */
+  function samvatsara(days, opts = {}) {
+    const zero = opts.zero === undefined ? 0 : opts.zero;
+    if (zero !== 0 && zero !== 1) throw new RangeError("ss-graha: samvatsara opts.zero is 0 (reading A) or 1 (reading B)");
+    if (typeof days !== "bigint" && !(typeof days === "number" && Number.isFinite(days))) throw new TypeError("ss-graha: samvatsara needs a finite day count");
+    const { num, den } = jupiterRevolutions(S.spandasOfDays(days));
+    const revolutionsGone = floorDiv(num, den);
+    const signsGone = Number((num - revolutionsGone * den) * 12n / den);
+    const remainder = Number(((12n * revolutionsGone + BigInt(signsGone)) % 60n + 60n) % 60n);
+    const vijayaIndex = zero === 0 ? remainder : (remainder + 59) % 60;
+    const prabhavaIndex = (vijayaIndex + VIJAYA) % 60;
+    return { revolutionsGone, signsGone, remainder, vijayaIndex, prabhavaIndex, name: SAMVATSARA[prabhavaIndex], reading: zero === 0 ? "A" : "B",
+      source: "SS 1.55", rule: "(12 × mean Jupiter's revolutions gone since creation + its signs gone) mod 60, counted from Vijaya; " +
+        (zero === 0 ? "remainder 0 = Vijaya [reading A]" : "remainder 1 = Vijaya [reading B]") + "; names after Vijaya: the standard list [standard]" };
+  }
+  /** The next instant after `days` at which mean Jupiter enters a sign — where the 1.55 name changes — in civil days since
+   *  the Kali epoch; closed form, the changes falling 1,577,917,828 ÷ (364,220 × 12) = 361.0267 days apart [theorem]. */
+  function samvatsaraChangeAfter(days) {
+    if (typeof days !== "bigint" && !(typeof days === "number" && Number.isFinite(days))) throw new TypeError("ss-graha: samvatsaraChangeAfter needs a finite day count");
+    const { num, den } = jupiterRevolutions(S.spandasOfDays(days));
+    const m = floorDiv(12n * num, den) + 1n;                                               // the next whole sign since creation
+    // 12 × 364,220 × (YEARS_GONE × YUGA + 4,320,000 × d) = m × 4,320,000 × YUGA  →  d = YUGA (m × 4,320,000 − 12 × 364,220 × YEARS_GONE) ÷ (12 × 364,220 × 4,320,000)
+    const dn = YUGA * (m * SUN_REV - 12n * JUP_REV * YEARS_GONE), dd = 12n * JUP_REV * SUN_REV;
+    const whole = floorDiv(dn, dd);
+    return Number(whole) + Number((dn - whole * dd) * TWO53 / dd) / 9007199254740992;
+  }
+
+  return Object.freeze({ R, NAMES, PLANETS, YEARS_GONE, KALPA_YEARS, MOON_ORBIT_YOJANA_PER_ARCMIN, SAMVATSARA,
     yugaDeg, kalpaDeg, meanPlaces, motions, synodicDays, paridhiAt, manda, sighra, fourSteps, truePlace, truePlaces, sunEquation,
     dorjyantara, mandaMotion, trueMotion, placeMotion, houseFromSighrocca, stations, retrogradeSpans,
-    moonState, bodyState, yutiInterval, yutiNear, conjunctions, diameter, yuddha, drkkarma, meridianAsus, yutiDrk,
+    moonState, bodyState, yutiInterval, yutiNear, conjunctions, diameter, yuddha, drkkarma, meridianAsus, yutiDrk, samvatsara, samvatsaraChangeAfter,
     sine: S.sine || "table", withSine: (name) => ssGraha(S.withSine(name), U.withSine(name)) });
 });

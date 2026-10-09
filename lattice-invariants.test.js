@@ -11,6 +11,7 @@ const ARCSEC_PER_REV = 1296000n;                 // 360 × 3600
 const SPANDA_PER_ARCSEC = 253125n;               // 3⁴·5⁵
 const SPANDA_DEG = 1 / (253125 * 3600);          // one spanda of arc, in degrees (≈1.097e-9°)
 const MAHAYUGA_SPANDAS = SPD * 1577917828n;      // = REV_DEN (math-core.js:1255)
+const LANKA = 69062270625n;                      // Laṅkā midnight precedes Greenwich midnight by 75.7885/360 day, in spandas
 
 function factorize(n) {                          // BigInt trial division — n is 2-3-5-smooth here
   const f = {}; let p = 2n;
@@ -53,7 +54,25 @@ test("meanRawExact: residues on ℤ/REV_DEN return to zero at one mahāyuga (eve
     assert.equal(M.meanRawExact(k, 7n * MAHAYUGA_SPANDAS), at0, `${k}: 7-mahāyuga closure`);
     assert.equal(M.meanRawExact(k, -MAHAYUGA_SPANDAS), at0, `${k}: negative closure`);
   }
-  assert.equal(M.meanRawExact("ketu", 0n), 180); // Ketu rides Rāhu's bhagaṇa + 180°
+  // Ketu = Rāhu + 180° [theorem]: Rāhu is at 180° at the Kali epoch, so Ketu is at 0°. Until 2026-10-08 this line pinned
+  // 180, a latent bug (meanRawExact returned Rāhu's value for Ketu); corrected, not widened.
+  assert.equal(M.meanRawExact("rahu", 0n), 180);
+  assert.equal(M.meanRawExact("ketu", 0n), 0);
+  for (const S of [12345678901234n, -98765432109876n]) {
+    const d = Math.abs(((M.meanRawExact("ketu", S) - M.meanRawExact("rahu", S) - 180) % 360 + 540) % 360 - 180);
+    assert.ok(d < SPANDA_DEG, "Ketu = Rāhu + 180° at any instant");
+  }
+});
+
+test("meanRawExact, fed the text's own spanda count, equals the served mean places (sphuta.js / ss-graha.js) for all eight bodies — an independent BigInt path", () => {
+  const S = require("./sphuta.js"), G = require("./ss-graha.js");
+  const near = (a, b) => Math.abs(((a - b) % 360 + 540) % 360 - 180);
+  for (const jd of [588465.5, 1721425.5, 2451545, 2461321.520833, 2816787.5, -16000000, 21000000]) {
+    const sp = M.jdToAharganaSpandas(jd), m = S.madhyama(sp), t = M.ssDaysOfJd(jd), g = G.meanPlaces(t);
+    const served = { surya: m.sun, candra: m.moon, rahu: m.node, mangala: g.mars.mean, budha: g.mercury.sighrocca, guru: g.jupiter.mean, shukra: g.venus.sighrocca, shani: g.saturn.mean };
+    for (const [k, v] of Object.entries(served)) assert.ok(near(M.meanRawExact(k, sp), v) < 1e-12, `${k} at JD ${jd}: ${M.meanRawExact(k, sp)} vs ${v}`);
+    assert.ok(near(M.meanRawExact("ketu", sp), S.madhyama(sp).node + 180) < 1e-12);
+  }
 });
 
 test("meanRawExact: half-mahāyuga joint return holds exactly for every even bhagaṇa", () => {
@@ -80,7 +99,7 @@ test("meanRawExact: additive homomorphism ℤ → ℤ/REV_DEN (float exit bounde
   }
 });
 
-test("jdToAharganaSpandas: BigInt door, monotone, one civil day = SPD ± the ΔT drift only", () => {
+test("jdToAharganaSpandas: BigInt door, monotone, one civil day = SPD exactly (the text's day count: no ΔT, 2026-10-08)", () => {
   const rnd = lcg(9);
   let prev = -1n, jd = 2000000;
   for (let i = 0; i < 300; i++) {
@@ -89,9 +108,13 @@ test("jdToAharganaSpandas: BigInt door, monotone, one civil day = SPD ± the ΔT
     assert.equal(typeof a, "bigint");
     assert.ok(a > prev, "ahargaṇa must be monotone in JD"); prev = a;
   }
-  const d = M.jdToAharganaSpandas(2451546.5) - M.jdToAharganaSpandas(2451545.5);
-  const drift = d - SPD;                                    // ΔT changes ~ms/day → thousands of spandas
-  assert.ok(drift > -20000n && drift < 20000n, `one day = SPD ${drift >= 0n ? "+" : ""}${drift} spandas`);
+  // Before 2026-10-08 a whole day was SPD ± the ΔT drift (the door added ΔT); the text's own count has none, so every
+  // whole-day step is exactly SPD [theorem; measured at these instants]. A tightening, not a widening.
+  for (const jd0 of [588465.5, 1721425.5, 2451545.5, 2461321.520833, 2488069.5]) {
+    assert.equal(M.jdToAharganaSpandas(jd0 + 1) - M.jdToAharganaSpandas(jd0), SPD, `JD ${jd0}`);
+  }
+  // the door is the text tier's own (ss-tier.js → sphuta.js), with the Laṅkā origin: midnight at Laṅkā is day 0
+  assert.equal(M.jdToAharganaSpandas(588465.5), 69062270625n, "Greenwich midnight of Kali day 0 is 75.7885/360 day after Laṅkā's");
   // Door width: a double JD near 2.45e6 has ulp 4.66e-10 day = 152.8 spandas. Pinned as the
   // known entry float (council gate 6 = BigInt civil entry); NOT a tolerance on the lattice.
   const ulpDay = 2451545.5 - (2451545.5 - Number.EPSILON * 2451545.5);
@@ -150,7 +173,13 @@ test("civil door (gate 6): aharganaSpandasFromCivil is exact BigInt — 1 s = 3,
   const c = (o) => M.aharganaSpandasFromCivil({ year: 2000, month: 1, day: 1, applyDeltaT: false, ...o });
   const t0 = c({ hour: 12 });
   assert.equal(typeof t0, "bigint");
-  assert.equal(t0, 1863079n * SPD + SPD / 2n);                       // JD 2451545.0 − 588465.5 = 1,863,079.5 days, exactly
+  // JD 2451545.0 − 588465.5 = 1,863,079.5 days from Greenwich midnight, + the Laṅkā offset (the default meridian since
+  // 2026-10-08): 328,050,000,000 × 75.7885 ÷ 360 = 69,062,270,625 spandas exactly [theorem]
+  assert.equal(LANKA, 328050000000n * 757885n / 3600000n);
+  assert.equal(328050000000n * 757885n % 3600000n, 0n);
+  assert.equal(t0, 1863079n * SPD + SPD / 2n + LANKA);
+  assert.equal(c({ hour: 12, meridian: "greenwich" }), 1863079n * SPD + SPD / 2n);
+  assert.equal(M.aharganaSpandasFromCivil({ year: 2000, month: 1, day: 1, hour: 12 }), t0, "applyDeltaT: false is the default");
   assert.equal(c({ hour: 12, second: 1 }) - t0, 3796875n);
   assert.equal(c({ hour: 12, minute: 24 }) - t0, 1440n * 3796875n);  // one ghaṭikā/nāḍikā
   assert.equal(c({ hour: 12, nanosecond: 64000 }) - t0, 243n);       // 64 µs = 243 spandas, the finest exact civil step
@@ -160,14 +189,15 @@ test("civil door (gate 6): aharganaSpandasFromCivil is exact BigInt — 1 s = 3,
   // Gregorian rule matches the float path day-for-day across leap/century boundaries (Meeus, proleptic)
   for (const [y, mo, d] of [[1600, 2, 29], [1700, 3, 1], [1900, 2, 28], [2100, 1, 1], [-3101, 1, 23], [1582, 10, 15], [100, 1, 1]]) {
     const iso = `${y < 0 ? "-" : ""}${String(Math.abs(y)).padStart(4, "0")}-${String(mo).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-    const viaFloat = y >= 100 ? M.gregorianToJulianDay(iso) : null; // the float path (Date.UTC probe) cannot express years < 100
-    const days = M.aharganaSpandasFromCivil({ year: y, month: mo, day: d, applyDeltaT: false }) / SPD;
-    if (viaFloat !== null) assert.equal(days, BigInt(Math.round(viaFloat - M.KALI_EPOCH_JD)), `${iso}: day count vs gregorianToJulianDay`);
+    const viaFloat = M.gregorianToJulianDay(iso); // since 2026-10-08 the date parser is kala-dvara.js's, valid for years < 100 too
+    const days = M.aharganaSpandasFromCivil({ year: y, month: mo, day: d, applyDeltaT: false }) / SPD;   // the Laṅkā offset is < a day
+    assert.equal(days, BigInt(Math.round(viaFloat - M.KALI_EPOCH_JD)), `${iso}: day count vs gregorianToJulianDay`);
     if (y === -3101) assert.equal(days, 0n, "Kali epoch = proleptic-Gregorian 23 Jan 3101 BCE, day 0");
   }
 });
 
-test("civil door vs double-JD door: they agree to within the double's own ulp (< 160 spandas), ΔT applied on both", () => {
+test("civil door vs double-JD door: they agree to within the double's own ulp (< 160 spandas), no ΔT on either and the Laṅkā origin on both", () => {
+  // not asserted ===: 75.7885/360 is not exact in binary, so the double door rounds where the BigInt door does not
   for (const [jd, civ] of [[2451545.0, { year: 2000, month: 1, day: 1, hour: 12 }], [2460677.0, { year: 2025, month: 1, day: 1, hour: 12 }], [2299160.5, { year: 1582, month: 10, day: 15 }]]) {
     const a = M.jdToAharganaSpandas(jd), b = M.aharganaSpandasFromCivil(civ);
     const d = a > b ? a - b : b - a;
@@ -200,9 +230,11 @@ test("Moon apogee (chandra mandocca) is a closed bhagaṇa residue — returns t
   //     across ±5 mahāyuga incl. the Kali epoch; the apogee stays in [0,360) (bounded) at every sample.
   //     (The only non-residue input left is ΔT itself — a separate, documented deep-time concern,
   //     AUDIT30 §3 term 7 / D1-08 — not the apogee model this fix governs.)
+  // (2026-10-08) The served path is the text tier's: no ΔT; the epoch is midnight at Laṅkā, 75.7885/360 day before
+  // Greenwich midnight — so the residue is taken at t + 75.7885/360 (was t + ΔT/86400), still within one spanda.
   for (const t of [0, -36525, -182625, -547875, -1863079.5, 5 * YUGA, -5 * YUGA, 123456.7]) {
     const served = M.ssMandoccaAt("chandra", t);
-    const expected = norm(90 + M.ssMeanLongitude(t + M.observedDeltaTSeconds(t) / 86400.0, B));
+    const expected = norm(90 + M.ssMeanLongitude(t + 75.7885 / 360, B));
     const d = Math.abs(((served - expected + 540) % 360) - 180);
     assert.ok(d < SPANDA_DEG, `chandra mandocca is a pure residue at t=${t} (|Δ| = ${d}° = ${(d * 253125 * 3600).toFixed(3)} spandas)`);
     assert.ok(served >= 0 && served < 360, `chandra mandocca bounded in [0,360) at t=${t}`);
@@ -211,6 +243,6 @@ test("Moon apogee (chandra mandocca) is a closed bhagaṇa residue — returns t
   // (3) J2000 is preserved: the removed placeholder was 0 at T=0, so the served apogee there is
   //     unchanged — modern output does not move (this change IS the fix for deep time only).
   const j2000Served = M.ssMandoccaAt("chandra", 0);
-  const j2000Expect = norm(90 + M.ssMeanLongitude(M.observedDeltaTSeconds(0) / 86400.0, B));
+  const j2000Expect = norm(90 + M.ssMeanLongitude(75.7885 / 360, B));
   assert.ok(Math.abs(((j2000Served - j2000Expect + 540) % 360) - 180) < SPANDA_DEG);
 });
