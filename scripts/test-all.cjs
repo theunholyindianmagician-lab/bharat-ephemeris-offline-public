@@ -11,7 +11,7 @@ const suites = ['precision.test.mjs', 'math-core.test.js', 'lattice-invariants.t
   'sovereign-master-physics.test.js',
   'sprint-upgrades.test.js', 'library-nav-enhancer.test.js', 'library-pi-verse.test.js',
   'independent-ui-regression.test.js', 'legacy-honesty.test.js', 'scripts/engine-mode-ui.test.cjs', 'scripts/legacy-tier-ui.test.cjs', 'scripts/vedha-ui.test.cjs',
-  'scripts/siddhanta-panchanga-ui.test.cjs', 'scripts/build-site.test.cjs', 'parampara.test.js', 'scripts/csp.test.cjs', 'scripts/ganita-shala-ui.test.cjs', 'sukshma-kala.test.js'];
+  'scripts/siddhanta-panchanga-ui.test.cjs', 'scripts/build-site.test.cjs', 'parampara.test.js', 'scripts/csp.test.cjs', 'scripts/ganita-shala-ui.test.cjs', 'sukshma-kala.test.js', 'kalachakra.test.js'];
 // Decision §7.5 of VEDHA-YANTRA-DESIGN-2026-10-07.md (owner, 2026-10-07: "do everything"): suites that compare with a
 // modern ephemeris or product (VSOP/ELP/DE, IERS, Swiss) are kept, labelled non-referee — they test the legacy product
 // tier, never the sovereign text tier, which no modern source may seed or judge.

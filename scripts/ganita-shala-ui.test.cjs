@@ -139,6 +139,12 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
       const first = ledger.entries.find((e) => e.figures && e.figures.length);
       if (first) assert.ok((await page.locator(`#d-${first.id}`).textContent()).includes(first.figures[0].verbatim.slice(0, 40)), 'a figure is quoted verbatim');
     } else assert.equal((await page.evaluate(() => document.body.dataset.ledger)), 'missing');
+    // the Kālacakra block: sixteen chains with the text's check, one line per choice, the readings
+    const chains = await page.$$eval('#kalachakra-chains tbody tr', (trs) => trs.map((tr) => ({ type: tr.dataset.type, pada: tr.dataset.pada, ok: tr.dataset.ok, cells: [...tr.children].map((td) => td.textContent) })));
+    assert.equal(chains.length, 16); assert.ok(chains.every((c) => c.ok === 'true')); assert.equal(chains[0].cells[2], 'Meṣa → Vṛṣa → Mithuna → Karka → Siṃha → Kanyā → Tulā → Vṛścika → Dhanu'); assert.match(chains[0].cells[4], /^100 = 100/);
+    const now = await page.$$eval('#kalachakra-now p', (ps) => ps.map((p) => ({ tier: p.dataset.tier, text: p.textContent, refusal: p.className === 'refusal' })));
+    assert.equal(now.length, 4); assert.ok(now.every((n) => !n.refusal && /cell \d+ .*running/.test(n.text)), JSON.stringify(now));
+    assert.ok((await page.$$eval('#kalachakra-readings li', (ls) => ls.length)) >= 8);
     // section 6: the library sweep, one card per edition with its findings; the tower table from the loaded modules
     const sweep = JSON.parse(fs.readFileSync(path.join(root, 'corpus', 'research', 'library-sweep.json'), 'utf8'));
     await page.waitForFunction((n) => document.body.dataset.granthas === String(n), sweep.reads.length, { timeout: 120000 });

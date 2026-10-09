@@ -174,6 +174,7 @@
     const d = TEXT_TIERS[0], c = SK.cell(tierAt(jd, d).moon), bd = budgets[d];
     const sources = ids.map((id) => `${M.TIERS[id].labelSa}: ${budgets[id] ? budgets[id].source : "no measured figure"}`).join(" · ");
     $("sukshma-dasha").textContent = `Daśā: in the ${M.TIERS[d].label} choice the Moon stands in ${c.nakshatra}. nakṣatra, pāda ${c.pada} (cell ${c.k} of 108; navāṃśa ${c.navamsha + 1} = pāda identity), lord ${c.lord}; one minute of arc of the Moon is ${SK.dashaDaysPerArcmin(c.lord).toFixed(2)} days of its daśā, so this choice's Moon uncertainty of ${bd ? (bd.moon / 60).toFixed(1) : "—"}′ is ${bd ? (SK.dashaDaysPerArcmin(c.lord) * bd.moon / 60).toFixed(0) : "—"} days of daśā at birth. Uncertainties used — ${sources}.`;
+    renderKalachakra(jd, ids);
     document.body.dataset.sukshma = "done";
   }
 
@@ -227,6 +228,30 @@
       const ul = el("ul"); for (const m of miss) ul.appendChild(el("li", null, `${m.name} — ${m.section}${m.files && m.files.length ? ` (${m.files.join(", ")})` : ""}: ${m.derives}`)); d.appendChild(ul); out.appendChild(d);
     }
     document.body.dataset.ledger = String(entries.length);
+  }
+
+  function renderKalachakra(jd, ids) {
+    const KC = globalThis.Kalachakra; if (!KC) throw new Error("kalachakra.js is not loaded");
+    const tb = $("kalachakra-chains").querySelector("tbody"); tb.textContent = "";
+    for (const c of KC.table()) {
+      const tr = el("tr"); tr.dataset.type = c.type; tr.dataset.pada = String(c.pada); tr.dataset.ok = String(c.sumMatchesParamayus);
+      tr.appendChild(el("td", null, `${c.type} · ${c.pada} (${c.verse})`)); tr.appendChild(el("td", null, c.group));
+      tr.appendChild(el("td", null, c.names.join(" → "))); tr.appendChild(el("td", "num", c.years.join(" ")));
+      tr.appendChild(el("td", c.sumMatchesParamayus ? "num ok" : "num refusal", `${c.sum} = ${c.paramayus} (aṃśaka ${c.savya ? c.amshaka : c.amshakaViloma}${c.savya ? "" : " viloma"})`));
+      tr.appendChild(el("td", null, `${KC.SIGNS[c.deha - 1]} · ${KC.SIGNS[c.jiva - 1]}`));
+      tr.appendChild(el("td", "src", c.motions.length ? c.motions.map((m) => `${m.motion} ${KC.SIGNS[m.from - 1]}→${KC.SIGNS[m.to - 1]}`).join("; ") : "—")); tb.appendChild(tr);
+    }
+    const out = $("kalachakra-now"); out.textContent = "";
+    const kali = jd - 588465.5, spandas = BigInt(Math.floor(kali)) * 328050000000n + BigInt(Math.round((kali - Math.floor(kali)) * 328050000000));
+    for (const id of ids) {
+      try {
+        const moon = tierAt(jd, id).moon, d = KC.fromMoon(moon, spandas), run = d.periods.find((p) => p.running);
+        const p = el("p", null, `${M.TIERS[id].labelSa} · ${M.TIERS[id].label}: Moon ${moon.toFixed(4)}° → cell ${d.birth.cell.cell} (${d.birth.nakshatraName} pāda ${d.birth.pada}, ${d.birth.goneArcmin.toFixed(2)}′ gone) → ${d.chain.type} · ${d.chain.group}, chain ${d.chain.names.join(", ")} (${d.chain.paramayus} y); gone ${(Number(d.goneYears.num) / Number(d.goneYears.den)).toFixed(3)} y, running ${run ? `${run.name} (${run.lord}) with ${(Number(run.balanceYears.num) / Number(run.balanceYears.den)).toFixed(3)} y left` : "—"}`);
+        p.dataset.tier = id; out.appendChild(p);
+      } catch (e) { const p = el("p", "refusal", `${M.TIERS[id].labelSa}: ${e.message}`); p.dataset.tier = id; out.appendChild(p); }
+    }
+    const ul = $("kalachakra-readings").querySelector("ul"); ul.textContent = "";
+    for (const r of KC.READINGS) ul.appendChild(el("li", null, `${r.verse} [${r.tag}]: ${r.what}`));
   }
 
   // ── section 6: the library, and the ring tower in the text's numbers ─────────────────────────────────────────────
