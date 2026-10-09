@@ -229,6 +229,49 @@
     document.body.dataset.ledger = String(entries.length);
   }
 
+  // ── section 6: the library, and the ring tower in the text's numbers ─────────────────────────────────────────────
+  function renderTower() {
+    const K = globalThis.KalaDvara, S = globalThis.Sphuta, PM = globalThis.ParahitaMadhyama;
+    if (!SK || !K || !S) return;
+    const m = K.mana("surya"), a = K.mana("aryabhata");
+    const rows = SK.valuationTable([
+      { name: "Sun revolutions a yuga (SS 1.29)", value: m.sun }, { name: "years a yuga (SS 1.15-1.21)", value: 4320000n }, { name: "the day's prāṇas (SS 1.11-1.12)", value: 21600n },
+      { name: "27 nakṣatras", value: 27n }, { name: "108 cells (27 × 4 = 12 × 9)", value: 108n }, { name: "Aṣṭottarī years (BPHS)", value: 108n },
+      { name: "Moon revolutions (SS 1.30)", value: m.moon }, { name: "tithis a yuga (SS 1.37)", value: m.tithi }, { name: "solar months (SS 1.39)", value: m.sauraMasa },
+      { name: "star-risings (SS 1.34)", value: m.nakshatra }, { name: "civil days (SS 1.37)", value: m.savana }, { name: "Āryabhaṭa's rotations (Gītikā)", value: a.nakshatra }, { name: "Āryabhaṭa's civil days", value: a.savana },
+      { name: "Moon apogee revolutions (SS 1.33)", value: S.REV.moonApogee }, { name: "node revolutions (SS 1.33)", value: S.REV.node }, ...(PM ? [{ name: "Parahita node revolutions", value: PM.REV.node }] : []),
+      { name: "arcseconds in the circle", value: 1296000n }, { name: "nakṣatra bhoga (′)", value: 800n }, { name: "tithi bhoga (′)", value: 720n }, { name: "9 lords", value: 9n }, { name: "Vimśottarī years", value: 120n },
+      { name: "R = 3438 (SS 2.15-2.22)", value: 3438n }, { name: "Mādhava's R in thirds", value: 12375888n }, { name: "libration turns a yuga (SS 3.9)", value: 600n }, { name: "spandas a day (the lattice)", value: S.SPD },
+    ]);
+    const tb = $("tower-table").querySelector("tbody"); tb.textContent = "";
+    for (const r of rows) { const tr = el("tr"); tr.dataset.nu3 = String(r.nu3); tr.appendChild(el("td", null, r.name)); tr.appendChild(el("td", "num", r.value)); tr.appendChild(el("td", "num", String(r.nu3))); tr.appendChild(el("td", "num", r.threeFreePart)); tr.appendChild(el("td", null, r.unitMod3 ? "yes" : "no")); tb.appendChild(tr); }
+    $("tower-note").textContent = SK.TOWER_NOTE;
+  }
+  function renderGranthas(data) {
+    const out = $("granthas-out"); out.textContent = "";
+    out.appendChild(el("p", "src", `${data.generatedBy}. ${data.rule}`));
+    for (const r of data.reads || []) {
+      const card = el("article", "card"); card.dataset.edition = r.edition;
+      const c = r.counts || {};
+      card.appendChild(el("h3", null, `${r.edition.replace("editions/", "").replace("-full-edition.html", "")} — ${c.findings || 0} findings (${c.verse || 0} verse, ${c.commentary || 0} commentary; ${c.verseFound || 0} found at their lines), ${c.notUsed || 0} not used by the engine, ${c.candidates || 0} measurement candidates`));
+      if (Array.isArray(r.chaptersSeen) && r.chaptersSeen.length) card.appendChild(el("p", "src", `Chapters seen: ${r.chaptersSeen.join("; ")}`));
+      const tbl = el("table"); const th = el("thead"), hr = el("tr"); for (const h of ["topic", "the line", "kind", "number", "structure", "engine"]) hr.appendChild(el("th", null, h)); th.appendChild(hr); tbl.appendChild(th);
+      const tb = el("tbody");
+      for (const f of r.findings || []) {
+        const tr = el("tr"); tr.dataset.kind = f.kind; tr.dataset.found = String(!!f.verseFound);
+        const t1 = el("td"); t1.appendChild(el("b", null, f.topic)); t1.appendChild(el("div", "src", f.what)); tr.appendChild(t1);
+        const t2 = el("td"); t2.appendChild(el("code", null, f.verse)); t2.appendChild(el("div", "src", `line ${f.line}${f.verseFound ? "" : " — not found at that line as quoted"}`)); tr.appendChild(t2);
+        tr.appendChild(el("td", f.kind === "verse" ? "ok" : "muted", f.kind)); tr.appendChild(el("td", "num", f.number || "—")); tr.appendChild(el("td", null, f.structure || "—")); tr.appendChild(el("td", "src", f.engineUse || "—"));
+        tb.appendChild(tr);
+      }
+      tbl.appendChild(tb); const d = el("div", "tbl"); d.appendChild(tbl); card.appendChild(d);
+      if (Array.isArray(r.measurementCandidates) && r.measurementCandidates.length) { const det = el("details"); det.appendChild(el("summary", null, `measurement candidates (${r.measurementCandidates.length})`)); const ul = el("ul"); for (const m of r.measurementCandidates) ul.appendChild(el("li", null, `${m.what} (line ${m.line}) — ${m.why}`)); det.appendChild(ul); card.appendChild(det); }
+      if (Array.isArray(r.notFound) && r.notFound.length) card.appendChild(el("p", "src", `Searched and not found: ${r.notFound.join("; ")}`));
+      out.appendChild(card);
+    }
+    document.body.dataset.granthas = String((data.reads || []).length);
+  }
+
   // ── boot ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
   function defaultInputs() {
     const now = new Date(), tz = 5.5, local = new Date(now.getTime() + tz * 3600000);
@@ -259,6 +302,9 @@
     catch (e) { $("parampara-out").appendChild(el("p", "refusal", `corpus/research/parampara-apply.json could not be read: ${e.message}`)); document.body.dataset.paramparaApply = "missing"; }
     try { renderLedger(await get("corpus/research/derivations.json")); }
     catch (e) { $("ledger-out").appendChild(el("p", "refusal", `corpus/research/derivations.json could not be read: ${e.message}`)); document.body.dataset.ledger = "missing"; }
+    try { renderTower(); } catch (e) { $("tower-note").textContent = `the tower table could not be computed: ${e.message}`; }
+    try { renderGranthas(await get("corpus/research/library-sweep.json")); }
+    catch (e) { $("granthas-out").appendChild(el("p", "refusal", `corpus/research/library-sweep.json could not be read: ${e.message}`)); document.body.dataset.granthas = "missing"; }
     document.body.dataset.ready = "1";
   })();
 })();

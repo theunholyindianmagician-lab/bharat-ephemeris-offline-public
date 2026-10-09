@@ -24,6 +24,7 @@
   <link href="corpus/parampara/samskara.json" rel="prefetch">
   <link href="corpus/research/parampara-apply.json" rel="prefetch">
   <link href="corpus/research/derivations.json" rel="prefetch">
+  <link href="corpus/research/library-sweep.json" rel="prefetch">
   <style>
     /* Night sky with brass by default; by day, slate paper with copper — the tokens of vedha.html and siddhanta-panchanga.html. */
     :root { --vb: #0d1220; --vp: #141b30; --vl: #2a3456; --vi: #e6e8ee; --vm: #a3abc4; --va: #e0a458; --vg: #6fd39b; --vr: #ff8a7a; --vh: rgba(224, 164, 88, 0.16);
@@ -135,8 +136,17 @@
     <p class="muted">What this does not do: it does not improve a text choice — no śāstra's division adds a measurement; it states what each choice can decide. The texts' micro-vargas presuppose a Moon and a lagna known to their parts; the dṛk choice meets that today within its span, and a text choice meets it only within its own model. The ayanāṃśa choice alone moves every placement by the difference between the frames (section 1).</p>
   </section>
 
+  <section id="granthas" aria-labelledby="h-granthas">
+    <h2 id="h-granthas">६ · ग्रन्थ-भण्डार में क्या है · What the library holds</h2>
+    <p>Each edition of the library was read for what its text holds about time structure, number and measurement (<code>corpus/research/library-sweep.json</code>: one reader per edition, every quoted line re-checked against the file). A finding marked <b>verse</b> is in the Sanskrit; <b>commentary</b> means only the edition's own commentary says it. <b>engine</b> says whether a module already uses it (one grep, not an audit). The measurement candidates are what in a text could serve as a dated observation or an independent constraint — most are rules or undated constants, and the readers say so.</p>
+    <h3>The ring tower in the text's numbers</h3>
+    <p id="tower-note"></p>
+    <div class="tbl"><table id="tower-table"><thead><tr><th>count</th><th>value</th><th>ν₃ (the level k)</th><th>3-free part</th><th>unit mod 3</th></tr></thead><tbody></tbody></table></div>
+    <div id="granthas-out"></div>
+  </section>
+
   <section id="not-claimed" aria-labelledby="h-nc">
-    <h2 id="h-nc">६ · जो दावा नहीं है · What is not claimed</h2>
+    <h2 id="h-nc">७ · जो दावा नहीं है · What is not claimed</h2>
     <ul>
       <li>Accuracy of a text choice against today's sky beyond what section 1 shows for the day you pick: the text's Moon has one equation (SS 2.29-2.45), and no record in the registry corrects that; the elongation's scatter (section 3) is the text's.</li>
       <li>Independence of the dṛk choice from JPL: its series was fitted to this engine's N-body, which is restarted from NASA-JPL DE440s states; its label says so.</li>

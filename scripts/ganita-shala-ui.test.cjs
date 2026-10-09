@@ -37,7 +37,7 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
   assert.doesNotMatch(html, /\son[a-z]+\s*=/i, 'no inline event handlers');
   assert.doesNotMatch(html.replace(/<meta (?:property="og:(?:url|image)"|name="twitter:image") content="https:\/\/offline\.bharatephemeris\.com\/[^"]*">/g, ''), /https?:\/\//, 'no outside URL in the page');
   assert.doesNotMatch(js, /https?:\/\//, 'no outside URL in the page script');
-  for (const f of ['ganita-shala.html', 'ganita-shala-page.js', 'corpus/parampara/registry.json', 'corpus/parampara/samskara.json', 'corpus/research/parampara-apply.json', 'corpus/research/derivations.json']) {
+  for (const f of ['ganita-shala.html', 'ganita-shala-page.js', 'corpus/parampara/registry.json', 'corpus/parampara/samskara.json', 'corpus/research/parampara-apply.json', 'corpus/research/derivations.json', 'corpus/research/library-sweep.json']) {
     assert.ok(sw.includes(`"./${f}"`), `sw.js precaches ${f}`);
     assert.ok(html.includes(`"${f}"`) || scripts.includes(f) || f.endsWith('.html'), `the page references ${f} (the build publishes what a page references)`);
   }
@@ -139,6 +139,15 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
       const first = ledger.entries.find((e) => e.figures && e.figures.length);
       if (first) assert.ok((await page.locator(`#d-${first.id}`).textContent()).includes(first.figures[0].verbatim.slice(0, 40)), 'a figure is quoted verbatim');
     } else assert.equal((await page.evaluate(() => document.body.dataset.ledger)), 'missing');
+    // section 6: the library sweep, one card per edition with its findings; the tower table from the loaded modules
+    const sweep = JSON.parse(fs.readFileSync(path.join(root, 'corpus', 'research', 'library-sweep.json'), 'utf8'));
+    await page.waitForFunction((n) => document.body.dataset.granthas === String(n), sweep.reads.length, { timeout: 120000 });
+    const cards = await page.$$eval('#granthas-out article.card', (as) => as.map((a) => ({ edition: a.dataset.edition, rows: a.querySelectorAll('tbody tr').length, verse: a.querySelectorAll('tbody tr[data-kind="verse"]').length })));
+    assert.deepEqual(cards.map((c) => c.edition), sweep.reads.map((r) => r.edition));
+    cards.forEach((c, i) => { assert.equal(c.rows, sweep.reads[i].findings.length, c.edition); assert.equal(c.verse, sweep.reads[i].findings.filter((f) => f.kind === 'verse').length); });
+    const tower = await page.$$eval('#tower-table tbody tr', (trs) => trs.map((tr) => ({ nu3: tr.dataset.nu3, cells: [...tr.children].map((td) => td.textContent) })));
+    assert.ok(tower.length >= 20); assert.equal(tower[0].cells[1], '4320000'); assert.equal(tower[0].nu3, '3');
+    const savana = tower.find((r) => r.cells[0].startsWith('civil days')); assert.equal(savana.nu3, '0'); assert.equal(savana.cells[4], 'yes');
     assert.equal(await page.evaluate(() => (window.__csp || []).length), 0, 'no CSP violation');
     await context.close();
     // ── 1800: the sky choice refuses, the page says so with the engine's words, the reasons stay ──────────────────────

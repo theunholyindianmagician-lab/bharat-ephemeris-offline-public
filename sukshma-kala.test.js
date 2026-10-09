@@ -96,3 +96,27 @@ test('gate: the module imports nothing, calls no trigonometry and names no moder
   assert.throws(() => SK.index(NaN, 'D9'), /finite/); assert.throws(() => SK.assess(10, 'D9', -1), /nonnegative/);
   assert.equal(SK.index(-1, 'D1'), 11); assert.equal(SK.index(360, 'D1'), 0);
 });
+
+test('the ring tower in the text\'s numbers: ν₃ of every count the texts give the engine — the Sun, the years, the day\'s prāṇas, 27 and 108 sit at k = 3; both canons\' day counts are units', () => {
+  const K = require('./kala-dvara.js'), S = require('./sphuta.js'), PM = require('./parahita-madhyama.js');
+  const m = K.mana('surya'), a = K.mana('aryabhata');
+  assert.equal(SK.nu3(27), 3); assert.equal(SK.nu3(108n), 3); assert.equal(SK.nu3(9), 2); assert.equal(SK.nu3(-54), 3); assert.equal(SK.nu3(7), 0);
+  assert.throws(() => SK.nu3(0), /not finite/);
+  const t = Object.fromEntries(SK.valuationTable([
+    { name: 'sun', value: m.sun }, { name: 'moon', value: m.moon }, { name: 'risings', value: m.nakshatra }, { name: 'savana', value: m.savana }, { name: 'tithi', value: m.tithi },
+    { name: 'sauraMasa', value: m.sauraMasa }, { name: 'aryaRisings', value: a.nakshatra }, { name: 'aryaSavana', value: a.savana }, { name: 'spd', value: S.SPD }, { name: 'pranas', value: 21600n },
+    { name: 'arcsec', value: 1296000n }, { name: 'nakshatraBhoga', value: 800n }, { name: 'tithiBhoga', value: 720n }, { name: 'cells', value: 108n }, { name: 'nakshatras', value: 27n },
+    { name: 'lords', value: 9n }, { name: 'vimshottari', value: 120n }, { name: 'ashtottari', value: 108n }, { name: 'R', value: 3438n }, { name: 'madhavaR', value: 12375888n },
+    { name: 'librations', value: 600n }, { name: 'yugaYears', value: 4320000n }, { name: 'moonApogee', value: S.REV.moonApogee }, { name: 'node', value: S.REV.node }, { name: 'parahitaNode', value: PM.REV.node },
+  ]).map((r) => [r.name, r]));
+  // k = 3, the owner's "Savitar gate", is the Sun's level in the text: 4,320,000 = 2^8·3^3·5^4
+  for (const n of ['sun', 'yugaYears', 'pranas', 'cells', 'nakshatras', 'ashtottari']) assert.equal(t[n].nu3, 3, n);
+  assert.equal(t.sun.threeFreePart, '160000');
+  // the clock counts are units mod 3 (both canons): the kuṭṭaka on a day count always solves [theorem]
+  for (const n of ['savana', 'risings', 'aryaRisings', 'aryaSavana']) assert.equal(t[n].unitMod3, n === 'savana' || n === 'risings', n);
+  assert.equal(t.savana.nu3, 0); assert.equal(t.risings.nu3, 0); assert.equal(t.aryaSavana.nu3, 1); assert.equal(t.aryaRisings.nu3, 1);
+  // the Moon's counts carry one 3; the apogee and node counts of both canons carry none; the spanda lattice carries 3^8
+  assert.equal(t.moon.nu3, 1); assert.equal(t.moonApogee.nu3, 0); assert.equal(t.node.nu3, 0); assert.equal(t.parahitaNode.nu3, 0); assert.equal(t.spd.nu3, 8);
+  assert.equal(t.arcsec.nu3, 4); assert.equal(t.tithi.nu3, 2); assert.equal(t.sauraMasa.nu3, 4); assert.equal(t.lords.nu3, 2); assert.equal(t.vimshottari.nu3, 1); assert.equal(t.R.nu3, 2);
+  assert.match(SK.TOWER_NOTE, /units/);
+});

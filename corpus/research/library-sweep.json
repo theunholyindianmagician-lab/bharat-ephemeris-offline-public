@@ -1,0 +1,2810 @@
+{
+ "format": "ganita-shala-library-sweep/1",
+ "date": "2026-10-09",
+ "generatedBy": "one reader per edition (a small model), each quoted verse re-checked against the edition file (verseFound); the edition's own commentary lines are marked kind=commentary and are not the text",
+ "reads": [
+  {
+   "edition": "editions/aryabhata-full-edition.html",
+   "sizeLines": 135,
+   "chaptersSeen": [
+    "Gītikāpāda (verse 1.1; h2 at line 59)",
+    "Gaṇitapāda (verse 2.10; h2 at line 78)",
+    "Kālakriyāpāda (verse 3.9; h2 at line 97)",
+    "Golapāda (verse 4.37; h2 at line 114)"
+   ],
+   "findings": [
+    {
+     "topic": "Yuga frame: Sun's revolutions per yuga",
+     "what": "Verse 1.1 names the yuga and gives the Sun's revolutions (bhagaṇa) per yuga as the coded word ख्युघृ; the commentary (line 68) decodes it to 4,320,000 and calls the frame a महायुग.",
+     "verse": "युगरविभगणाः ख्युघृ, शशि चयगियिङ्शुछ्लृ, कु ङिशिबुणॢष्खृ प्राक् । शनि ढुङ्विघ्व, गुरु ख्रिच्युभ, कुज भद्लिझ्नुखृ, भृगुबुधसौराः ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "ख्युघृ (coded) = 4,320,000 per commentary",
+     "structure": "27: 4,320,000 = 27 × 160,000 = 2^8·3^3·5^4; digital root 9",
+     "engineUse": "used: math-core.js (4320000); kala-dvara.js:60 (sun: 4320000n, source there cites Gītikā 3)",
+     "verseFound": true
+    },
+    {
+     "topic": "Earth's rotations relative to the stars per yuga",
+     "what": "After the tag कु, verse 1.1 gives the Earth's count as the coded word ङिशिबुणॢष्खृ with prāk (eastward; the commentary glosses पूर्वमुखी); the commentary decodes it to 1,582,237,500, and the daily-rotation gloss is the edition's.",
+     "verse": "युगरविभगणाः ख्युघृ, शशि चयगियिङ्शुछ्लृ, कु ङिशिबुणॢष्खृ प्राक् । शनि ढुङ्विघ्व, गुरु ख्रिच्युभ, कुज भद्लिझ्नुखृ, भृगुबुधसौराः ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "ङिशिबुणॢष्खृ (coded) = 1,582,237,500 per commentary",
+     "structure": "2^2·3·5^5·42193; mod 9 = 6 (digital root 6)",
+     "engineUse": "used: kala-dvara.js:60 (risings 1582237500n; cites Gītikā 3, whereas this edition labels the verse 1.1); granthas.test.js; parahita-madhyama.test.js:7 cites edition line 67, which is the treatment wrapper",
+     "verseFound": true
+    },
+    {
+     "topic": "Moon's revolutions per yuga",
+     "what": "Under the tag शशि, verse 1.1 gives the Moon's count as the coded word चयगियिङ्शुछ्लृ, which the commentary decodes to 57,753,336.",
+     "verse": "युगरविभगणाः ख्युघृ, शशि चयगियिङ्शुछ्लृ, कु ङिशिबुणॢष्खृ प्राक् । शनि ढुङ्विघ्व, गुरु ख्रिच्युभ, कुज भद्लिझ्नुखृ, भृगुबुधसौराः ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "चयगियिङ्शुछ्लृ (coded) = 57,753,336 per commentary",
+     "structure": "2^3·3·61·103·383; mod 9 = 3; mod 27 = 12",
+     "engineUse": "used: math-core.js; kala-dvara.js:60 (moon: 57753336n)",
+     "verseFound": true
+    },
+    {
+     "topic": "Mars, Jupiter and Saturn revolutions per yuga",
+     "what": "Verse 1.1 gives three more coded counts (tags कुज, गुरु, शनि) which the commentary decodes to 2,296,824 (Mars), 364,224 (Jupiter) and 146,564 (Saturn, corrected spelling; see the correction finding).",
+     "verse": "युगरविभगणाः ख्युघृ, शशि चयगियिङ्शुछ्लृ, कु ङिशिबुणॢष्खृ प्राक् । शनि ढुङ्विघ्व, गुरु ख्रिच्युभ, कुज भद्लिझ्नुखृ, भृगुबुधसौराः ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "कुज भद्लिझ्नुखृ = 2,296,824; गुरु ख्रिच्युभ = 364,224; शनि ढुङ्विघ्व = 146,564",
+     "structure": "mod 9: Mars 6, Jupiter 3, Saturn 8; 2,296,824 = 2^3·3·95701; 364,224 = 2^6·3·7·271; 146,564 = 2^2·11·3331",
+     "engineUse": "the three figures appear in precision-ephemeris.js, elp-moon.js, parampara-record.js and granthas.test.js; kala-dvara.js does not carry them",
+     "verseFound": true
+    },
+    {
+     "topic": "Alphabetic place-value code: vowels as powers of 100",
+     "what": "The commentary states the rule (varga consonants 1–25, avarga 30–100, vowels as powers of 100 with ḷ = 100^4) and names katapayadi.js; a hand-check of all six 1.1 counts reproduces them exactly when conjunct consonant values are summed before the vowel power and inherent a = 1, which implies i = 10^2, u = 10^4, ṛ = 10^6, ḷ = 10^8.",
+     "verse": "युगरविभगणाः ख्युघृ, शशि चयगियिङ्शुछ्लृ, कु ङिशिबुणॢष्खृ प्राक् । शनि ढुङ्विघ्व, गुरु ख्रिच्युभ, कुज भद्लिझ्नुखृ, भृगुबुधसौराः ॥",
+     "line": 65,
+     "kind": "commentary",
+     "number": "",
+     "structure": "base-100 positional: vowel = 10^(2k); consonants 1–100",
+     "engineUse": "used: katapayadi.js decodeAryabhata (line 127)",
+     "verseFound": true
+    },
+    {
+     "topic": "Printed Earth and Saturn words changed by a 2026-10-07 correction",
+     "what": "The commentary (line 70) says the printed Earth and Saturn words (ṇ-l-ṛ and ḍhu-dvi) decoded to 147,237,500 and 148,364, that the corrected spellings in verse 1.1 give 1,582,237,500 and 146,564, and cites a 1931 Trivandrum print as a witness.",
+     "verse": "युगरविभगणाः ख्युघृ, शशि चयगियिङ्शुछ्लृ, कु ङिशिबुणॢष्खृ प्राक् । शनि ढुङ्विघ्व, गुरु ख्रिच्युभ, कुज भद्लिझ्नुखृ, भृगुबुधसौराः ॥",
+     "line": 65,
+     "kind": "commentary",
+     "number": "147,237,500 becomes 1,582,237,500; 148,364 becomes 146,564 (commentary)",
+     "structure": "none",
+     "engineUse": "used (corrected values): kala-dvara.js:60 (risings and moon); the 146564 figure is in precision-ephemeris.js, elp-moon.js, parampara-record.js",
+     "verseFound": true
+    },
+    {
+     "topic": "Yuga length in solar years (gloss only)",
+     "what": "The Sanskrit verse does not state the yuga's length in years; the English gloss on line 69 says 4,320,000 solar years, so the years reading is the edition's own gloss.",
+     "verse": "युगरविभगणाः ख्युघृ, शशि चयगियिङ्शुछ्लृ, कु ङिशिबुणॢष्खृ प्राक् । शनि ढुङ्विघ्व, गुरु ख्रिच्युभ, कुज भद्लिझ्नुखृ, भृगुबुधसौराः ॥",
+     "line": 65,
+     "kind": "commentary",
+     "number": "4,320,000 solar years (English gloss, line 69)",
+     "structure": "27 divides 4,320,000 (see the Sun finding)",
+     "engineUse": "unknown: the count is used (Sun finding); whether any module reads it as solar years was not checked",
+     "verseFound": true
+    },
+    {
+     "topic": "Venus, Mercury and saurāḥ named without a count",
+     "what": "The last word-group of verse 1.1 names bhṛgu (Venus), budha (Mercury) and saurāḥ, but the verse gives no code for them and the edition decodes them nowhere.",
+     "verse": "युगरविभगणाः ख्युघृ, शशि चयगियिङ्शुछ्लृ, कु ङिशिबुणॢष्खृ प्राक् । शनि ढुङ्विघ्व, गुरु ख्रिच्युभ, कुज भद्लिझ्नुखृ, भृगुबुधसौराः ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "",
+     "structure": "none",
+     "engineUse": "not used: the greps found no module decoding this word-group (math-core.js:544 lists Mercury by name only)",
+     "verseFound": true
+    },
+    {
+     "topic": "Exact integer ratios of the Earth and Moon counts to the Sun's",
+     "what": "The verse's own counts give exact fractions without any yuga-length assumption: Earth divided by Sun is 210965/576 (366.25868...) and Moon divided by Sun is 2406389/180000 (13.36883...).",
+     "verse": "युगरविभगणाः ख्युघृ, शशि चयगियिङ्शुछ्लृ, कु ङिशिबुणॢष्खृ प्राक् । शनि ढुङ्विघ्व, गुरु ख्रिच्युभ, कुज भद्लिझ्नुखृ, भृगुबुधसौराः ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "1,582,237,500 : 4,320,000 ; 57,753,336 : 4,320,000",
+     "structure": "576 = 2^6·3^2; 180000 = 2^5·3^2·5^4",
+     "engineUse": "unknown (not searched); the cited dataset downloads/Aryabhata_Full_Dataset.json repeats the Earth ratio as 366.25868056",
+     "verseFound": true
+    },
+    {
+     "topic": "π stated as 62832 over 20000",
+     "what": "Verse 2.10 gives an exact integer procedure (add 4 to 100, multiply by 8, add 62,000) yielding 62,832, the circumference for a diameter of 20,000.",
+     "verse": "चतुरधिकं शतमष्टगुणं द्वाषष्टिस्तथा सहस्राणाम् । अयुतद्वयविष्कम्भस्यासन्नो वृत्तपरिणाहः ॥",
+     "line": 84,
+     "kind": "verse",
+     "number": "चतुरधिकं शतम् (104) · अष्टगुणम् (×8) · द्वाषष्टिस्तथा सहस्राणाम् (+62,000) = 62,832",
+     "structure": "×8 = 2^3; 62,832 = 2^4·3·7·11·17; digit sum 21, so mod 9 = 3",
+     "engineUse": "used: math-core.js:4460–4463 (aryabhataPi: 62832 / 20000); shunyabheda-app.js:2582 calls it",
+     "verseFound": true
+    },
+    {
+     "topic": "Circumference-to-diameter ratio given as approximate",
+     "what": "Verse 2.10 gives the circumference of a circle of diameter two ayuta (20,000) as approximate (āsanna), i.e. 62,832/20,000 = 3927/1250 = 3.1416, and states no error bound.",
+     "verse": "चतुरधिकं शतमष्टगुणं द्वाषष्टिस्तथा सहस्राणाम् । अयुतद्वयविष्कम्भस्यासन्नो वृत्तपरिणाहः ॥",
+     "line": 84,
+     "kind": "verse",
+     "number": "20,000 (diameter); 62,832 (circumference); ratio 3.1416",
+     "structure": "denominator 2^5·5^4; reduced 3927/1250 with 3927 = 3·7·11·17",
+     "engineUse": "used: math-core.js:4462–4469 (computes accuracyArcsec against Math.PI)",
+     "verseFound": true
+    },
+    {
+     "topic": "Powers of 3 in the verse 1.1 counts and the π numerator",
+     "what": "The Sun's 4,320,000 carries 3^3, the Moon's, Earth's, Mars's and Jupiter's counts each carry exactly one factor of 3, Saturn's carries none, and the π numerator 62,832 (verse 2.10) carries one factor of 3.",
+     "verse": "युगरविभगणाः ख्युघृ, शशि चयगियिङ्शुछ्लृ, कु ङिशिबुणॢष्खृ प्राक् । शनि ढुङ्विघ्व, गुरु ख्रिच्युभ, कुज भद्लिझ्नुखृ, भृगुबुधसौराः ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "4,320,000; 57,753,336; 1,582,237,500; 2,296,824; 364,224; 146,564",
+     "structure": "3-adic: 3^3, 3^1, 3^1, 3^1, 3^1, 3^0; 62,832 has 3^1",
+     "engineUse": "not checked",
+     "verseFound": true
+    },
+    {
+     "topic": "Mod 9 and mod 27 residues of the verse 1.1 counts",
+     "what": "Mod 9 residues of the six counts are Sun 0 (digital root 9), Moon 3, Earth 6, Mars 6, Jupiter 3, Saturn 8; mod 27 residues are 0, 12, 24, 15, 21, 8 in the same order.",
+     "verse": "युगरविभगणाः ख्युघृ, शशि चयगियिङ्शुछ्लृ, कु ङिशिबुणॢष्खृ प्राक् । शनि ढुङ्विघ्व, गुरु ख्रिच्युभ, कुज भद्लिझ्नुखृ, भृगुबुधसौराः ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "4,320,000; 57,753,336; 1,582,237,500; 2,296,824; 364,224; 146,564",
+     "structure": "mod 9; mod 27",
+     "engineUse": "not checked",
+     "verseFound": true
+    },
+    {
+     "topic": "Eclipse mechanism stated qualitatively",
+     "what": "Verse 4.37 says the Moon covers the Sun and the great shadow of the Earth covers the Moon, giving the mechanism of solar and lunar eclipses with no date, size or magnitude.",
+     "verse": "छादयति शशी सूर्यं शशिनं महती च भूच्छाया ॥",
+     "line": 119,
+     "kind": "verse",
+     "number": "",
+     "structure": "none",
+     "engineUse": "not used: no module quotes 4.37; drik-grahana.js and ss-grahana.js exist but were not traced to it",
+     "verseFound": true
+    },
+    {
+     "topic": "Diurnal motion and the observer at Laṅkā",
+     "what": "Verse 3.9 uses a boat analogy (fixed objects seem to move opposite the boat) and states that the stars move straight west (samapaścimagāni) for observers at Laṅkā; the English gloss '(the equator)' on line 105 is the edition's own.",
+     "verse": "अनुलोमगतिर्नौस्थः पश्यति अचलम् विलोमगं यद्वत् । अचलानि भानि तद्वत् समपश्चिमगानि लंकायाम् ॥",
+     "line": 102,
+     "kind": "verse",
+     "number": "",
+     "structure": "none",
+     "engineUse": "not used for this verse (no module quotes it); math-core.js:364 and :373 take Laṅkā midnight as the day base, citing SS 1.45–1.47",
+     "verseFound": true
+    },
+    {
+     "topic": "Sine (jyā) table claimed but absent",
+     "what": "The cover (line 51) and the Gaṇitapāda heading (line 78) claim a 24-entry jyā table, but no jyā verse or table value appears in the file, which holds only verse 2.10 from that pāda.",
+     "verse": "चतुरधिकं शतमष्टगुणं द्वाषष्टिस्तथा सहस्राणाम् । अयुतद्वयविष्कम्भस्यासन्नो वृत्तपरिणाहः ॥",
+     "line": 84,
+     "kind": "commentary",
+     "number": "24 (claimed)",
+     "structure": "24 = 2^3·3",
+     "engineUse": "used: math-core.js aryabhataSineTable (line 4420) with ARYABHATA_JYA_24 (line 4473: 225 to 3438), tested at math-core.test.js:1070; the edition text holds none of these values",
+     "verseFound": true
+    },
+    {
+     "topic": "Four verses in a file labelled a full edition",
+     "what": "The file holds one verse per pāda (1.1, 2.10, 3.9, 4.37) although its badge reads FULL CRITICAL EDITION · 4 PĀDAS · 121 SŪTRAS and its tagline cites 499 ई. and an Earth axial rotation; the 121 sūtras are not in the file.",
+     "verse": "",
+     "line": 48,
+     "kind": "commentary",
+     "number": "121 sūtras (claimed)",
+     "structure": "121 = 11^2",
+     "engineUse": "the colophon cites downloads/Aryabhata_Full_Dataset.json, which in the repo copy has 2 chapter records (verse ranges 1–13 and 14–46 by its own labels); not analysed further",
+     "verseFound": false
+    },
+    {
+     "topic": "Kālakriyāpāda titled time measurement with no time unit",
+     "what": "The chapter 3 heading (line 97) reads समय-मापन एवं ग्रह-गति (time measurement and planetary motion), but its only verse (3.9) names no time unit, and no nāḍī, ghaṭī, prāṇa or truṭi appears anywhere in the file.",
+     "verse": "अनुलोमगतिर्नौस्थः पश्यति अचलम् विलोमगं यद्वत् । अचलानि भानि तद्वत् समपश्चिमगानि लंकायाम् ॥",
+     "line": 102,
+     "kind": "commentary",
+     "number": "",
+     "structure": "none",
+     "engineUse": "not applicable",
+     "verseFound": true
+    }
+   ],
+   "measurementCandidates": [
+    {
+     "what": "Earth rotations relative to stars : Sun revolutions = 1,582,237,500 : 4,320,000 = 210965/576 = 366.25868 (dimensionless, from the verse 1.1 counts)",
+     "line": 65,
+     "why": "A count ratio within one yuga, so it does not depend on the yuga's year-length; the modern sidereal-day count per sidereal year is about 366.25636, so the text's ratio sits about 6e-6 relative away (for the parent to verify). The cited dataset repeats 366.25868056."
+    },
+    {
+     "what": "Moon revolutions : Sun revolutions = 57,753,336 : 4,320,000 = 2406389/180000 = 13.368828",
+     "line": 65,
+     "why": "Sidereal revolutions of the Moon per Sun revolution; the modern sidereal-year to sidereal-month ratio is about 13.36875, roughly 6e-6 relative (for the parent to verify)."
+    },
+    {
+     "what": "Sun revolutions per planet revolution: Mars 1.880858 (4,320,000 : 2,296,824); Jupiter 11.860833 (4,320,000 : 364,224); Saturn 29.475178 (4,320,000 : 146,564)",
+     "line": 65,
+     "why": "Period ratios from one yuga, independent of its length; approximate modern sidereal periods give about 1.88082, 11.86178 and 29.45663 Sun-years, and the Saturn ratio differs most, about 6e-4 relative (for the parent to verify)."
+    },
+    {
+     "what": "Circumference-to-diameter stated as 62,832 / 20,000 = 3927/1250 = 3.1416",
+     "line": 84,
+     "why": "An explicit approximation with no error bound in the text; it lies about 7.3e-6 below pi, so it is a stated constant, not an independent measurement."
+    },
+    {
+     "what": "Observer at Laṅkā sees the stars move straight west (samapaścimagāni), verse 3.9",
+     "line": 102,
+     "why": "A qualitative latitude-type statement: the verse places the observer at Laṅkā and gives no latitude; the commentary's (the equator) gloss on line 105 would put it at about latitude 0, but that gloss is the edition's own."
+    },
+    {
+     "what": "Eclipse mechanism: the Moon covers the Sun; the Earth's great shadow covers the Moon, verse 4.37",
+     "line": 119,
+     "why": "Qualitative only, with no date, magnitude or place, so it is not a dated observation and cannot constrain a parameter."
+    }
+   ],
+   "notFound": [
+    "Any dated observation: no verse gives a date, time or place; the dates in the file (2026-10-07, 1931, 499 ई.) are edition notes or cover text, not observations.",
+    "Ayanāṃśa value or epoch.",
+    "Precession rate.",
+    "Obliquity (krānti) value.",
+    "Apogee (mandocca/uccha) and node (pāta) values.",
+    "Epicycle dimensions (manda, śīghra, karṇa).",
+    "Sine (jyā) values or sine differences in any verse; only the cover (line 51) and the Gaṇitapāda heading (line 78) claim a 24-entry table. The engine holds the values at math-core.js:4473, not the edition.",
+    "Time units: nāḍī, ghaṭī, prāṇa, vināḍī, truṭi, pala, kalā, vikalā (none in the file).",
+    "Tithi, adhimāsa, month or day counts, kalpa, Kali epoch, and any calendar rule.",
+    "Latitude or shadow measurements, gnomon, or instruments.",
+    "Pāṇini: Śivasūtras, pratyāhāra, sūtra counts (the word सूत्र does not occur in the body).",
+    "Piṅgala's meru/prastāra or any binary counting.",
+    "Kuṭṭaka, varga-prakṛti/cakravāla, square roots, series, combinatorics. The engine has aryabhataKuttaka at math-core.js:4440 and tests it at math-core.test.js:1078, but the text contains none of it.",
+    "Explicit zero or place-value statement: the only numeral system in the file is the alphabetic code in the Vowel-power finding.",
+    "The labels गणित / तकनीक and हमारा डिकोड: absent. The file uses अन्वय (only for 1.1 and 2.10), English, and correction notes; verses 3.9 and 4.37 have no Hindi meaning line.",
+    "Verses other than 1.1, 2.10, 3.9 and 4.37: the file holds 4 verses, not the 121 sūtras its badge claims (line 48).",
+    "Gaṇitapāda content on sine differences, area of a circle or triangle, and spherical trigonometry: heading and cover claims only, no verse."
+   ],
+   "file": "editions/aryabhata-full-edition.html",
+   "counts": {
+    "findings": 18,
+    "verse": 12,
+    "commentary": 6,
+    "verseFound": 17,
+    "notUsed": 3,
+    "candidates": 6
+   }
+  },
+  {
+   "edition": "editions/bhaskara-full-edition.html",
+   "sizeLines": 105,
+   "chaptersSeen": [
+    "Ch. 1 अंकपाश एवं क्रमचय-संचय (Combinatorics): h2 at line 59, verse 1.1 at line 65",
+    "Ch. 2 तात्कालिकी गति (Differential Motion): h2 at line 79, verse 2.1 at line 85"
+   ],
+   "findings": [
+    {
+     "topic": "Kramacaya: successive multiplication by 1, 2, 3 (factorial-type product)",
+     "what": "The verse says the number-variations of ankapāśa come from places named one, two, three, etc., multiplied successively by one and the rest, so the count is a product 1·2·…·n with no final value stated.",
+     "verse": "एकद्वित्र्यादिस्थानैर्व्यस्तैरेकाद्यैर्गुणितेः । संख्याभेदाः स्युरंकपाशे क्रमचयाभिधाः ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "एक, द्वि, त्रि … (one, two, three … etc.; no final number)",
+     "structure": "none (factorial-type product 1·2·…·n)",
+     "engineUse": "not used: no factorial or kramacaya function in any .js; the only permutation generator is pingalaPratyayaBinary in math-core.js (~line 4815), a Piṅgala 2^n binary list from another text",
+     "verseFound": true
+    },
+    {
+     "topic": "Naming: kramacaya as the term for the number-variations",
+     "what": "The verse names the number-variations of ankapāśa kramacaya (permutations) but states no formula or method for them.",
+     "verse": "एकद्वित्र्यादिस्थानैर्व्यस्तैरेकाद्यैर्गुणितेः । संख्याभेदाः स्युरंकपाशे क्रमचयाभिधाः ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "",
+     "structure": "none",
+     "engineUse": "not used: 'kramacay' and 'क्रमचय' have 0 hits in .js",
+     "verseFound": true
+    },
+    {
+     "topic": "Tātkālikī gati defined as (koṭiphala × doḥphala-kalā) ÷ trijyā",
+     "what": "The verse defines instantaneous motion as the koṭiphala of bimbārdha times doḥphala-kalā, divided by trijyā: a ratio with no numeric constant, modulus or series.",
+     "verse": "बिम्बार्धस्य यत् कोटिफलं तद्दोःफलकलाभिर्गुणितं त्रिज्यया भक्तं तात्कालिकी गतिर्भवति ॥",
+     "line": 85,
+     "kind": "verse",
+     "number": "",
+     "structure": "none (ratio: product ÷ fixed radius)",
+     "engineUse": "formula not used (no 'tātkālikī' hit in .js; 'tatkala' in ss-drishya.js is a different moment-karṇa rule). The radius trijyā is used: math-core.js trijyaR 3438 (aryabhataPi ~line 4465, aryabhataRationalKernel ~line 4552) and spanda-ganita.js R-sine 0…3438.",
+     "verseFound": true
+    },
+    {
+     "topic": "Units and terms in 2.1: kalā, trijyā, koṭiphala, doḥphala, bimbārdha",
+     "what": "The verse names kalā as a unit, trijyā as the radius, two phala quantities (koṭi- and doḥ-) and bimbārdha (half-diameter of the orb), but defines none of them and gives no numeric value.",
+     "verse": "बिम्बार्धस्य यत् कोटिफलं तद्दोःफलकलाभिर्गुणितं त्रिज्यया भक्तं तात्कालिकी गतिर्भवति ॥",
+     "line": 85,
+     "kind": "verse",
+     "number": "",
+     "structure": "none",
+     "engineUse": "trijyā: used (see previous finding). bimbārdha: not used (ASCII 'bimbard' has 0 hits in .js). kalā: 16 .js files contain kalā or kalaa; not checked for this sense.",
+     "verseFound": true
+    },
+    {
+     "topic": "Derivative reading δ(sin θ)=cos θ·δθ is the edition's commentary and is flagged unverified",
+     "what": "The edition labels 2.1 as Bhāskara's derivative of sine (commentary lines 88–90), but its own correction (line 93, dated 2026-10-07) says the printed verse multiplies koṭiphala by doḥphala, so the derivative reading is unverified and the formula is not in the Sanskrit.",
+     "verse": "बिम्बार्धस्य यत् कोटिफलं तद्दोःफलकलाभिर्गुणितं त्रिज्यया भक्तं तात्कालिकी गतिर्भवति ॥",
+     "line": 85,
+     "kind": "commentary",
+     "number": "",
+     "structure": "none",
+     "engineUse": "not used by this text. spanda-ganita.js (lines 32–35) derives a discrete daily-motion rule as a tabular derivative and cites SS 2.47–2.49, not verse 2.1.",
+     "verseFound": true
+    },
+    {
+     "topic": "English gloss: planet's velocity proportional to cos × mean-longitude change, '500 years before Newton'",
+     "what": "The English line (commentary line 92) says a planet's instantaneous velocity is proportional to the cosine of its position times the change in mean longitude and predates Newton by 500 years; the Sanskrit mentions neither a planet nor mean longitude, and the 500-year figure has no source in the text.",
+     "verse": "बिम्बार्धस्य यत् कोटिफलं तद्दोःफलकलाभिर्गुणितं त्रिज्यया भक्तं तात्कालिकी गतिर्भवति ॥",
+     "line": 85,
+     "kind": "commentary",
+     "number": "500 years (edition's claim, before Newton)",
+     "structure": "none",
+     "engineUse": "unknown for the 500-year claim: 14 .js files mention Newton and were not checked for this date. spanda-ganita.js line 35 calls its iteration 'nearly Newton's method', a method and not a date.",
+     "verseFound": true
+    },
+    {
+     "topic": "Factorial and binomial formulas (कर्मचय सूत्र) and the edition's own grammar objection",
+     "what": "The edition gives P(n,r)=n!/(n−r)! and C(n,r)=n!/(r!(n−r)!) (line 69), then its correction (line 71) says the printed verse supports at most n! and not C(n,r), calls the form गुणितेः ungrammatical, and says the repository holds another text of this verse.",
+     "verse": "एकद्वित्र्यादिस्थानैर्व्यस्तैरेकाद्यैर्गुणितेः । संख्याभेदाः स्युरंकपाशे क्रमचयाभिधाः ॥",
+     "line": 65,
+     "kind": "commentary",
+     "number": "n! (no numeral)",
+     "structure": "none (factorial)",
+     "engineUse": "not used: no P(n,r) or C(n,r) function in any .js ('factorial' and 'kramacay' have 0 hits)",
+     "verseFound": true
+    },
+    {
+     "topic": "Cakravāla named in the cover tagline; no cakravāla text in this file",
+     "what": "The cover tagline promises 'the completeness of the cakravāla' (line 51), but the file contains no cakravāla verse, procedure or worked case; its only chapters are 1.1 (ankapāśa) and 2.1 (tātkālikī).",
+     "verse": "तथा चक्रवाल की पूर्णता।",
+     "line": 51,
+     "kind": "commentary",
+     "number": "",
+     "structure": "none in this text (cakravāla for x²−N·y²=1 exists only in the engine)",
+     "engineUse": "used: math-core.js bhaskaraChakravala(N) (~line 4619, exact BigInt cyclic method; comment cites Bījagaṇita c. 1150 CE); shunyabheda-app.js ~line 2619 calls it. kuṭṭaka: aryabhataKuttaka in math-core.js (~line 4440), not this text.",
+     "verseFound": true
+    },
+    {
+     "topic": "Composition date 1150 CE and the three named parts of the work (cover)",
+     "what": "The cover dates Bhāskara II's composition to 1150 ई. and names pāṭīgaṇita, bījagaṇita and golādhyāya as the work's parts; this is an authorship date, not an observation. Chapter 2.1 is labelled Gaṇitādhyāya, not golādhyāya.",
+     "verse": "1150 ई. में भास्कराचार्य II द्वारा रचित पाटीगणित, बीजगणित एवं गोल्याध्याय का अमर ग्रन्थ।",
+     "line": 50,
+     "kind": "commentary",
+     "number": "1150 ई. (1150 CE)",
+     "structure": "none",
+     "engineUse": "used only in a comment: math-core.js ~line 4615 repeats 'c. 1150 CE' with no computation",
+     "verseFound": true
+    },
+    {
+     "topic": "Only time word in the text: तात्कालिकी ('of that moment'); no time counts",
+     "what": "The only time-related word is तात्कालिकी (instantaneous, 'of that moment'), an adjective. The text has no counts of days, months, years or yugas, and no nāḍī, ghaṭī, prāṇa or truṭi units.",
+     "verse": "बिम्बार्धस्य यत् कोटिफलं तद्दोःफलकलाभिर्गुणितं त्रिज्यया भक्तं तात्कालिकी गतिर्भवति ॥",
+     "line": 85,
+     "kind": "verse",
+     "number": "",
+     "structure": "none",
+     "engineUse": "not used in this sense. 'tatkala' in ss-drishya.js (lines 41, 222, 236) is a moment-karṇa rule, a different use.",
+     "verseFound": true
+    },
+    {
+     "topic": "Edition's note that 2.1 is prose, not a śloka, and that three differing texts exist in the repository",
+     "what": "The edition's correction (line 93) says 2.1 is prose rather than a verse and that the repository holds three differing texts of it, so the Sanskrit is not checked against a single source.",
+     "verse": "बिम्बार्धस्य यत् कोटिफलं तद्दोःफलकलाभिर्गुणितं त्रिज्यया भक्तं तात्कालिकी गतिर्भवति ॥",
+     "line": 85,
+     "kind": "commentary",
+     "number": "",
+     "structure": "none",
+     "engineUse": "unknown: the three repository texts were not compared; no .js hit for 'tātkālikī' in its verse sense",
+     "verseFound": true
+    }
+   ],
+   "measurementCandidates": [
+    {
+     "what": "Tātkālikī gati as a rate formula: (koṭiphala × doḥphala-kalā) ÷ trijyā",
+     "line": 85,
+     "why": "A rate defined by a formula with no numeric constants: trijyā, kalā, the koṭi- and doḥ-phala quantities and bimbārdha are all undefined and unvalued in the text, so it cannot constrain a parameter by itself. The edition's derivative reading of it is flagged unverified (line 93)."
+    },
+    {
+     "what": "Composition date 1150 CE for Bhāskara II (cover tagline)",
+     "line": 50,
+     "why": "An authorship date stated in the edition's commentary, not in the Sanskrit and not an observation. It cannot constrain an astronomical parameter and is listed only so it is not mistaken for one."
+    }
+   ],
+   "notFound": [
+    "toc-n elements: absent from the file (only h2 headings at lines 59 and 79)",
+    "(a) yuga, kalpa, mahāyuga, manvantara or other cycle lengths: none",
+    "(a) counts of days, months or years: none",
+    "(a) nāḍī, ghaṭī, vighaṭī, prāṇa, truṭi units: none",
+    "(a) calendar rules (adhimāsa, tithi, kṣaya) and epochs (ahargaṇa, kali-ahan, śaka): none",
+    "(b) Piṅgala meru, prastāra, pratyāhāra or binary patterns: none in the text. math-core.js has pingalaMatrameru and pingalaPratyayaBinary, which are not from this edition",
+    "(b) Pāṇini: Śivasūtras, pratyāhāras, sūtra counts: none. सूत्र appears only in commentary labels (lines 68, 88)",
+    "(b) counts by 3, 9, 27, 108 or 360, and powers of 2 or 3 as numbers: none",
+    "(b) digital roots or casting out nines: none",
+    "(b) zero (शून्य, ख) and place-value notation: none. verse 1.1 mentions 'places' (स्थान) only as the counts one, two, three",
+    "(b) recurrences, series sums, Fibonacci or meru sequences: none in the text",
+    "(c) π, 62832/20000, 3927/1250, 3.1416: none",
+    "(c) sine-table values or a numeric trijyā (3438): none in the text. 3438 appears only in math-core.js and spanda-ganita.js",
+    "(c) revolution counts (bhagaṇa), mean motions, planet tables: none",
+    "(c) year length, obliquity (krānti), ayanāṃśa or precession with epoch: none",
+    "(c) apogee (mandocca), epicycle (manda, śīghra): none",
+    "(c) eclipses (grahaṇa) and dated observations: none",
+    "(c) instruments (yantra, śaṅku, gola): none",
+    "(c) latitude (akṣa, palabhā) and shadow (chāyā, śaṅku): none. The one 'shadow' hit is CSS box-shadow at line 26",
+    "(d) kuṭṭaka procedure or example: none in the text. aryabhataKuttaka exists only in math-core.js",
+    "(d) varga-prakṛti, and cakravāla procedure or example (x²−N·y²=1): none in the text. Only the cover tagline names it (line 51)",
+    "(d) square roots (वर्गमूल, मूल) and their procedures: none",
+    "(d) series or sums of series (श्रेढी, श्रेणी): none",
+    "Outside this HTML: downloads/Bhaskara_Full_Dataset.json (5,161 bytes, 'Research Digest · 2 Chapters', 'not the classical manuscript') has a chapter 1 'चक्रवाल-प्रक्रिया' with a sūtra beginning 'ह्रस्वज्येष्ठक्षेपकान्…', and a Gola chapter with 'कोटिज्या-गुण' and 'तात्कालिकी' verses. Not part of the edition HTML and not analysed here."
+   ],
+   "file": "editions/bhaskara-full-edition.html",
+   "counts": {
+    "findings": 11,
+    "verse": 5,
+    "commentary": 6,
+    "verseFound": 11,
+    "notUsed": 5,
+    "candidates": 2
+   }
+  },
+  {
+   "edition": "editions/brahmagupta-full-edition.html",
+   "sizeLines": 123,
+   "chaptersSeen": [
+    "ch1: कुट्टकाध्याय (शून्य-अंकगणित एवं भावना), edition label अध्याय १८, lines 56-92. Couplets १८.३०-३२ (line 65) and १८.६४-६५ (line 81).",
+    "ch2: क्षेत्रगणित (वृत्तीय चतुर्भुज का क्षेत्रफल), edition label अध्याय १२, lines 94-114. Couplet १२.२१ (line 103)."
+   ],
+   "findings": [
+    {
+     "topic": "Zero witness: dataset reads the zero couplet differently (18.30-32)",
+     "what": "downloads/Brahmagupta_Full_Dataset.json line 17 (also downloads/Brahmagupta_Sovereign_Dossier.md line 19) prints another text. Its difference clause reads अन्तरं समैक्यं खम्, followed by product clauses (घातः, वधः), a zero-multiplier clause (खगुणः) and a zero-division clause (खखण्डितं खं खम्). The edition's printed couplet has none of the product or division clauses. The edition's notes at lines 75 and 89 say several texts differ. The line number here is in the dataset file, not the edition.",
+     "verse": "धनयोर्धनमृणमृणयोर्धनर्ष्णयोरन्तरं समैक्यं खम् । ऋणमृणधनयोर्घातो धनमृणयोर्धनवधो धनं भवति ॥",
+     "line": 17,
+     "kind": "verse",
+     "number": "",
+     "structure": "none (sign and zero rules)",
+     "engineUse": "not used (the dataset is named only in sw.js for precache; no module reads its text)",
+     "verseFound": false
+    },
+    {
+     "topic": "Difference of a fortune and a debt, qualified by asamaiḥ (18.30-32)",
+     "what": "The printed clause gives the difference of a positive and a negative (धनर्णयोः), qualified by असमैः (unequal). The commentary's English gloss 'positive minus positive is zero' (line 74) and its rule a − a = 0 (line 71) do not follow from these printed words. The dataset reading (finding 1) has a different difference clause.",
+     "verse": "धनर्णयोमन्तरमसमैः",
+     "line": 65,
+     "kind": "verse",
+     "number": "",
+     "structure": "none",
+     "engineUse": "not used (brahmaguptaZeroAlgebra in math-core.js has no difference-of-equals entry)",
+     "verseFound": true
+    },
+    {
+     "topic": "Pell-type step: iṣṭa-square times guṇa, with unit or one-or-two added or subtracted, then the root (18.64-65)",
+     "what": "The first line names the operation: the square of the chosen number (iṣṭavarga) times the multiplier (guṇa), with the unit (rūpa) or one or two (eka-dvi) added or subtracted (yuta, viśodhita), then the root (mūla). The printed words give no further formula.",
+     "verse": "इष्टवर्गगुणाद्रूपादेकद्वियुताद्विशोधितान्मूले । सद्भावयेत्प्रकृतिं चेत् द्विधा वर्गमूलसिद्धिरिति ॥",
+     "line": 81,
+     "kind": "verse",
+     "number": "रूप (1); एक-द्वि (1, 2)",
+     "structure": "offsets 1 and 2; no modulus",
+     "engineUse": "used: math-core.js bhaskaraChakravala (line 4619, exact BigInt, solves x² − Ny² = 1 only; called by shunyabheda-app.js:2619). No code found for the ±1/±2 offset step.",
+     "verseFound": true
+    },
+    {
+     "topic": "Composition identity for x² − N y² (commentary, 18.64-65)",
+     "what": "The commentary's identity (x1²−Ny1²)(x2²−Ny2²) = (x1x2+Ny1y2)² − N(x1y2+x2y1)² is true; I checked it by expanding both sides. The printed couplet does not state it.",
+     "verse": "none (commentary, line 86)",
+     "line": 86,
+     "kind": "commentary",
+     "number": "",
+     "structure": "Pell form x² − N y²",
+     "engineUse": "used: math-core.js brahmaguptaBhavana (line 4589; x3 = x1x2 + N·y1·y2, y3 = x1·y2 + x2·y1, k3 = k1·k2); called only by math-core.test.js:1115",
+     "verseFound": false
+    },
+    {
+     "topic": "Exact (sūkṣma) area: root of a product of four half-sum-minus-side factors (12.21, second half)",
+     "what": "The root of the product of four factors, each the half-sum of the sides minus one side (bhujayogārdhacatuṣṭaya … bhujonaghāta), is the exact (sūkṣma) value. The dataset copy (downloads/Brahmagupta_Full_Dataset.json line 56) has the same words. The edition's note at line 111 says भुजोन was restored from that copy. The commentary's LaTeX √((s−a)(s−b)(s−c)(s−d)) states the same thing.",
+     "verse": "भुजयोगार्धचतुष्टयभुजोनघातात् पदं सूक्ष्मम् ॥",
+     "line": 103,
+     "kind": "verse",
+     "number": "चतुष्टय (four factors)",
+     "structure": "4 = 2^2",
+     "engineUse": "used: math-core.js brahmaguptaQuadrilateralArea (lines 4596-4599; Math.sqrt in floating point; returns 0 if any side is at least the semiperimeter). shunyabheda-app.js:2611-2612 prints it with toFixed(2) under the label '(Exact Integer)'. The case (52, 25, 39, 60) has area 1764 by hand check (product 3,111,696 = 1764²).",
+     "verseFound": true
+    },
+    {
+     "topic": "Two-fold root from composing the prakṛti (18.64-65, second line)",
+     "what": "If the prakṛti is composed (bhāvayet), the square-root result is obtained in two ways (dvidhā). This is my reading; the couplet gives no formula.",
+     "verse": "सद्भावयेत्प्रकृतिं चेत् द्विधा वर्गमूलसिद्धिरिति ॥",
+     "line": 81,
+     "kind": "verse",
+     "number": "द्विधा (two-fold)",
+     "structure": "2",
+     "engineUse": "used: math-core.js brahmaguptaBhavana returns one triple {x, y, k} (line 4589; no two-root output); called only by math-core.test.js:1115",
+     "verseFound": true
+    },
+    {
+     "topic": "Zero with a number and zero with zero (18.30-32, second line)",
+     "what": "Zero combined with a debt or a fortune gives the remainder (śeṣa), and zero with zero gives zero (śūnyayoḥ śūnyam). The printed couplet states no product or quotient rule for zero.",
+     "verse": "शून्यमृणधनयोः शेषं शून्ययोः शून्यम् ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "शून्य (0)",
+     "structure": "0 as additive identity; 0 + 0 = 0",
+     "engineUse": "used: math-core.js brahmaguptaZeroAlgebra (line 4602; descriptive strings 'a + 0 = a', 'a - 0 = a, 0 - a = -a'; no computation); called by math-core.test.js:1125",
+     "verseFound": true
+    },
+    {
+     "topic": "Sums of two fortunes and of two debts (18.30-32, first clause)",
+     "what": "Two fortunes (dhana) give a fortune and two debts (ṛṇa) give a debt. This is the only same-sign rule the printed couplet states.",
+     "verse": "धनयोर्धनमृणमृणयोर्",
+     "line": 65,
+     "kind": "verse",
+     "number": "",
+     "structure": "sign (±)",
+     "engineUse": "not used (no sign-sum routine; brahmaguptaZeroAlgebra holds descriptive strings only)",
+     "verseFound": true
+    },
+    {
+     "topic": "Gross (sthūla) area as product of half-sums of bāhu and pratibāhu (12.21, first half)",
+     "what": "The gross area (sthūlaphala) is the product of the halves of the sums of opposite sides (bāhu, pratibāhu) of figures named tri-catur-bhuja. The second half calls the exact value sūkṣma, so the verse sets this value against it. My reading; the couplet gives no formula.",
+     "verse": "स्थूलफलं त्रिचतुर्भुजबाहुप्रतिबाहुयोगदलघातः ।",
+     "line": 103,
+     "kind": "verse",
+     "number": "त्रि-चतुर्भुज (figures of 3 and 4 sides)",
+     "structure": "none",
+     "engineUse": "not used (no sthūla area function; parampara-record.js:34 uses sthūla only for a gross astronomical value)",
+     "verseFound": true
+    },
+    {
+     "topic": "Counts in 12.21: tri (3), catur (4), catuṣṭaya (4)",
+     "what": "The first half's compound names figures of three and four sides. The second half's catuṣṭaya is four factors. These are side and factor counts, not cycles or series.",
+     "verse": "त्रिचतुर्भुजबाहुप्रतिबाहुयोगदलघातः । भुजयोगार्धचतुष्टयभुजोनघातात्",
+     "line": 103,
+     "kind": "verse",
+     "number": "त्रि (3); चतुर्भुज (4 sides); चतुष्टय (4)",
+     "structure": "4 = 2^2; 3",
+     "engineUse": "not used (no count-based structure; the area function takes four explicit side arguments)",
+     "verseFound": true
+    },
+    {
+     "topic": "Zero identities in the commentary: a − a = 0, 0 + 0 = 0, 0·a = 0, 0·0 = 0",
+     "what": "The edition's own list, not in the printed couplets. The 18.30-32 couplet does not print the 0·a or 0·0 rules. The dataset witness (finding 1) has product clauses worded differently.",
+     "verse": "none (commentary, line 71)",
+     "line": 71,
+     "kind": "commentary",
+     "number": "",
+     "structure": "0",
+     "engineUse": "partly used: math-core.js brahmaguptaZeroAlgebra (line 4602) holds 'a * 0 = 0'; no 'a - a = 0' entry",
+     "verseFound": false
+    },
+    {
+     "topic": "Division by zero: a/0 = खच्छेद (khacheda), 'yields infinity' (commentary)",
+     "what": "The commentary's a/0 rule, named khacheda with the gloss 'infinity'. The printed couplet has no division rule. The dataset witness has a zero-division clause with different words (खखण्डितं खं खम्).",
+     "verse": "none (commentary, line 72)",
+     "line": 72,
+     "kind": "commentary",
+     "number": "",
+     "structure": "division by 0",
+     "engineUse": "not used (no .js hit for khacheda or khaccheda; zero algebra lists 0 / a = 0 only)",
+     "verseFound": false
+    },
+    {
+     "topic": "Composition date 628 CE (cover tagline)",
+     "what": "The cover tagline dates the work to 628 CE. The date is not in any printed couplet and is not an observation.",
+     "verse": "none (cover tagline, line 50)",
+     "line": 50,
+     "kind": "commentary",
+     "number": "628",
+     "structure": "none",
+     "engineUse": "not used as a date: math-core.js 628 hits are the mean-motion constant 628.3076 (lines 1803, 1809); the only 628-CE reference in .js is a test title at math-core.test.js:1111",
+     "verseFound": false
+    },
+    {
+     "topic": "Adhyāya count: 24 (cover badge)",
+     "what": "The cover badge says '24 ADHYĀYAS'. The file prints chapter labels 18 and 12 only, with three couplets.",
+     "verse": "none (cover badge, line 48)",
+     "line": 48,
+     "kind": "commentary",
+     "number": "24",
+     "structure": "24 = 2^3 · 3",
+     "engineUse": "not used (no .js hit for '24 ADHYĀYAS')",
+     "verseFound": false
+    }
+   ],
+   "measurementCandidates": [],
+   "notFound": [
+    "Astronomical constants and tables in the printed text (revolutions, yuga or kalpa counts, jyā or sine table, π, obliquity, ayanāṃśa or precession, apogee, epicycle, eclipse records, śaṅku or instruments): searched by keyword; none.",
+    "Time units and calendar rules (nāḍī, ghaṭī, prāṇa, truṭi, māsa, varṣa, ahargaṇa, bhagaṇa, ayana): none in the printed text.",
+    "Number structure: Piṅgala's meru or prastāra, binary, digital roots, place value (sthāna), Pāṇini's Śivasūtras, pratyāhāras or sūtra counts, counts of 27, 108 or 360, powers of 3 or 9: searched; none. The only numerals are 628, 24, verse labels and LaTeX subscripts.",
+    "Kuṭṭaka (linear Diophantine) procedure: only the chapter heading कुट्टकाध्याय (line 59) names it; no kuṭṭaka verse is printed. The full cakravāla (Bhāskara-type) procedure is not printed.",
+    "Series sums (saṅkalita, śreḍhī, योगफल): none.",
+    "Dated observations, eclipse or shadow records, stated latitudes or rates, ayanāṃśa with an epoch: none in the printed text.",
+    "Labelled lines 'गणित / तकनीक (The Mathematics / Technique)' and 'हमारा डिकोड (Our Decode)', and a per-verse Hindi meaning line: absent. The commentary labels in the file are 'English' and 'सुधार · correction', plus topic headings at lines 68, 84 and 106.",
+    "Couplets for the range labels: only one couplet is printed under १८.३०-३२ (line 65) and one under १८.६४-६५ (line 81). १८.३१-३२ and १८.६५ are not printed.",
+    "Other witnesses for 18.64-65: none found in corpus/, downloads/ or editions/ (searched सद्भावयेत्, वर्गमूलसिद्धि, विशोधितान्मूले). The edition's note at line 89 says several texts differ, which this search does not confirm. corpus/ has no 18.30-32 or 12.21 wording either."
+   ],
+   "file": "editions/brahmagupta-full-edition.html",
+   "counts": {
+    "findings": 14,
+    "verse": 9,
+    "commentary": 5,
+    "verseFound": 8,
+    "notUsed": 8,
+    "candidates": 0
+   }
+  },
+  {
+   "edition": "editions/madhava-full-edition.html",
+   "sizeLines": 102,
+   "chaptersSeen": [
+    "ch1 · अध्याय १ · माधव की π अनन्त श्रेणी (section lines 56–93; only h2 at line 59; no toc-n classes)"
+   ],
+   "findings": [
+    {
+     "topic": "(c) Sine radius (trijyā) R = 3437′44″48‴, given in the commentary",
+     "what": "Commentary, not the verse, gives the Mādhava sine radius as 3437′44″48‴ and says it is a Kaṭapayādi word-encoding. The same value is 12,375,888‴, and it satisfies 21600′ = 2πR (360° × 60).",
+     "verse": "त्रिज्या ३४३७′४४″४८‴ और “विद्वान्…निर्विद्धाङ्गनरेन्द्ररुङ्” गुणांक",
+     "line": 90,
+     "kind": "commentary",
+     "number": "3437′44″48‴ (trijyā; 12,375,888‴)",
+     "structure": "21600′ = 2π·R, i.e. 360° × 60 (not stated in the file)",
+     "engineUse": "used: spanda-ganita.js (MADHAVA_R, line 98); sphuta.js (MADHAVA_R, line 96); katapayadi.test.js (lines 81–84, decodes to 34374448 and checks against 21600/2π); ss-madhava.test.js (line 39)",
+     "verseFound": true
+    },
+    {
+     "topic": "(c)/(d) Kaṭapayādi sine coefficients and the quadrant identity",
+     "what": "Commentary names the coefficients of the Mādhava sine polynomial only by their Kaṭapayādi words. The repo decodes them as c1 2220′39″40‴, c2 273′57″47‴, c3 16′05″41‴, c4 33″06‴, c5 44‴, with q = 5400′. Then 5400′ − c1 + c2 − c3 + c4 − c5 = 12,375,888‴ = R exactly (checked). The edition gives no numbers for them.",
+     "verse": "“विद्वान्…निर्विद्धाङ्गनरेन्द्ररुङ्” गुणांक",
+     "line": 90,
+     "kind": "commentary",
+     "number": "c1 2220′39″40‴; c2 273′57″47‴; c3 16′05″41‴; c4 33″06‴; c5 44‴ (none are numerals in the file)",
+     "structure": "odd powers x^(2k+1)/(2k+1)!, k = 1…5; c_k = R(π/2)^(2k+1)/(2k+1)!; q = 5400′ (90°)",
+     "engineUse": "used: spanda-ganita.js (lines 25–27 and 97–98, exact rationals); sphuta.js (lines 92–96); katapayadi.test.js (lines 102–111)",
+     "verseFound": true
+    },
+    {
+     "topic": "(c)/(d) Verse 1.2: sine-type procedure from the arc; divisors not given as numerals",
+     "what": "The verse gives steps: multiply the results by the arc, multiply the arcs, divide by the 'two-fold special numbers' (dviviśeṣa-saṅkhyā), subtract the quotients from the arc. The result is named koṭiśarāhuti (cosine-type; cover line 51 equates कोटिज्या with cos x). The verse gives no numerals for the divisors. Commentary (line 90) says the Sanskrit does not state the factorial series shown at lines 84 and 87.",
+     "verse": "निहत्य चापेन फलानि तस्माच्चापा हतानि द्विविशेषसङ्ख्या ।\nलब्धानि चापाद् विशोधयेत् तत् क्रमाद् भवेत् कोटिशराहुतिः ॥",
+     "line": 79,
+     "kind": "verse",
+     "number": "none stated in the verse",
+     "structure": "unknown: dviviśeṣa-saṅkhyā is not glossed in the file",
+     "engineUse": "not used for the verse's own terms (dviviśeṣa and koṭiśara appear in no .js file); the series it is said to express is used: math-core.js madhavaSineSeries (line 4668), madhavaCosineSeries (line 4686), shunyabheda-app.js (line 2640)",
+     "verseFound": true
+    },
+    {
+     "topic": "(b) Verse 1.1: odd divisors with alternating signs",
+     "what": "The verse says to divide by the odd numbers (viṣama-saṅkhyā) beginning with triśarādi, taking them in turn as minus (ṛṇa) and plus (sva). That is an alternating sum over odd denominators. The first divisor 3 is the commentary's reading (line 73).",
+     "verse": "त्रिशरादिविषमसंख्याभक्तमृणं स्वं पृथक् क्रमात् कुर्यात् ॥",
+     "line": 65,
+     "kind": "verse",
+     "number": "odd divisors (viṣama); the first is triśarādi (read as 3, 5, … by commentary)",
+     "structure": "2k+1 (odd); alternating sign",
+     "engineUse": "used: math-core.js madhavaPiSeries (loop lines 4772–4775, odd 2k+1 with alternating sign); sprint-upgrades.js madhavaPiPartial (line 382)",
+     "verseFound": true
+    },
+    {
+     "topic": "(b)/(d) Verse 1.1: word-numerals as multipliers and divisor",
+     "what": "The operations are multiplication by वारिधि (ocean), division by रूप (form), then multiplication by व्याससागर. English (line 72) reads these as ×4 and ÷1. The verse itself gives no numeric values, and the sāgara step is not glossed in the file. The attribution label 'युक्तिभाषा / तन्त्रसंग्रह' (line 64) is flagged unverified at line 73.",
+     "verse": "व्यासे वारिधिनिहते रूपहृते व्याससागराभिहते ।",
+     "line": 65,
+     "kind": "verse",
+     "number": "वारिधि = 4 and रूप = 1 by the bhūtasaṃkhyā convention (English line 72 gives ×4, ÷1); sāgara value not stated",
+     "structure": "2^2 for the multiplier 4; otherwise none",
+     "engineUse": "not used: वारिधि and the vyāsasāgara step appear in no engine module; granthas.test.js (line 65) asserts only the IAST words",
+     "verseFound": true
+    },
+    {
+     "topic": "(b) शर = 5 and the corrected reading of the first divisor",
+     "what": "The edition's correction (line 73) reads शर (arrow) as the bhūtasaṃkhyā 5, and triśarādi as the odd sequence 3, 5, …. It replaces an earlier printed reading (व्याससागराभ्यासे … त्रिषराद्या). It also says the attribution to Yuktibhāṣā is unverified.",
+     "verse": "शर (बाण = ५) भूतसंख्या है; त्रि-शर-आदि = ३, ५, …",
+     "line": 73,
+     "kind": "commentary",
+     "number": "5 (शर); 3, 5, … (त्रि-शर-आदि)",
+     "structure": "bhūtasaṃkhyā word-numerals; odd sequence",
+     "engineUse": "not used: grep finds no non-test .js use of śara as a numeral (granthas.test.js line 65 has a comment only)",
+     "verseFound": false
+    },
+    {
+     "topic": "(c) The series yields the circumference, so π is circumference over diameter",
+     "what": "English (line 72) says the procedure yields the infinite series for the circumference (πd): input is the diameter, output the circumference, and π is 4 times the alternating odd sum. The word paridhi (circumference) appears nowhere in the edition's Sanskrit or text.",
+     "verse": "This yields the infinite series for the circumference (\\(\\pi d\\)).",
+     "line": 72,
+     "kind": "commentary",
+     "number": "none",
+     "structure": "none",
+     "engineUse": "used (for a different verse): math-core.js madhavaParidhiVerseDecode, ratio = circumference / diameter (line 4763); the Leibniz-type sum is math-core.js madhavaPiSeries (standardSeriesPi, line 4785)",
+     "verseFound": true
+    },
+    {
+     "topic": "(b) Odd divisors 3, 5, 7, 9 and the 9 = 3² term",
+     "what": "English (line 72) lists the divisors as odd numbers 3, 5, 7, 9…. The display (line 70) shows 1/9 as its fifth term. The file has no 27, 108, or other power-of-3 structure.",
+     "verse": "the quotient of diameter times 4 divided by odd numbers 3, 5, 7, 9...",
+     "line": 72,
+     "kind": "commentary",
+     "number": "3, 5, 7, 9, … (9 = 3²)",
+     "structure": "odd numbers; 9 = 3² (the only power of 3 in the file)",
+     "engineUse": "used: math-core.js madhavaPiSeries (lines 4772–4775); the (−1/3)^k powers of 3 are a different series at math-core.js line 4779, not in the edition",
+     "verseFound": true
+    },
+    {
+     "topic": "(b)/(c) The π/4 alternating odd-reciprocal series as typeset",
+     "what": "The typeset formula (line 70) gives π/4 = 1 − 1/3 + 1/5 − 1/7 + 1/9 − … as Σ(−1)^k/(2k+1). The Sanskrit at 1.1 states the procedure, not this formula, and the file gives no truncation rule or term count.",
+     "verse": "\\frac{\\pi}{4} = 1 - \\frac{1}{3} + \\frac{1}{5} - \\frac{1}{7} + \\frac{1}{9} - \\dots = \\sum_{k=0}^{\\infty} \\frac{(-1)^k}{2k+1}",
+     "line": 70,
+     "kind": "commentary",
+     "number": "1, 1/3, 1/5, 1/7, 1/9, …",
+     "structure": "odd denominators 2k+1; alternating sign",
+     "engineUse": "used: math-core.js madhavaPiSeries (standardSeriesPi = 4×Σ, line 4785); sprint-upgrades.js madhavaPiPartial (line 382); shunyabheda-app.js (line 2646) displays rapidConvergencePi, the √12·Σ(−1/3)^k series (math-core.js line 4779), which the edition does not contain",
+     "verseFound": true
+    },
+    {
+     "topic": "(d) Sine and cosine series as typeset: factorial denominators",
+     "what": "The typeset sin and cos series (lines 84, 87) use odd factorials (3!, 5!, 7!) and even factorials (2!, 4!, 6!) with alternating signs. The Sanskrit does not contain them (line 90 says so), and the file gives no numeric value of sin or cos.",
+     "verse": "\\sin x = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\frac{x^7}{7!} + \\dots",
+     "line": 84,
+     "kind": "commentary",
+     "number": "3!, 5!, 7!; 2!, 4!, 6! (cos at line 87)",
+     "structure": "factorial (2k+1)! and (2k)!; term recurrence ×(−x²)/((2n)(2n+1))",
+     "engineUse": "used: math-core.js madhavaSineSeries (line 4668) and madhavaCosineSeries (line 4686); math-core.test.js (lines 1150–1156, sin and cos at π/6); shunyabheda-app.js (line 2640)",
+     "verseFound": true
+    },
+    {
+     "topic": "(c) Accuracy claims: '12 decimal places' and '300 years before Newton and Leibniz'",
+     "what": "English (line 89) says the sine and cosine expansions are accurate to 12 decimal places and were found 300 years before Newton and Leibniz. The cover (line 51) repeats the 300-year claim. Line 90 marks the 12-decimal claim unverified and says no second witness is in the repository.",
+     "verse": "accurate to 12 decimal places discovered 300 years before Isaac Newton and Gottfried Leibniz.",
+     "line": 89,
+     "kind": "commentary",
+     "number": "12 decimal places; 300 years",
+     "structure": "none",
+     "engineUse": "not used as an assertion: math-core.test.js (lines 1158–1159) checks only the √12 series at 12 terms, to 1e-5",
+     "verseFound": true
+    }
+   ],
+   "measurementCandidates": [
+    {
+     "what": "R = 3437′44″48‴ (= 12,375,888‴) with 2πR = 21600′ gives π ≈ 3.14159275, about 9.5e-8 above π",
+     "line": 90,
+     "why": "The only numeric constant in the edition. It constrains π at about 1e-7 only if the value has a source independent of this repository; here it is cited via katapayadi.test.js, so it is not an independent witness."
+    },
+    {
+     "what": "5400′ − c1 + c2 − c3 + c4 − c5 = 12,375,888‴ = R, exactly, for the coefficient words named at line 90",
+     "line": 90,
+     "why": "Internal consistency between the decoded coefficients and R. It checks the decoding; it is not an observation and cannot fix π without R."
+    },
+    {
+     "what": "'accurate to 12 decimal places' (English rendering of the sine and cosine series)",
+     "line": 89,
+     "why": "A precision claim that line 90 flags as unverified, with no second witness in the repository, so it is not a usable constraint."
+    }
+   ],
+   "notFound": [
+    "(a) Time structure: yuga, kalpa, manvantara, nāḍī, ghaṭī, prāṇa, truṭi, day/month/year counts, calendar rules, ahargaṇa. Not in the text. The only time words are the author's dates 1340–1425 ई. (line 50), the '300 years' claims (lines 51, 89) and the correction date 2026-10-07 (lines 73, 90).",
+    "(b) Number structure: 27, 108, 360 (numerals or words), digital roots, the place-value rule (aṅkānāṃ vāmato gatiḥ), zero (शून्य), binary, Piṅgala's meru-prastāra, combinatorics, Pāṇini's Śivasūtras, pratyāhāras and sūtra counts. Not in the file. Powers of 3 appear only as the displayed 1/9 (line 70) and 3! (line 84). The (−1/3)^k series is in math-core.js (line 4779), not here.",
+    "(c) Astronomy: ayanāṃśa or precession epoch, obliquity, apogee/manda, epicycle, eclipse (grahaṇa), latitude, shadow or gnomon, instruments, dated observations, rates. None in the edition. katapayadi.test.js line 78 decodes an ayanāṃśa 14°26′ from 'tantraṃ vedyam', but that is outside this file.",
+    "(d) Kuṭṭaka, varga-prakṛti or cakravāla, square roots (वर्गमूल), vargas (वर्ग), any series other than the four displayed. Not in the file.",
+    "Labels 'गणित / तकनीक (The Mathematics / Technique)' and 'हमारा डिकोड (Our Decode)', and per-verse Hindi meanings, are absent. Grep finds none of गणित, तकनीक, डिकोड, Mathematics or Technique. The only 'decode' strings are the class 'decode fix' (lines 73, 90) and the colophon 'Unabridged decode' (line 96).",
+    "Scope: the file is 102 lines and 10,553 bytes, not large. It has two verses (१.१ at line 65, १.२ at line 79) in one chapter. The 11 findings above are all the file supports; I did not pad to 12.",
+    "Outside this file: the bhūtasaṃkhyā paridhi verse 'विबुधनेत्रगजाहि…' (math-core.js lines 4712–4730) gives circumference 2827433388233 over nava-nikharva 9×10^11, equal to π within 2.4e-12. granthas.test.js line 77 asserts its word values. It is not in the edition.",
+    "Not read: downloads/Madhava_Full_Dataset.json (colophon, line 97), which the commentary (line 73) says holds the same text. It is outside the file requested."
+   ],
+   "file": "editions/madhava-full-edition.html",
+   "counts": {
+    "findings": 11,
+    "verse": 3,
+    "commentary": 8,
+    "verseFound": 10,
+    "notUsed": 4,
+    "candidates": 3
+   }
+  },
+  {
+   "edition": "editions/pingala-full-edition.html",
+   "sizeLines": 94,
+   "chaptersSeen": [
+    "अध्याय १ · मेरु-प्रस्तार एवं द्विआधारी रूपान्तरण (Meru Prastara & Binary Arithmetic), id ch1, lines 56-85"
+   ],
+   "findings": [
+    {
+     "topic": "Halving, doubling and zero in verse 1.2",
+     "what": "Verse 1.2 names halving by two (द्विरर्धे), zero (शून्यम्) with रूपे, and doubling by two (द्विर्द्विने) as its procedure words; these are the only number-operation words in the file's Sanskrit.",
+     "verse": "द्विरर्धे । रूपे शून्यम् । द्विर्द्विने तु ॥",
+     "line": 78,
+     "kind": "verse",
+     "number": "2 (द्वि, 'twice', in both the halving and doubling clauses); 0 (शून्यम्)",
+     "structure": "2^n (repeated halving/doubling); mod 2",
+     "engineUse": "used in part: math-core.js pingalaNashtam (line 4827) and pingalaUddhistam (line 4842), exercised at math-core.test.js:1197-1198. The zero word is not tied to this verse; शून्य also occurs in math-core.js and katapayadi.js, not checked for Piṅgala linkage.",
+     "verseFound": true
+    },
+    {
+     "topic": "Binary conversion rule (commentary)",
+     "what": "The commentary gives the rule: if even, divide by 2 and write 0; if odd, subtract 1, divide by 2 and write 1; it states no stopping condition.",
+     "verse": "द्विरर्धे । रूपे शून्यम् । द्विर्द्विने तु ॥",
+     "line": 78,
+     "kind": "commentary",
+     "number": "2; digits 0 and 1",
+     "structure": "2^n (base-2 digit strings)",
+     "engineUse": "used but diverges: math-core.js pingalaNashtam (line 4827) uses floor((n+1)/2) for odd n, not the commentary's (n-1)/2. For n=3 the commentary gives 1 and the engine gives 2.",
+     "verseFound": true
+    },
+    {
+     "topic": "Laghu = 0, Guru = 1 digit mapping (commentary)",
+     "what": "The commentary maps Laghu to 0 and Guru to 1 and calls the procedure 'the exact modern binary arithmetic algorithm'; neither word appears in the verse.",
+     "verse": "द्विरर्धे । रूपे शून्यम् । द्विर्द्विने तु ॥",
+     "line": 78,
+     "kind": "commentary",
+     "number": "0, 1",
+     "structure": "2^n (binary digit strings of length n)",
+     "engineUse": "used: math-core.js pingalaPratyayaBinary (line 4816) maps 0 to '। (Laghu)' and 1 to 'ऽ (Guru)' and enumerates 2^n patterns. math-core.test.js:1193-1195 checks 8 combinations for n=3.",
+     "verseFound": true
+    },
+    {
+     "topic": "Naṣṭa/Uddiṣṭa label for the conversion (commentary)",
+     "what": "The commentary labels the conversion 'Naṣṭa/Udggiṣṭa', which pairs the two directions (index to pattern and back) that the engine implements as inverse functions.",
+     "verse": "द्विरर्धे । रूपे शून्यम् । द्विर्द्विने तु ॥",
+     "line": 78,
+     "kind": "commentary",
+     "number": "",
+     "structure": "binary index <-> L/G pattern (inverse pair)",
+     "engineUse": "used: math-core.js pingalaNashtam (line 4827) and pingalaUddhistam (line 4842). math-core.test.js:1197-1199 asserts uddhistam(nashtam(6,3)) == 6.",
+     "verseFound": true
+    },
+    {
+     "topic": "Meru prastāra / Pascal recurrence (commentary)",
+     "what": "The commentary gives C(n,k) = C(n-1,k-1) + C(n-1,k) and the rule 'place 1 at the peak, then sum the two entries above'; verse 1.1 (पूर्ण) contains no triangle, row or figure, so this rests entirely on the commentary.",
+     "verse": "परे पूर्णमिति ॥",
+     "line": 65,
+     "kind": "commentary",
+     "number": "1, 1 (first two rows [1] and [1,1]); no other figure in the file",
+     "structure": "binomial coefficients C(n,k); Pascal triangle; no row-sum statement in the file",
+     "engineUse": "used: math-core.js pingalaMeruPrastara (line 4795); shunyabheda-app.js lines 2655-2659 (displays rows 1-5); math-core.test.js:1182-1189 checks rows 0-4 ([1], [1,1], [1,2,1], [1,3,3,1], [1,4,6,4,1]).",
+     "verseFound": true
+    },
+    {
+     "topic": "मात्राकांचन named as the Fibonacci series (cover)",
+     "what": "The cover tagline names मात्राकांचन as the Fibonacci series; no verse in the file contains मात्रा or any term of the series.",
+     "verse": "(none; cover tagline)",
+     "line": 51,
+     "kind": "commentary",
+     "number": "",
+     "structure": "Fibonacci recurrence F(n)=F(n-1)+F(n-2) (named, not stated)",
+     "engineUse": "used: math-core.js pingalaMatrameru (line 4808) returns [1,1,2,3,5,8,...]; shunyabheda-app.js line 2664 previews 10 terms; math-core.test.js:1190-1191 asserts the first 8 terms.",
+     "verseFound": false
+    },
+    {
+     "topic": "Chronology claims: composition date and 'years before Pascal'",
+     "what": "The cover dates the work to c. 300–200 ई.पू., and the 1.1 commentary (line 72) says the Meru construction is '1800 years before Blaise Pascal'; these are the only counts of years in the file and neither is an astronomical observation.",
+     "verse": "(none; cover tagline)",
+     "line": 50,
+     "kind": "commentary",
+     "number": "1800 years; c. 300–200 BCE (ई.पू.)",
+     "structure": "none",
+     "engineUse": "not used (no js match for the 1800-years or 300–200 date).",
+     "verseFound": false
+    },
+    {
+     "topic": "Chandaḥśāstra citations 8.34 and 8.23–25",
+     "what": "The edition labels verse 1.1 as Chandaḥśāstra 8.34 and verse 1.2 as 8.23–25; these are the edition's citations, not numbers in the Sanskrit text.",
+     "verse": "द्विरर्धे । रूपे शून्यम् । द्विर्द्विने तु ॥",
+     "line": 78,
+     "kind": "commentary",
+     "number": "8.34; 8.23–25",
+     "structure": "none (section numbering)",
+     "engineUse": "unknown (citations are not linked to any repository file; not searched).",
+     "verseFound": true
+    }
+   ],
+   "measurementCandidates": [],
+   "notFound": [
+    "Chapters beyond ch1 and any table of contents: no toc-n elements; the file has one <section class=\"chapter\"> and 2 verse blocks.",
+    "(a) Time structure: yugas, kalpa/manvantara, cycles of days/months/years, nāḍī/ghaṭī/prāṇa/truṭi units, calendar rules, epochs. None in the verses or commentary (only the composition date and the '1800 years' claim, both commentary).",
+    "(b) Number structure counted by 3, 9, 27, 108 or 360; powers of 3; digital roots; place value beyond the binary commentary; Pāṇini, Śivasūtras, pratyāhāra or sūtra counts (no matches for Pāṇini, माहेश्वर, pratyāhāra or सूत्र in the file).",
+    "(c) Astronomical constants: revolutions, sines, π, year lengths, obliquity, ayanāṃśa, precession, apogees, epicycles, eclipses, dated observations, instruments, latitude or shadow measures.",
+    "(d) Kuṭṭaka, varga-prakṛti/cakravāla, square roots, general series. Only the Fibonacci series is named (cover, line 51).",
+    "Numerals in the Sanskrit verse text: none. The only digits in the body are edition labels (१.१, १.२) and citations (८.३४, ८.२३-२५)."
+   ],
+   "file": "editions/pingala-full-edition.html",
+   "counts": {
+    "findings": 8,
+    "verse": 1,
+    "commentary": 7,
+    "verseFound": 6,
+    "notUsed": 1,
+    "candidates": 0
+   }
+  },
+  {
+   "edition": "editions/panini-rahasya-full-edition.html",
+   "sizeLines": 21454,
+   "chaptersSeen": [
+    "प्राक्कथन · Preface (line 212; Mahāyuga pin at line 220)",
+    "अनुक्रमणिका · Contents (line 242; 8 parts)",
+    "भाग १ इतिहास (line 244)",
+    "माहेश्वर-सूत्राणि · Fourteen Śivasūtras (line 285; verse articles MS.01–MS.14, lines 287–441)",
+    "यन्त्र-दर्शन (line 452; pāda-count table at line 454)",
+    "सञ्ज्ञा-प्रकरण (line 536; verse articles s1-1-1 to s1-1-75, lines 538–1384)",
+    "प्रक्रिया-दर्शन (line 1398)",
+    "सङ्केत-शास्त्र (line 1450; kaṭapayādi, Āryabhaṭa numerals, bhūtasaṃkhyā at lines 1452–1515)",
+    "सूत्रपाठ-कोश (line 1519; 3,983 kosh rows, sūtra text in kosh-sa lines, Hindi gloss in सार lines, pāda headers e.g. 19951)",
+    "समापन · One Spine (line 21427)"
+   ],
+   "findings": [
+    {
+     "topic": "Mahāyuga via Āryabhaṭa letter-numerals",
+     "what": "The edition decodes ख्युघृ as 43,20,000 (4,320,000) by its letter-numeral rule and equates it with the Mahāyuga year-count; the arithmetic (2+30)·100² + 4·100³ checks.",
+     "verse": "ख्युघृ",
+     "line": 1487,
+     "kind": "commentary",
+     "number": "43,20,000 (= 4,320,000)",
+     "structure": "powers of 100 (100², 100³)",
+     "engineUse": "used: katapayadi.js (Āryabhaṭa letter-numeral block, comment at lines 119–120); dasha.js divides by 4320000",
+     "verseFound": true
+    },
+    {
+     "topic": "π chronogram (kaṭapayādi decode)",
+     "what": "The engine decodes the verse गोपीभाग्य… to 31415926535897932384626433832792; the first 31 digits match π and the 32nd (2) differs from π's 5.",
+     "verse": "गोपीभाग्यमधुव्रातशृङ्गिशोदधिसन्धिग",
+     "line": 1466,
+     "kind": "commentary",
+     "number": "31415926535897932384626433832792 (32 digits)",
+     "structure": "decimal digits; compared with π×10^31",
+     "engineUse": "used: katapayadi.js (decodeWord; checked by library-pi-verse.test.js)",
+     "verseFound": true
+    },
+    {
+     "topic": "Calendar units: month, half-month, year",
+     "what": "Sūtra 5.2.57 takes śatādi words, māsa, ardhamāsa and saṃvatsara as stems for the taddhita tamaṭ (commentary: śatatama, māsatama).",
+     "verse": "नित्यं शत आदिमास अर्धमाससंअत्सरात् च",
+     "line": 11908,
+     "kind": "verse",
+     "number": "",
+     "structure": "calendar units: month / half-month / year",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Night, day and year as stems",
+     "what": "Sūtra 5.1.87 gives a taddhita for rātri, ahan and saṃvatsara (commentary: samā-vat kha etc.).",
+     "verse": "रात्र्यहस्संवत्सराच्च",
+     "line": 11378,
+     "kind": "verse",
+     "number": "",
+     "structure": "night / day / year",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Six months as a stem (ṣaṇmāsa)",
+     "what": "Sūtra 5.1.83 gives ṇyat for ṣaṇmāsa in the age sense; 5.1.81 does the same for māsa with yat/kha (commentary).",
+     "verse": "षण्मासात् ण्यत् च",
+     "line": 11358,
+     "kind": "verse",
+     "number": "6 months",
+     "structure": "6 (ṣaṇ-māsa)",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Nakṣatra-linked time",
+     "what": "Sūtra 4.2.3 gives a taddhita for 'time conjoined with a nakṣatra' (commentary: nakṣatra-yukta kāla).",
+     "verse": "नक्षत्रेण युक्तः कालः",
+     "line": 8673,
+     "kind": "verse",
+     "number": "",
+     "structure": "lunar mansion (nakṣatra) as time-marker",
+     "engineUse": "not used (nakṣatra logic lives in other modules, e.g. panchanga.js)",
+     "verseFound": true
+    },
+    {
+     "topic": "Full moon (pūrṇamāsī) as month-name rule",
+     "what": "Sūtra 4.2.21 gives a taddhita for naming a month by the full moon that occurs in it (commentary).",
+     "verse": "सा अस्मिन् पौर्णमासी इति (संज्ञायाम्)",
+     "line": 8763,
+     "kind": "verse",
+     "number": "",
+     "structure": "lunar phase (full moon)",
+     "engineUse": "not used (sūtra); 'paurnamasi' appears in utsava.js and ss-grahana.js",
+     "verseFound": true
+    },
+    {
+     "topic": "Vowel durations: short, long, prolated; half-short",
+     "what": "Sūtra 1.2.27 names hrasva, dīrgha and pluta classes of ū-kāla; the commentary (line 2031) gives one, two or three mātrā; sūtra 1.2.32 (line 2053) adds ardha-hrasva, a half-short.",
+     "verse": "ऊ-कालः=अच्=ह्रस्व-दीर्घ-प्लुतः",
+     "line": 2028,
+     "kind": "verse",
+     "number": "3 classes; mātrā 1, 2, 3 (commentary); ½ (1.2.32)",
+     "structure": "1 : 2 : 3 moras; a half-mora",
+     "engineUse": "not used (no js hit for pluta/udātta)",
+     "verseFound": true
+    },
+    {
+     "topic": "Muhūrta as a time threshold",
+     "what": "Sūtra 3.3.9 uses ūrdhva-mauhūrtika (beyond a muhūrta); the commentary (line 6351) reads it as a duration of more than one muhūrta; 3.3.164 repeats it at line 7123.",
+     "verse": "लिङ् च ऊर्ध्वमौहूर्तिके",
+     "line": 6348,
+     "kind": "verse",
+     "number": "1 muhūrta (commentary; minutes not stated)",
+     "structure": "none",
+     "engineUse": "not used (muhurta.js is a separate module)",
+     "verseFound": true
+    },
+    {
+     "topic": "Śivasūtra letter count (computed here)",
+     "what": "From the 14 Sanskrit strings: 57 letters, 14 of them it-markers, 43 sound slots, and 42 distinct sounds because ह occurs in MS.05 and MS.14; the edition's 42 pratyāhāras (line 298) is a separate claim.",
+     "verse": "हयवरट् (MS.05, line 335); हल् (MS.14, line 441)",
+     "line": 335,
+     "kind": "verse",
+     "number": "57 letters; 14 it; 42 distinct sounds (computed in this review, not stated in the text)",
+     "structure": "42 = 14 × 3; 42 = 2·3·7",
+     "engineUse": "unknown (math-core.js has a pratyāhāra expander at line 3082; not checked whether it reads these strings)",
+     "verseFound": false
+    },
+    {
+     "topic": "Hal-set slot count",
+     "what": "The commentary says the consonant set has 34 slots and 33 distinct members (ह doubled); my count of the sūtra strings agrees: 34 consonant slots (43 sound slots minus 9 vowels), 33 distinct.",
+     "verse": "हल्",
+     "line": 441,
+     "kind": "commentary",
+     "number": "34 slots / 33 distinct",
+     "structure": "none (ह counted twice)",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Pāda grid and sūtra counts",
+     "what": "There are 32 pādas (8 × 4); the pāda-count table (line 454) and the kosh headers (e.g. 8.2 at line 19951) give per-pāda counts summing to 3,983, with pāda 8.2 holding 108 sūtras.",
+     "verse": "पूर्वत्र असिद्धं (sūtra 8.2.1)",
+     "line": 19953,
+     "kind": "commentary",
+     "number": "3,983 total; 8.2 = 108",
+     "structure": "8 × 4 = 32 pādas; 108 = 2²·3³",
+     "engineUse": "not used (the 3983 hits in math-core.js and precision files are numeric coefficients, not the sūtra count)",
+     "verseFound": false
+    },
+    {
+     "topic": "Trīpādī size and a fraction mismatch",
+     "what": "Pādas 8.2–8.4 hold 108+119+68 = 295 sūtras, leaving 3,688 in the first 7¼ chapters; the name सपाद-सप्त ('7¼') matches its parenthesis, but the same line says 'साढ़े सात' (7½).",
+     "verse": "सपाद-सप्त-अध्यायी",
+     "line": 525,
+     "kind": "commentary",
+     "number": "295; 3,688; 7¼ vs the stated 7½",
+     "structure": "3 pādas = ¾ chapter",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Decade numeral list, 10 to 100",
+     "what": "Sūtra 5.1.59 lists the decade and hundred terms (paṅkti, viṃśati, triṃśat … śata), a ten-step numeral class.",
+     "verse": "पङ्क्तिविंशतित्रिंशत्चत्वारिंशत्पञ्चाशत्षष्टिसप्तति अशीतिनवतिशतं",
+     "line": 11238,
+     "kind": "verse",
+     "number": "10 terms, 10 to 100",
+     "structure": "decimal (tens and 100)",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Five and ten as optional group sizes",
+     "what": "Sūtra 5.1.60 uses pañcat and daśat in the sense of a varga (group), optionally (commentary).",
+     "verse": "पञ्चत् दशतौ वर्गे वा",
+     "line": 11243,
+     "kind": "verse",
+     "number": "5, 10",
+     "structure": "groups of 5 and 10 (varga)",
+     "engineUse": "not used (katapayadi.js uses varga only for Āryabhaṭa letter classes)",
+     "verseFound": true
+    },
+    {
+     "topic": "Three fold-suffix classes: 1, 2, 3",
+     "what": "Sūtra 5.3.44 gives dha → dhyamuñ for one; 5.3.45 gives dhamuñ for two and three; 5.3.42 gives dhā for 'kinds' of a number (line 12533).",
+     "verse": "एकात् धः ध्यमुञ् न्यारयां",
+     "line": 12543,
+     "kind": "verse",
+     "number": "1, 2, 3",
+     "structure": "small numerals 1–3",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Numeral thresholds: before eleven, six and eight, ten and eleven",
+     "what": "Sūtra 5.3.49 covers ordinals before eleven; 5.3.50 takes ṣaṣṭha and aṣṭama; 4.4.31 names daśa and ekādaśa.",
+     "verse": "प्राक् एकादशभ्यः अच्छन्दसि",
+     "line": 12568,
+     "kind": "verse",
+     "number": "11 (boundary); 6, 8; 10, 11",
+     "structure": "cut-off at 11",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Three number classes: singular, dual, plural",
+     "what": "Sūtra 1.4.102 names the three number classes; sūtra 1.4.22 (line 2833) gives dual for 'two' and singular for 'one'.",
+     "verse": "तानि=एकवचन-द्विवचन-बहुवचनानि एकशः",
+     "line": 3233,
+     "kind": "verse",
+     "number": "3 classes; 1 and 2 (1.4.22)",
+     "structure": "3 classes",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Definition of numerals and of ṣaṭ",
+     "what": "Sūtra 1.1.23 defines saṃkhyā as bahu, gaṇa, vatu, ḍati-based words; 1.1.24 (line 1638) defines ṣaṭ as a numeral ending in ṣ or n.",
+     "verse": "बहुगणवतुडति संख्या",
+     "line": 1633,
+     "kind": "verse",
+     "number": "6 (ṣaṭ, by the ṣṇa-ending rule)",
+     "structure": "suffix-defined numeral class",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Zero: lopa as zero-substitution and the zero digit",
+     "what": "The edition calls lopa 'śūnya-ādeśa' (line 1220) and cites a smṛti verse for the kaṭapayādi zero rule (ñ, n and standalone vowels = 0); katapayadi.js implements that rule.",
+     "verse": "नञावचश्च शून्यानि…",
+     "line": 1463,
+     "kind": "commentary",
+     "number": "शून्य (0)",
+     "structure": "zero as digit and null substitution",
+     "engineUse": "used: katapayadi.js (ञ, न, standalone vowel = 0; full verse quoted at its line 4)",
+     "verseFound": true
+    },
+    {
+     "topic": "Bhūtasaṃkhyā word-numeral",
+     "what": "The commentary reads सप्ताष्टवह्नयः as 387 by right-to-left place value (3, 8, 7), which the arithmetic confirms.",
+     "verse": "सप्ताष्टवह्नयः",
+     "line": 1481,
+     "kind": "commentary",
+     "number": "387",
+     "structure": "decimal place value",
+     "engineUse": "used: math-core.js (bhutasamkhyaPlaceValue, line 4739)",
+     "verseFound": true
+    },
+    {
+     "topic": "One-day journey as a distance unit",
+     "what": "Sūtra 5.2.19 gives a taddhita for a horse's ekāha-gamana, a one-day journey measure (commentary).",
+     "verse": "अश्वस्य एक अह गमः",
+     "line": 11718,
+     "kind": "verse",
+     "number": "1 day",
+     "structure": "time used as a distance unit",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Lunar-named penance (cāndrāyaṇa)",
+     "what": "Sūtra 5.1.72 names cāndrāyaṇa with pārāyaṇa and turāyaṇa as practices taking a taddhita; the file gives no day counts.",
+     "verse": "पारायणतुरायणचान्द्रायणं वर्तयति",
+     "line": 11303,
+     "kind": "verse",
+     "number": "",
+     "structure": "lunar-named practice; no count given",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Junction-time, season and nakṣatra as stems",
+     "what": "Sūtra 4.3.16 takes sandhi-velā (junction-time), ṛtu and nakṣatra words as stems for aṇ; 4.3.18 (varṣā) and 4.3.21 (hemanta) take ṭhak (commentary).",
+     "verse": "संधिवेलाद्यृतुनक्षत्रेभ्योऽण्",
+     "line": 9463,
+     "kind": "verse",
+     "number": "",
+     "structure": "junction-time / season / lunar mansion",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Seasons and day-night in Vedic usage",
+     "what": "Sūtra 2.4.28 fixes the gender of hemanta-śiśira and ahorātra in chandas, and 2.4.29 (line 4333) makes rātra, ahan and ahar masculine (commentary).",
+     "verse": "हेमन्तशिशिरौ अहोरात्रे च छन्दसि",
+     "line": 4328,
+     "kind": "verse",
+     "number": "",
+     "structure": "season names; day-night unit",
+     "engineUse": "not used (math-core.js has an SS ṛtu table from SS 14.9–10, not these sūtras)",
+     "verseFound": true
+    },
+    {
+     "topic": "Three time-nouns",
+     "what": "Sūtra 3.3.167 names kāla, samaya and velā as time-nouns taking tumun.",
+     "verse": "कालसमयवेलासु तुमुन्",
+     "line": 7138,
+     "kind": "verse",
+     "number": "3 (kāla, samaya, velā)",
+     "structure": "none",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Hundred, twenty and thousand as stems",
+     "what": "Sūtra 5.1.27 takes śatamāna, viṃśatika, sahasra and vasana; 5.2.46 takes numbers ending in śat or viṃśati; 5.2.119 (line 12218) takes śata/sahasra endings.",
+     "verse": "शतमानविंशतिकसहस्रवसनात् अण्",
+     "line": 11078,
+     "kind": "verse",
+     "number": "100, 20, 1000",
+     "structure": "decimal powers 10², 10³; 20",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Two and three as group-words",
+     "what": "Sūtra 5.2.42 gives tayap for 'a part/group' of a numeral (pañca-taya); 5.2.43 (line 11838) gives tayay or yac for dvi and tri (dvaya, traya).",
+     "verse": "संख्यायाः अवयवे तयप्",
+     "line": 11833,
+     "kind": "verse",
+     "number": "2, 3 (via 5.2.43)",
+     "structure": "groups of 2 and 3",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Uncountable (asaṃkhyā) class",
+     "what": "Sūtra 5.2.58 extends tamaṭ to asaṃkhyā-ādi words; 5.1.39 (line 11138) excludes asaṃkhyā-parimāṇa (uncountable measure) from a rule.",
+     "verse": "षष्टिआदेः च असंख्याआदेः",
+     "line": 11913,
+     "kind": "verse",
+     "number": "",
+     "structure": "uncountable class",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Multiplicity (guṇa) as a measure",
+     "what": "Sūtra 5.2.47 gives mayaṭ for a number-as-multiplicity measure (commentary: pañcamaya); 5.4.59 (line 13213) gives ḍāc for guṇānta numerals.",
+     "verse": "संख्यायाः गुणस्य निमाने मयट्",
+     "line": 11858,
+     "kind": "verse",
+     "number": "",
+     "structure": "multiplicative (guṇa)",
+     "engineUse": "not used",
+     "verseFound": true
+    }
+   ],
+   "measurementCandidates": [
+    {
+     "what": "Mahāyuga 4,320,000 stated as the book's pinned count (ख्युघृ = ४३,२०,०००), with no epoch or observation attached",
+     "line": 220,
+     "why": "A stated period, not an observation; it cannot constrain year length, precession or obliquity alone, and it appears only in the edition's commentary."
+    },
+    {
+     "what": "Haridatta's Parahita / Grahacāranibandhana, dated 683 CE, as the secure Kerala attestation of kaṭapayādi in astronomy",
+     "line": 1471,
+     "why": "A dated text attestation; the date belongs to a text, not to a sky measurement, and the file gives no parameter values from it."
+    },
+    {
+     "what": "Āryabhaṭīya dated 499 CE (Kusumapura / Pāṭaliputra)",
+     "line": 1496,
+     "why": "Text date only; the file quotes no Āryabhaṭīya constant or observation to test against."
+    },
+    {
+     "what": "π chronogram decode, 31 correct digits of π from the verse गोपीभाग्य…",
+     "line": 1466,
+     "why": "A mathematical constant check, not an observation; the decode is engine-computed while the attribution is unresolved in the file."
+    },
+    {
+     "what": "Candravākya lunar tables named as carried by the kaṭapayādi codec",
+     "line": 1479,
+     "why": "The file gives no table values, so nothing usable as a dated observation or a parameter constraint."
+    }
+   ],
+   "notFound": [
+    "Label check: the labels 'गणित / तकनीक (The Mathematics / Technique)' and 'हमारा डिकोड (Our Decode)' do not occur in the file. The edition uses 'औपचारिक रूप (Formal)' (89 verse articles, lines 287–1384) and 'डिकोड-सेतु' (43 articles). Commentary was located through these labels and the सार (Hindi gloss) lines.",
+    "Eclipse dates or eclipse records: none. ग्रहण appears only as the grammatical word in 5.2.77 (line 12008).",
+    "Ayanāṃśa, precession, obliquity, apogee, epicycle and manda/śīghra values: none in the prose.",
+    "Latitude, shadow or gnomon (śaṅku) measurements: none; शङ्कु appears only as a grammatical example (line 3426).",
+    "Sine / jyā tables: none; ज्या occurs only inside grammatical words such as देवयज्या.",
+    "Nāḍī, ghaṭī, vighaṭī, pala and truṭi as time units: none. prāṇa occurs only as mahāprāṇa (aspirate); truṭi only as a verb root in 3.1.70 (line 4963).",
+    "Lunar tithi: none. 'atithi' is 'guest' (4.4.104, line 10743); 'tāvatitha' (5.2.77, line 12008) is an ordinal.",
+    "Era (Śaka, Vikrama) or epoch with a year: none. Only century ranges for Pāṇini (c. 5th–4th c. BCE) and dated text attestations (499 CE, 683 CE, 1819 CE).",
+    "Yuga lengths beyond the Mahāyuga pin, kalpa, and any year-length statement: none.",
+    "Piṅgala's meru / prastāra binary, combinatorics, Fibonacci and recurrences: absent. 'meru' occurs only as a metaphor (line 221); prastāra only in sūtra 4.4.72 (line 10583) in a grammatical sense.",
+    "Kuṭṭaka, varga-prakṛti / cakravāla, square roots and cubes: absent. वर्ग occurs only as a class (5.1.60) and in the Āryabhaṭa letter classes; घन only as 'mass' (3.3.77, line 6688).",
+    "Binary, 2^n and 3^k statements: none. 27 and 360 do not occur as counts in the prose; 108 occurs only as the pāda count for 8.2 (lines 454 and 19951).",
+    "The 42 pratyāhāras and 3,983 sūtra count are stated only in commentary (lines 298, 450, 255, 454); the sūtra text itself carries no such count.",
+    "No Śivasūtra or sūtra text is marked as a dated observation, and the Aṣṭādhyāyī text itself contains no astronomical constant."
+   ],
+   "file": "editions/panini-rahasya-full-edition.html",
+   "counts": {
+    "findings": 30,
+    "verse": 23,
+    "commentary": 7,
+    "verseFound": 28,
+    "notUsed": 24,
+    "candidates": 5
+   }
+  },
+  {
+   "edition": "editions/sulba-full-edition.html",
+   "sizeLines": 383,
+   "chaptersSeen": [
+    "Adhyāya 1 (line 149): मान-परिभाषा एवं रज्जु-समास; verses 1.1, 1.3",
+    "Adhyāya 2 (line 177): समकोण-त्रिभुज एवं अक्ष्णया-रज्जु; verses 2.1, 2.2",
+    "Adhyāya 3 (line 218): पायथागोरीय त्रिक; verse 3.1",
+    "Adhyāya 4 (line 244): द्विकरणी एवं वर्गमूल-परिकलन; verses 4.1, 4.2",
+    "Adhyāya 5 (line 277): चतुरस्र-मण्डल-परिवर्तन; verse 5.1",
+    "Adhyāya 6 (line 299): महावेदि एवं सौमिक-चिति निर्माण; verse 6.1",
+    "Adhyāya 7 (line 318): श्येनचिति, कूर्माचिति एवं रथचक्रचिति; verse 7.1",
+    "Adhyāya 8 (line 337): पायथन गणितीय सत्यापन कोड; no verses, Python listing only (lines 344-370)"
+   ],
+   "findings": [
+    {
+     "topic": "√2 by a three-term rule (4.1)",
+     "what": "The verse prescribes adding a third of the side, then a fourth of that third, then subtracting a 34th of that fourth, which the edition writes as 1 + 1/3 + 1/(3·4) − 1/(3·4·34); the verse itself does not name the resulting fraction.",
+     "verse": "समस्य द्विकरणी। प्रमाणं तृतीयेन वर्धयेत्तच्च चतुर्थेनात्मचतुस्त्रिंशोनेन सविशेषः ॥",
+     "line": 250,
+     "kind": "verse",
+     "number": "तृतीयेन (3), चतुर्थेन (4), चतुस्त्रिंशोनेन (34): 1 + 1/3 + 1/(3·4) − 1/(3·4·34)",
+     "structure": "denominators 3, 3·4 and 3·4·34 = 408; a finite exact rational sum with no modulus",
+     "engineUse": "used: math-core.js (baudhayanaSquareRoot2, line 4874) returns a floating-point sum beside the literal string '577 / 408'; shunyabheda-app.js:2671 displays it",
+     "verseFound": true
+    },
+    {
+     "topic": "577/408 and the claimed five-place accuracy (commentary)",
+     "what": "The edition's commentary (lines 256 and 259, not the verse) equates the series with 577/408 ≈ 1.41421568627 and says it is accurate to five decimals with error 0.0000021; checked here, 577/408 − √2 ≈ 2.124×10⁻⁶ and 577² − 2·408² = 1, a Pell solution that the edition does not state.",
+     "verse": "समस्य द्विकरणी। प्रमाणं तृतीयेन वर्धयेत्तच्च चतुर्थेनात्मचतुस्त्रिंशोनेन सविशेषः ॥",
+     "line": 250,
+     "kind": "commentary",
+     "number": "577/408; stated error 0.0000021",
+     "structure": "Pell x² − 2y² = 1 with (577, 408); 408 = 3·4·34; 577 is prime",
+     "engineUse": "used: math-core.js (literal '577 / 408' at baudhayanaSquareRoot2, line 4876); math-core.test.js:1203-1205 asserts the string and error < 3e-6. No .js file checks the Pell identity for 577/408. bhaskaraChakravala (math-core.js:4619) is tested only for N=2 and N=61 (math-core.test.js:1132-1141).",
+     "verseFound": true
+    },
+    {
+     "topic": "Diagonal of a rectangle and the squares on its sides (2.1)",
+     "what": "The verse states in words that the diagonal rope of a rectangle makes one square equal to the squares made by its two sides; the edition's formula (line 188) writes c² = a² + b².",
+     "verse": "दीर्घचतुरस्रस्याक्ष्णया रज्जु: पार्श्वमानी तिर्यग्मानी च यत् पृथग्भूते कुरुतस्तदुभयं करोति ॥",
+     "line": 183,
+     "kind": "verse",
+     "number": "none (two sides, no numeral)",
+     "structure": "none (a² + b² = c²)",
+     "engineUse": "used: math-core.js (baudhayanaPythagoreanTriple, line 4885, checks a*a + b*b === c*c)",
+     "verseFound": true
+    },
+    {
+     "topic": "Diagonal of a square doubles its area (2.2)",
+     "what": "The verse says the diagonal rope of a square makes a square of twice the area, i.e. d² = 2a² (the edition's formula at line 209).",
+     "verse": "समचतुरस्रस्याक्ष्णया रज्जुर्द्विस्तावतीं भूमिं करोति ॥",
+     "line": 205,
+     "kind": "verse",
+     "number": "द्विस्तावतीम् = twice (2)",
+     "structure": "2^1 (d² = 2a²)",
+     "engineUse": "used: math-core.js only in part (Math.SQRT2 is returned beside the fraction in baudhayanaSquareRoot2, line 4874-4882); no function encodes d² = 2a² exactly",
+     "verseFound": true
+    },
+    {
+     "topic": "Integer triples from the rope (3.1), first three",
+     "what": "The verse names pairs of ropes and the diagonal they produce: 3 and 4 give 5, 12 and 5 give 13, and 15 and 8 give 17; each satisfies a² + b² = c² exactly.",
+     "verse": "तासां त्रिकचतुष्काभ्यामक्ष्णया रज्जुः पञ्चिक। द्वादशिकपञ्चिकाभ्यां त्रयोदशिक। पञ्चदशिकाष्टिकाभ्यां सप्तदशिक। षट्त्रिंशिकद्वादशिकाभ्यां सप्तत्रिंशिक ॥",
+     "line": 224,
+     "kind": "verse",
+     "number": "3,4→5; 12,5→13; 15,8→17 (त्रिक, चतुष्क, पञ्चिक, द्वादशिक, त्रयोदशिक, पञ्चदशिक, अष्टिक, सप्तदशिक)",
+     "structure": "9+16=25; 144+25=169; 225+64=289; no modulus stated",
+     "engineUse": "used: math-core.js (BAUDHAYANA_TRIPLES, lines 4866-4872, lists (3,4,5), (5,12,13), (8,15,17))",
+     "verseFound": true
+    },
+    {
+     "topic": "Fourth triple as printed does not close (3.1)",
+     "what": "The clause reads 36 and 12 giving 37, but 36² + 12² = 1440 ≠ 37² = 1369; the edition's English (line 235), its Python (line 358) and math-core.js use 12 and 35, where 35² + 12² = 1369 holds. The printed Sanskrit and the edition's own commentary disagree; I did not check an external critical edition.",
+     "verse": "षट्त्रिंशिकद्वादशिकाभ्यां सप्तत्रिंशिक",
+     "line": 224,
+     "kind": "verse",
+     "number": "षट्त्रिंशिक = 36 as printed; सप्तत्रिंशिक = 37; commentary says 35",
+     "structure": "a² + b² = c² fails for 36, 12, 37 (1440 vs 1369) and holds for 35, 12, 37",
+     "engineUse": "used: math-core.js lists [12, 35, 37] labelled Āpastamba (line 4871); no .js file uses 36 for this triple, so the printed reading is not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Commentary triple (15, 36, 39) absent from the engine list (3.1 commentary)",
+     "what": "The edition's commentary lists (15, 36, 39) among the verse's triples, which the verse does not name; the triple holds (225 + 1296 = 1521 = 39²), but math-core.js lists (7, 24, 25) under Baudhāyana, which the edition never contains, and omits (15, 36, 39).",
+     "verse": "तासां त्रिकचतुष्काभ्यामक्ष्णया रज्जुः पञ्चिक। द्वादशिकपञ्चिकाभ्यां त्रयोदशिक। पञ्चदशिकाष्टिकाभ्यां सप्तदशिक। षट्त्रिंशिकद्वादशिकाभ्यां सप्तत्रिंशिक ॥",
+     "line": 224,
+     "kind": "commentary",
+     "number": "(15, 36, 39) in commentary line 233; (7, 24, 25) in math-core only",
+     "structure": "a² + b² = c² holds for (15,36,39) and (7,24,25)",
+     "engineUse": "used: math-core.js BAUDHAYANA_TRIPLES (line 4870) carries (7, 24, 25); (15, 36, 39) is not in that list",
+     "verseFound": true
+    },
+    {
+     "topic": "Unit chain: aṅgula, pada, aratni, puruṣa (1.3)",
+     "what": "The verse fixes 24 aṅgulas for the aratni and 120 aṅgulas for the puruṣa; the edition's table adds 1 puruṣa = 5 aratni (commentary, line 125), which is 5 × 24 = 120 on the verse's own numbers.",
+     "verse": "चतुरंगुलं पदम् । पञ्चदशांगुलं पदम् । चतुर्विंशत्यंगुलः अरत्निः । १२० अंगुलः पुरुषः ॥",
+     "line": 165,
+     "kind": "verse",
+     "number": "चतुर्विंशति (24) aṅgula aratni; १२० (120) aṅgula puruṣa",
+     "structure": "multiples of 3: 15, 24, 120; 120 = 5 × 24 = 8 × 15",
+     "engineUse": "not used: no aratni, prakrama or puruṣa-120 constant in .js; 'aṅgula' in ss-chaya.js and vedha-page.js is the gnomon shadow unit",
+     "verseFound": true
+    },
+    {
+     "topic": "Two different padas in one verse (1.3)",
+     "what": "The verse gives the pada twice, as 4 aṅgulas and as 15 aṅgulas; the edition's unit table (line 123) and English (line 168) carry only the 15-aṅgula pada.",
+     "verse": "चतुरंगुलं पदम् । पञ्चदशांगुलं पदम् । चतुर्विंशत्यंगुलः अरत्निः । १२० अंगुलः पुरुषः ॥",
+     "line": 165,
+     "kind": "verse",
+     "number": "4 aṅgula (चतुरंगुलं) and 15 aṅgula (पञ्चदशांगुलं) per pada",
+     "structure": "none; 4 is not a multiple of 3, 15 is",
+     "engineUse": "unknown: no Śulba pada constant found; 'pada' in ss-grahana.js, panchanga.test.js and shunyabheda-app.js was not checked line by line and is not a verified use of this unit",
+     "verseFound": true
+    },
+    {
+     "topic": "Circle from square: half-diagonal and one-third (5.1)",
+     "what": "The verse says to set off half the diagonal from the centre and to draw the circle with one-third of the excess added to the half-side; the edition's formula (line 289) gives r = a/2 + (1/3)(a√2/2 − a/2) = (a/6)(2 + √2).",
+     "verse": "चतुरस्रं मण्डलं चिकीर्षन्नक्ष्णयार्धं मध्यात्प्राचीमभ्यापातयेत् । यदतिशिष्यते तस्य तृतीयेन सह मण्डलं परिलिखेत् ॥",
+     "line": 283,
+     "kind": "verse",
+     "number": "अर्ध (1/2; half the diagonal); तृतीयेन (1/3 of the excess)",
+     "structure": "denominators 2 and 3; r/a = (2 + √2)/6, an element of Q(√2)",
+     "engineUse": "used: math-core.js (baudhayanaCircleSquareTransform, line 4897, r = (side/2)(1 + (√2 − 1)/3), the same expression)",
+     "verseFound": true
+    },
+    {
+     "topic": "√3 from a rectangle of sides 1 and √2 (4.2)",
+     "what": "The verse names the rope for √3 as the one made from the √2 rope; the edition's English (line 268) takes the rectangle with sides 1 and √2 and states its diagonal is √3 ≈ 1.73205.",
+     "verse": "त्रिकरणी । प्रमाणं द्विकरण्या सह त्रिकरणी ॥",
+     "line": 265,
+     "kind": "verse",
+     "number": "द्विकरणी (√2) and त्रिकरणी (√3); rectangle 1 × √2",
+     "structure": "1² + (√2)² = 3; the karaṇī index is the sum of the squared sides",
+     "engineUse": "not used: no trikaraṇī or √3 construction in .js; math-core.test.js:1151-1156 uses Math.sqrt(3)/2 only in a cosine check",
+     "verseFound": true
+    },
+    {
+     "topic": "Mahāvedi trapezoid in padas (6.1)",
+     "what": "The verse gives the back length as 30 padas, the east side as 36 and the front side as 24; the edition's English (line 309) calls these 30, 24 and 36 prakramas, but its unit table makes one prakrama equal to two padas (line 127), so the units do not match.",
+     "verse": "त्रिंशत्पदानि पश्चादायामो भवति । षट्त्रिंशत् प्राची । चतुर्विंशतिः पुरस्तात् ॥",
+     "line": 305,
+     "kind": "verse",
+     "number": "त्रिंशत् (30), षट्त्रिंशत् (36), चतुर्विंशति (24) padas",
+     "structure": "all multiples of 6: 30 = 5·6, 36 = 6², 24 = 4·6; 30 + 24 = 54 = 2·3³",
+     "engineUse": "not used: no mahavedi, mahāvedi or altar-trapezoid constant in .js",
+     "verseFound": true
+    },
+    {
+     "topic": "Śyena altar area and brick count (commentary only)",
+     "what": "The verse says only that the hawk altar is measured in puruṣas for its wings and tail; the edition's English (line 328) adds a total area of 7½ square puruṣas and 5 layers of 200 bricks (1000 in all), which the verse does not state.",
+     "verse": "श्येनचितं चिन्वीत स्वर्गकामः । पुरुषमात्रो पक्षौ पुच्छं च ॥",
+     "line": 324,
+     "kind": "commentary",
+     "number": "7½ square puruṣas; 5 layers; 200 bricks per layer; 1000 bricks total (commentary)",
+     "structure": "1000 = 10³; 5 × 200 = 1000; none of the listed moduli",
+     "engineUse": "not used: no śyena, kūrma or altar-brick module in .js",
+     "verseFound": true
+    },
+    {
+     "topic": "Aṅgula-to-centimetre scale (commentary only)",
+     "what": "The edition's unit table gives 1 aṅgula ≈ 1.9 cm (line 122), a figure the verse does not state and the edition does not source.",
+     "verse": "चतुरंगुलं पदम् । पञ्चदशांगुलं पदम् । चतुर्विंशत्यंगुलः अरत्निः । १२० अंगुलः पुरुषः ॥",
+     "line": 165,
+     "kind": "commentary",
+     "number": "1.9 cm per aṅgula (commentary, unsourced)",
+     "structure": "none",
+     "engineUse": "not used: no 1.9 cm aṅgula figure found in .js",
+     "verseFound": true
+    }
+   ],
+   "measurementCandidates": [
+    {
+     "what": "Radius rule r = (a/6)(2 + √2) (verse line 283, formula at commentary line 289). Read as equal-area it would imply π = 36/(2+√2)² ≈ 3.0883, but the verse states neither π nor equal areas, and the edition's own Python (lines 364-366) gives circle area ≈ 101.73 against square 100 for a = 10, so it does not assume equal area.",
+     "line": 289,
+     "why": "Interpretive only. A constraint on π exists only if the rule was designed for equal areas, which the text does not say. Not an independent measurement."
+    },
+    {
+     "what": "Aṅgula scale 1 aṅgula ≈ 1.9 cm (commentary unit table).",
+     "line": 122,
+     "why": "A metric scale for the aṅgula, unsourced and not an observation. It could convert lengths but cannot constrain any astronomical parameter."
+    },
+    {
+     "what": "Composition date c. 800–600 ई.पू. for the Baudhāyana Śulbasūtra (front-matter commentary).",
+     "line": 110,
+     "why": "The only date in the text, and it is a date of composition, not a dated observation. It cannot constrain astronomy."
+    },
+    {
+     "what": "Stated precision of 577/408 for √2: five decimal places, error 0.0000021 (commentary).",
+     "line": 259,
+     "why": "A numerical claim that checks out (577/408 − √2 ≈ 2.124×10⁻⁶). It is a self-consistency check on the approximation, not a measurement or an independent constraint."
+    }
+   ],
+   "notFound": [
+    "(a) Time structure: no year, month, day, yuga, kalpa, breath, nāḍī, ghaṭī, prāṇa, truṭi, tithi, nakṣatra, ṛtu, ayana, calendar rule or epoch. Searched वर्ष, संवत, दिन, युग, कल्प, नाड, घटी, प्राण, तिथि, नक्षत्र, ऋतु, अयन, मास (only hits are समास, a compound), plus English year, month, day, epoch, calendar, cycle, period.",
+    "(b) Number structure: no counts by 9, 27, 108 or 360 (all ten verses were read); no digital roots; no place value; no zero (शून्य: 0 hits); no binary, meru or prastāra (Piṅgala); no recurrence; no combinatorics; no Pāṇini, Śivasūtras or pratyāhāra; no sūtra counts.",
+    "(c) Astronomical constants: no revolution counts, year length, obliquity, ayanāṃśa, precession, apogee, epicycle, eclipse (ग्रहण: 0 hits), latitude, shadow or śaṅku (शङ्कु/शंकु: 0 hits), or dated observation. ज्या appears only inside ज्यामिति (geometry), so no sine table. No value of π in the text; math.pi appears only in the edition's Python (line 366). The only instrument is the rope (śulba).",
+    "(d) Algebra: no kuṭṭaka, varga-prakṛti or cakravāla, no general square-root method beyond √2 and √3 by name, no series beyond the three-term sum in verse 4.1, and no generating formula for triples (m² − n², 2mn, m² + n²); math-core.js supplies that formula, not the text.",
+    "Engine note: math-core.js baudhayanaSquareRoot2 computes 1 + 1/3 + 1/12 − 1/408 in floating point (Number), not exact integer or BigInt arithmetic, so the exact-integer engine does not yet use the verse 4.1 recipe exactly."
+   ],
+   "file": "editions/sulba-full-edition.html",
+   "counts": {
+    "findings": 14,
+    "verse": 10,
+    "commentary": 4,
+    "verseFound": 14,
+    "notUsed": 5,
+    "candidates": 4
+   }
+  },
+  {
+   "edition": "editions/surya-siddhanta-full-edition.html",
+   "sizeLines": 6517,
+   "chaptersSeen": [
+    "1 मध्यमाधिकारः (Mean Motions of the Planets), 70 verses, lines 240-1124",
+    "2 स्पष्टाधिकारः (True Places of the Planets), 69 verses, lines 1125-1980",
+    "3 त्रिप्रश्नाधिकारः (Direction, Place and Time), 51 verses, lines 1981-2642",
+    "4 चन्द्रग्रहणाधिकारः (The Lunar Eclipse), 26 verses, lines 2643-2970",
+    "5 सूर्यग्रहणाधिकारः (The Solar Eclipse), 17 verses, lines 2971-3189",
+    "6 छेद्यकाधिकारः (Projection of Eclipses), 24 verses, lines 3190-3483",
+    "7 ग्रहयुत्यधिकारः (Planetary Conjunctions), 24 verses, lines 3484-3774",
+    "8 भग्रहयुत्यधिकारः (Stars and Planets), 21 verses, lines 3775-4044",
+    "9 उदयास्ताधिकारः (Heliacal Rising and Setting), 18 verses, lines 4045-4287",
+    "10 शृङ्गोन्नत्यधिकारः (Elevation of the Moon's Cusps), 15 verses, lines 4288-4483",
+    "11 पाताधिकारः (The Pātas of Sun and Moon), 23 verses, lines 4484-4791",
+    "12 भूगोलाध्यायः (Cosmography), 90 verses, lines 4792-5869",
+    "13 ज्योतिषोपनिषदध्यायः (The Armillary Sphere and Instruments), 25 verses, lines 5870-6172",
+    "14 मानाध्यायः (The Reckonings of Time), 27 verses, lines 6173-6517"
+   ],
+   "findings": [
+    {
+     "topic": "Mahāyuga length: 12,000 divine years × 360",
+     "what": "1.15 gives the caturyuga as 12,000 divine years and its solar-year count as dvi-tri-sāgara (432) × ayuta (10,000) = 4,320,000. 1.14 gives the divine year as ṣaṭ-guṇā ṣaṣṭi = 60 × 6 = 360.",
+     "verse": "तद्द्वादशसहस्राणि चतुर्युगं उदाहृतम् । / सूर्याब्दसंख्यया द्वित्रिसागरैरयुताहतैः ॥",
+     "line": 415,
+     "kind": "verse",
+     "number": "4,320,000 solar years per mahāyuga (432 × 10,000); 12,000 divine years; 360 per divine year (1.14, line 403)",
+     "structure": "4,320,000 = 2^8·3^3·5^4; digit sum 9 (divisible by 9)",
+     "engineUse": "used: ss-graha.js (SUN_REV, KALPA_YEARS), ss-ahargana.js, ss-tier.js",
+     "verseFound": false
+    },
+    {
+     "topic": "Yuga proportions 4:3:2:1 and sandhi = 1/6",
+     "what": "1.17 gives each yuga as the mahāyuga's tenth multiplied by 4, 3, 2, 1 (kṛta, tretā, dvāpara, kali). Each sandhi (dawn/dusk) is one-sixth of its yuga (1.16 defines the sandhi-saṃdhyāṃśa structure).",
+     "verse": "युगस्य दशमो भागश्चतुस्त्रिद्व्येकसङ्गुणः । / क्रमात्कृतयुगादीनां षष्ठांशः सन्ध्ययोः स्वकः ॥",
+     "line": 439,
+     "kind": "verse",
+     "number": "ratio 4:3:2:1; sum 10; sandhi 1/6 of each yuga",
+     "structure": "ratio 4:3:2:1 (sum 10); 1/6 sandhi",
+     "engineUse": "unknown",
+     "verseFound": false
+    },
+    {
+     "topic": "Manvantara = 71 yugas; kalpa = 1000 yugas with 14 manus and 15 sandhis",
+     "what": "1.18: one manvantara is 71 mahāyugas, with a sandhi equal to a kṛta at its end. 1.19: the kalpa has 14 manus and 15 sandhis (the first at the kalpa start, weighted by kṛta). 1.20: 1000 yugas make a kalpa.",
+     "verse": "युगानां सप्ततिः सैका मन्वन्तरं इहोच्यते । / कृताब्दसंख्यास्तस्यान्ते सन्धिः प्रोक्तो जलप्लवः ॥",
+     "line": 454,
+     "kind": "verse",
+     "number": "71 yugas per manvantara; 14 manvantaras; 15 sandhis (1.19, line 467: कल्पादौ सन्धिः पञ्चदशः); 1000 yugas per kalpa (1.20, line 481: युगसहस्रेण)",
+     "structure": "71 is prime; 14 × 71 = 994; 994 + 6 = 1000 (gloss)",
+     "engineUse": "used: ss-graha.js (KALPA_YEARS = 4320000000n = 1000 × 4,320,000); 71 and 14 unknown",
+     "verseFound": false
+    },
+    {
+     "topic": "Brahmā's day, night and life",
+     "what": "1.20: one kalpa is Brahmā's day and an equal night. 1.21: Brahmā's life is 100 Brahmā-years. Half of it has passed, and the current kalpa is the first of the remaining half. The 72,000-kalpa total and 36,000 elapsed are the gloss's conversion.",
+     "verse": "परमायुः शतं तस्य तयाहोरात्रसंख्यया । / आयुषो अर्धमितं तस्य शेषकल्पो अयं आदिमः ॥",
+     "line": 494,
+     "kind": "verse",
+     "number": "100 Brahmā-years; 1 kalpa = Brahmā's day = Brahmā's night (1.20, line 481)",
+     "structure": "none",
+     "engineUse": "unknown",
+     "verseFound": false
+    },
+    {
+     "topic": "Elapsed time in the current kalpa: six manus, 27 yugas (tri-ghana = 3³), 28th yuga",
+     "what": "1.22: six manvantaras have passed, with their sandhis, and the Vaivasvata manu has had a tri-ghana (cube) number of yugas pass. 1.23: the present is the 28th yuga, its kṛta part. The verse gives 27 as tri-ghana; the gloss adds 1 kṛta for the 28th yuga.",
+     "verse": "वैवस्वतस्य च मनोर्युगानां त्रिघनो गतः ॥",
+     "line": 507,
+     "kind": "verse",
+     "number": "6 manvantaras elapsed; 27 mahāyugas elapsed in Vaivasvata (त्रिघन); 28th mahāyuga (1.23, line 521: अष्टाविंशाद्युगात्)",
+     "structure": "27 = 3³ (cube); 28 = 4·7",
+     "engineUse": "used: ss-graha.js (YEARS_GONE = 1955880000n from the 1.45-1.47 epoch chain; 'trighana' cited at 1.68-1.70)",
+     "verseFound": true
+    },
+    {
+     "topic": "Prāṇa, vināḍī, nāḍī and the sidereal day",
+     "what": "1.11: 6 prāṇa make 1 vināḍī and 60 vināḍī make 1 nāḍikā. 1.12: 60 nāḍī make a nākṣatra-ahorātra (sidereal day), and 30 of these make a sāvana month (counted by sunrises). Gloss total: 21,600 prāṇa per day.",
+     "verse": "नाडीषष्ट्या तु नाक्षत्रं अहोरात्रं प्रकीर्तितम् । / तत्त्रिंशता भवेन्मासः सावनो अर्कोदयैस्तथा ॥",
+     "line": 379,
+     "kind": "verse",
+     "number": "6 prāṇa = 1 vināḍī; 60 vināḍī = 1 nāḍī; 60 nāḍī = 1 ahorātra; 30 ahorātra = 1 māsa; 21,600 prāṇa per day (gloss, from 6·60·60)",
+     "structure": "sexagesimal (60); 6·60·60 = 21,600 = 2^5·3^3·5^2",
+     "engineUse": "used: ss-chaya.js (TURN = 21600)",
+     "verseFound": true
+    },
+    {
+     "topic": "Civil (sāvana) days = chāndra days − tithi-kṣaya; mahāyuga day counts",
+     "what": "1.36 gives the rule sāvana days = chāndra days minus tithi-kṣaya. 1.37 gives the chāndra count as 1,603,000,080 per mahāyuga (second half) and the sāvana count as 1,577,917,828 (first half: vasu-dvi-aṣṭa-adri-rūpa-aṅka-sapta-adri with tithi 15 read as 1,5; the header gives the same pāṭha-bheda). 1.38 gives tithi-kṣaya 25,082,252 (gloss). Check: 1,603,000,080 − 25,082,252 = 1,577,917,828.",
+     "verse": "वसुद्व्यष्टाद्रिरूपाङ्कसप्ताद्रितिथयो युगे । / चान्द्राः खाष्टखखव्योमखाग्निखर्तुनिशाकराः ॥",
+     "line": 710,
+     "kind": "verse",
+     "number": "chāndra 1,603,000,080; sāvana 1,577,917,828; tithi-kṣaya 25,082,252 (gloss; 1.38, line 722); 1,603,000,080 = 30 × 53,433,336",
+     "structure": "decimal; no modulus; chāndra = 30 × lunar months",
+     "engineUse": "1,577,917,828: used: math-core.js, sphuta.js, ss-tier.js, sukshma-kala.js. 1,603,000,080 and 25,082,252: tests only (kala-dvara.test.js). Āryabhaṭa's 1,577,917,500 (not in this text) is used by dasha.js",
+     "verseFound": true
+    },
+    {
+     "topic": "Adhimāsa and saura months per mahāyuga",
+     "what": "1.35 gives the rule: adhimāsa = chāndra months minus saura months. 1.38 (first half) gives adhimāsa 1,593,336 per mahāyuga (gloss). 1.39 gives 51,840,000 saura months (gloss), which equals 12 × 4,320,000. Check: 53,433,336 − 51,840,000 = 1,593,336.",
+     "verse": "भवन्ति शशिनो मासाः सूर्येन्दुभगणान्तरम् । / रविमासोनितास्ते तु शेषाः स्युरधिमासकाः ॥",
+     "line": 686,
+     "kind": "verse",
+     "number": "adhimāsa 1,593,336 (1.38, line 722); saura months 51,840,000 (1.39, line 734: खचतुष्कसमुद्राष्टकुपञ्च); chāndra months 53,433,336 (gloss)",
+     "structure": "saura month = 12 × mahāyuga; 51,840,000 = 12 × 4,320,000",
+     "engineUse": "1,593,336 and 51,840,000: tests only (kala-dvara.test.js, panchanga.test.js)",
+     "verseFound": false
+    },
+    {
+     "topic": "Mean revolutions per mahāyuga: Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn",
+     "what": "Word-numerals in 1.29-1.32 give the mahāyuga revolution counts. Decode rule stated in the gloss: the leftmost word is the units digit, and kha-N means N zeros. Every value below was re-decoded by hand under that rule and matches the gloss.",
+     "verse": "इन्दो रसाग्नित्रित्रीषुसप्तभूधरमार्गणाः । / दस्रत्र्यष्टरसाङ्काक्षिलोचनानि कुजस्य तु ॥",
+     "line": 616,
+     "kind": "verse",
+     "number": "Sun 4,320,000 (1.29, line 600); Moon 57,753,336 (1.30, line 616); Mars 2,296,832 (1.30); Mercury-śīghra 17,937,060 (1.31, line 631); Jupiter 364,220 (1.31); Venus-śīghra 7,022,376 (1.32, line 646); Saturn 146,568 (1.32)",
+     "structure": "8-digit Moon count; no modulus",
+     "engineUse": "used: ss-graha.js (rev fields: mars 2296832n, mercury 17937060n, jupiter 364220n, venus 7022376n, saturn 146568n; SUN_REV 4320000n)",
+     "verseFound": false
+    },
+    {
+     "topic": "Moon's apogee and node revolutions per mahāyuga",
+     "what": "1.33 gives the Moon's apogee (ucca) at 488,203 and the Moon's node (pāta, counted retrograde 'vāmam') at 232,238 per mahāyuga.",
+     "verse": "चन्द्रोच्चस्याग्निशून्याश्विवसुसर्पार्णवा युगे । / वामं पातस्य वस्वग्नियमाश्विशिखिदस्रकाः ॥",
+     "line": 662,
+     "kind": "verse",
+     "number": "Moon's apogee 488,203; Moon's node 232,238 (both per mahāyuga)",
+     "structure": "none",
+     "engineUse": "used: sphuta.js, math-core.js (488203, 232238)",
+     "verseFound": true
+    },
+    {
+     "topic": "Per-kalpa apsidal and nodal counts (manda/pāta revolutions)",
+     "what": "1.40 says the yuga-counts scaled by 1000 give the kalpa counts. 1.41-1.44 then give the per-kalpa counts for the mandoccas and nodes. The gloss reads go = 9 in 1.42 to get Saturn's 39.",
+     "verse": "प्राग्गतेः सूर्यमन्दस्य कल्पे सप्ताष्टवह्नयः । / कौजस्य वेदखयमा बौधस्याष्टर्तुवह्नयः ॥",
+     "line": 758,
+     "kind": "verse",
+     "number": "per kalpa: mandocca Sun 387, Mars 204, Mercury 368 (1.41); Jupiter 900, Venus 535, Saturn 39 (1.42, line 771); nodes Mars 214, Mercury 488, Jupiter 174, Venus 903 (1.43, line 785); Saturn 662 (1.44, line 798); kalpa = 1000 × yuga counts (1.40, line 746)",
+     "structure": "kalpa = 1000 × mahāyuga counts; 'manu' = 14 read leftmost-first gives 214",
+     "engineUse": "used: ss-graha.js (mandocca and node table, lines 78-82)",
+     "verseFound": true
+    },
+    {
+     "topic": "Solar years elapsed at end of Kṛta: the Kali-epoch chain",
+     "what": "1.45-1.47 give the years elapsed to the end of the Kṛta. The gloss decodes khacatuṣka as four zeros, giving 1,953,720,000; the header pāṭha-bheda gives 1953720000. Read word-by-word with kha = 0 and catuṣka = 4 as separate digits, the same words give 19,537,240 instead. Adding tretā 1,296,000 and dvāpara 864,000 gives 1,955,880,000.",
+     "verse": "सूर्याब्दसंख्यया ज्ञेयाः कृतस्यान्ते गता अमी । / खचतुष्कयमाद्र्यग्निशररन्ध्रनिशाकराः ॥",
+     "line": 837,
+     "kind": "verse",
+     "number": "1,953,720,000 (gloss decode, 'kha-catuṣka' = 4 zeros); plus tretā + dvāpara = 1,955,880,000 at the Kali epoch",
+     "structure": "decode convention 'kha-N = N zeros'; no modulus",
+     "engineUse": "used: ss-graha.js (YEARS_GONE = 1955880000n), ss-ahargana.js, math-core.js",
+     "verseFound": true
+    },
+    {
+     "topic": "60-year Bṛhaspati name cycle and end-of-Kṛta planetary condition",
+     "what": "1.55: the saṃvatsara index is (12 × elapsed Jupiter revolutions + current sign count) mod 60, starting with Vijaya. 1.57: at the end of the Kṛta, all mean planets are at Meṣa-ādi except the nodes and mandoccas (a same-point epoch condition, not an observation).",
+     "verse": "द्वादशघ्ना गुरोर्याता भगणा वर्तमानकैः । / राशिभिः सहिताः शुद्धाः षष्ट्या स्युर्विजयादयः ॥",
+     "line": 935,
+     "kind": "verse",
+     "number": "60 names; multiplier 12; epoch at Vijaya (1.55, line 935); end-of-Kṛta all planets at 0° Meṣa (1.57, line 958)",
+     "structure": "mod 60; 12 signs",
+     "engineUse": "used: ss-graha.js (samvatsara; end-of-Kṛta condition in header)",
+     "verseFound": false
+    },
+    {
+     "topic": "Earth's diameter and circumference: π implied as √10",
+     "what": "1.59: the diameter is twice 800 yojanas = 1600. The circumference is the root of 10 times the square of the diameter, so the implied π is √10. The gloss gives circumference 1600√10 ≈ 5059.6 yojanas.",
+     "verse": "योजनानि शतान्यष्टौ भूकर्णो द्विगुणानि तु । / तद्वर्गतो दशगुणात्पदं भूपरिधिर्भवेत् ॥",
+     "line": 983,
+     "kind": "verse",
+     "number": "bhūkarṇa 1600 yojanas; circumference √(10·1600²) ≈ 5059.6 yojanas; π_eff = √10 ≈ 3.1623",
+     "structure": "surd √10; 1600 = 2^6·5^2",
+     "engineUse": "1600: used: ss-grahana.js. √10 rule: tests only (ss-chapters.test.js)",
+     "verseFound": false
+    },
+    {
+     "topic": "Greatest latitudes of the planets: 270′ and its ninths, with the 27 · 9 · 12 pattern",
+     "what": "1.68: the Moon's greatest latitude is 1/80 of the 21,600′ zodiac circle = 270′. 1.69: the unit u = 270/9 = 30′, with Jupiter 2u = 60′, Mars 3u = 90′, Mercury/Venus/Saturn 4u = 120′. 1.70: the numerals trighana-randhra-arka-rasa-arka-arka multiplied by 10 give 270, 90, 120, 60, 120, 120′ (Moon, Mars, Mercury, Jupiter, Venus, Saturn).",
+     "verse": "एवं त्रिघनरन्ध्रार्करसार्कार्का दशाहताः । / चन्द्रादीनां क्रमादुक्ता मध्यविक्षेपलिप्तिकाः ॥",
+     "line": 1111,
+     "kind": "verse",
+     "number": "Moon 270′ (line 1089); unit 30′ (line 1100); Moon 270, Mars 90, Mercury 120, Jupiter 60, Venus 120, Saturn 120 arcmin (line 1111)",
+     "structure": "27 = 3³, 9 = 3², 80 and 9 as divisors; 21,600 = 360 × 60",
+     "engineUse": "used: ss-graha.js (lat fields 90/120/60/120/120; header 1.68-1.70)",
+     "verseFound": false
+    },
+    {
+     "topic": "Sine table on R = 3438: first chord 225′, radius, and the sum of differences",
+     "what": "2.15: the first half-chord is 1/8 of a sign (1800′) = 225′. 2.22: R = 3438 is the radius (vasu-agni-kṛta-vahni), and J23 = 3431. The 24 sine entries J1..J24 are cumulative sums of the differences 225, 224, 222, 219, 215, 210, 205, 199, 191, 183, 174, 164, 154, 143, 131, 119, 106, 93, 79, 65, 51, 37, 22, 7. These differences sum to exactly 3438, computed from the gloss's J-values. The entries are verse word-numerals (2.16-2.21) decoded in the gloss.",
+     "verse": "राशिलिप्ताष्टमो भागः प्रथमं ज्यार्धं उच्यते । / तत्तद्विभक्तलब्धोनमिश्रितं तद्द्वितीयकम् ।।",
+     "line": 1305,
+     "kind": "verse",
+     "number": "225′ (2.15); R = 3438 and J23 = 3431 (2.22, line 1388); differences sum to 3438 (derived)",
+     "structure": "3438 = 2·3²·191 (digit sum 18); 1800/8 = 225 = 15²; 24 entries = 360/15",
+     "engineUse": "used: ss-chaya.js, ss-graha.js (24-entry table on R = 3438), sphuta.js",
+     "verseFound": true
+    },
+    {
+     "topic": "Versed sines by subtraction from R; a slip in the gloss",
+     "what": "2.22 says the utkrama (versed) values are R minus the sine entries taken in reverse order. 2.23 gives U1..U7 = 7, 29, 66, 117, 182, 261, 354 (= R − J). U6 = 261 equals 3438 − 3177 exactly. The gloss's line 'U6 = 3438 − 3179 = 259 ≈ 261 (integer table rounding)' is an arithmetic slip, since J18 = 3177 (gloss 2.20).",
+     "verse": "मुनयो रन्ध्रयमला रसषट्का मुनीश्वराः । / द्व्यष्टैका रूपषड्दस्राः सागरार्थहुताशनाः ।",
+     "line": 1400,
+     "kind": "verse",
+     "number": "U1..U7 = 7, 29, 66, 117, 182, 261, 354; U6 = 3438 − 3177 = 261 exactly",
+     "structure": "utkrama(θ) = R − R·cos θ = 2R·sin²(θ/2)",
+     "engineUse": "used: ss-chaya.js and ss-graha.js (versed-sine / utkrama code and comments)",
+     "verseFound": false
+    },
+    {
+     "topic": "Greatest declination: jyā 1397 of R = 3438",
+     "what": "2.28: the sine of the greatest declination (paramāpakrama-jyā) is 1397 on R = 3438. This gives an angle of about 23.98°; the gloss rounds this to 24°.",
+     "verse": "परमापक्रमज्या तु सप्तरन्ध्रगुणेन्दवः । / तद्गुणा ज्या त्रिजीवाप्ता तच्चापं क्रान्तिरुच्यते ।।",
+     "line": 1461,
+     "kind": "verse",
+     "number": "1397 (sine of greatest declination, R = 3438); sin⁻¹(1397/3438) ≈ 23.98° (24° is the gloss's rounding)",
+     "structure": "1397 = 11·127; 1397/3438 ≈ 0.40634",
+     "engineUse": "used: ss-chaya.js, ss-grahana.js, ss-drishya.js, ss-tier.js (1397)",
+     "verseFound": false
+    },
+    {
+     "topic": "Manda-paridhi: Sun 14°, Moon 32°",
+     "what": "2.34: the manda-paridhi (anomaly-epicycle circumference) is 14° for the Sun (manavaḥ) and 32° for the Moon (radāḥ).",
+     "verse": "रवेर्मन्दपरिध्यंशा मनवः शीतगो रदाः ।",
+     "line": 1538,
+     "kind": "verse",
+     "number": "Sun 14°; Moon 32°",
+     "structure": "14 = 2·7; 32 = 2^5",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Square roots: karṇa as root of a sum of squares; karaṇī surd-root",
+     "what": "2.41: the karṇa (hypotenuse) is the root of the sum of the squares of bāhu and phala. 3.8: the gnomon's karṇa is the root of the sum of the squares of gnomon and shadow. 3.30-3.31: a surd (karaṇī) is named and its root (karaṇī-pada) is taken after adding the square.",
+     "verse": "तद्बाहुफलवर्गैक्यान्मूलं कर्णश्चलाभिधः ।",
+     "line": 1623,
+     "kind": "verse",
+     "number": "none (algorithm); karṇa = √(bāhu² + koṭi²) (2.41, line 1623); gnomon karṇa (3.8, line 2078); karaṇī-pada (3.31, line 2380)",
+     "structure": "Pythagorean; surd of a sum of squares",
+     "engineUse": "used: ss-chaya.js (karaṇī and karṇa names)",
+     "verseFound": true
+    },
+    {
+     "topic": "Nakṣatra bhoga 800′ and tithi bhoga 720′ (27 × 800 = 30 × 720)",
+     "what": "2.64: the nakṣatra bhoga is 800′ (aṣṭaśatī) and the tithi bhoga is 720′ (kha-aśvi-śaila). 27 × 800 = 21,600 = 30 × 720 (gloss product).",
+     "verse": "भभोगो अष्टशतीलिप्ताः खाश्विशैलास्तथा तिथेः ।",
+     "line": 1909,
+     "kind": "verse",
+     "number": "nakṣatra bhoga 800′; tithi bhoga 720′; 27 · 800 = 30 · 720 = 21,600′",
+     "structure": "27 nakṣatras × 800 = 30 tithis × 720 = 21,600",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Karaṇa structure: 4 fixed and 7 movable, 60 slots per month",
+     "what": "2.67 names the 4 fixed (dhruva) karaṇas. 2.68 names the 7 movable (cara) karaṇas and says each occurs eight times in a month. That gives 4 + 7·8 = 60 half-tithi slots per lunar month.",
+     "verse": "बवादीनि ततः सप्त चराख्यकरणानि च । / मासे अष्टकृत्व एकैकं करणानां प्रवर्तते ।।",
+     "line": 1956,
+     "kind": "verse",
+     "number": "4 fixed karaṇas (2.67, line 1945); 7 movable karaṇas × 8 = 56; total 60 per month",
+     "structure": "60 = 4 + 7·8",
+     "engineUse": "unknown",
+     "verseFound": false
+    },
+    {
+     "topic": "Precession: 30 turns per yuga; ayanāṃśa = (3/10) × bhuja",
+     "what": "3.9: in a yuga the star-wheel 'hangs back' thirty times (triṃśatkṛtvaḥ). 3.10: the ayanāṃśa is bhuja multiplied by 3 and divided by 10. The amplitude 27° at bhuja 90° and the 600 turns per mahāyuga (30 × 20) are commentary. The verse names only 30.",
+     "verse": "त्रिंशत्कृत्यो युगे भानां चक्रं प्राक्परिलम्बते ।",
+     "line": 2089,
+     "kind": "verse",
+     "number": "30 times per yuga (3.9, line 2089); factor 3/10 (3.10, line 2102); amplitude 27° and 600 per mahāyuga = commentary",
+     "structure": "factor 3/10; 600 = 2³·3·5²",
+     "engineUse": "used: ss-tier.js (600 × 0.3 ayanāṃśa rate, TEXT_AYANAMSHA_RATE_ARCSEC)",
+     "verseFound": true
+    },
+    {
+     "topic": "Instrument dimensions: gnomon 12 aṅgula, gnomons of 5 hasta, water-clock 60 immersions per day",
+     "what": "3.2: the gnomon (śaṅku) is 12 aṅgula. 7.16: two gnomons 5 hasta high, set in pits. 13.23: a copper bowl with a hole sinks 60 times in a day-night (ghaṭikā count).",
+     "verse": "तन्मध्ये स्थापयेच्छङ्कुं कल्पनाद्वादशाङ्गुलम् ।",
+     "line": 2005,
+     "kind": "verse",
+     "number": "gnomon 12 aṅgula (3.2); gnomons 5 hasta (7.16, line 3670); 60 immersions per day-night (13.23, line 6137)",
+     "structure": "12 aṅgula; 5 hasta; 60",
+     "engineUse": "used: ss-chaya.js (SHANKU = 12); 13.23 unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Solar and lunar disc diameters: 6,500 and 480 yojanas",
+     "what": "4.1: the Sun's disc diameter is 6½ thousand yojanas (sārdhāni ṣaṭ-sahasrāṇi) and the Moon's is 480 (catuḥ-śatam with aśīti).",
+     "verse": "सार्धानि षट्सहस्राणि योजनानि विवस्वतः । / विष्कम्भो मण्डलस्येन्दोः सहाशीत्या चतुश्शतम् ॥",
+     "line": 2655,
+     "kind": "verse",
+     "number": "Sun 6,500 yojanas; Moon 480 yojanas",
+     "structure": "6500 = 2²·5³·13; 480 = 2^5·3·5; ratio ≈ 13.54",
+     "engineUse": "used: ss-grahana.js (sunYojana = 6500, moonYojana = 480)",
+     "verseFound": false
+    },
+    {
+     "topic": "Avanati: dṛkkṣepa ÷ 70, or dṛkkṣepa × 49 ÷ trijyā",
+     "what": "5.11 gives two rational forms of avanati. The first is dṛkkṣepa divided by 70 (saptati). The second is dṛkkṣepa times 49 (sapta-saptaka) divided by trijyā. With trijyā 3438, 49/3438 = 0.014252 and 1/70 = 0.014286, a 0.24% difference.",
+     "verse": "दृक्क्षेपात्सप्ततिहृताद्भवेद्वावनतिः फलम् । / अथवा त्रिज्यया भक्तात्सप्तसप्तकसङ्गुणात् ॥",
+     "line": 3110,
+     "kind": "verse",
+     "number": "divisor 70; alternative multiplier 49 over trijyā (3438)",
+     "structure": "70 = 2·5·7; 49 = 7²",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Yoga-tārā latitudes (vikṣepa) in degrees",
+     "what": "8.9-8.12 give stated latitudes of the yoga-tārās. Agastya is 80° south (8.10), Mṛgavyādha 40° south (8.11, khārṇava), Huta-bhuj 8° north and Brahmahṛdaya 30° north (8.12). 8.9 gives ½° south and 24° north, with 26° and 0 for the Aśvinī group. No epoch is stated.",
+     "verse": "अशीतिभागैर्याम्यायां अगस्त्यो मिथुनान्तगः । / विंशे च मिथुनस्यांशे मृगव्याधो व्यवस्थितः ॥",
+     "line": 3905,
+     "kind": "verse",
+     "number": "Agastya 80° S; Mṛgavyādha 40° S; Huta-bhuj 8° N; Brahmahṛdaya 30° N; ½° S and 24° N (8.9, line 3892)",
+     "structure": "none; 40 = 'kha-arṇava' (0, 4)",
+     "engineUse": "data only: corpus/surya-siddhanta/yogatara.json (no module checked)",
+     "verseFound": true
+    },
+    {
+     "topic": "Visibility thresholds (dṛśyāṃśa) for the nakṣatra groups: 14°, 21°, 17°",
+     "what": "9.13 gives a dṛśyāṃśa of 14° for Hasta, Śravaṇa, Phālgunī, Śraviṣṭhā, Rohiṇī, Maghā, Viśākhā and Aśvinī. 9.15 gives 21° (3 × 7) for Bharaṇī, Tiṣya and Saumya, and 17° for the rest.",
+     "verse": "हस्तश्रवणफाल्गुन्यः श्रविष्टा रोहिणीमघाः । / चतुर्दशांशकैर्दृश्या विशाखाश्विनिदैवतम् ॥",
+     "line": 4214,
+     "kind": "verse",
+     "number": "14° (9.13, line 4214); 21° (9.15, line 4236, त्रिःसप्तक); 17° (9.15, सप्तदशभिः)",
+     "structure": "14 = 2·7; 21 = 3·7; 17 is prime",
+     "engineUse": "used: ss-drishya.js (dṛśyāṃśa)",
+     "verseFound": false
+    },
+    {
+     "topic": "Orbit radii (kakṣā) in yojanas for the Moon, Sun, planets and nodes",
+     "what": "12.84 gives the formula: kakṣā × bhūkarṇa ÷ mahīmaṇḍala. 12.85-12.89 give the orbit radii as word-numerals. Moon 324,000 uses the decode 'kha-traya' = 000 from the edition's rule. Sun and mean Mercury/Venus 4,331,500 (12.86). Each value was re-decoded by hand and matches the gloss.",
+     "verse": "खत्रयाब्धिद्विदहनाः कक्षा तु हिमदीधितेः । / ज्ञशीघ्रस्याङ्कखद्वित्रित्कृतशून्येन्दवस्तथा ॥",
+     "line": 5794,
+     "kind": "verse",
+     "number": "Moon 324,000; Mercury-śīghra 1,043,209 (12.85); Venus-śīghra 2,664,637; Sun 4,331,500 (12.86, line 5806); Mars 8,146,909; Moon-ucca 38,328,484 (12.87, line 5817); Jupiter 51,375,764; Svarbhānu 80,572,864 (12.88, line 5828); Saturn 127,668,255 (12.89, line 5839)",
+     "structure": "Moon 324,000 = 2^5·3^4·5^3",
+     "engineUse": "used: ss-grahana.js (moonOrbit 324000, sunOrbit 4331500); the others only in corpus/surya-siddhanta/numbers.json",
+     "verseFound": false
+    },
+    {
+     "topic": "Calendar counts: four reckonings, 60-year cycle, 86-day segments, 30 tithis",
+     "what": "14.2: four reckonings are used in daily life (saura, cāndra, ārkṣa, sāvana), and the 60-year cycle is Bṛhaspati's. 14.4: 86-day segments (ṣaḍaśīti), four in the dual-natured signs. 14.5: the segment starts are at 26° Sagittarius, 22° Pisces, 18° Gemini and 14° Virgo. 14.14: a lunar month is 30 tithis, and one pitṛ-day is one lunar month.",
+     "verse": "चतुर्भिर्व्यवहारो अत्र सौरचान्द्रार्क्षसावनैः । / बार्हस्पत्येन षष्ट्यब्दं ज्ञेयं नान्यैस्तु नित्यशः ॥",
+     "line": 6201,
+     "kind": "verse",
+     "number": "60-year cycle (14.2, line 6201); 86 days per segment (14.4, line 6224); starts 26°, 22°, 18°, 14° (14.5, line 6235); 30 tithis per lunar month (14.14, line 6346)",
+     "structure": "26, 22, 18, 14 step −4; 60 = 4·15; 86 = 2·43; 30",
+     "engineUse": "used: ss-graha.js (60-year samvatsara); 86, 26/22/18/14, and 30-tithi usage unknown",
+     "verseFound": true
+    }
+   ],
+   "measurementCandidates": [
+    {
+     "what": "Solar and lunar disc diameters are stated as 6,500 : 480 yojanas, a ratio of about 13.5 to 1.",
+     "line": 2655,
+     "why": "Relative size is a constraint that needs no yojana length. The text states no date, observation or instrument reading with it."
+    },
+    {
+     "what": "Moon-orbit (kakṣā) radius 324,000 and Sun 4,331,500 yojanas. With the disc diameters 480 and 6,500 yojanas, the implied angular diameters are about 5.09′ (Moon) and 5.16′ (Sun), within 1.3% of each other.",
+     "line": 5794,
+     "why": "This is an internal consistency check on the unit and the reference centre. The text does not say whether kakṣā is Earth-centred. Observed mean diameters are about 31-32′ (not in the text), so the implied values are off by about a factor of six unless the reference differs."
+    },
+    {
+     "what": "Greatest lunar latitude stated as 270′ (4°30′), from 21,600′ / 80.",
+     "line": 1089,
+     "why": "A stated limit parameter for eclipse geometry. It is undated, so it can only be tested against an ephemeris once an epoch is assumed."
+    },
+    {
+     "what": "Sine of the greatest declination 1397 on R = 3438, giving an angle of about 23.98° (the gloss rounds to 24°).",
+     "line": 1461,
+     "why": "A stated obliquity-type constant. The text gives no degree value and no date."
+    },
+    {
+     "what": "Precession: 30 turns per yuga (3.9), ayanāṃśa = (3/10)·bhuja (3.10), amplitude 27°. The 600 per mahāyuga and the 54″/yr rate used in ss-tier.js are commentary-derived.",
+     "line": 2089,
+     "why": "The text gives no epoch and no dated ayanāṃśa value, so these are rules rather than observations. The rate in ss-tier.js is not stated in the text."
+    },
+    {
+     "what": "Stated yoga-tārā latitudes: Agastya 80° S, Mṛgavyādha 40° S, Huta-bhuj 8° N, Brahmahṛdaya 30° N; ½° S and 24° N for the Aśvinī group.",
+     "line": 3892,
+     "why": "Stated star latitudes that could be checked against a catalogue only after assuming an epoch the text does not give."
+    },
+    {
+     "what": "Visibility thresholds (dṛśyāṃśa) of 14°, 17° and 21° for groups of nakṣatras.",
+     "line": 4214,
+     "why": "Visibility-limit claims with no date, observer or observation record."
+    },
+    {
+     "what": "Gloss-only (commentary, not verse): solar disc 32′24.8″ computed as 6,500 × 4,320,000 ÷ (57,753,336 × 15).",
+     "line": 6307,
+     "why": "This value is the edition's own derivation. The ÷15 step is not in the verse. It should not be used as an independent observation without checking that step."
+    },
+    {
+     "what": "Stated circumference rule gives an implied π = √10 ≈ 3.1623 (bhūparidhi = √(10·D²)).",
+     "line": 983,
+     "why": "A stated constant that can be tested against any measured ratio of circumference to diameter, though the text reports no measurement."
+    },
+    {
+     "what": "Water-clock (kapāla) sinks 60 times per day-night.",
+     "line": 6137,
+     "why": "An instrument count. No accuracy or reading is stated."
+    }
+   ],
+   "notFound": [
+    "Piṅgala's meru / prastāra / binary counting: 'piṅgala' and 'prastāra' are absent; 'meru' appears only as the mountain in ch. 12.",
+    "Pāṇini (Śivasūtra, pratyāhāra, sūtra counts): absent from this edition. They occur in the separate panini-rahasya edition.",
+    "Kuṭṭaka, cakravāla (Pell-type) and varga-prakṛti: absent from this edition. They occur in maha-grantha and shunyabheda files.",
+    "Explicit π = 3.14…: absent. Only the √10 rule at 1.59 is given.",
+    "Zero as a positional concept: absent. Zero appears only as the word-numeral kha/śūnya inside the bhūtasaṃkhyā convention (leftmost word = units digit).",
+    "Dated observations (śaka or kali years, dated eclipses, instrument readings with values): none in the verses. The eclipse chapters 4-6 give procedures only.",
+    "An ayanāṃśa or precession value stated in degrees at a date, or any epoch for ayanāṃśa: not found.",
+    "Obliquity stated in degrees: not found. Only the sine 1397 on R = 3438 is given (2.28).",
+    "Latitudes in degrees for named places (Laṅkā, Siddhapurī, Yamakoṭi): not located. 12.38-12.40 were not read in full.",
+    "Digital roots and casting-out-nines: not found.",
+    "Binary, Fibonacci, or series sums beyond the sine-table differences: not found.",
+    "Full verse text was read only for the cited verses. The other verses were read by their Sanskrit openings."
+   ],
+   "file": "editions/surya-siddhanta-full-edition.html",
+   "counts": {
+    "findings": 30,
+    "verse": 30,
+    "commentary": 0,
+    "verseFound": 15,
+    "notUsed": 0,
+    "candidates": 10
+   }
+  },
+  {
+   "edition": "editions/parashara-rahasya-full-edition.html",
+   "sizeLines": 15406,
+   "chaptersSeen": [
+    "ch1 (read)",
+    "ch2 (read)",
+    "ch3 (read, all 74 verses)",
+    "ch5 (read, all 24 verses)",
+    "ch6 (read in part, vargas)",
+    "ch7 (keyword)",
+    "ch9 (keyword)",
+    "ch27 (read in part, bala and gaits)",
+    "ch28 (read in part)",
+    "ch35 (read in part)",
+    "ch41 (read in part)",
+    "ch43 (read, all longevity verses)",
+    "ch46 (read in part, dasha core 46.1-46.24 and key numerals)",
+    "ch51, ch71, ch72 (read in part)",
+    "ch78, ch85, ch90, ch91 (read in part or keyword)",
+    "ch76 (keyword)",
+    "ch61-70 (keyword only; largely glyph-faulted: garbled Devanagari such as थ्रिकोण for त्रिकोण, roughly 82 of 82 verses in ch61 and 67 of 82 in ch62 by a rough pattern count; figures read only where legible)",
+    "Whole-file keyword searches across all 97 chapters for time, number, astronomy and arithmetic terms; no chapter was dumped whole"
+   ],
+   "findings": [
+    {
+     "topic": "Vimśottarī: full life of 120 years; principal dasha in the Kali age",
+     "what": "The text states the full life-span as 120 years and names Vimśottarī the principal dasha in the Kali age.",
+     "verse": "विंशोत्तरशतं पूर्णमायुः पूर्वमुदाहृतम् | / कलै विंशोत्तरी तस्माद् दशा मुख्या द्विजोत्तम",
+     "line": 6762,
+     "kind": "verse",
+     "number": "विंशोत्तरशत = 120",
+     "structure": "120 = 2^3·3·5; no 2^n or 3^k structure",
+     "engineUse": "used: math-core.js (29 Vimśottarī references), shunyabheda-app.js, dasha.js",
+     "verseFound": false
+    },
+    {
+     "topic": "Printed Vimśottarī year-values sum to 122, not the stated 120",
+     "what": "As printed, the Mercury slot repeats नवचन्द्र (19 by the usual convention, as in the Saturn slot), so the nine values 6,10,7,18,16,19,19,7,20 sum to 122; the commentary substitutes 17 and flags the reading as doubtful.",
+     "verse": "दशासमाः क्रमादेषां षड् दशाऽश्वा गजेन्दवः | / नृपाला नवचन्द्राश्च नवचन्द्रा नगा नखाः",
+     "line": 6767,
+     "kind": "verse",
+     "number": "6, 10, 7, 18, 16, 19, 19(printed; 17 required), 7, 20",
+     "structure": "sum check: 122 printed vs 120 required by 46.14",
+     "engineUse": "unknown (math-core.js uses the Vimśottarī table; which Mercury value it takes was not checked)",
+     "verseFound": false
+    },
+    {
+     "topic": "Ghaṭikā lagnas: bhāva 5, horā 2½, ghaṭī 1 ghaṭikā per sign",
+     "what": "Per sign of advance the bhāva-lagna takes 5 ghaṭikās, the horā-lagna 2½ ghaṭikās and the ghaṭī-lagna 1 ghaṭikā, a ratio of 5 : 2½ : 1 (commentary: 1 : 2 : 5).",
+     "verse": "सूर्योदयं समारभ्य घटिकानां तु पंचकम्",
+     "line": 759,
+     "kind": "verse",
+     "number": "पंचक = 5; सार्धद्विघटिका = 2½ (5.4, line 767); एकैकघटिका = 1 (5.7, line 778)",
+     "structure": "ratio 5 : 2.5 : 1; 60 ghaṭikās per day gives 12, 24, 60 signs per day (commentary)",
+     "engineUse": "used: math-core.js (ghaṭī, horā and bhāva-lagna, 6 references)",
+     "verseFound": true
+    },
+    {
+     "topic": "Ghaṭī-lagna pala rule: 60 palas per ghaṭikā (commentary only)",
+     "what": "The verse gives half a pala as one degree and one ghaṭikā as one sign; the 60 palas per ghaṭikā (so 60 palas = 30°) is derived by the commentary and does not appear in the Sanskrit.",
+     "verse": "राशयस्तु घटीतुल्याः पलार्धप्रमितांशकाः।",
+     "line": 782,
+     "kind": "commentary",
+     "number": "60 palas per ghaṭikā (commentary); pala/2 = degrees (verse)",
+     "structure": "60 = 2^2·3·5; 60 palas = 30°",
+     "engineUse": "used: math-core.js (ghaṭī-lagna)",
+     "verseFound": true
+    },
+    {
+     "topic": "Palas divided by 15 (tithi) give the prāṇapada arc; prāṇa defined as a bhāṃśa-pāda unit",
+     "what": "The prāṇapada converts the interval from sunrise to palas, divides by fifteen (tithi), and reads the quotient as an arc in signs and degrees; this gives 15 palas per degree, against the 2 palas per degree of the ghaṭī-lagna rule (5.8), so the text uses two time-to-arc conversions.",
+     "verse": "स्वेष्टकालं पलीकृत्य तिथ्याप्तं भादिकं च यत्",
+     "line": 634,
+     "kind": "verse",
+     "number": "तिथि = 15",
+     "structure": "÷15 (tithi); 15 palas per degree versus 2 palas per degree at line 782",
+     "engineUse": "used: math-core.js (prāṇapada, 3 references)",
+     "verseFound": true
+    },
+    {
+     "topic": "Day and night each divided into eight parts; eighth lordless; Gulika and Kāla assigned to Saturn and the Sun",
+     "what": "The day from sunrise and the night are each divided into eight parts counted from the weekday lord; the eighth is lordless (niṣyati), Saturn's part is Gulika, the Sun's part Kāla, Mars's part Mṛtyu, Jupiter's Yamaghaṇṭaka and Mercury's Ardhaprahara.",
+     "verse": "दिवसानष्टधा भक्त्वा वारेशाद् गणेयत् क्रमात्",
+     "line": 604,
+     "kind": "verse",
+     "number": "अष्टधा = 8 (parts of day and of night)",
+     "structure": "8 = 2^3",
+     "engineUse": "used: math-core.js (Gulika, 2 references)",
+     "verseFound": false
+    },
+    {
+     "topic": "Time-unit ladder assigned in order to the seven grahas",
+     "what": "In order from the Sun the text assigns seven time-units (ayana, kṣaṇa, vāra, ṛtu, māsa, pakṣa, year), and separately the lords of year, month, day and hora (3.38).",
+     "verse": "अयनक्षणवारर्तुमासपक्षसमा द्विज।",
+     "line": 452,
+     "kind": "verse",
+     "number": "7 units (no numeral given)",
+     "structure": "7 units ↔ 7 grahas, in order",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Dasha lord from the birth nakṣatra: count from Kṛttikā, divide by nine",
+     "what": "The dasha lord is found by counting nakṣatras from Kṛttikā to the birth-star, dividing by nine and taking the remainder; the nine-lord cycle runs three times across the 27 stars (46.12).",
+     "verse": "वह्निभाज्जन्मभं यावद् या संख्या नवतष्टिता | / शेषाद्दशाधिपो ज्ञेयस्तमारभ्य दशां नयेत्",
+     "line": 6757,
+     "kind": "verse",
+     "number": "नव = 9; त्रिरावृत्य (line 6752) = 3 turns; 27 stars",
+     "structure": "mod 9; 27 = 3 × 9",
+     "engineUse": "unknown",
+     "verseFound": false
+    },
+    {
+     "topic": "Other dasha selectors: divisors 8, 7 and 3, and ×4 ÷ tithi 15",
+     "what": "Dasha-start rules divide a nakṣatra count by 8 (gaja) from Puṣya (46.25), by 7 for a 100-year dasha counted from Revatī (46.32, line 6851), take elapsed stars ÷3 then ×4 plus the pāda (46.88, line 7106), and multiply a khaṇḍa-sudhā by 4 then divide by tithi 15 (46.48, line 6925).",
+     "verse": "पुष्यभाज्जन्मभं यावद् या संख्या गजतष्टिता |",
+     "line": 6814,
+     "kind": "verse",
+     "number": "गज = 8; सप्तभिः = 7; त्रिभिः = 3; चतुर्घ्ने = ×4; तिथि = 15",
+     "structure": "mod 8; mod 7; mod 3 then ×4; ×4 ÷ 15",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Dasha cycle totals named in chapter 46",
+     "what": "Named totals are dvādaśābdottarī 112, pañcottarī 105, śatasamā 100, caturāśītivatsara 84, dvisaptati 72, ṣaṣṭi 60 and ṣaḍtriṃśa 36 years, with Aṣṭottarī and Ṣoḍaśottarī also named (108 and 116 by name or commentary).",
+     "verse": "द्वादशाब्दोत्तरी विप्र दशा पञ्चोत्तरी तथा | / दशा शतसमा तद्वत् चतुराशीतिवत्सरा",
+     "line": 6723,
+     "kind": "verse",
+     "number": "112, 105, 100, 84 (46.4); 72, 60, 36 (46.5, line 6728)",
+     "structure": "108 = 2^2·3^3; 72 = 2^3·3^2; 36 = 2^2·3^2; 84 = 2^2·3·7; 105 = 3·5·7; 112 = 2^4·7",
+     "engineUse": "Vimśottarī used (math-core.js); Dvādaśottarī and Caturāśīti not used; other totals unknown",
+     "verseFound": false
+    },
+    {
+     "topic": "Aṣṭottarī year-values for the eight grahas",
+     "what": "The Aṣṭottarī values are Sun 6, Moon 15, Mars 8, Mercury 17, Saturn 10, Jupiter 19, Rāhu 12, Venus 21 (sum 108 by commentary); it applies when Rāhu is in a kendra or trikoṇa from the lagna-lord and not in the lagna (46.17, line 6779).",
+     "verse": "रसाः पञ्चेन्दवो नागाः सप्तचन्द्राश्च खेन्दवः | / गोऽब्जाः सूर्याः कुनेत्राश्च रव्यादीनां दशासमाः",
+     "line": 6791,
+     "kind": "verse",
+     "number": "6, 15, 8, 17, 10, 19, 12, 21; sum 108 (commentary)",
+     "structure": "sum 108 = 2^2·3^3, divisible by 9",
+     "engineUse": "not used (no Aṣṭottarī identifier in the repository JS)",
+     "verseFound": true
+    },
+    {
+     "topic": "Nakṣatra groups of four and three; per-nakṣatra dasha of ¼ or ⅓",
+     "what": "Counting from the start star the nakṣatras fall in alternating groups of four and three; each star's dasha is one-quarter of the lord's years for a malefic group and one-third for a benefic group.",
+     "verse": "दशाब्दांघ्रिश्च पापानां शुभानां त्र्यंश एव हि |",
+     "line": 6796,
+     "kind": "verse",
+     "number": "4 and 3 (46.18, line 6783); ¼ and ⅓ (46.21)",
+     "structure": "4 + 3 = 7 per cycle; fractions ¼ and ⅓",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Moon's kalā per navāṃśa: divisor 200 in the pāda-year formula",
+     "what": "Elapsed years in a pāda are (Moon's elapsed kalās in the pāda × pāda years) ÷ 200, and the commentary equates 200 kalā with one navāṃśa (3°20′).",
+     "verse": "चन्द्राङ्कांशकला भुक्ताः स्वाब्दमानहता हृताः | / द्विशत्या भुक्तवर्षाद्यं ज्ञेयं भोग्यं ततो बुधैः",
+     "line": 7143,
+     "kind": "verse",
+     "number": "द्विशती = 200",
+     "structure": "200 = 1800 ÷ 9 (30° = 1800′)",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Rāśi-based life-spans over a nine-sign window; per-sign years 100, 28, 38, 68",
+     "what": "From the aṃśaka at birth or query, the nine signs from it give the life-span; the per-sign values are Meṣa 100, Vṛṣa 28 (akṣa read as 2 by the commentary), Mithuna 38 and Karka 68, with trikoṇa-mates taking the same values.",
+     "verse": "मेषे शतं वृषेऽक्षाष्टौ मिथुने त्रिगजाः समाः | / कर्कटेऽङ्गगजाः प्रोक्तास्तावन्तस्तत्त्रिकोणयोः",
+     "line": 7114,
+     "kind": "verse",
+     "number": "शत = 100; अक्षाष्टौ = 28 (commentary); त्रिगजाः = 38; अङ्गगजाः = 68",
+     "structure": "nine-sign window (3^2) on a 12-sign cycle (mod 12)",
+     "engineUse": "unknown",
+     "verseFound": false
+    },
+    {
+     "topic": "Nisarga (natural) life-years of the seven grahas",
+     "what": "The natural life-years, in order from birth, are 1, 2, 9, 20, 18, 20, 50 (commentary: Moon, Mars, Mercury, Venus, Jupiter, Sun, Saturn), summing to 120 by commentary arithmetic.",
+     "verse": "एकद्वयंकनखा धृत्यः कृतिः पंचाशदेव हि |",
+     "line": 5699,
+     "kind": "verse",
+     "number": "1, 2, 9, 20, 18, 20, 50; sum 120 (commentary)",
+     "structure": "seven terms summing to 120",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Seven longevity classes from 8 to 1000 years, including powers of two",
+     "what": "The classes are bālāriṣṭa (8 years), yogāriṣṭa (20), alpa (32), madhya (64), dīrgha (120), divya (1000) and amita (unbounded), listed as seven kinds of life-span.",
+     "verse": "बालारिष्टे समा अष्टौ योगारिष्टे च विंशतिः | / द्वात्रिंशद् वत्ररा अल्पे चतुष्षष्टिस्तु मध्यमे",
+     "line": 5886,
+     "kind": "verse",
+     "number": "8, 20, 32, 64 (43.53); 120, 1000 (43.54, line 5891); 7 classes (43.52, line 5882)",
+     "structure": "8 = 2^3, 32 = 2^5, 64 = 2^6; 120 and 1000 are not powers of 2",
+     "engineUse": "not used (no ayurdāya or longevity-class table in the repository JS)",
+     "verseFound": false
+    },
+    {
+     "topic": "Yoga-count gradation: three, two and one yogas give 32, 36 and 40 years",
+     "what": "In the short-life class the number of yogas present sets the span: three yogas 32 years, two yogas 36, one yoga 40 (khābdhi, read by the commentary as kha 0 + abdhi 4), with a step of −4 per lost yoga by commentary.",
+     "verse": "अल्पे योगत्रयेणाऽत्रद्वात्रिंशन्मितवत्सराः | / योगद्वयेन षट्त्रिंशात् योगैकेन च खाब्धयः",
+     "line": 5839,
+     "kind": "verse",
+     "number": "32, 36, 40 for 3, 2, 1 yogas",
+     "structure": "arithmetic step −4; 32 = 2^5",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Arithmetic series Rudrādi-ekottarā: 11 to 18 years",
+     "what": "The Ṣoḍaśottarī-type sequence starts at 11 (rudra) and adds one per graha to 18 (dhṛti) over eight grahas, sum 116 by commentary.",
+     "verse": "इति क्रमाद् दशाधीशाः ज्ञेया राहुं विना ग्रहाः | / रुद्राद्येकोत्तराः संख्या धृत्यन्तं वत्सराः क्रमात्",
+     "line": 6818,
+     "kind": "verse",
+     "number": "रुद्र = 11 … धृति = 18, step +1; sum 116 (commentary)",
+     "structure": "arithmetic progression with step 1; 116 = 2^2·29",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Sixteen divisional charts: count and divisor list",
+     "what": "The sixteen vargas are named by divisor: kṣetra 1, horā 2, dreṣkāṇa 3, turyāṃśa 4, saptamāṃśa 7, navāṃśa 9, daśamāṃśa 10, sūryāṃśa 12, ṣoḍaśāṃśa 16, viṃśāṃśa 20, vedavāhvaṃśa 24, bhāṃśa 27, triṃśāṃśa 30, khavedāṃśa 40, akṣavedāṃśa 45, ṣaṣṭyaṃśa 60 (6.3-6.4, lines 852, 860).",
+     "verse": "वर्गान् षोडश यानाह ब्रह्मा लोकपितामहः।",
+     "line": 848,
+     "kind": "verse",
+     "number": "षोडश = 16; divisors 1,2,3,4,7,9,10,12,16,20,24,27,30,40,45,60",
+     "structure": "16 = 2^4; 9 = 3^2; 27 = 3^3; 45 = 3^2·5; 60",
+     "engineUse": "used: math-core.js (2 references), ganita-shala-page.js, sukshma-kala.js",
+     "verseFound": false
+    },
+    {
+     "topic": "Vimśopaka twenty-point strength: 3 + 5 + eight vargas at 1½ each",
+     "what": "Within ten vargas (daśavarga), kṣetra counts 3 and ṣaṣṭyaṃśa counts 5, the other eight count 1½ each (7.21), giving a twenty-point total (vimśopaka); 7.26 adds a rule of multiplying by own vishva and dividing by 20.",
+     "verse": "त्रयं क्षेत्रस्य विज्ञेयः पंचषष्ट्यंशकस्य च",
+     "line": 1195,
+     "kind": "verse",
+     "number": "3, 5, 1½ (×8), total 20; ÷20 (7.26, line 1224)",
+     "structure": "3 + 5 + 8·(3/2) = 20 = 2^2·5; ×self ÷ 20",
+     "engineUse": "unknown (vimśopaka term appears in dasha.js and shunyabheda-app.js; the table was not checked)",
+     "verseFound": true
+    },
+    {
+     "topic": "Nine-level dignity table from 60 down to 0, halving with integer rounding",
+     "what": "The sign-dignity values read 60 (exaltation), 45 (mūlatrikoṇa), 30 (own sign), 22½ (great friend, via non-standard आकृति), 15 (friend), 8 (equal), 4 (enemy), 2 (great enemy), 0 (debilitated); from 30 the series roughly halves with integer rounding.",
+     "verse": "षष्टिरिष्वब्धयस्त्रिंशदाकृतिस्तिथयो गजाः। / चत्वारो द्वौ च शून्यं च",
+     "line": 3533,
+     "kind": "verse",
+     "number": "60, 45, 30, (22½), 15, 8, 4, 2, 0",
+     "structure": "30 → 15 → 8 → 4 → 2 → 0: 2^-k with integer rounding; 60 = 2^2·3·5",
+     "engineUse": "unknown (sthāna/shadbala terms appear in math-core.js; this table was not checked)",
+     "verseFound": true
+    },
+    {
+     "topic": "Dignity strength as fractions in powers of two: whole, ¾, ½, ¼, ⅛, nil",
+     "what": "Full benefic effect at exaltation, three-quarters in mūlatrikoṇa, half in own sign, a quarter in a friend's house, an eighth in a neutral sign, and nil when debilitated, combust or in an enemy's sign.",
+     "verse": "स्वोच्चे शुभं फलं पूर्ण त्रिकोणे पादवर्जितम्‌। / स्वर्क्षेऽर्धं मित्रगेहे तु पादमात्रं प्रकीर्तितम्‌",
+     "line": 566,
+     "kind": "verse",
+     "number": "पूर्ण = 1; पादवर्जित = ¾; अर्ध = ½; पाद = ¼; पादार्ध = ⅛ (3.60, line 572); शून्य = 0",
+     "structure": "2^-k (½, ¼, ⅛); ¾ = 1 − ¼; zero as शून्य",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Printed sthāna-bala numerals depart from the halving series the commentary uses",
+     "what": "The graded values are word-numerals that read 45 and 30 at the top, then 20, 15, 10, 4, 2 for the lower dignities; the commentary's conventional series is 45, 30, 22½, 15, 7½, 3¾, 1⅞ and it flags the lower terms as textually uncertain.",
+     "verse": "भूताब्धयः खाग्निनखास्तिथ्यो दश युगाः कराः",
+     "line": 3296,
+     "kind": "verse",
+     "number": "45, 30, 20, 15, 10, 4, 2 (printed)",
+     "structure": "not a pure 2^-k series; halving only from 22½ in the commentary's series",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Exaltation degrees of the seven grahas as numeral words",
+     "what": "Exaltation degrees are given by numeral words: Sun 10 (दश), Moon 3 (त्रि), Mars 28 (अष्टाश्व्य), Mercury 15 (तिथि), Jupiter 5 (अक्ष), Venus 27 (भ), Saturn 20 (नख), with exaltation signs Meṣa, Vṛṣa, Makara, Kanyā, Karka, Mīna, Tulā (3.49, line 514).",
+     "verse": "भागा दश त्रयोऽष्टाश्व्यस्तिथ्योऽक्षा भमिता नखाः।",
+     "line": 521,
+     "kind": "verse",
+     "number": "10, 3, 28, 15, 5, 27, 20",
+     "structure": "27 and 28 on the nakṣatra scale; 15 = tithi; 28 read by the convention 8 with 2",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Sūkṣma-antardaśā formula: multiply by own Vimśottarī years, divide by khārka = 120",
+     "what": "The sūkṣma sub-period is the pratyantara measure times the planet's Vimśottarī years divided by khārka, which the commentary decodes as kha 0 × arka 12 = 120; the Sanskrit is glyph-faulted but the sense is legible.",
+     "verse": "गुण्या स्वस्वधशावर्षैः प्रथ्यन्थरधशामिथिः । / खार्क्रैभक्था प्त्ऱ्ठग्लब्ढिः सूक्ष्मान्थरधशा भवेथ्",
+     "line": 11538,
+     "kind": "verse",
+     "number": "खार्क = 0·12 = 120 (decode by commentary)",
+     "structure": "sub-period = parent × child ÷ 120 (same rule at every level)",
+     "engineUse": "unknown (sukshma-kala.js exists; its use of the 120 divisor was not checked)",
+     "verseFound": true
+    },
+    {
+     "topic": "Rekhā counts converted to days and years (ashtakavarga longevity)",
+     "what": "Rekhā counts map to spans: 0 rekhā = 2 days, 1 = 1½ days, 2 = 1 day, 3 = ½ day, 4 = 7½ days, then 5 = 2 years, 6 = 4, 7 = 6, 8 = 8 years (years = 2(r−4) for r = 5 to 8); the four-rekhā entry breaks the day-scale step.",
+     "verse": "दिनद्वयं विरेखायां रेखायां सार्धवासरम्‌ | / दिनमेकं द्विरेखायां त्रिरखायां दिनार्धकम्",
+     "line": 13097,
+     "kind": "verse",
+     "number": "2, 1½, 1, ½, 7½ days (0–4 rekhās); 2, 4, 6, 8 years (5–8, line 13108)",
+     "structure": "nine entries (0–8 = 3^2); years = 2(r−4) for r = 5–8; day-scale break at r = 4",
+     "engineUse": "not used (the engine's 'rekha' is the owner's uttara-rekha line in vedha-lekha.js)",
+     "verseFound": false
+    },
+    {
+     "topic": "Sign strength thresholds in sarvāṣṭakavarga: 25, 30 and 40",
+     "what": "Signs with more than 30 points are auspicious, 25 to 30 medium, and below 25 weak; rekhā counts above 30 bring wealth and children and above 40 merit and prosperity; the grand total of bindus is not stated.",
+     "verse": "त्रिंशाधिकफला ये स्यू राशयस्ते शुभप्रदाः । / पञ्चविंशादित्रिंशान्तफला मध्यफला स्मृताः",
+     "line": 13128,
+     "kind": "verse",
+     "number": "25, 30 (72.3); 30, 40 (72.29, line 13255)",
+     "structure": "thresholds 25 < 30 < 40",
+     "engineUse": "unknown (ashtakavarga terms appear in math-core.js and sprint-upgrades.js; thresholds not checked)",
+     "verseFound": false
+    },
+    {
+     "topic": "Dhūma, Vyatīpāta, Pariveṣa, Indracāpa and Ketu-upagraha as fixed offsets of the 12-sign circle",
+     "what": "Dhūma is Sun plus four signs plus 13⅓°; Vyatīpāta is the circle minus Dhūma; Pariveṣa is Vyatīpāta plus six signs; Indracāpa is the circle minus Pariveṣa; the Ketu-upagraha is Indracāpa plus about 16⅔° (commentary decode 16°40′).",
+     "verse": "त्र्यंशाढ्यविश्वभागैश्च चतुर्भैः सहितो रविः।",
+     "line": 578,
+     "kind": "verse",
+     "number": "13⅓ (त्र्यंश + विश्व = 13); 4 signs; 6 signs (line 583); 16⅔ (line 590)",
+     "structure": "13⅓° = 40/3 = 360/27; 16⅔° = 50/3",
+     "engineUse": "used: math-core.js (12 references), muhurta.js (6), shunyabheda-app.js (6)",
+     "verseFound": true
+    },
+    {
+     "topic": "Ecliptic partitions: 27 nakṣatra-parts and 12 equal signs",
+     "what": "The circle of stars has 27 named parts beginning with Aśvinī and 12 equal divisions named from Meṣa (3.5); the commentary states each nakṣatra as 360/27 = 13°20′ = 800′, which the verse does not.",
+     "verse": "भचक्रस्य नगश्व्यंशा अश्विन्यादिसमाह्वयाः।",
+     "line": 348,
+     "kind": "verse",
+     "number": "27 (नग-अश्वि); 12 (द्वादश, line 356); 13°20′ = 800′ (commentary)",
+     "structure": "27 = 3^3; 12 = 2^2·3; 360/27 = 13⅓°",
+     "engineUse": "used: sukshma-kala.js:144 (NAKSHATRA_ARCMIN = 800, i.e. 13°20′); dasha.js:101 (bhabhoga)",
+     "verseFound": false
+    },
+    {
+     "topic": "Epoch references: present yuga, Yudhiṣṭhira, and a future Śālivāhana (no numeric date)",
+     "what": "The only chronological markers are a 'present age' (vartamāna-yuga) in which Yudhiṣṭhira was born and a future Śālivāhana; no year, era number or yuga length is given.",
+     "verse": "वर्तमानयुगे जातस्तथा राजा युधिष्ठिरः | / भविता शालिवाहाद्यस्तथैव द्विजसत्तम",
+     "line": 5546,
+     "kind": "verse",
+     "number": "none",
+     "structure": "none",
+     "engineUse": "unknown",
+     "verseFound": false
+    }
+   ],
+   "measurementCandidates": [
+    {
+     "what": "Jupiter returns to the same sign in twelve years (गुरुर्द्वादशभ्र्वर्षैः)",
+     "line": 13752,
+     "why": "A stated sign-return period, approximate (sidereal period about 11.86 years); no epoch or date is attached, so it constrains only the mean rate and only roughly."
+    },
+    {
+     "what": "Average ascendant rate: one sign per 5 ghaṭikās (bhāva-lagna), per 2½ ghaṭikās (horā), per 1 ghaṭikā (ghaṭī)",
+     "line": 759,
+     "why": "If a ghaṭikā is about 24 minutes, the bhāva rate is about 2 hours per sign, testable against rising-time computation. The verse does not define the ghaṭikā length; the 60-per-day figure is commentary (line 782 note)."
+    },
+    {
+     "what": "Dhūma, Vyatīpāta, Pariveṣa, Indracāpa and Ketu-upagraha offsets (13⅓°, 16⅔°)",
+     "line": 578,
+     "why": "Fixed arithmetic offsets, not observed positions; testable only as definitions. No date or observation is attached."
+    },
+    {
+     "what": "Exaltation degrees 10°, 3°, 28°, 15°, 5°, 27°, 20° for Sun to Saturn",
+     "line": 521,
+     "why": "Classical points; comparable with sidereal longitudes only given a stated ayanāṃśa and epoch, and the text gives neither."
+    },
+    {
+     "what": "Equal 27 nakṣatra-parts and 12 equal signs (13°20′ per nakṣatra by commentary)",
+     "line": 348,
+     "why": "An equal-division definition; real star and sign boundaries are not equal in ecliptic arc, so this is a claim about the definition, not an observation."
+    },
+    {
+     "what": "Yudhiṣṭhira in the present yuga and a future Śālivāhana, no year given",
+     "line": 5546,
+     "why": "The only chronological names; without a numeric epoch they cannot yield a dated constraint."
+    },
+    {
+     "what": "Solar and lunar eclipses at birth (grahaṇa-jāta) and new-moon births",
+     "line": 15048,
+     "why": "Eclipses are datable events, but the text gives no date, season or count (see also line 14850), so it cannot constrain a parameter."
+    }
+   ],
+   "notFound": [
+    "π, circle ratio, circumference or diameter statements",
+    "sine, chord or versed-sine tables (jyā, koṭi-jyā, utkrama-jyā) or any trigonometric table",
+    "obliquity of the ecliptic (krānti)",
+    "ayanāṃśa value, or precession statement with its epoch (अयन occurs only as a time-unit at line 452)",
+    "apogee (mandocca or uccāṃśa) longitudes, epicycle or equation radii, manda-phala numbers",
+    "dated eclipse or other dated observation; eclipse rites (ch.91) give no date or count",
+    "latitude, palabhā, gnomon or shadow measurements (śaṅku; chāyā occurs only as ch.76 aura of the elements)",
+    "astronomical instruments or observation procedures",
+    "yuga, mahāyuga or kalpa durations, and a Kali-yuga epoch number (only the words kali and vartamāna-yuga)",
+    "Śaka or Vikrama era numbers (Śālivāhana named without a number)",
+    "kuṭṭaka (linear Diophantine), varga-prakṛti or cakravāla, square roots and root-extraction rules",
+    "Piṅgala's meru or prastāra and binary counting (the piṅgala hits are colour words in ch.81)",
+    "Pāṇinian Śivasūtras, pratyāhāras or sūtra counts (no hits)",
+    "sarvāṣṭakavarga grand total (337-type sum) and per-sign totals",
+    "digital root or casting-out-nines as a stated rule (mod 9 appears only in the dasha-lord selector)",
+    "bhagaṇa (revolutions) as a numerical constant (bhagaṇa appears once, line 5709, as a procedure word)",
+    "general combinatorial counting beyond the sign-occupancy yoga classes (gola 1, yuga 2, śūla 3, kedāra 4 at line 4802)"
+   ],
+   "file": "editions/parashara-rahasya-full-edition.html",
+   "counts": {
+    "findings": 30,
+    "verse": 29,
+    "commentary": 1,
+    "verseFound": 18,
+    "notUsed": 4,
+    "candidates": 7
+   }
+  },
+  {
+   "edition": "editions/maha-grantha-full-edition.html",
+   "sizeLines": 5919,
+   "chaptersSeen": [
+    "Front matter: maṅgalācaraṇa, prākkathana, anubandha-catuṣṭaya, sapta-khaṇḍa overview, viṣaya-sūcī, upasaṃhāra (lines 117-685)",
+    "Khaṇḍa 1 Bīja-Mantra-Gaṇita-Khaṇḍa (lines 867-1714): mantra decodes, tantric bījas, mātṛkā cardinalities, 108, Ψ-orbit appendices",
+    "Khaṇḍa 2 Veda-Saṃhitā-Gaṇita-Khaṇḍa (lines 1715-2455): adhyāyas on Ṛg (1.164, Puruṣa, Gāyatrī), Yajur (36.24, 32.1), Sāma, Atharva (10.7, 19.53), Brāhmaṇa-Upaniṣad setu, anusandhāna, appendices A-D",
+    "Khaṇḍa 3 Upaniṣad-Gaṇita-Khaṇḍa (lines 2456-2850): Īśā, Kena, Kaṭha, Praśna, Muṇḍaka, Māṇḍūkya, Taittirīya, Aitareya, Chāndogya, Bṛhadāraṇyaka, Śvetāśvatara",
+    "Khaṇḍāntara-Vistāra and Pariśiṣṭam (lines 2851-3235)",
+    "Khaṇḍa 4 Purāṇa-Gaṇita-Khaṇḍa (lines 3236-3887): §1 yuga-saṃkhyā-vidhi and kalpa, §8 Garuḍa Preta-kalpa, §11 kalpa-time, §12 Brahmā's day table",
+    "Khaṇḍa 5 Tantra-Āgama-Gaṇita-Khaṇḍa (lines 3888-4446): Śrīyantra, navagraha, 108 and 64 yoginī, Hanumat bījas, Kuṇḍalinī, Sphoṭa-tantra",
+    "Historical appendix §§1-12 (lines 4447-5225): §1 Vedic astronomy and precession, §2 Rāmāyaṇa-Mahābhārata chronology, §3 seven cities, §4 fifteen ācāryas, §5 observatories, §11 Pāṇini-Piṅgala-Śulba notes, §12 Rāmāyaṇa and Mahābhārata planetary references",
+    "Parishiṣṭa Ka chronology table and Parishiṣṭa Kha coordinates (lines 5226-5275)"
+   ],
+   "findings": [
+    {
+     "topic": "Yuga and kalpa chain (Purāṇic time)",
+     "what": "The table builds a caturyuga of 12,000 divya-years × 360 = 43,20,000 human years, 71 caturyugas per manvantara (30,67,20,000) and a kalpa of 1000 mahāyugas (4,32,00,00,000), written as 14 manvantaras plus 6 sandhyā mahāyugas; I checked these products and they are arithmetically consistent.",
+     "verse": "",
+     "line": 3275,
+     "kind": "commentary",
+     "number": "12,000 divya per mahāyuga (4800+3600+2400+1200); ×360; 71 mahāyugas per manvantara; 1000 mahāyugas per kalpa; 14 manvantara + 6 sandhyā",
+     "structure": "2^a·3^3·5^b with 3-exponent pinned at 3^3 from Kali-yuga to Kalpa",
+     "engineUse": "used: gurutva-purna.js (Sūrya-Siddhānta mahāyuga via S.YUGA_DAYS, KALPA_YEARS=4320000000); the edition's 12,000-divya table is not coded",
+     "verseFound": false
+    },
+    {
+     "topic": "Muhūrta, kalā, kāṣṭhā, nimeṣa chain",
+     "what": "The table gives kalā ≈ 1.5 min and muhūrta = 30 kalā = 48 min, but 30 × 1.5 min = 45 min; the 48-min muhūrta requires kalā ≈ 1.6 min (kāṣṭhā ≈ 3.2 s, nimeṣa ≈ 0.213 s), so the table's own rows disagree.",
+     "verse": "",
+     "line": 3768,
+     "kind": "commentary",
+     "number": "nimeṣa ~0.2 s; kāṣṭhā = 15 nimeṣa ~3 s; kalā = 30 kāṣṭhā ~1.5 min (listed); muhūrta = 30 kalā = 48 min; day = 30 muhūrta = 24 h",
+     "structure": "15·30·30·30 = 405,000 nimeṣa per day",
+     "engineUse": "used: parampara.test.js:312 asserts the same 15·30·30·30 nimeṣa-per-ahorātra chain; the 1.5-min kalā is not coded",
+     "verseFound": false
+    },
+    {
+     "topic": "Manvantara-with-sandhyā row",
+     "what": "The row gives 8,57,142.857… divya per manvantara; times 360 this is about 3,08,571,428, yet the same row lists 30,84,48,000 (which implies 856,800 divya); the two figures disagree, and the row is repeated at line 3780 as '(approx)'.",
+     "verse": "",
+     "line": 3281,
+     "kind": "commentary",
+     "number": "listed 30,84,48,000; implied by 8,57,142.857×360 = 3,08,571,428; implied divya 856,800",
+     "structure": "none",
+     "engineUse": "not used (no manvantara-sandhyā constant found in .js files)",
+     "verseFound": false
+    },
+    {
+     "topic": "Vedāṅga Jyotiṣa five-year cycle counts",
+     "what": "The gloss equates 5 solar years with 62 synodic months, 67 sidereal months, 1830 tithi and 1860 days; 62 synodic months ≈ 1830.9 days and 67 sidereal months ≈ 1830.6 days, so 1830 is the consistent day count, and 1860 would imply 372 days per year, which the text does not justify.",
+     "verse": "",
+     "line": 4605,
+     "kind": "commentary",
+     "number": "62, 67, 1830, 1860",
+     "structure": "mean synodic month 1830/62 = 29.516 d; 1830/5 = 366 d per year as implied by the count",
+     "engineUse": "not used (no Vedāṅga-Jyotiṣa constants in .js files)",
+     "verseFound": false
+    },
+    {
+     "topic": "Vedāṅga Jyotiṣa invocation: five-year yuga and nested periods",
+     "what": "The quoted verse names a five-year yuga and lists day, ṛtu, ayana and month as nested sub-periods, which the edition reads as a period-of-period structure.",
+     "verse": "पञ्च संवत्सरमयं युगाध्यक्षं प्रजापतिम् । दिनर्त्वयनमासाङ्गं प्रणम्य शिरसा शुचिः ॥",
+     "line": 336,
+     "kind": "verse",
+     "number": "5 (पञ्च संवत्सर); 4 sub-periods (दिन, ऋतु, अयन, मास)",
+     "structure": "nested periods; no modulus stated",
+     "engineUse": "not used",
+     "verseFound": false
+    },
+    {
+     "topic": "Gāyatrī 24 akṣara and Pisano period π(9)",
+     "what": "The edition counts the Gāyatrī as 8+8+8 = 24 syllables and equates this with π(9)=24, extending π(3^k)=8·3^(k−1); I verified π(3)=8, π(9)=24, π(27)=72, π(81)=216 and the printed Fibonacci-mod-9 list, but the syllable count is the edition's gloss, not stated in the verse.",
+     "verse": "तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि।",
+     "line": 961,
+     "kind": "commentary",
+     "number": "24 = 8+8+8",
+     "structure": "π(9)=24; Pisano tower mod 3^k",
+     "engineUse": "used: math-core.js computePisanoPeriod (line 5538), math-core.test.js",
+     "verseFound": true
+    },
+    {
+     "topic": "Orbit of 2 in (Z/3^k)* (the Ψ-cycle)",
+     "what": "The edition lists the orbit of 2 mod 9 as 1→2→4→8→7→5 (period 6), the mod-27 orbit (period 18) and the general period 2·3^(k−1); I checked ord_9(2)=6 and ord_27(2)=18 and the printed mod-27 orbit list.",
+     "verse": "",
+     "line": 1523,
+     "kind": "commentary",
+     "number": "6 (mod 9); 18 (mod 27); 2·3^(k−1) in general",
+     "structure": "mod 3^k (3-adic tower)",
+     "engineUse": "unknown (orbit-of-2 not searched directly; only computePisanoPeriod found)",
+     "verseFound": false
+    },
+    {
+     "topic": "Mantra akṣara counts decoded mod 9 and mod 27",
+     "what": "The edition assigns the 5-, 6-, 8- and 12-akṣara mantras to π(3)=8, ord_9(2)=6, 2^3 ≡ −1 mod 9 and 2·ord_9(2)=12, and it retracts its first attempt to decode 12 as ord_27(2) because that order is 18; the arithmetic checks.",
+     "verse": "ॐ न मो भ ग व ते वा सु दे वा य",
+     "line": 1141,
+     "kind": "commentary",
+     "number": "5, 6, 8, 9, 12 (akṣara counts)",
+     "structure": "mod 9 (orders 6, 8) and mod 27 (order 18, rejected for 12)",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Navārṇa mantra as |Z/9|",
+     "what": "The nine-akṣara navārṇa mantra is read as the nine elements of Z/9, split 6 units plus 3 nilpotents; the ring arithmetic is correct, but the syllable-to-element assignment is the edition's own choice.",
+     "verse": "ऐं ह्रीं क्लीं चामुण्डायै विच्चे",
+     "line": 1251,
+     "kind": "commentary",
+     "number": "9 = 6 + 3",
+     "structure": "mod 9: units {1,2,4,5,7,8}, nilpotents {0,3,6}",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Mātṛkā cardinality table and the closure claim",
+     "what": "The table decodes 14 traditional cardinalities (12 to 72,000) into products of 2, 3, 5, 7 and powers of g=2; the factorizations I checked (108=4·27, 432=6³·2, 21,600=432·50, 112=16·7, 1008=9·112, 72,000=1000·72, 50=54−4) are arithmetically correct, but the claim that every cardinality factors this way is marked provisional and has no falsifiable test.",
+     "verse": "",
+     "line": 1357,
+     "kind": "commentary",
+     "number": "12, 16, 24, 27, 28, 32, 50, 64, 108, 112, 432, 1008, 21600, 72000",
+     "structure": "2^a·3^b times g-powers",
+     "engineUse": "not used (21600 appears in math-core.js only as a Sūrya-Siddhānta prāṇa count)",
+     "verseFound": false
+    },
+    {
+     "topic": "Calendar ladder and prime-factor tower of time units",
+     "what": "The ladder pakṣa 15 d, māsa 30 d, ṛtu 60 d, ayana 180 d, vatsara 360 d carries prime factors (3·5, 2·3·5, 2²·3·5, 2²·3²·5, 2³·3²·5); the Kali-yuga to Kalpa column keeps 3^3, and I verified each product and factorization including 2^11·3^3·5^7 for the Kalpa.",
+     "verse": "",
+     "line": 3771,
+     "kind": "commentary",
+     "number": "15, 30, 60, 180, 360 days; 432000; 4320000; 4.32×10^9",
+     "structure": "3^3 pinned from Kali-yuga to Kalpa; 3^5 first appears at Brahmā's year",
+     "engineUse": "not used",
+     "verseFound": false
+    },
+    {
+     "topic": "Puruṣa-sūkta 1000 and unit-group sizes",
+     "what": "The verse's thousand heads, eyes and feet are read as a bounded cardinality; |(Z/3^k)*| = 2·3^(k−1) is 486 at k=6 and 1458 at k=7, so 1000 lies between them (729 < 1000 < 2187), and I checked these sizes; the 'three quarters above, one here' statement is commentary only.",
+     "verse": "सहस्रशीर्षा पुरुषः सहस्राक्षः सहस्रपात्",
+     "line": 1802,
+     "kind": "verse",
+     "number": "1000 (sahasra)",
+     "structure": "1000 = 2^3·5^3; |R*_k| = 2·3^(k−1)",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Praśna 6.1: sixteen-kalā puruṣa",
+     "what": "The sixth question of Praśna asks about the puruṣa with sixteen kalās, which the edition reads as 16 = 2^4; the verse itself gives only the count 16 and the edition ties it to Ψ(5)=5 in its table.",
+     "verse": "षोडशकलं पुरुषं जानासि?",
+     "line": 2586,
+     "kind": "verse",
+     "number": "16 (षोडश)",
+     "structure": "2^4",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Māṇḍūkya: four states and twelve mantras",
+     "what": "The quoted line describes the fourth state (amātra, caturtha) beyond the three mātrās a, u, m; the edition adds 12 mantras and reads 12 as half of π(9)=24, but the 12 count is the edition's gloss, not in the quoted line.",
+     "verse": "अमात्रश्चतुर्थोऽव्यवहार्यः प्रपञ्चोपशमः शिवोऽद्वैत",
+     "line": 2285,
+     "kind": "verse",
+     "number": "4 (caturtha: a, u, m, turīya); 12 mantras (commentary)",
+     "structure": "4 states; 12 = π(9)/2 (edition's gloss)",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Ṛgveda 1.164 numerical gloss (720, 360, 12 months)",
+     "what": "The gloss on Ṛgveda 1.164 (52 verses) counts 720 = 6!, 360 days, 12 months + 30 days + 6 ṛtu + 1 year, 3 steps, 7 chandas and 5 indriyas; the verbatim verses are absent except 1.164.46, so these numbers cannot be checked against the text.",
+     "verse": "",
+     "line": 1882,
+     "kind": "commentary",
+     "number": "720; 360; 12; 30; 6; 1; 3; 7; 5",
+     "structure": "720 = 6!; 720/24 = 30; 360 = 8·9·5",
+     "engineUse": "not used",
+     "verseFound": false
+    },
+    {
+     "topic": "Yajurveda 36.24 nine-fold śānti and nine grahas",
+     "what": "The edition reads the śānti-mantra as nine items mapped onto Z/9 and split 6 + 3 (units and nilpotents), tying it to the nine navagrahas; the mantra text is not quoted in the file (line 1989 says verbatim is unavailable), so the count of nine is the edition's own.",
+     "verse": "",
+     "line": 1994,
+     "kind": "commentary",
+     "number": "9",
+     "structure": "mod 9: 6 units + 3 nilpotents",
+     "engineUse": "unknown",
+     "verseFound": false
+    },
+    {
+     "topic": "Vājasaneyi 17.2 decimal naming chain",
+     "what": "The quoted list names thirteen powers from eka (10^0) up to parārdha, and the same paragraph says the chain reaches 10^12 but also that parārdha = 10^17; the list itself gives parārdha as the thirteenth term, 10^12, so the 10^17 statement is internally inconsistent.",
+     "verse": "एका च मे दशा च मे शता च मे सहस्रं च मे अयुतं च मे नियुतं च मे प्रयुतं चार्बुदं च मे न्यर्बुदं च मे समुद्रश्च मे",
+     "line": 4506,
+     "kind": "verse",
+     "number": "13 names; eka = 10^0 ... parārdha = 10^12 (text also states 10^17)",
+     "structure": "powers of 10 (named place values, not positional notation)",
+     "engineUse": "not used",
+     "verseFound": true
+    },
+    {
+     "topic": "Rudrādhyāya counting ladders (odd and even)",
+     "what": "The edition gives the Chamaka ladder as odd numbers 1, 3, 5, … 33 and even numbers 2, 4, 6, 8, … and reads the odd ladder as containing the odd primes; the Chamaka text is not quoted verbatim, and the prime statement is only set inclusion.",
+     "verse": "",
+     "line": 2011,
+     "kind": "commentary",
+     "number": "odd 1..33; even 2, 4, 6, 8, …",
+     "structure": "odd/even ladders; prime-set inclusion",
+     "engineUse": "not used",
+     "verseFound": false
+    },
+    {
+     "topic": "Pāṇini: 3,959 sūtras and 14 Śivasūtras",
+     "what": "The edition states 3,959 sūtras and 14 Maheśvara-sūtras encoding 42 phonemes, matching the traditional counts; no sūtra text is quoted, and the optimality comparison with Huffman coding is a structural analogy the edition itself labels Tier-W.",
+     "verse": "",
+     "line": 5106,
+     "kind": "commentary",
+     "number": "3,959 sūtras; 14 Śivasūtras; 42 phonemes",
+     "structure": "none",
+     "engineUse": "used: math-core.js paniniHash (line 3083), an anuvṛtti/pratyāhāra hash port; the sūtra counts themselves are not coded",
+     "verseFound": false
+    },
+    {
+     "topic": "Piṅgala: meru-prastāra and mātrā counts",
+     "what": "The edition attributes to Piṅgala the enumeration of long/short patterns (binary), a Fibonacci equivalence for mātrā-meru, and the meru-prastāra as a Pascal-triangle equivalent with a Halāyudha diagram; no chandaḥ-sūtra is quoted, so these are the edition's characterizations.",
+     "verse": "",
+     "line": 5118,
+     "kind": "commentary",
+     "number": "L/G binary patterns; Fibonacci; Pascal-equivalent diagram",
+     "structure": "2^n patterns; binary; Pascal",
+     "engineUse": "used: math-core.js pingalaMeruPrastara (line 4795) and pingalaMatrameru (line 4808)",
+     "verseFound": false
+    },
+    {
+     "topic": "Lo Shu square and centre 5 = Ψ(5)",
+     "what": "The edition prints the 3×3 Lo Shu square, whose rows, columns and diagonals sum to 15, and notes that its centre 5 equals Ψ(5)=2^5 mod 9; I checked all eight line sums and 2^5 mod 9 = 5.",
+     "verse": "",
+     "line": 5193,
+     "kind": "commentary",
+     "number": "15 (line sum); 5 (centre)",
+     "structure": "mod 9 via 2^n",
+     "engineUse": "not used",
+     "verseFound": false
+    },
+    {
+     "topic": "Āryabhaṭīya Gaṇitapāda 32: kuṭṭaka rule",
+     "what": "The quoted rule is the procedure for linear Diophantine congruences by repeated division of remainders (the kuṭṭaka), which the edition identifies with the extended Euclidean algorithm; no worked numeric example is given.",
+     "verse": "अधिकाग्रभागहारं छिन्द्यादूनाग्रभागहारेण । शेषपरस्परभक्तं मतिगुणमग्रान्तरे क्षिप्तम् ॥३२॥",
+     "line": 365,
+     "kind": "verse",
+     "number": "",
+     "structure": "linear Diophantine ax + c ≡ 0 (mod b) over exact integers",
+     "engineUse": "used: math-core.js aryabhataKuttaka (line 4440), math-core.test.js",
+     "verseFound": true
+    },
+    {
+     "topic": "Āryabhaṭa's π = 62832/20000",
+     "what": "The edition gives Āryabhaṭa's approximate π as 62832/20000 = 3.1416, which equals 3927/1250 in lowest terms; its error against π is about 7.35×10^-6.",
+     "verse": "",
+     "line": 4616,
+     "kind": "commentary",
+     "number": "62832/20000 = 3927/1250 = 3.1416",
+     "structure": "rational approximation; none",
+     "engineUse": "used: math-core.js aryabhataPi (lines 4459-4469), including trijyaR 3438, which the edition does not state",
+     "verseFound": false
+    },
+    {
+     "topic": "√2 ≈ 577/408 (Śulba-type approximation)",
+     "what": "The edition gives √2 ≈ 1 + 1/3 + 1/12 − 1/408 = 577/408, which I verified, and states the error as 1.5×10^-6; the true error is 2.12×10^-6, so the printed error is wrong although the 5-decimal claim holds.",
+     "verse": "",
+     "line": 4515,
+     "kind": "commentary",
+     "number": "577/408 ≈ 1.41421569; stated error 1.5×10^-6; actual error 2.12×10^-6",
+     "structure": "continued-fraction-type expansion",
+     "engineUse": "used: math-core.js Śulba block (around lines 4864-4900) computes 577/408 and its errorFraction; math-core.test.js:1204 asserts the fraction",
+     "verseFound": false
+    },
+    {
+     "topic": "Brahmagupta's zero rules (BSS 18.30)",
+     "what": "The quoted sūtra gives the sign rules for dhana, kṣaya, kha (zero) and ṛṇa, which the edition takes as the first formal arithmetic of zero; the rules are not numeric.",
+     "verse": "धनं धनेन क्षयो हानिः क्षयेण । खं स्वेन ऋणं ऋणेन ।",
+     "line": 374,
+     "kind": "verse",
+     "number": "",
+     "structure": "sign rules of (Z,+,·)",
+     "engineUse": "unknown",
+     "verseFound": true
+    },
+    {
+     "topic": "Brahmagupta bhāvanā composition for Nx²+k=y²",
+     "what": "The Hindi paraphrase gives the composition (x1y2+x2y1, y1y2+N·x1x2) of two solutions of Nx²+k=y², which I checked: it solves Nx²+k1·k2=y² exactly, and the Brahmagupta-Fibonacci norm identity is the same mechanism.",
+     "verse": "",
+     "line": 383,
+     "kind": "commentary",
+     "number": "composition constant k1·k2",
+     "structure": "norm multiplicativity in Z[√N]",
+     "engineUse": "used: math-core.js brahmaguptaBhavana (line 4589)",
+     "verseFound": false
+    },
+    {
+     "topic": "Bhāskara II's cakravāla for x²−61y²=1",
+     "what": "The edition gives the smallest solution x=1,766,319,049, y=226,153,980 for N=61, the seed (8,1,3) and an 11-step period; I verified the solution and that √61 = [7; 1,4,3,1,2,2,1,3,4,1,14] has period 11, but the 11 cakravāla iterations are the edition's claim.",
+     "verse": "",
+     "line": 4651,
+     "kind": "commentary",
+     "number": "x = 1,766,319,049; y = 226,153,980; period 11",
+     "structure": "continued fraction of √61 with period 11",
+     "engineUse": "used: math-core.js bhaskaraChakravala (line 4619); math-core.test.js:1140",
+     "verseFound": false
+    },
+    {
+     "topic": "Mādhava's π/4 and sine series",
+     "what": "The edition states Mādhava's series π/4 = 1 − 1/3 + 1/5 − … and sin x = x − x³/3! + x⁵/5! − …, dated about 340 and 300 years before Leibniz and Newton; these are standard series, and the dates depend on the Mādhava dates in the chronology table.",
+     "verse": "",
+     "line": 4685,
+     "kind": "commentary",
+     "number": "π/4 series; sine series",
+     "structure": "none",
+     "engineUse": "used: math-core.js Mādhava's sine on R=3438 (comments at lines 1632 and 1671); the π/4 series is not confirmed in code",
+     "verseFound": false
+    },
+    {
+     "topic": "Bhāskara I's rational sine approximation",
+     "what": "The edition gives sin x ≈ 16x(π−x)/(5π²−4x(π−x)) with accuracy 'up to 1%'; over [0°,90°] I measured a maximum absolute error of 0.0016, which is consistent with the claim.",
+     "verse": "",
+     "line": 4665,
+     "kind": "commentary",
+     "number": "16, 5, 4 (coefficients)",
+     "structure": "none",
+     "engineUse": "unknown",
+     "verseFound": false
+    },
+    {
+     "topic": "1729 = 1³+12³ = 9³+10³ and 1729 ≡ 1 (mod 9)",
+     "what": "The edition states that 1729 is the taxicab number with two cube decompositions and reduces it to 1 mod 9; I verified 1729 = 9·192 + 1 and both decompositions, and the Chāndogya 'ekam evādvitīyam' link is commentary.",
+     "verse": "",
+     "line": 1661,
+     "kind": "commentary",
+     "number": "1729; (1,12); (9,10); 1729 mod 9 = 1",
+     "structure": "mod 9 unit identity",
+     "engineUse": "not used",
+     "verseFound": false
+    }
+   ],
+   "measurementCandidates": [
+    {
+     "what": "Achar's eclipse-pair dating of the Mahābhārata war: a lunar eclipse before and a solar eclipse during the 18-day war, best fit 22 Nov 3067 BCE (also given as 16 Nov–3 Dec 3067 BCE), with alternatives 3112 BCE (Mekel) and 5561 BCE (Oak).",
+     "line": 5153,
+     "why": "A dated eclipse pair is a testable constraint on lunar and solar ephemerides; the edition ties it to the Mahābhārata 6.2.1-3 planetary references (line 5147) and the 17 references it cites, but the result rests on a planetarium simulation and literary assumptions that the edition itself flags as Tier-W."
+    },
+    {
+     "what": "Rāma's birth configuration from Bālakāṇḍa 1.18.8-10: Chaitra, navamī tithi, Punarvasu nakṣatra, five planets exalted with Jupiter exalted; dated to 4 Dec 7323 BCE (Vartak), 10 Jan 5114 BCE (Bhatnagar) and before 12200 BCE (Oak).",
+     "line": 5137,
+     "why": "This is the most specific planetary configuration in the file and can be tested against an ephemeris; the first two dates differ by about 2,200 years, so the configuration can discriminate between them."
+    },
+    {
+     "what": "Precession-based dates for Ṛgvedic and Brāhmaṇa-era observations: the Kṛttikās 'do not deviate' (Śatapatha 2.1.2.3, quoted as 'कृत्तिकाः न च्यवन्ते') read as about 2900 BCE by Sidharth; Tilak's Orion reading about 4000 BCE; Iyengar (2010) about 1900 BCE.",
+     "line": 4481,
+     "why": "Each is a dated equinox-position anchor and so a constraint on an ayanāṃśa epoch; the edition gives no numeric ayanāṃśa or epoch, so these dates are the only numeric precession anchors in the file."
+    },
+    {
+     "what": "Thuban was the pole star in Vedic times, about 3000 BCE (stated without source).",
+     "line": 5000,
+     "why": "A dated pole-star identification constrains the celestial pole's position under precession; the date is approximate and unsourced."
+    },
+    {
+     "what": "Earth's formation age stated as 4.54 ± 0.05 Gyr and attributed to Hadean zircon U-Pb dating (Jack Hills, 2014); the same figure is repeated at line 3756.",
+     "line": 3369,
+     "why": "A numeric age is stated, but the attribution looks wrong: Jack Hills detrital zircons are at most about 4.4 Ga, while 4.54 Ga is the meteoritic (solar-system) age; check the source before use as a constraint."
+    },
+    {
+     "what": "Konārka Sun temple at 19.89°N 86.10°E (1250 CE) is said to be oriented to equinox sunrise, and its wheel-axle inclination is called '~ obliquity of the ecliptic' with no value given.",
+     "line": 4591,
+     "why": "A claimed equinox alignment and an inclination equal to obliquity would constrain obliquity if a number were given; the text gives none, so this is qualitative only."
+    },
+    {
+     "what": "Vedāṅga Jyotiṣa's five-year counts (62 synodic, 67 sidereal months, 1830 tithi) imply a mean synodic month of 1830/62 = 29.516 days and about 366 days per year.",
+     "line": 4605,
+     "why": "A rate constraint stated without source; the same line's 1860 days contradicts the 1830 count and should be checked before use."
+    },
+    {
+     "what": "27 nakṣatras against the sidereal lunar period of 27.32166 days; the edition's '~1.013°' per day-equivalent is a units slip for the ratio 27.32166/27 ≈ 1.012 days per nakṣatra.",
+     "line": 4521,
+     "why": "A rate constraint with a unit error; corrected, it is consistent with the modern sidereal month."
+    },
+    {
+     "what": "The factor 72 in 72,000 nāḍī (1000 · 72) is labelled 'Precession' with no rate stated.",
+     "line": 1372,
+     "why": "If read as years per degree of precession, the modern value is about 71.6 years per degree (3600″ / 50.29″ per year); the edition gives no rate, so this is weak."
+    },
+    {
+     "what": "Quantum-hardware scaling claims adv(T) = A·B^(T−3) with B = 6.04, 4.21, 3.20, and an advantage of 4.619×10^12 at T=16.",
+     "line": 2089,
+     "why": "Not astronomical; the file marks these as unverified with no job data in the repository, so they are not usable as parameter constraints."
+    },
+    {
+     "what": "Stated coordinates for 18 sites, for example Ujjain 23.18°N 75.78°E, Kurukṣetra 29.97°N 76.85°E and Jantar Mantar Jaipur 26.92°N 75.82°E, with no shadow, gnomon or altitude reading attached.",
+     "line": 5250,
+     "why": "Latitudes could be inputs to a shadow or altitude test, but the file records no such observation, and the edition states the coordinates carry no algebraic meaning."
+    }
+   ],
+   "notFound": [
+    "The labels 'गणित / तकनीक (The Mathematics / Technique)' and 'हमारा डिकोड (Our Decode)' do not occur (0 hits); the commentary is instead carried as 'गणितीय decode', 'ग्रन्थ-decode' and Tier-S / Tier-W / Bridge tags.",
+    "No 'toc-n' class exists; heading counts are h1=86, h2=193, h3=490; khaṇḍa boundaries are at lines 867, 1715, 2456, 3236 and 3888.",
+    "No ayanāṃśa value with an epoch is stated; 'precession' appears only at lines 1372, 4481, 4485 and 5230, all without a number.",
+    "No Kali-yuga epoch (for example 3102 BCE) or other era start is stated.",
+    "No numeric obliquity is given; line 4592 says only 'inclination ~ obliquity'.",
+    "No shadow, gnomon, altitude or latitude-based solar observation reading is recorded; the Samrāṭ Yantra is named without a reading.",
+    "Truṭi is listed without a ratio (line 3764); lava is given as 15 nimeṣas (line 3765), duplicating the kāṣṭhā row and possibly wrong; no vedha ratio is stated.",
+    "The sine radius trijyā = 3438 does not occur in the edition (the engine uses it).",
+    "Decoded jyā values of Āryabhaṭa's 24-entry table are not given; only verse 1.12 (line 356) is quoted and its locator is marked unverified (line 354).",
+    "Verbatim verses are absent for Ṛg 1.164 (except 46), Yajur 32.1 and 36.24, the Chamaka, Sāma, Atharva 10.7 and 19.53 (opening phrase only), Bhāgavata 3.11, Manu 1.69-73, Kātyāyana Śulba 2.11, and Brahmagupta 18.64-65 (Hindi paraphrase only); the file says so at lines 1880, 1969, 1989, 2010, 2030, 2050, 2071, 801.",
+    "No Pāṇini sūtra text and no Piṅgala chandaḥ-sūtra text is quoted; only the counts and the names 'अइउण्' and 'हल्' appear (line 5125).",
+    "Vijñāna-Bhairava's 112 dhāraṇā, the Lalitā-sahasranāma names and the Kālacakra breath count appear only as numbers with no verse text (lines 1572, 1583, 1598).",
+    "Chāndogya 6.7 (sixteen kalās and fifteen days) is not in the file; the only sixteen-kalā verse is Praśna 6.1.",
+    "The Sūrya-Siddhānta is named (line 4549) but no SS verse or constant is quoted.",
+    "The Bakhshālī manuscript is not mentioned.",
+    "The kuṭṭaka rule (line 365) is quoted with no worked numeric example.",
+    "The Mahābhārata 6.2 phrase 'अर्धचतुर्थम् अहस्त्रिशम्' (line 5147) is quoted without translation or a stated count, so the edition's use of it is not checkable from the text."
+   ],
+   "file": "editions/maha-grantha-full-edition.html",
+   "counts": {
+    "findings": 30,
+    "verse": 7,
+    "commentary": 23,
+    "verseFound": 9,
+    "notUsed": 15,
+    "candidates": 11
+   }
+  }
+ ],
+ "rule": "each finding quotes a line of the edition with its line number; kind='verse' means the figure or statement is in the Sanskrit text, 'commentary' means only the edition's own commentary says it; verseFound is this repository's re-check that the quoted words stand at that line (false: the reader paraphrased); engineUse is the reader's one grep, not an audit"
+}

@@ -159,5 +159,21 @@
   const LATTICE = Object.freeze({ nakshatras: 27, padas: 4, cells: 108, rashis: 12, navamshas: 9, padaMicro: PADA, padaArcmin: 200, lords: LORDS, lordYears: LORD_YEARS, totalYears: LORD_YEARS.reduce((a, b) => a + b, 0),
     identities: ["27 × 4 = 108 = 12 × 9", "one pāda = one navāṃśa = 3°20′ exactly, so navāṃśa-in-sign = k mod 9 and nakṣatra = ⌊k/4⌋ + 1 for the same k [theorem]", "the lord of nakṣatra n is LORDS[(n − 1) mod 9]: the 27 → 9 projection", "the nine lords' years sum to 120"] });
 
-  return Object.freeze({ VARGAS, LATTICE, LORDS, LORD_YEARS, microOf, partWidth, index, margin, resolution, assess, chart, cell, dashaDaysPerArcmin });
+  // ── the ring tower in the text's numbers: ν₃, the 3-adic valuation of a count ──────────────────────────────────────
+  /** ν₃(n): how many times 3 divides the integer n (BigInt or integer); the level k at which n lies in the owner's tower
+   *  (ℤ/3^k ℤ, 2, k). ν₃ = 0 means n is a unit mod 3^k for every k (invertible); the kuṭṭaka on such a count always solves. */
+  function nu3(n) {
+    let v = typeof n === "bigint" ? n : BigInt(fin(n, "the count"));
+    if (v === 0n) throw new RangeError("sukshma-kala: ν₃(0) is not finite");
+    if (v < 0n) v = -v;
+    let k = 0; while (v % 3n === 0n) { v /= 3n; k++; }
+    return k;
+  }
+  /** A table of counts [{ name, value, source }] → the same with ν₃, the 3-free part and whether the count is a unit mod 3. */
+  function valuationTable(entries) {
+    return entries.map((e) => { const v = typeof e.value === "bigint" ? e.value : BigInt(e.value); const k = nu3(v); return { ...e, value: v.toString(), nu3: k, threeFreePart: (v / (3n ** BigInt(k))).toString(), unitMod3: k === 0 }; });
+  }
+  const TOWER_NOTE = "ν₃ of a count is the level k of (ℤ/3^k ℤ, 2, k) at which it sits: a count with ν₃ = 0 is a unit of every ℤ/3^k and the kuṭṭaka on it always solves; a count with ν₃ = k lies in the nilpotent ideal (3)^k. The text's civil days (both canons' day counts) are units; the Sun's revolutions, the yuga's years, the day's prāṇas, the 27 nakṣatras and the 108 cells all sit at k = 3 [theorem on the printed numbers].";
+
+  return Object.freeze({ VARGAS, LATTICE, LORDS, LORD_YEARS, TOWER_NOTE, microOf, partWidth, index, margin, resolution, assess, chart, cell, dashaDaysPerArcmin, nu3, valuationTable });
 });

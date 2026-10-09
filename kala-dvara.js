@@ -57,7 +57,7 @@
   // ── the three integers of each canon ────────────────────────────────────────────────────────────
   const CANON = Object.freeze({
     surya: Object.freeze({ risings: 1582237828n, sun: 4320000n, moon: 57753336n, source: "Sūrya-Siddhānta 1.29, 1.30, 1.34" }),
-    aryabhata: Object.freeze({ risings: 1582237500n, sun: 4320000n, moon: 57753336n, source: "Āryabhaṭīya, Gītikā 3: khyughṛ, cayagiyiṅśuchlṛ, ṅiśibuṇḷṣkhṛ (decoded by katapayadi.js decodeAryabhata)" }),
+    aryabhata: Object.freeze({ risings: 1582237500n, sun: 4320000n, moon: 57753336n, source: "Āryabhaṭīya, Gītikā 3 in the traditional numbering (the local edition labels the verse 1.1): khyughṛ, cayagiyiṅśuchlṛ, ṅiśibuṇḷṣkhṛ (decoded by katapayadi.js decodeAryabhata)" }),
   });
   const canonOf = (name) => { const c = CANON[name]; if (!c) throw new RangeError(`kala-dvara: unknown canon "${name}"`); return c; };
 
