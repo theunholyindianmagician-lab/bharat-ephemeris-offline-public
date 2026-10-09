@@ -120,3 +120,17 @@ test('the ring tower in the text\'s numbers: ν₃ of every count the texts give
   assert.equal(t.arcsec.nu3, 4); assert.equal(t.tithi.nu3, 2); assert.equal(t.sauraMasa.nu3, 4); assert.equal(t.lords.nu3, 2); assert.equal(t.vimshottari.nu3, 1); assert.equal(t.R.nu3, 2);
   assert.match(SK.TOWER_NOTE, /units/);
 });
+
+test('the generator of the owner\'s tower: 2 is a primitive root of every ℤ/3^k (its orbit is all the units, 2·3^(k-1) of them); the lord map ℤ/27 → ℤ/9 has kernel {1, 10, 19} (all Ketu); the text\'s day count is the identity of ℤ/27', () => {
+  const K = require('./kala-dvara.js'); const m = K.mana('surya');
+  for (const k of [1, 2, 3, 4, 5]) { const M = 3n ** BigInt(k); let x = 1n, ord = 0; do { x = (x * 2n) % M; ord++; } while (x !== 1n); assert.equal(ord, 2 * 3 ** (k - 1), `ord(2) mod 3^${k}`); }
+  // 2 is a primitive root mod 3 and 2² = 4 ≢ 1 (mod 9), so it is one for every power of 3 [theorem]: the units of ℤ/27 (18) and ℤ/9 (6) are one orbit each
+  const lords = SK.LORDS; assert.equal(lords.length, 9);
+  for (const n of [1, 10, 19]) assert.equal(lords[(n - 1) % 9], 'Ketu');                       // the kernel of n ↦ n mod 9: the three gaṇḍānta nakṣatras share the lord
+  assert.deepEqual([3, 6, 9, 12, 15, 18, 21, 24, 27].map((n) => lords[(n - 1) % 9]), ['Sūrya', 'Rāhu', 'Budha', 'Sūrya', 'Rāhu', 'Budha', 'Sūrya', 'Rāhu', 'Budha']);
+  // the printed civil-day count of the yuga is ≡ 1 both mod 27 and mod 9: one yuga moves every 27-fold and 9-fold day cycle by exactly one step [theorem on SS 1.37]
+  assert.equal(m.savana % 27n, 1n); assert.equal(m.nakshatra % 27n, 1n); assert.equal(m.savana % 9n, 1n);
+  // the Sun's count, the day's prāṇas and 108 are 0 in ℤ/27 (they lie in (3)³): the Sun is the zero of the nakṣatra ring
+  for (const v of [m.sun, 21600n, 108n]) assert.equal(v % 27n, 0n);
+  assert.equal(m.moon % 27n, 12n); assert.equal(m.moon % 9n, 3n);
+});

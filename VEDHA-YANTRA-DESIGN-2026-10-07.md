@@ -1637,6 +1637,17 @@ Ten readers (on the small model, as the owner asked) read the ten editions for t
 7. **Piṅgala** (halving/doubling/zero, 2ⁿ, mod 2 — partly in math-core's prastāra functions), **Pāṇini** (the calendar-unit stems: māsa, ardhamāsa, saṃvatsara, ṣaṇmāsa, nakṣatra as time-marker, pūrṇamāsī month naming — the last is the engine's full-moon month rule; the rest are grammar, not arithmetic), **Brahmagupta** (kuṭṭaka, vargaprakṛti, bhāvanā, zero — all used; the sign rules not), **Sūrya-Siddhānta** (every count used; the yoga-tārā latitudes in the corpus; 27 × 800′ = 30 × 720′ = 21,600′ = the day's prāṇas — one prāṇa of time is one minute of arc, kala-dvara's identity).
 8. **Measurement candidates the readers found are not observations:** the Mahā-grantha's dated items (Rāma's birth configuration, Achar's Mahābhārata eclipse pair, the Kṛttikās "not deviating", Thuban as pole star, Konārka's alignment) are attributions in the edition's own commentary with no local source; they could only be tested against a sky the dṛk tier refuses (outside 1850–2150). Listed on the page as candidates with the readers' caveats, nothing adopted.
 
+### 24.10 The ring tower in the text's numbers (the owner's "look at the math of the master meta-theorem again")
+
+What the owner's (ℤ/3^k ℤ, 2, k) says, checked on the engine's own integers (`sukshma-kala.test.js`, all [theorem]):
+
+- **The generator is right for every level.** 2 is a primitive root of ℤ/3 and 2² = 4 ≢ 1 (mod 9), so 2 is a primitive root of ℤ/3^k for every k: its orbit is the whole unit group, of size 2·3^(k−1) — 2, 6, 18, 54, 162 for k = 1…5, which are exactly the owner's "sovereign units" column (18 at k = 3, 162 at k = 5). The units of the nakṣatra ring ℤ/27 are one 18-cycle under doubling; the units of the graha ring ℤ/9 one 6-cycle.
+- **The two loops and their link.** The nakṣatra loop is ℤ/27 (k = 3), the graha loop ℤ/9 (k = 2); the Vimśottarī lord map n ↦ n mod 9 is the ring quotient ℤ/27 → ℤ/9. Its kernel is {1, 10, 19} — Aśvinī, Maghā, Mūla, the three gaṇḍānta nakṣatras — and they share one lord (Ketu). The nakṣatras whose number is a multiple of 3 (Kṛttikā … Revatī) take the lords Sūrya, Rāhu, Budha and no others. The 108 cells (27 × 4 = 12 × 9) sit at k = 3 with the Sun.
+- **Where the text's counts sit.** ν₃ gives each count its level: the Sun's revolutions 4,320,000 = 2⁸·3³·5⁴, the yuga's years, the day's 21,600 prāṇas, 27 and 108 at k = 3 — all ≡ 0 in ℤ/27: the Sun is the zero of the nakṣatra ring. The Moon's 57,753,336 at k = 1 (≡ 12 mod 27, ≡ 3 mod 9). The solar months and the circle's arcseconds at k = 4, the spanda lattice 328,050,000,000 at k = 8.
+- **The day count is the identity.** The Sūrya-Siddhānta's civil days 1,577,917,828 and star-risings 1,582,237,828 are ≡ 1 both mod 27 and mod 9: a unit, and the unit 1 — one yuga advances every 27-fold and 9-fold cycle of days by exactly one step, and the kuṭṭaka on the day count always solves. Āryabhaṭa's 1,577,917,500 carries one 3 (≡ 24 mod 27); the apogee and node counts of both canons are units (ν₃ = 0).
+
+What this does and does not do: it is the exact algebra of the printed numbers and the daśā rules, a structure the engine already runs (`sukshma-kala.js` LORDS, LATTICE); it changes no position and makes no sky claim. The owner's levels beyond k = 8 (k = 16, 20, 24, …) have no count in the texts to sit on; the texts stop at the spanda lattice.
+
 ### 24.7 Left for the owner
 
 - Seal DRAFT BE-S13 as revised (four choices; the default's ayanāṃśa zero from `PAR-ayanamsha-4536`).
