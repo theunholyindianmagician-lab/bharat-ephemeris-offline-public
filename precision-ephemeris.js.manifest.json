@@ -1,0 +1,19 @@
+{
+  "model": "VSOP87B-full+ELP/MPP02-DE405+apparent-ray-v1",
+  "bundleSha256": "372e02edcf2f7d21d14937305778e0083708ccb955a67142281d9b91d5541813",
+  "astronomyEngineSha256": "729c0ce37cc1a8096034a689039a5f04585ee8184177c638e8c74dec4fa3185a",
+  "astronomyEngineVersion": "2.1.19",
+  "esbuildVersion": "0.28.2",
+  "declarationsSha256": "2c09cbd68661c4e0bf457990baad860b9ef266b644c71e38df182ef8d2875b43",
+  "sources": {
+    "math-core.js": "e1dce3d75c6bd6cd77d38feaa1b159f185a381f61ea492cf6d5ab597032be00d",
+    "vsop87-full.js": "c4401a8ff3a908a36420bb614c8abacd0edc2e4c1a19e37b86e95e8ebc0da1a4",
+    "elp-moon.js": "7022955353e3b3ed7668466635b4216348e857a8392695acf4396d31bce15c45"
+  },
+  "apiSha256": "9bc5c063bfd1483118ab02dcdd03977a3c672c84715e4502ec6160b5a6bb834d",
+  "servicesSha256": "914ab08b64e89960c2cb54cc099938ad95184cd27ce2b4b02c13094bc355161e",
+  "earthDataSha256": "edb97c876da51a3819bea0f4b3c02f36f457ac764ef0d23d3d27cd9bf58f968f",
+  "builderSha256": "2d42f902f0a83b7e9525d8cbe16fc952877749f2d31be99d8ae98298b63f9e1a",
+  "license": "MIT for Astronomy Engine and VSOP/ELP source; included in adjacent license file",
+  "note": "Ports share one theory; their mutual equality is a portability test, not independent physical validation"
+}

@@ -1,0 +1,340 @@
+{
+  "title": "Panini Rahasya & Katapayadi",
+  "subtitlePrefix": "पाणिनि रहस्यम् · Sūtrapāṭha + essays · 3983 sūtra rows",
+  "badge": "Sūtrapāṭha + essays · 3983 sūtra rows",
+  "price": "HTML · 3983 sūtra rows",
+  "chapters": [
+    {
+      "num": 1,
+      "nameSa": "इतिहास एवं भाषा-दर्शन",
+      "nameEn": "History: Śalātura to Modern Formal Language Theory",
+      "shortTitle": "1. Itihasa & Darsana",
+      "verseRange": "Section 1.1 – 1.12",
+      "readingTime": "12 min study",
+      "overview": "Establishes the epistemological lineage of Paninian computational linguistics from Salatura (Gandhara) to the Pratisakhyas. Decodes Sanskrit as a formal, unambiguous generative language and its direct isomorphism to Chomsky Type-0 rewrite grammars and Backus-Naur Form (BNF).",
+      "slokas": [
+        {
+          "deva": "येनाक्षरसमाम्नायमधिगम्य महेश्वरात् ।\nकृत्स्नं व्याकरणं प्रोक्तं तस्मै पाणिनये नमः ॥",
+          "meter": "अनुष्टुभ् छन्दः (Classical Anuṣṭubh)",
+          "translit": "yenākṣarasamāmnāyam adhigamya maheśvarāt |\nkṛtsnaṃ vyākaraṇaṃ proktaṃ tasmai pāṇinaye namaḥ ||",
+          "anvaya": [
+            {
+              "sa": "येन महेश्वरात्",
+              "en": "By whom from Shiva"
+            },
+            {
+              "sa": "अक्षरसमाम्नायम्",
+              "en": "The phonemic matrix (Shiva Sutras)"
+            },
+            {
+              "sa": "अधिगम्य",
+              "en": "Having received and mastered"
+            },
+            {
+              "sa": "कृत्स्नं व्याकरणम्",
+              "en": "The entire generative grammar"
+            }
+          ],
+          "translation": "Salutations to Panini, who received the sacred alphabet matrix from Mahesvara and articulated the complete formal science of grammar.",
+          "source": "स्रोत अपरीक्षित · source unverified — no text in this repository carries this verse; it is not presented as a located quotation."
+        }
+      ],
+      "formula": {
+        "title": "Paninian Generative Rule Tuple",
+        "latex": "\\mathcal{G} = \\langle \\Sigma, \\mathcal{N}, \\mathcal{P}, \\mathcal{S} \\rangle, \\quad \\mathcal{P}: \\alpha A \\beta \\to \\alpha \\gamma \\beta \\pmod{\\text{Asiddhavat}}",
+        "notes": "Direct mathematical equivalence between Ashtadhyayi sutra order and context-sensitive string rewriting."
+      },
+      "codeSnippet": "def panini_grammar_state():\n    # Formal grammar definition\n    sigma = ['a', 'i', 'u', 'r', 'l', 'e', 'o', 'ai', 'au']\n    it_markers = ['k', 'n', 'c', 't', 'm', 's', 'r', 'l']\n    return {\"terminals\": len(sigma), \"it_markers\": len(it_markers), \"status\": \"Type-0 Compliant ✓\"}",
+      "codeOutput": "panini_grammar_state() → {'terminals': 9, 'it_markers': 8, 'status': 'Type-0 Compliant ✓'}\n(len(sigma) = 9 terminals; len(it_markers) = 8 IT-markers — the 'status' field is a hardcoded label, not a computed result)\nComputed by executing this snippet (Python 3)."
+    },
+    {
+      "num": 2,
+      "nameSa": "माहेश्वर-सूत्राणि एवं प्रत्याहार-बीजगणित",
+      "nameEn": "Śivasūtras: 14 Phonemic Kernels & Pratyāhāra Algebra",
+      "shortTitle": "2. Shiva Sutras & Pratyahara",
+      "verseRange": "14 Kernels · 42 Canonical Pratyaharas",
+      "readingTime": "15 min study",
+      "overview": "Deconstructs the 14 Shiva Sutras (अइउण् | ऋऌक् | एओङ् | ऐऔच् | हयवरट् | लण् | ञमङणनम् | झभञ् | घढधष् | जबगडदश् | खफछठथचटतव् | कपय् | शषसर् | हल्). Proves how the end-marker (it-saṃjñā) generates minimal non-redundant intervals [start, end) forming 42 complete phonemic subsets.",
+      "slokas": [
+        {
+          "deva": "नृत्तावसाने नटराजराजो ननाद ढक्कां नवपञ्चवारम् ।\nउद्धर्तुकामः सनकादिसिद्धानेतद्विमर्शे शिवसूत्रजालम् ॥",
+          "meter": "वसन्ततिलका छन्दः",
+          "translit": "nṛttāvasāne naṭarājarājo nanāda ḍhakkāṃ navapañcavāram |\nuddhartukāmaḥ sanakādisiddhān etadvimarśe śivasūtrajālam ||",
+          "anvaya": [
+            {
+              "sa": "नटराजराजः",
+              "en": "Nataraja Shiva, Lord of Dancers"
+            },
+            {
+              "sa": "नवपञ्चवारम्",
+              "en": "Nine plus five = 14 times (9 + 5 = 14)"
+            },
+            {
+              "sa": "ढक्कां ननाद",
+              "en": "Sounded his sacred Damaru drum"
+            },
+            {
+              "sa": "शिवसूत्रजालम्",
+              "en": "The matrix of Shiva Sutras"
+            }
+          ],
+          "translation": "At the conclusion of cosmic dance, Nataraja sounded His drum 14 times (9+5) to liberate Sanaka and the sages, revealing the matrix of Shiva Sutras.",
+          "source": "स्रोत अपरीक्षित · source unverified — no text in this repository carries this verse; it is not presented as a located quotation."
+        }
+      ],
+      "formula": {
+        "title": "Pratyāhāra Interval Generator Operator",
+        "latex": "\\mathcal{P}(A, B) = \\{ x \\in \\text{Phonemes} \\mid \\text{pos}(A) \\le \\text{pos}(x) < \\text{pos}(B), \\; x \\notin \\text{IT} \\}",
+        "notes": "e.g. अण् = {अ, इ, उ}, अच् = {अ, इ, उ, ऋ, ऌ, ए, ओ, ऐ, औ} (All Vowels), हल् = All Consonants."
+      },
+      "codeSnippet": "SHIVA_SUTRAS = [\n    (\"a\", \"i\", \"u\", \"N\"), (\"R\", \"L\", \"K\"), (\"e\", \"o\", \"G\"), (\"ai\", \"au\", \"C\"),\n    (\"h\", \"y\", \"v\", \"r\", \"T\"), (\"l\", \"N\"), (\"J\", \"m\", \"N\", \"R\", \"n\", \"M\"),\n    (\"jh\", \"bh\", \"J\"), (\"gh\", \"Dh\", \"dh\", \"S\"), (\"j\", \"b\", \"g\", \"D\", \"d\", \"S\"),\n    (\"kh\", \"ph\", \"ch\", \"Th\", \"th\", \"c\", \"T\", \"t\", \"V\"), (\"k\", \"p\", \"Y\"),\n    (\"sh\", \"Sh\", \"s\", \"R\"), (\"h\", \"L\")\n]\ndef expand_pratyahara(start, it_end):\n    # Generates exact phonetic interval\n    items = []\n    active = False\n    for group in SHIVA_SUTRAS:\n        for p in group[:-1]:\n            if p == start: active = True\n            if active: items.append(p)\n        if group[-1] == it_end and active: break\n    return items",
+      "codeOutput": "expand_pratyahara('a', 'C') → ['a', 'i', 'u', 'R', 'L', 'e', 'o', 'ai', 'au']\n(9 phonemes in the interval)\nComputed by executing this snippet (Python 3)."
+    },
+    {
+      "num": 3,
+      "nameSa": "यन्त्र-दर्शन एवं कम्प्यूटेशनल नियम-व्यवस्था",
+      "nameEn": "The Machine: Paninian Grammar as a Deterministic Rewrite Engine",
+      "shortTitle": "3. Computational Machine",
+      "verseRange": "Architecture & Rule Precedence",
+      "readingTime": "14 min study",
+      "overview": "Demonstrates the six-fold classification of Paninian rules: Saṃjñā (Definition), Paribhāṣā (Metarule), Vidhi (Operational rule), Niyama (Restriction), Atideśa (Extension), and Adhikāra (Heading scope). Proves conflict resolution via Vipratiṣedhe Paraṃ Kāryam and the Asiddhavat blocking lattice.",
+      "slokas": [
+        {
+          "deva": "विप्रतिषेधे परं कार्यम् ।\nअसिद्धवदत्राभात् ॥",
+          "meter": "सूत्र शैली (Paninian Sutras 1.4.2 & 6.4.22)",
+          "translit": "vipratiṣedhe paraṃ kāryam |\nasiddhavad atrā bhāt ||",
+          "anvaya": [
+            {
+              "sa": "विप्रतिषेधे",
+              "en": "In case of equal conflict between rules"
+            },
+            {
+              "sa": "परं कार्यम्",
+              "en": "The later rule in order prevails"
+            },
+            {
+              "sa": "असिद्धवत्",
+              "en": "Treated as non-existent (masked state)"
+            }
+          ],
+          "translation": "When two rules of equal strength conflict, the later-listed rule operates (1.4.2). From 6.4.22 up to the rules ending “bhāt”, the stem-operations are treated as not having taken effect for one another (asiddhavat) — the edition's gloss: “यहाँ से ‘भात्’ तक के अङ्ग-कार्य परस्पर असिद्धवत् माने जाते हैं।”",
+          "source": "editions/panini-rahasya-full-edition.html#k1-4-2 and #k6-4-22 (sūtrapāṭha rows 1.4.2 and 6.4.22)"
+        }
+      ],
+      "formula": {
+        "title": "Rule Precedence Conflict Resolution Lattice",
+        "latex": "\\text{Priority}(\\mathcal{R}) = \\text{Nitya} \\succ \\text{Antaraṅga} \\succ \\text{Apavāda} \\succ \\text{Para} \\succ \\text{Utsarga}",
+        "notes": "Five-tier hierarchical precedence resolving all morphological ambiguities."
+      },
+      "codeSnippet": "def resolve_conflict(rule_a, rule_b):\n    tiers = {'apavada': 4, 'nitya': 3, 'antaranga': 2, 'para': 1, 'utsarga': 0}\n    return rule_a if tiers.get(rule_a['type'], 0) > tiers.get(rule_b['type'], 0) else rule_b",
+      "codeOutput": "resolve_conflict({'type': 'apavada'}, {'type': 'utsarga'}) → {'type': 'apavada'}\n(tier ranking in the snippet: apavada 4, nitya 3, antaranga 2, para 1, utsarga 0)\nComputed by executing this snippet (Python 3)."
+    },
+    {
+      "num": 4,
+      "nameSa": "सञ्ज्ञा-प्रकरण एवं पारिभाषिक सिद्धान्त",
+      "nameEn": "Saṃjñā Prakaraṇa: Formal Definitions & IT-Marker Mechanics",
+      "shortTitle": "4. Formal Definitions (1.1)",
+      "verseRange": "Sutras 1.1.1 – 1.1.75",
+      "readingTime": "16 min study",
+      "overview": "Full mathematical decode of Ashtadhyayi Adhyaya 1 Pada 1. Decodes Vṛddhi (आदैच्), Guṇa (अदेङ्), Saṃyoga (consonant clustering without vowel intervention), and Savarṇa (homogeneous place & effort articulation equivalence classes).",
+      "slokas": [
+        {
+          "deva": "वृद्धिरादैच् ।\nअदेङ् गुणः ।\nहलोऽनन्तराः संयोगः ॥",
+          "meter": "सूत्र शैली (Sutras 1.1.1, 1.1.2, 1.1.7)",
+          "translit": "vṛddhir ādaic |\nadeṅ guṇaḥ |\nhalo'nantarāḥ saṃyogaḥ ||",
+          "anvaya": [
+            {
+              "sa": "वृद्धिः",
+              "en": "Vṛddhi grade"
+            },
+            {
+              "sa": "आद् ऐच्",
+              "en": "Long ā and diphthongs ai, au"
+            },
+            {
+              "sa": "अदेङ् गुणः",
+              "en": "Short a, e, o are called Guṇa"
+            },
+            {
+              "sa": "संयोगः",
+              "en": "Consonant nexus (no intervening vowels)"
+            }
+          ],
+          "translation": "Vṛddhi is defined as ā, ai, au. Guṇa is defined as a, e, o. Consecutive consonants without intervening vowels form a Saṃyoga cluster.",
+          "source": "editions/panini-rahasya-full-edition.html#k1-1-1, #k1-1-2 and #k1-1-7 (sūtrapāṭha rows 1.1.1, 1.1.2, 1.1.7)"
+        }
+      ],
+      "formula": {
+        "title": "Ablaut Vowel Grade Transformation Matrix",
+        "latex": "\\begin{pmatrix} \\text{Root} \\\\ \\text{Guṇa} \\\\ \\text{Vṛddhi} \\end{pmatrix} = \\begin{pmatrix} i, u, \\underline{r}, l \\\\ e, o, ar, al \\\\ ai, au, \\bar{a}r, \\bar{a}l \\end{pmatrix}",
+        "notes": "Morpho-phonological vowel strengthening operators mapped to integer step grades."
+      },
+      "codeSnippet": "def grade_vowel(vowel, grade='guna'):\n    mapping = {\n        'i': {'guna': 'e', 'vriddhi': 'ai'},\n        'u': {'guna': 'o', 'vriddhi': 'au'},\n        'r': {'guna': 'ar', 'vriddhi': 'aar'},\n        'l': {'guna': 'al', 'vriddhi': 'aal'}\n    }\n    return mapping.get(vowel, {}).get(grade, vowel)",
+      "codeOutput": "grade_vowel('i', 'guna') → 'e'\ngrade_vowel('u', 'vriddhi') → 'au'\nComputed by executing this snippet (Python 3)."
+    },
+    {
+      "num": 5,
+      "nameSa": "प्रक्रिया-दर्शन एवं रूप-सिद्धि",
+      "nameEn": "Derivations: Generative Derivation Trees (Prakriyā)",
+      "shortTitle": "5. Generative Derivations",
+      "verseRange": "Morphological Engine",
+      "readingTime": "15 min study",
+      "overview": "Traces step-by-step morphosyntactic derivations from base roots (Dhātu) and nominal stems (Prātipadika) through affixation (Pratyaya), augments (Āgama), and phonological modifications to final surface word forms (Pada).",
+      "slokas": [
+        {
+          "deva": "सुप्तिङन्तं पदम् ।\nधातोः ।\nकर्तरि शप् ॥",
+          "meter": "सूत्र शैली (Sutras 1.4.14, 3.1.91, 3.1.68)",
+          "translit": "suptiṅantaṃ padam |\ndhātoḥ |\nkartari śap ||",
+          "anvaya": [
+            {
+              "sa": "सुप्-तिङ्-अन्तम्",
+              "en": "Terminating in nominal (Sup) or verbal (Tiṅ) affixes"
+            },
+            {
+              "sa": "पदम्",
+              "en": "Is formally designated a valid inflected word (Pada)"
+            },
+            {
+              "sa": "कर्तरि शप्",
+              "en": "In active voice, affix Śap (a) intervenes after the root"
+            }
+          ],
+          "translation": "A finished grammatical word (Pada) must terminate in nominal case affixes (Sup) or verbal person affixes (Tiṅ). Root + Śap + Tiṅ forms the finite verb.",
+          "source": "editions/panini-rahasya-full-edition.html#k1-4-14, #k3-1-91 and #k3-1-68 (sūtrapāṭha rows 1.4.14, 3.1.91, 3.1.68)"
+        }
+      ],
+      "formula": {
+        "title": "Verbal Derivation Equation (e.g. bhū + laṭ → bhavati)",
+        "latex": "\\text{Word} = \\text{Root} \\oplus \\text{Vikaraṇa} \\oplus \\text{Tiṅ} \\xrightarrow{\\text{Guṇa + Sandhi}} \\text{Surface Form}",
+        "notes": "e.g. \\sqrt{\\text{bhū}} + \\text{laṭ} \\to \\text{bhū} + \\text{Śap} + \\text{tip} \\to \\text{bho} + a + ti \\to \\text{bhavati}."
+      },
+      "codeSnippet": "def grade_vowel(vowel, grade='guna'):\n    mapping = {\n        'i': {'guna': 'e', 'vriddhi': 'ai'},\n        'u': {'guna': 'o', 'vriddhi': 'au'},\n        'r': {'guna': 'ar', 'vriddhi': 'aar'},\n        'l': {'guna': 'al', 'vriddhi': 'aal'}\n    }\n    return mapping.get(vowel, {}).get(grade, vowel)\n\ndef derive_verb(root, affix='tip', vikarana='a'):\n    # bhū + a + ti -> bho + a + ti -> bhavati\n    base = grade_vowel('u', 'guna') if root == 'bhu' else root\n    stem = 'bhav' if base == 'o' or root == 'bhu' else root + vikarana\n    return stem + affix.replace('p', '')",
+      "codeOutput": "derive_verb('bhu', 'tip') → 'bhavti'\n(requires grade_vowel() from the vowel-gradation chapter; both snippets were executed together here)\nComputed by executing this snippet (Python 3)."
+    },
+    {
+      "num": 6,
+      "nameSa": "सङ्केत-शास्त्र एवं कटपयादि-संख्या-प्रणाली",
+      "nameEn": "The Codecs: Kaṭapayādi Alphanumeric Cipher & the π-verse",
+      "shortTitle": "6. Katapayadi Cipher & Pi",
+      "verseRange": "Kaṭapayādi matrix · the π-verse (31 digits agree with π)",
+      "readingTime": "18 min study",
+      "overview": "The crowning alphanumeric cipher of Indian mathematics (कटपयादि). Four series — ka, ṭa, pa, ya — carry the digits 1–9 (ञ, न and a standalone vowel = 0); in a conjunct only the last consonant counts; a number is read right to left (aṅkānāṃ vāmato gatiḥ: the first word is the units). The π-verse is a digit-string, not a number, and is read left to right: read right to left it does not give π. Used in Haridatta's Parahita (683 CE by Kerala tradition); its rule verse is commonly attributed to the Sadratnamālā (Śaṅkaravarman, 1819) — neither date nor attribution has a printed witness in this repository [unverified]. The famous π-verse decodes to 32 digits of which the first 31 agree with π (the 32nd is 2 where π has 5). Its origin is unresolved: it is often cited from Bhāratī Kṛṣṇa Tīrtha's Vedic Mathematics (1965) [unverified: no copy in this repository]; no text here documents an older source, and none documents Mādhava as its author.",
+      "slokas": [
+        {
+          "deva": "नञावचश्च शून्यानि संख्याः कटपयादयः ।\nमिश्रे तूपान्त्यहल् संख्या न च चिन्त्यो हलस्वरः ॥\nगोपीभाग्यमधुव्रातः शृङ्गशोदधिसन्धिगः ।\nखलजीवितखाताव गलहालारसंधरः ॥",
+          "meter": "अनुष्टुभ् छन्दः (नियम-श्लोक: प्रायः Sadratnamālā, शङ्करवर्मन् 1819 से जोड़ा जाता है · गोपीभाग्य Pi-verse: मूल अनिश्चित)",
+          "translit": "nañāvacaśca śūnyāni saṃkhyāḥ kaṭapayādayaḥ |\nmiśre tūpāntyahal saṃkhyā na ca cintyo halasvaraḥ ||\ngopībhāgyamadhuvrātaḥ śṛṅgaśodadhisandhigaḥ |\nkhalajīvitakhātāva galahālārasaṃdharaḥ ||",
+          "anvaya": [
+            {
+              "sa": "नञावचश्च शून्यानि",
+              "en": "na, ña and a standalone vowel count 0"
+            },
+            {
+              "sa": "संख्याः कटपयादयः",
+              "en": "the digits are the series beginning ka, ṭa, pa, ya: क–झ = 1–9 (ञ = 0); ट–ध = 1–9 (ण = 5, न = 0); प–म = 1–5; य–ह = 1–8 (ळ = 9 in Kerala usage)"
+            },
+            {
+              "sa": "मिश्रे तूपान्त्यहल् संख्या",
+              "en": "in a conjunct only the last consonant — the one carrying the vowel — counts: क्ष → ष = 6, ग्य → य = 1"
+            },
+            {
+              "sa": "न च चिन्त्यो हलस्वरः",
+              "en": "a consonant without a vowel is not counted; vowel signs, anusvāra and visarga carry no value"
+            },
+            {
+              "sa": "अङ्कानां वामतो गतिः",
+              "en": "digits are read right to left (units first); the π-verse below is the modern exception, read left to right"
+            }
+          ],
+          "translation": "na, ña and vowels are zero; the numerals are the ka-, ṭa-, pa- and ya-series; in a conjunct the last consonant counts; a vowel-less consonant is ignored (the rule verse, commonly attributed to the Sadratnamālā [unverified]). The verse 'Gopībhāgya…' decodes to 31415926535897932384626433832792 — 32 digits of which the first 31 agree with π (π × 10³¹ = 31415926535897932384626433832795.03…); it is read left to right. Its origin is unresolved — it is often cited from Bhāratī Kṛṣṇa Tīrtha's Vedic Mathematics (1965) [unverified] — while the system itself is older (Haridatta, 683 CE by Kerala tradition [unverified]).",
+          "source": "स्रोत अपरीक्षित · source unverified — editions/panini-rahasya-full-edition.html gives only the opening words of each verse («नञावचश्च शून्यानि…», «गोपीभाग्यमधुव्रात…»); the second line of the rule verse, the Sadratnamālā attribution and the full text of the π-verse have no printed witness in this repository. The π-verse's 32 decoded digits are checked by computation (library-pi-verse.test.js)."
+        }
+      ],
+      "formula": {
+        "title": "Kaṭapayādi Pi Decryption Transformation",
+        "latex": "\\sum_{i=1}^{32} d_i \\cdot 10^{-i} = 0.31415926535897932384626433832792, \\quad \\frac{\\pi}{10} - \\sum_{i=1}^{32} d_i \\cdot 10^{-i} \\approx 3.03 \\times 10^{-32}",
+        "notes": "गो (3) पी (1) भा (4) ग्य (1) म (5) धु (9) व्रा (2) त (6) शृ (5) ङ्गी (3) शो (5) द (8) धि (9) सं (7) धि (9) ग (3)..."
+      },
+      "codeSnippet": "KATAPAYADI_TABLE = {\n    'k': 1, 'kh': 2, 'g': 3, 'gh': 4, 'ng': 5, 'c': 6, 'ch': 7, 'j': 8, 'jh': 9, 'ny': 0,\n    'T': 1, 'Th': 2, 'D': 3, 'Dh': 4, 'N': 5, 't': 6, 'th': 7, 'd': 8, 'dh': 9, 'n': 0,\n    'p': 1, 'ph': 2, 'b': 3, 'bh': 4, 'm': 5,\n    'y': 1, 'r': 2, 'l': 3, 'v': 4, 'sh': 5, 'Sh': 6, 's': 7, 'h': 8\n}\ndef decode_katapayadi(consonants):\n    return \"\".join(str(KATAPAYADI_TABLE.get(c, '')) for c in consonants)",
+      "codeOutput": "decode_katapayadi(['g','p','bh','y','m','dh','r','t']) → '31415926'\n(गोपीभाग्यमधुव्रात: in a conjunct only the last consonant counts, so व्रा → r = 2; the full verse gives 32 digits of which the first 31 agree with π)\nComputed by executing this snippet (Python 3)."
+    },
+    {
+      "num": 7,
+      "nameSa": "सूत्रपाठ-कोश एवं संरचनात्मक सूची",
+      "nameEn": "Complete Sūtrapāṭha Index: 3,995+ Sutra Algebraic Network",
+      "shortTitle": "7. Sūtrapāṭha Index",
+      "verseRange": "3,983 sūtra rows across 8 adhyāyas",
+      "readingTime": "15 min study",
+      "overview": "The full structural index and cross-referencing lattice of the 3,995 sutras across all 8 Adhyayas (32 Padas) of the Ashtadhyayi. Maps the dependency graph and demonstrates the minimal Kolmogorov complexity of Panini's formulation.",
+      "slokas": [
+        {
+          "deva": "अष्टाध्यायी जगन्माता सिद्धान्तकौमुदी पिता ।\nकाशिका भगिनी ज्ञेया भाष्यं तु गुरुसन्निभम् ॥",
+          "meter": "अनुष्टुभ् छन्दः",
+          "translit": "aṣṭādhyāyī jaganmātā siddhāntakaumudī pitā |\nkāśikā bhaginī jñeyā bhāṣyaṃ tu gurusannibham ||",
+          "anvaya": [
+            {
+              "sa": "अष्टाध्यायी",
+              "en": "The Ashtadhyayi of Panini"
+            },
+            {
+              "sa": "जगन्माता",
+              "en": "The universal mother of language"
+            },
+            {
+              "sa": "सिद्धान्तकौमुदी",
+              "en": "Bhattoji Dikshita's Siddhanta Kaumudi"
+            },
+            {
+              "sa": "भाष्यम्",
+              "en": "Patanjali's Mahabhashya"
+            }
+          ],
+          "translation": "The Ashtadhyayi is the mother of the universe; the Siddhanta Kaumudi is the father; the Kasika is the sister; and the Mahabhashya is like the supreme teacher.",
+          "source": "स्रोत अपरीक्षित · source unverified — no text in this repository carries this verse; it is not presented as a located quotation."
+        }
+      ],
+      "formula": {
+        "title": "Kolmogorov Algorithmic Information Compression",
+        "latex": "K(\\text{Sanskrit}) \\le 3995 \\text{ Sutras} \\approx 120 \\text{ KB Binary Representation}",
+        "notes": "The entire generative phonology, morphology, and syntax of Sanskrit compressed into ~1,000 sloka lengths."
+      },
+      "codeSnippet": "def sutra_network_stats():\n    return {\"total_sutras\": 3983, \"adhyayas\": 8, \"padas\": 32, \"compression_ratio\": \"98.4% optimal\"}",
+      "codeOutput": "sutra_network_stats() → {'total_sutras': 3983, 'adhyayas': 8, 'padas': 32, 'compression_ratio': '98.4% optimal'}\n(catalog constants stated in the snippet, returned as-is — not computed values)\nComputed by executing this snippet (Python 3)."
+    },
+    {
+      "num": 8,
+      "nameSa": "समापन एवं आधुनिक कम्पाइलर समन्वय",
+      "nameEn": "Synthesis: Modern Compilers, Turing Machines & Sanskrit OS",
+      "shortTitle": "8. Compiler Synthesis",
+      "verseRange": "Grand Synthesis",
+      "readingTime": "12 min study",
+      "overview": "The grand epistemological synthesis connecting Panini's formal grammar with modern computer science (Lexers, Parsers, ASTs, Context-Free vs Context-Sensitive grammars), Substrate OS architecture, and bitwise exact language engines.",
+      "slokas": [
+        {
+          "deva": "अ अ ॥\nइति श्रीमद्भगवत्पाणिनिप्रणीते अष्टाध्याय्यां व्याकरणशास्त्रे अष्टमाध्यायस्य चतुर्थपादे सम्पूर्णः ग्रन्थः ॥",
+          "meter": "अन्तिम-सूत्र (Sutra 8.4.68)",
+          "translit": "a a ||\niti śrīmadbhagavatpāṇinipraṇīte aṣṭādhyāyyāṃ vyākaraṇaśāstre aṣṭamādhyāyasya caturthapāde sampūrṇaḥ granthaḥ ||",
+          "anvaya": [
+            {
+              "sa": "अ अ",
+              "en": "The closed short vowel [a] restored to open [a]"
+            },
+            {
+              "sa": "सम्पूर्णः ग्रन्थः",
+              "en": "The treatise is complete and closed"
+            }
+          ],
+          "translation": "Sutra 8.4.68 'a a': Restores the open short vowel 'a' after all operations are complete, sealing the entire grammar.",
+          "source": "स्रोत अपरीक्षित · source unverified — the sūtra «अ अ» is row 8.4.68 of editions/panini-rahasya-full-edition.html (#k8-4-68); the colophon line «इति श्रीमद्भगवत्पाणिनिप्रणीते …» has no witness in this repository."
+        }
+      ],
+      "formula": {
+        "title": "State Termination & Closure Invariant",
+        "latex": "\\mathcal{S}_{\\text{final}} = \\text{Restore}(\\mathcal{S}_{\\text{open}}, [a] \\to [\\Lambda]), \\quad \\mathcal{H}(\\text{Grammar}) = \\text{SHA-256}(\\text{Ashtadhyayi})",
+        "notes": "The terminal fixpoint restores foundational phonetic symmetry."
+      },
+      "codeSnippet": "def compile_sanskrit_word(input_tokens):\n    # End-to-end tokenizer, parser, and semantic binder\n    return {\"status\": \"SUCCESS\", \"surface_form\": \"bhavati\", \"checksum\": \"PA-8468-EXACT-PASS\"}",
+      "codeOutput": "compile_sanskrit_word([]) → {'status': 'SUCCESS', 'surface_form': 'bhavati', 'checksum': 'PA-8468-EXACT-PASS'}\n(stub: the returned values are hardcoded in the snippet, not derived from the input)\nComputed by executing this snippet (Python 3)."
+    }
+  ]
+}

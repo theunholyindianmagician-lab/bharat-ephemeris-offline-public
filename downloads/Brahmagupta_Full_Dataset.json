@@ -1,0 +1,86 @@
+{
+  "title": "Brahmasphuta Siddhanta & Bhavana",
+  "subtitlePrefix": "ब्राह्मस्फुटसिद्धान्तः · Zero Mathematics & Cyclic Quadrilaterals",
+  "badge": "Research Digest · 2 Chapters",
+  "price": "HTML · 2 chapters · not the classical manuscript",
+  "chapters": [
+    {
+      "num": 1,
+      "nameSa": "शून्य-प्रक्रिया एवं बीजगणित",
+      "nameEn": "Zero Mathematics (Śūnya): Arithmetics of Nothingness",
+      "shortTitle": "1. Zero Mathematics",
+      "verseRange": "Chapter 18",
+      "readingTime": "10 min study",
+      "overview": "Brahmagupta is the first mathematician to formally define the arithmetic rules of zero (Śūnya) and negative numbers (Ṛṇa). This chapter lays down the foundations of integer arithmetic over the entire number line.",
+      "slokas": [
+        {
+          "deva": "धनयोर्धनमृणमृणयोर्धनर्ष्णयोरन्तरं समैक्यं खम् ।\nऋणमृणधनयोर्घातो धनमृणयोर्धनवधो धनं भवति ॥\nखगुणो धनमृणमथवा स्वं भवति खखण्डितं खं खम् ।",
+          "meter": "आर्या छन्दः",
+          "translit": "dhanayordhanamṛṇamṛṇayordhanarṣṇayorantaraṃ samaikyaṃ kham |\nṛṇamṛṇadhanayorghāto dhanamṛṇayordhanavadho dhanaṃ bhavati ||\nkhaguṇo dhanamṛṇamathavā svaṃ bhavati khakhaṇḍitaṃ khaṃ kham |",
+          "anvaya": [
+            {
+              "sa": "सम-ऐक्यं खम्",
+              "en": "The sum of equal positive and negative is zero (Kham)"
+            },
+            {
+              "sa": "ख-गुणो धनम् ऋणम्",
+              "en": "Zero times a positive or negative is zero"
+            },
+            {
+              "sa": "ख-खण्डितं खं खम्",
+              "en": "Zero divided by zero is zero (0/0 = 0)"
+            }
+          ],
+          "translation": "The sum of positive and negative is their difference; if they are equal it is zero. The product of a positive and a negative is negative. A positive or negative multiplied by zero becomes zero. Zero divided by zero is zero.",
+          "source": "स्रोत अपरीक्षित · source unverified — this wording of the zero rules is not in editions/brahmagupta-full-edition.html (whose 18.30–32 is itself marked unverified) or any other text in this repository."
+        }
+      ],
+      "formula": {
+        "title": "Brahmagupta's Laws of Zero",
+        "latex": "a + (-a) = 0, \\quad a \\times 0 = 0, \\quad \\frac{0}{0} = 0, \\quad \\frac{a}{0} = \\text{khaccheda (left as a quantity with zero divisor)}",
+        "notes": "Brāhmasphuṭasiddhānta 18.34–35 gives these rules and leaves a/0 as \"khaccheda\" — a quantity with zero as divisor — without evaluating it; the name khahara and its reading as an unbounded quantity are Bhāskara II's (Bījagaṇita, 12th c.), which the snippet's label follows. 0/0 = 0 is Brahmagupta's statement; modern algebra leaves 0/0 undefined."
+      },
+      "codeSnippet": "class BrahmaguptaZero:\n    @staticmethod\n    def add(a, b): return a + b\n    @staticmethod\n    def mul(a, b): return a * 0 if b == 0 else a * b\n    @staticmethod\n    def div(a, b): return \"Khahara (Infinity)\" if b == 0 and a != 0 else 0",
+      "codeOutput": "BrahmaguptaZero.div(5, 0) → 'Khahara (Infinity)'\nBrahmaguptaZero.div(0, 0) → 0\nBrahmaguptaZero.mul(7, 0) → 0\nComputed by executing this snippet (Python 3)."
+    },
+    {
+      "num": 2,
+      "nameSa": "वर्गप्रकृति एवं चक्रीय चतुर्भुज",
+      "nameEn": "Vargaprakriti & Cyclic Quadrilateral Geometry",
+      "shortTitle": "2. Geometry & Pell's Equation",
+      "verseRange": "Chapter 12 & 18",
+      "readingTime": "18 min study",
+      "overview": "Contains Brahmagupta's formula for the area of a cyclic quadrilateral (generalizing Heron's formula) and his powerful Bhāvanā composition law for solving second-order Diophantine equations (Pell's equation: Nx² + 1 = y²).",
+      "slokas": [
+        {
+          "deva": "स्थूलफलं त्रिचतुर्भुजबाहुप्रतिबाहुयोगदलघातः ।\nभुजयोगार्धचतुष्टयभुजोनघातात् पदं सूक्ष्मम् ॥",
+          "meter": "आर्या छन्दः",
+          "translit": "sthūlaphalaṃ tricaturbhujabāhupratibāhuyogadalaghātaḥ |\nbhujayogārdhacatuṣṭayabhujonaghātāt padaṃ sūkṣmam ||",
+          "anvaya": [
+            {
+              "sa": "भुजयोगार्धचतुष्टय",
+              "en": "Four half-sums of the sides (Semiperimeter s)"
+            },
+            {
+              "sa": "भुजोन-घातात्",
+              "en": "Product of s diminished by each side"
+            },
+            {
+              "sa": "पदं सूक्ष्मम्",
+              "en": "The square root (padam) is the exact area"
+            }
+          ],
+          "translation": "The exact area (of a cyclic quadrilateral) is the square root of the product of four sets of half the sum of the sides diminished by each side.",
+          "source": "editions/brahmagupta-full-edition.html, verse १२.२१"
+        }
+      ],
+      "formula": {
+        "title": "Brahmagupta's Cyclic Quadrilateral Area",
+        "latex": "K = \\sqrt{(s-a)(s-b)(s-c)(s-d)}, \\quad s = \\frac{a+b+c+d}{2}",
+        "notes": "Reduces to Heron's formula for triangles when d=0."
+      },
+      "codeSnippet": "import math\ndef brahmagupta_cyclic_area(a, b, c, d):\n    s = (a + b + c + d) / 2\n    return math.sqrt((s - a) * (s - b) * (s - c) * (s - d))",
+      "codeOutput": "Input: cyclic quadrilateral with sides 3, 4, 5, 6 (semiperimeter s = 9)\nbrahmagupta_cyclic_area(3, 4, 5, 6) → 18.973666\nComputed by executing this snippet (Python 3)."
+    }
+  ]
+}

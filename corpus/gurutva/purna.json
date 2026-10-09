@@ -1,0 +1,576 @@
+{
+ "_provenance": {
+  "what": "The Moon under the owner's complete n-body force law (Bhārat Sovereign Engine dop853-nbody.js evalRhs: Newtonian n-body, EIH 1PN, 2PN + Lense–Thirring, Earth J2 on the Moon, lunar figure J2m/C22m, tidal acceleration T = −ṅa/3), integrated by the owner's Gauss–Radau method, with every starting state from the Sūrya-Siddhānta. Regenerate with node scripts/derive-gurutva-purna.cjs.",
+  "seeded_from_the_text": "Sun (Earth–Moon barycentre) from 1.29, 1.37, 1.41 and the Sun's equation; Mercury, Venus, Mars, Jupiter, Saturn from 1.30-1.32, 1.41-1.44 (nodes westward), 2.35, 1.68-1.70; the Moon fitted to the text as in corpus/gurutva/candra.json; the equinox by the text's ayanāṃśa.",
+  "borrowed": "The force law's own constants, which the text does not give: gravitational parameters, Earth J2 and radius, lunar J2m/C22m and radius, ṅ, c, the AU in km (as in dop853-nbody.js; the owner's AUDIT30 D2 table classifies them as borrowed). Distances follow from the text's periods by Kepler III.",
+  "reading": "The text's lunar equation and 270′ are syzygy values; the planets' greatest latitudes are heliocentric inclinations.",
+  "absent": "Uranus, Neptune, Pluto (not in the text)."
+ },
+ "epoch": {
+  "kaliDay": 1872855,
+  "gregorian": "2026-10-07"
+ },
+ "fitted": {
+  "initialOsculating": {
+   "aAU": 0.002560702847487629,
+   "e": 0.03314385888455087,
+   "iDeg": 4.702064021942627,
+   "nodeDeg": 308.8165148354677,
+   "perigeeDeg": 439.5527833216107,
+   "meanLongitudeDeg": 118.03416777498859
+  },
+  "meanEccentricity": 0.055982,
+  "meanInclinationDeg": 4.683184,
+  "syzygyEquationDeg": 5.054681,
+  "syzygyLatitudeDeg": 4.500051
+ },
+ "rates": {
+  "span_years": 74.4,
+  "moonPerYuga": 57753346.3,
+  "apogeePerYuga": 489267.5,
+  "nodePerYuga": 232469.2,
+  "apogeeArcsecPerYear": 146776.741,
+  "nodeArcsecPerYear": -69739.102,
+  "text": {
+   "apogee": 488203,
+   "node": 232238
+  },
+  "apogeeRatio": 1.0021805,
+  "nodeRatio": 1.0009957
+ },
+ "blocks": {
+  "full": {
+   "apogeePerYuga": 489267.5,
+   "nodePerYuga": 232469.2,
+   "apogeeArcsecPerYear": 146776.741,
+   "nodeArcsecPerYear": -69739.102
+  },
+  "no tide (block 8)": {
+   "apogeePerYuga": 489267.5,
+   "nodePerYuga": 232469.2,
+   "apogeeArcsecPerYear": 146776.739,
+   "nodeArcsecPerYear": -69739.102
+  },
+  "no lunar figure (block 7)": {
+   "apogeePerYuga": 489266.9,
+   "nodePerYuga": 232468.9,
+   "apogeeArcsecPerYear": 146776.552,
+   "nodeArcsecPerYear": -69738.995
+  },
+  "Newton only (blocks 2-8 off)": {
+   "apogeePerYuga": 489250.4,
+   "nodePerYuga": 232451.9,
+   "apogeeArcsecPerYear": 146771.606,
+   "nodeArcsecPerYear": -69733.887
+  },
+  "no planets": {
+   "apogeePerYuga": 489271.5,
+   "nodePerYuga": 232471.2,
+   "apogeeArcsecPerYear": 146777.927,
+   "nodeArcsecPerYear": -69739.675
+  }
+ },
+ "tidalCheck": {
+  "span_years": 74.4,
+  "ndotRecoveredArcsecPerCy2": -26.426,
+  "ndotInTheLawArcsecPerCy2": -25.858
+ },
+ "impliedByTheTextsApogeeRate": {
+  "syzygyLatitudeDeg": 4.958241,
+  "meanInclinationDeg": 5.16118,
+  "apogeeRatio": 1,
+  "nodeRatio": 1.0002289,
+  "span": "20 years from the epoch"
+ },
+ "series": {
+  "arguments": "D = mean Moon − mean Sun; M = mean Moon − (apogee + 180°); M′ = mean Sun − (Sun's apogee + 180°); F = mean Moon − node; all from the text",
+  "longitude": [
+   {
+    "arg": [
+     0,
+     1,
+     0,
+     0
+    ],
+    "name": "M",
+    "sin": 6.339741,
+    "cos": 0
+   },
+   {
+    "arg": [
+     0,
+     2,
+     0,
+     0
+    ],
+    "name": "2M",
+    "sin": 0.217146,
+    "cos": -0.000009
+   },
+   {
+    "arg": [
+     0,
+     3,
+     0,
+     0
+    ],
+    "name": "3M",
+    "sin": 0.010281,
+    "cos": -0.000004
+   },
+   {
+    "arg": [
+     2,
+     -1,
+     0,
+     0
+    ],
+    "name": "2D−M",
+    "sin": 1.28506,
+    "cos": 0.006383
+   },
+   {
+    "arg": [
+     2,
+     0,
+     0,
+     0
+    ],
+    "name": "2D",
+    "sin": 0.66106,
+    "cos": 0.003289
+   },
+   {
+    "arg": [
+     2,
+     -2,
+     0,
+     0
+    ],
+    "name": "2D−2M",
+    "sin": 0.059807,
+    "cos": 0.000294
+   },
+   {
+    "arg": [
+     2,
+     1,
+     0,
+     0
+    ],
+    "name": "2D+M",
+    "sin": 0.053978,
+    "cos": 0.000264
+   },
+   {
+    "arg": [
+     2,
+     -3,
+     0,
+     0
+    ],
+    "name": "2D−3M",
+    "sin": 0.003745,
+    "cos": 0.000019
+   },
+   {
+    "arg": [
+     0,
+     0,
+     1,
+     0
+    ],
+    "name": "M′",
+    "sin": -0.211741,
+    "cos": 0.001198
+   },
+   {
+    "arg": [
+     2,
+     0,
+     -1,
+     0
+    ],
+    "name": "2D−M′",
+    "sin": 0.052415,
+    "cos": 0.000542
+   },
+   {
+    "arg": [
+     2,
+     -1,
+     -1,
+     0
+    ],
+    "name": "2D−M−M′",
+    "sin": 0.065717,
+    "cos": 0.000647
+   },
+   {
+    "arg": [
+     2,
+     0,
+     1,
+     0
+    ],
+    "name": "2D+M′",
+    "sin": -0.007804,
+    "cos": -0.000014
+   },
+   {
+    "arg": [
+     0,
+     1,
+     -1,
+     0
+    ],
+    "name": "M−M′",
+    "sin": 0.047195,
+    "cos": 0.000222
+   },
+   {
+    "arg": [
+     0,
+     1,
+     1,
+     0
+    ],
+    "name": "M+M′",
+    "sin": -0.035055,
+    "cos": 0.000185
+   },
+   {
+    "arg": [
+     2,
+     -1,
+     1,
+     0
+    ],
+    "name": "2D−M+M′",
+    "sin": -0.009068,
+    "cos": -0.000005
+   },
+   {
+    "arg": [
+     1,
+     0,
+     0,
+     0
+    ],
+    "name": "D",
+    "sin": -0.034886,
+    "cos": -0.000021
+   },
+   {
+    "arg": [
+     1,
+     1,
+     0,
+     0
+    ],
+    "name": "D+M",
+    "sin": -0.002408,
+    "cos": 0.000116
+   },
+   {
+    "arg": [
+     1,
+     0,
+     1,
+     0
+    ],
+    "name": "D+M′",
+    "sin": 0.005795,
+    "cos": -0.000019
+   },
+   {
+    "arg": [
+     0,
+     0,
+     0,
+     2
+    ],
+    "name": "2F",
+    "sin": -0.094283,
+    "cos": -0.000014
+   },
+   {
+    "arg": [
+     2,
+     0,
+     0,
+     -2
+    ],
+    "name": "2D−2F",
+    "sin": 0.012646,
+    "cos": 0.000053
+   },
+   {
+    "arg": [
+     0,
+     1,
+     0,
+     -2
+    ],
+    "name": "M−2F",
+    "sin": 0.009054,
+    "cos": -0.000059
+   },
+   {
+    "arg": [
+     0,
+     1,
+     0,
+     2
+    ],
+    "name": "M+2F",
+    "sin": -0.01041,
+    "cos": -0.000001
+   },
+   {
+    "arg": [
+     4,
+     -1,
+     0,
+     0
+    ],
+    "name": "4D−M",
+    "sin": 0.010819,
+    "cos": 0.000107
+   },
+   {
+    "arg": [
+     4,
+     -2,
+     0,
+     0
+    ],
+    "name": "4D−2M",
+    "sin": 0.008668,
+    "cos": 0.000068
+   },
+   {
+    "arg": [
+     4,
+     0,
+     0,
+     0
+    ],
+    "name": "4D",
+    "sin": 0.00391,
+    "cos": 0.00004
+   },
+   {
+    "arg": [
+     0,
+     0,
+     2,
+     0
+    ],
+    "name": "2M′",
+    "sin": -0.002708,
+    "cos": 0.000031
+   },
+   {
+    "arg": [
+     2,
+     -2,
+     -1,
+     0
+    ],
+    "name": "2D−2M−M′",
+    "sin": 0.002775,
+    "cos": 0.000011
+   },
+   {
+    "arg": [
+     2,
+     1,
+     -1,
+     0
+    ],
+    "name": "2D+M−M′",
+    "sin": 0.004667,
+    "cos": 0.000046
+   }
+  ],
+  "latitude": [
+   {
+    "arg": [
+     0,
+     0,
+     0,
+     1
+    ],
+    "name": "F",
+    "sin": 4.657315,
+    "cos": 0
+   },
+   {
+    "arg": [
+     0,
+     1,
+     0,
+     1
+    ],
+    "name": "M+F",
+    "sin": 0.256897,
+    "cos": -0.000009
+   },
+   {
+    "arg": [
+     0,
+     1,
+     0,
+     -1
+    ],
+    "name": "M−F",
+    "sin": 0.254077,
+    "cos": -0.000013
+   },
+   {
+    "arg": [
+     2,
+     0,
+     0,
+     -1
+    ],
+    "name": "2D−F",
+    "sin": 0.157264,
+    "cos": 0.000788
+   },
+   {
+    "arg": [
+     2,
+     -1,
+     0,
+     1
+    ],
+    "name": "2D−M+F",
+    "sin": 0.05079,
+    "cos": 0.000258
+   },
+   {
+    "arg": [
+     2,
+     -1,
+     0,
+     -1
+    ],
+    "name": "2D−M−F",
+    "sin": 0.042397,
+    "cos": 0.000211
+   },
+   {
+    "arg": [
+     2,
+     0,
+     0,
+     1
+    ],
+    "name": "2D+F",
+    "sin": 0.029724,
+    "cos": 0.000149
+   },
+   {
+    "arg": [
+     0,
+     2,
+     0,
+     1
+    ],
+    "name": "2M+F",
+    "sin": 0.015869,
+    "cos": -0.000001
+   },
+   {
+    "arg": [
+     0,
+     2,
+     0,
+     -1
+    ],
+    "name": "2M−F",
+    "sin": 0.008082,
+    "cos": -0.000054
+   },
+   {
+    "arg": [
+     2,
+     1,
+     0,
+     -1
+    ],
+    "name": "2D+M−F",
+    "sin": 0.008482,
+    "cos": 0.000017
+   },
+   {
+    "arg": [
+     2,
+     -2,
+     0,
+     -1
+    ],
+    "name": "2D−2M−F",
+    "sin": 0.003993,
+    "cos": 0.000029
+   },
+   {
+    "arg": [
+     2,
+     0,
+     -1,
+     -1
+    ],
+    "name": "2D−M′−F",
+    "sin": 0.008511,
+    "cos": 0.000092
+   },
+   {
+    "arg": [
+     0,
+     0,
+     1,
+     1
+    ],
+    "name": "M′+F",
+    "sin": -0.001893,
+    "cos": 0.000015
+   },
+   {
+    "arg": [
+     0,
+     0,
+     1,
+     -1
+    ],
+    "name": "M′−F",
+    "sin": -0.001395,
+    "cos": 0.000023
+   },
+   {
+    "arg": [
+     0,
+     0,
+     0,
+     3
+    ],
+    "name": "3F",
+    "sin": -0.001308,
+    "cos": -0.000003
+   },
+   {
+    "arg": [
+     2,
+     -2,
+     0,
+     1
+    ],
+    "name": "2D−2M+F",
+    "sin": -0.00041,
+    "cos": -0.000033
+   }
+  ]
+ }
+}
