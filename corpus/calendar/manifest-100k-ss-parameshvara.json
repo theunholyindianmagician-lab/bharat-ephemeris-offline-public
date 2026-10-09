@@ -4,32 +4,33 @@
  "tierLabel": "Sūrya-Siddhānta + Parameśvara's saṃskāra",
  "tierLabelSa": "सूर्य-सिद्धान्त + परमेश्वर-संस्कार",
  "tierRole": "the text tier's primary default (owner decision 2026-10-08)",
- "tierNote": "Built for the text tier's primary default (owner decision 2026-10-08): the Sūrya-Siddhānta's model with Parameśvara's saṃskāra, the mean-place shifts that corpus/parampara/samskara.json records (fitted to his recorded eclipses), carried at the text's own rates. It corrects only what the record names (moon, node); the Sun, the planets, mean Jupiter (the saṃvatsara) and every rate are the text's. The plain Sūrya-Siddhānta's calendar is manifest-100k.json.",
+ "tierNote": "Built for the text tier's primary default (owner decision 2026-10-08): the Sūrya-Siddhānta's model with Parameśvara's saṃskāra, the mean-place shifts that corpus/parampara/samskara.json records (fitted to his recorded eclipses), carried at the text's own rates. It corrects only what the record names (moon, node, ayanamsha); the Sun, the planets, mean Jupiter (the saṃvatsara) and every rate are the text's. The plain Sūrya-Siddhānta's calendar is manifest-100k.json.",
  "samskara": {
   "corrects": [
    "moon",
-   "node"
+   "node",
+   "ayanamsha"
   ],
   "moonArcmin": -8.37,
   "nodeArcmin": -73.54,
   "epochKali": 1652000,
   "julian": "1422-01-23",
-  "rule": "the record's mean-place shifts at its epoch, carried at the text's own rates: the same shift at every instant [theorem]",
+  "rule": "the record's mean-place shifts at its epoch, carried at the text's own rates: the same shift at every instant [theorem]; the ayanāṃśa's zero moved by the record's phase",
   "record": "corpus/parampara/samskara.json (parampara.js samskaraParameshvara)"
  },
  "moduleSha256": {
-  "kala-dvara.js": "540ff27423a4b1b8095f9269927734bf4589308c8ed7c80d10a824b5012a4433",
-  "sphuta.js": "8cab54097dd0144cf2213b67f6837f083227c2527a2ae99a3858027e1fdbf3c3",
+  "kala-dvara.js": "b1ea1afab8967afd80fb93c2aee5b78cd38c17a31c809e669dae21136612a37e",
+  "sphuta.js": "498ac037a944a12681da362a4ca9d62adb4c09997e7cfa6f3210d8398aafa780",
   "dhruva.js": "d647b9459a2a6f58e52d2151a8d75026793daad95b0a5677c0853813142fe5f1",
   "ss-udaya.js": "eeadb01b0b5da8597e992e0304b89b5cf72b247749bdccf1c4fa9cd0fcbb20fc",
-  "panchanga.js": "8b809b93317fceda1df467f2b733992b9aa72ec85580b26602e145dce612172d",
+  "panchanga.js": "8d9fda1f319d1cd1cb6420951d60d99c9d13f3ed72086a2fb15a74ef416c1fcb",
   "ss-graha.js": "04e8aada697e9ab17eff64e8ea0a2e158e884a883e7fc279d280c4df6c0859c0",
   "ss-ahargana.js": "c9905976e4653f2ea3b65d4474d47edf918b3e8068cb15a7d235dd2c96224cbf",
-  "scripts/calendar-100k.cjs": "fd4e77b744d487058d68996a85c2da59d2450feaa58f1c81abf24ecd9a9f50eb",
-  "ss-tier.js": "36f8115507f8b2bd68e6a414aded00a82cf7c8ecb89b5ce1efad04a455d8d3e8",
-  "parampara.js": "535a82fa8fd09c17746f9bbbe6055ce93e5051718e26fb58ceaaf2af90a32dce",
-  "corpus/parampara/samskara.json": "13d5566b45323c7915d48f5b7848b6d88d56facc8c9c04568339cb12940bc481",
-  "corpus/parampara/registry.json": "7d5e9ba11a64285a005eafcf3712b2e939e5a88602c0b1aea82c1a0b3921202a"
+  "scripts/calendar-100k.cjs": "cf0cfa2bf6c4b65ef01d0a54eb62e5cbb3ae7cf7b92b0d66a47136ddbbb912bd",
+  "ss-tier.js": "b06c22916ee3ad332ba8532e6a4b4cfb5f72c8ccb1fcc0bbfa3352fbf4eff9bd",
+  "parampara.js": "42c663d5bf321c0b00163dc7a3c7287c32270e946b6933afb74da41b20eac0ed",
+  "corpus/parampara/samskara.json": "7f42063415f2bd5d7b0bd37a71626c4a4fcbd70054051e1136c94467d99b7900",
+  "corpus/parampara/registry.json": "5eac2e7b3ba8ac5a3c128df4f0ca1e733d1dbc430b8f41ebe1b14e613ba63e7e"
  },
  "node": "v22.22.0",
  "sine": "madhava",
@@ -883,7 +884,7 @@
   "-899": "cda69557ec66ba08dbfffb09ead3231d1bc6e1d1001ca16ff4105399d4ed00f1"
  },
  "hashOf": "sha256 of the uncompressed UTF-8 text: a shard is its year lines joined by \\n with a final \\n; a sample is one year line without the \\n",
- "runtimeSeconds": 607.7,
- "workers": 3,
- "msPerYearPerWorker": 18.23
+ "runtimeSeconds": 546.8,
+ "workers": 4,
+ "msPerYearPerWorker": 21.87
 }

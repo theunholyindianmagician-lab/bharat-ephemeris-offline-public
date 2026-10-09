@@ -169,11 +169,16 @@
   /** 3.9-3.10: the text's ayanāṃśa in degrees. The arc runs 600 times round in a yuga and is zero at the Kali start
    *  (271,650 whole turns since creation); the ayanāṃśa is three-tenths of its bhuja. The sign is the reading that makes
    *  the present half-cycle (from Kali 3600 = 499 CE) positive, as Parameśvara's observed 15° in Kali 4536 implies. */
-  function ayanamshaSS(S) {
+  /** SS 3.9-3.10 at civil spandas S: 600 librations a yuga, three-tenths of the bhuja (±27°). phaseDeg and
+   *  amplitudeDeltaDeg (both 0 = the text) move the libration's phase and its greatest value (27° + δ): the paramparā's
+   *  three determinations (Āryabhaṭa's zero in Kali 3600, Nīlakaṇṭha's 14°26′, Parameśvara's 15°) are applied this way by
+   *  ss-tier.js through the saṃskāra record; nothing else changes. */
+  function ayanamshaSS(S, phaseDeg = 0, amplitudeDeltaDeg = 0) {
     const f = revFraction(AYANA_LIBRATIONS, 1n, big(S), false);
-    const theta = toDeg(f);
+    const theta = toDeg(f) + (Number.isFinite(phaseDeg) ? phaseDeg : 0);
     const b = bhuja(theta);
-    return -b.sign * 0.3 * b.bhuja;
+    const amp = 27 + (Number.isFinite(amplitudeDeltaDeg) ? amplitudeDeltaDeg : 0);   // 27°/90° = three-tenths
+    return -b.sign * (amp / 90) * b.bhuja;
   }
 
   return Object.freeze({ SPD, YUGA_DAYS, REV, JYA, PARIDHI, MOON_MAX_LATITUDE_ARCMIN, R, spandasOfDays, madhyama, jyaOfArcmin, arcminOfJya, bhuja, jya, mandaPhala, sphuta, sphutaAtDays, ayanamshaSS,

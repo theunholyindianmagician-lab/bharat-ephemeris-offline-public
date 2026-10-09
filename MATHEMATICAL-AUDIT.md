@@ -1,3 +1,13 @@
+# Current audit addendum — 9 October 2026
+
+The sections below retain an earlier audit and are historical, not a current selector specification. The current contract has three models: `ss+parameshvara` (default), `ss`, and modern `drik` (1850–2150). See README for dependencies and limits.
+
+At PR #5 head `2de0c80`, all 57 registered suites passed; the separately executed three-choice UI suite passed 23 checks. A further contact-accessor probe nevertheless found absent inner solar contacts being returned as the middle time. The correction returns null for absent contacts, validates contact names, and uses vimarda and the correct signed side for inner contacts. A regression pins the partial-eclipse case and a non-eclipse case. The previously unregistered three-choice browser suite is now in the main runner (58 suites).
+
+Outstanding mathematical limits include held chapter-5 parallax in corrected solar eclipses, approximate corrected-model perceptibility intervals, limited historical fit identifiability, and modern-series/reference dependence. Passing tests must not be promoted to perfect observational accuracy or global novelty.
+
+---
+
 # Mathematical Synthesis Audit
 
 ## Verdict

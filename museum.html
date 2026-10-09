@@ -790,6 +790,7 @@ body.dial-open .hud {
     <a href="library.html" id="nav-library">LIBRARY</a>
     <a href="panchang.html" id="nav-panchang">PANCHANG</a>
     <a href="siddhanta-panchanga.html" id="nav-siddhanta">सिद्धान्त-पञ्चाङ्ग</a>
+    <a href="ganita-shala.html" id="nav-ganita">गणित-शाला</a>
     <a href="shunyabheda.html" id="nav-engine">ENGINE</a>
     <a href="shoonya_sovereign_dashboard.html" id="nav-dashboard">DASHBOARD</a>
     <a href="vedha.html" id="nav-vedha">VEDHA</a>
@@ -1107,6 +1108,7 @@ body.dial-open .hud {
 <script src="dasha.js"></script>
 <script src="muhurta.js"></script>
 <script src="utsava.js"></script>
+<script src="parahita-madhyama.js"></script>
 <script src="parampara.js"></script>
 <script src="ss-tier.js"></script>
 <script src="parampara-record.js"></script>
@@ -2591,7 +2593,7 @@ function drikTulanaHTML(){
   if(drikCache.key!==null&&Math.abs(T-drikCache.T)<1e-6)return drikCache.html;
   if(drikCache.key!==null&&now-drikCache.wall<400)return drikCache.html;
   const exhibit=Object.fromEntries(DRIK_KEYMAP.map(([mk,dk])=>[dk,mk==='rahu'?rahuMean(T):mk==='ketu'?norm(rahuMean(T)+180):grahaLongAt(mk,T,'sphuta')]));
-  const lines=['ss+parameshvara','drik'].map(id=>{
+  const lines=['ss+parameshvara','kerala','drik'].map(id=>{
     const T_=SMx.TIERS[id];let rows;
     try{rows=SMx.tierGrahaRows(jd,id);}
     catch(e){if(e&&e.code==='TIER_OUT_OF_SPAN')return `<span style="color:#8FD8E8">${T_.labelSa}</span>: <span style="color:rgba(220,230,234,.56)">इस क्षण अस्वीकृत — ${T_.span.years[0]}.0–${T_.span.years[1]}.0 के बाहर (कोई विदेशी सिद्धान्त नहीं भरा जाता)</span>`;throw e;}

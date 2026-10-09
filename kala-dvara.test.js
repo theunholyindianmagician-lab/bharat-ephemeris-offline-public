@@ -305,7 +305,7 @@ test('[JM] Parameśvara\'s four epoch values are inside their rāśi and in the 
 // ── the frame, as a gate ────────────────────────────────────────────────────────────────────────
 test('[FRAME] the sovereign files and corpus name no modern ephemeris, no ΔT table, no IERS product, and import only each other', () => {
   const FORBIDDEN = /\b(?:DE4\d\d|VSOP\d*|ELP\d*|Swiss|swisseph|Gaia|IERS|DrikTier)\b|finals\.all|DeltaT|astronomy-engine/;
-  const ROOTS = ['katapayadi.js', 'kala-dvara.js', 'parahita-madhyama.js', 'dhruva.js', 'sphuta.js', 'radau.js', 'parampara.js'];   // import nothing at all
+  const ROOTS = ['katapayadi.js', 'kala-dvara.js', 'parahita-madhyama.js', 'dhruva.js', 'sphuta.js', 'radau.js', 'parampara.js', 'sukshma-kala.js'];   // import nothing at all
   const LAYERS = ['panchanga.js', 'dasha.js', 'muhurta.js', 'utsava.js', 'gurutva.js', 'gurutva-candra.js', 'spanda-ganita.js', 'ss-udaya.js', 'ss-graha.js', 'ss-chaya.js', 'ss-grahana.js', 'ss-drishya.js', 'ss-ahargana.js', 'ss-parilekha.js', 'candravakya.js', 'vedha-lekha.js', 'samskara.js', 'yantra.js'];       // import only the sovereign files
   for (const f of [...ROOTS, ...LAYERS, 'corpus/jyotirmimamsa/eclipses.json', 'corpus/jyotirmimamsa/readings.json', 'scripts/parampara-samskara.cjs', 'corpus/surya-siddhanta/yogatara.json', 'corpus/surya-siddhanta/numbers.json',
     'corpus/gurutva/candra.json', 'scripts/derive-gurutva.cjs', 'corpus/parampara/registry.json', 'corpus/parampara/graha.json', 'corpus/sources/time-units.json', 'corpus/vedha/README.md', 'corpus/vedha/LEDGER.md', 'vedha.html', 'vedha-page.js',
@@ -332,7 +332,7 @@ test('the trigonometry left in the sovereign files is pinned, and no module reac
   const files = fs.readdirSync(__dirname).filter((f) => /\.js$/.test(f) && !/\.test\.js$/.test(f));
   const sovereign = ['katapayadi.js', 'kala-dvara.js', 'parahita-madhyama.js', 'dhruva.js', 'sphuta.js', 'radau.js', 'panchanga.js', 'dasha.js', 'muhurta.js', 'utsava.js',
     'gurutva.js', 'gurutva-candra.js', 'spanda-ganita.js', 'ss-udaya.js', 'ss-graha.js', 'ss-chaya.js', 'ss-grahana.js', 'ss-drishya.js', 'ss-ahargana.js', 'ss-parilekha.js',
-    'candravakya.js', 'vedha-lekha.js', 'samskara.js', 'yantra.js', 'parampara.js'].filter((f) => files.includes(f));
+    'candravakya.js', 'vedha-lekha.js', 'samskara.js', 'yantra.js', 'parampara.js', 'sukshma-kala.js'].filter((f) => files.includes(f));
   for (const f of sovereign) {
     const text = fs.readFileSync(path.join(__dirname, f), 'utf8');
     const n = (text.match(/Math\.(?:sin|cos|tan|asin|acos|atan2|atan)\b/g) || []).length;

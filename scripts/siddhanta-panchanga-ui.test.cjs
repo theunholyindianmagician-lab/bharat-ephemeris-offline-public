@@ -395,7 +395,7 @@ const TIERS = M.TIERS;
       assert.equal(await r.count(), 1, `#${id}: refused`);
       const t = await r.textContent();
       assert.match(t, /1850\.0–2150\.0/); assert.match(t, /refused/);
-      assert.equal(await r.locator('[data-use-tier]').count(), 2, `#${id}: the two text choices offered`);
+      assert.equal(await r.locator('[data-use-tier]').count(), M.TIER_IDS.filter((t) => TIERS[t].family === 'ss').length, `#${id}: the text choices offered`);
     }
     await eclipsesDone(page);
     assert.equal(await page.locator('#ecl .refusal[data-refused="drik"]').count(), 1, '#ecl: refused');
@@ -439,7 +439,7 @@ const TIERS = M.TIERS;
       await bad.page.goto(base + '/siddhanta-panchanga.html?tier=bogus');
       await ready(bad.page);
       assert.equal(await bad.page.evaluate(() => document.body.dataset.tier), 'ss+parameshvara');
-      assert.match(await text(bad.page, '#msg'), /not one of the three/);
+      assert.match(await text(bad.page, '#msg'), /not one of the choices/);
       assert.equal(await bad.page.evaluate(() => JSON.parse(localStorage.getItem('bharat-ephemeris-yantra-state-v1') || '{}').tier || ''), '', 'the bad choice is not stored');
       await bad.context.close();
     }

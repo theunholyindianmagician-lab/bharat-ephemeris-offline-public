@@ -333,12 +333,16 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
   // 1800-01-01 00:00 UT, a literal (no date call at load): = gregorianToJulianDay("1800-01-01") = KalaDvara day + 588465.5.
   const BIJA_ANCHOR_JD = 2378496.5;
 
-  /* ═══════════ THE TIERS (owner, 2026-10-08) ═══════════
-     Three choices on every page, one code path each:
+  /* ═══════════ THE TIERS (owner, 2026-10-08; the fourth 2026-10-09) ═══════════
+     Four choices on every page, one code path each:
        'ss+parameshvara' (the page default): the Sūrya-Siddhānta with Parameśvara's saṃskāra — ss-tier.js with
           { samskara: 'parameshvara' }: the text's model, the mean places the paramparā record names (today the Moon and
-          the node) moved by the record's arcminutes (corpus/parampara/samskara.json through parampara.js).
+          the node) moved by the record's arcminutes, and the ayanāṃśa's zero moved to his own determination (15° complete
+          in Kali 4536) as a phase of the text's libration (corpus/parampara/samskara.json through parampara.js).
        'ss': the plain Sūrya-Siddhānta, exactly the text — ss-tier.js with { samskara: null }.
+       'kerala': the Kerala paramparā (Parahita + Dṛggaṇita) — ss-tier.js with { samskara: 'kerala' }: the mean Sun, Moon,
+          apogee and node of parahita-madhyama.js (Āryabhaṭa's integers, the Śakābda-saṃskāra, Parameśvara's fractions),
+          Āryabhaṭa's Sun apogee, the text's epicycles on them, Nīlakaṇṭha's linear ayanāṃśa; the planets the text's.
        'drik': Modern Bhāratīya (dṛk) — siddhanta-tier.js only (the series fitted to the owner's N-body, its reduction, the
           embedded Earth orientation, the owner's Citrā-pakṣa and lagna code), served 1850.0–2150.0 by the series' own rule
           and refused outside (owner decision DK-1). No VSOP87/ELP/Astronomy-Engine call is on its path; those stay in
@@ -349,12 +353,13 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
      ss-tier.js and kala-dvara.js (node: require; browser: window.SSTier, window.KalaDvara), the first dṛk call
      siddhanta-tier.js. */
   const DEFAULT_TIER = "ss+parameshvara";
-  const TIER_IDS = Object.freeze(["ss+parameshvara", "ss", "drik"]);
+  const TIER_IDS = Object.freeze(["ss+parameshvara", "ss", "kerala", "drik"]);
   const TIER_ALIASES = Object.freeze({
     "ss+parameshvara": "ss+parameshvara", "ss parameshvara": "ss+parameshvara", "ss-parameshvara": "ss+parameshvara",
-    ss: "ss", classical: "ss", drik: "drik", modern: "drik", "bharatiya-drik": "drik",
+    ss: "ss", classical: "ss", kerala: "kerala", "kerala-parampara": "kerala", parahita: "kerala", drgganita: "kerala", "parahita+drgganita": "kerala",
+    drik: "drik", modern: "drik", "bharatiya-drik": "drik",
   });
-  const RETIRED_CALIBRATED = "the 'calibrated' hybrid mode was retired 2026-10-08 (owner decision: three tiers, one code path each); use 'ss+parameshvara', 'ss' or 'drik'";
+  const RETIRED_CALIBRATED = "the 'calibrated' hybrid mode was retired 2026-10-08 (owner decision: one code path per tier); use 'ss+parameshvara', 'ss', 'kerala' or 'drik'";
   const TEXT_TIER_COMMON = Object.freeze({
     time: "civil days from midnight at Laṅkā (SS 1.45-1.47): t = jd − 588465.5 + 75.7885/360; no clock correction",
     obliquity: "the arc of 1397 on R = 3438 (SS 2.28)",
@@ -372,11 +377,11 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     "ss+parameshvara": Object.freeze({
       id: "ss+parameshvara", family: "ss", samskara: "parameshvara", default: true,
       label: "Sūrya-Siddhānta + Parameśvara's saṃskāra", labelSa: "सूर्य-सिद्धान्त + परमेश्वर-संस्कार",
-      engine: "the Sūrya-Siddhānta's own model (sphuta.js, ss-graha.js) with Parameśvara's saṃskāra: the mean places the paramparā record names moved by its arcminutes, at the text's own rates",
-      ayanamsha: Object.freeze({ name: "SS 3.9-3.10", source: "Sūrya-Siddhānta 3.9-3.10: 600 librations a yuga, three-tenths of the bhuja (sphuta.js ayanamshaSS)" }),
+      engine: "the Sūrya-Siddhānta's own model (sphuta.js, ss-graha.js) with Parameśvara's saṃskāra: the mean places the paramparā record names moved by its arcminutes, at the text's own rates; the ayanāṃśa's zero at his own determination",
+      ayanamsha: Object.freeze({ name: "SS 3.9-3.10 on the paramparā's three determinations", source: "Sūrya-Siddhānta 3.9-3.10 (600 librations a yuga, three-tenths of the bhuja; sphuta.js ayanamshaSS) with its phase and its greatest value fitted by least squares to Āryabhaṭa's zero in Kali 3600 (registry ABH-no-ayanacalana-3600), Nīlakaṇṭha's 14°26′ at Kali day 1,643,524 (NIL-ayanamsha-rate) and Parameśvara's 15° complete in Kali 4536 (PAR-ayanamsha-4536, 'parīkṣya nirṇītam'); the two parameters and the residuals are in corpus/parampara/samskara.json" }),
       ...TEXT_TIER_COMMON,
       eclipses: "SS 4-5 on the saṃskāra model (samskara.js lunarEclipse and solarEclipseOnModel, built from what the record corrects; the ch.5 parallax held at the text's value), at the site. magnitude = grāsa = the covered part ÷ the eclipsed disc at the middle (SS 4.11; the text has no penumbra). Seen at the site: lunar — the Moon above the text's horizon at the middle; solar — SS 6.13's three minutes with the Sun above the text's horizon between sparśa and mokṣa.",
-      provenance: "the saṃskāra is read from corpus/parampara/samskara.json (generated by scripts/parampara-samskara.cjs from Parameśvara's recorded eclipses, Siddhāntadīpikā vv.69-85 as quoted in the Jyotirmīmāṃsā) through parampara.js; it corrects only what the record names",
+      provenance: "the saṃskāra is read from corpus/parampara/samskara.json (generated by scripts/parampara-samskara.cjs from Parameśvara's recorded eclipses, Siddhāntadīpikā vv.69-85 as quoted in the Jyotirmīmāṃsā, and his ayanāṃśa determination, Jyotirmīmāṃsā §17) through parampara.js; it corrects only what the record names",
     }),
     ss: Object.freeze({
       id: "ss", family: "ss", samskara: null, default: false,
@@ -386,6 +391,16 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
       ...TEXT_TIER_COMMON,
       eclipses: "SS 4-5 (ss-grahana.js): the text's discs, shadow, contacts and chapter-5 parallax, at the site. magnitude = grāsa = the covered part ÷ the eclipsed disc at the middle (SS 4.11; the text has no penumbra). Seen at the site: lunar — the Moon above the text's horizon at the middle; solar — SS 6.13's three minutes with the Sun above the text's horizon in the perceptible part.",
       provenance: "the text's own numbers; no observation and no modern ephemeris enters",
+    }),
+    kerala: Object.freeze({
+      id: "kerala", family: "ss", samskara: "kerala", default: false,
+      label: "Kerala paramparā (Parahita + Dṛggaṇita)", labelSa: "केरल-परम्परा (परहित + दृग्गणित)",
+      engine: "the Kerala line of the same geocentric model (ss-tier.js, samskara 'kerala'): the mean Sun, Moon, apogee and node of the Parahita karaṇa — Āryabhaṭa's integers over 1,577,917,500 civil days with Haridatta's Śakābda-saṃskāra — carried to Parameśvara's Dṛggaṇita by his fractions 4/5, 1 and 11/12 (parahita-madhyama.js, exact), counted from sunrise at Laṅkā as Āryabhaṭa's day is; Āryabhaṭa's Sun apogee 78° (Gītikā 9); the text's epicycles (SS 2.34-2.38) on those means [reading: no local edition attests Āryabhaṭa's]; the five star-planets are the text's (their Parahita integers are in the registry, PH-yugabhoga; their epicycles are not)",
+      ayanamsha: Object.freeze({ name: "Kerala linear, through the three determinations", source: "a line by least squares through Āryabhaṭa's zero in Kali 3600 (registry ABH-no-ayanacalana-3600), Nīlakaṇṭha's 14°26′ at Kali day 1,643,524 (NIL-ayanamsha-rate) and Parameśvara's 15° complete in Kali 4536 (PAR-ayanamsha-4536) [reading]; Nīlakaṇṭha's stated rule of 0.9′ a year is kept as a cross-check" }),
+      ...TEXT_TIER_COMMON,
+      samvatsara: "SS 1.55 from the text's mean Jupiter at the instant, reading A (remainder 0 = Vijaya) [reading]; the Parahita Jupiter is not built",
+      eclipses: "SS 4-5 on the Kerala places (samskara.js lunarEclipse and solarEclipseOnModel on the model that carries the Parahita + Dṛggaṇita means and the Kerala ayanāṃśa; the ch.5 parallax held at the text's value), at the site. magnitude = grāsa = the covered part ÷ the eclipsed disc at the middle (SS 4.11; the text has no penumbra). Seen at the site: lunar — the Moon above the text's horizon at the middle; solar — SS 6.13's three minutes with the Sun above the text's horizon between sparśa and mokṣa.",
+      provenance: "Āryabhaṭīya Gītikā 3 and 9 (the local edition), the Grahacāranibandhana's Śakābda rule and Parameśvara's fractions and epoch (Jyotirmīmāṃsā; corpus/parampara/registry.json), read through parampara.js and parahita-madhyama.js; Parameśvara's epoch places (Kali day 1,651,700) are reproduced to the minute; it corrects the Sun, the Moon, its apogee, the node and the ayanāṃśa; no observation of ours and no modern ephemeris enters",
     }),
     drik: Object.freeze({
       id: "drik", family: "drik", samskara: null, default: false,
@@ -407,17 +422,18 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
       dashaYear: Object.freeze({ days: 365.25636, source: "sidereal year 365.25636 d [unverified convention]" }),
       ahargana: "civil days since midnight at Laṅkā at the Kali epoch (SS 1.45-1.47), shown in every tier",
       span: Object.freeze({ years: Object.freeze([1850, 2150]), yearRule: "2000 + (jdTT − 2451545)/365.25 (the series' own rule)",
-        basis: "the certified span of the series", accuracyMeasured: "λ ≤ 0.9″ against NASA-JPL DE440s (checked every 20 days); this is not independence from JPL" }),
+        basis: "the certified span of the series", accuracyMeasured: "λ ≤ 0.9″ against NASA-JPL DE440s (checked every 20 days); this is not independence from JPL",
+        lagnaMeasured: "the lagna within 2″ of the same formula on an independent sidereal time and obliquity at 500 instants (drik-bharatiya.test.js [lagna])" }),
       fallback: null,
       provenance: "Ours 1850.0–2150.0, refused outside (owner decision DK-1). The N-body behind the series is restarted from NASA-JPL DE440s states every 720 days, so agreement with DE440 (≤ 0.9″, checked every 20 days) is not independence from JPL. ΔT after 2027 is a prediction. Eclipses: our own search on the series (DK-3).",
     }),
   });
-  /** A tier id or alias → 'ss+parameshvara' | 'ss' | 'drik'. 'calibrated' and anything else throw RangeError. */
+  /** A tier id or alias → 'ss+parameshvara' | 'ss' | 'kerala' | 'drik'. 'calibrated' and anything else throw RangeError. */
   function resolveTier(x) {
     const k = typeof x === "string" ? x.trim().toLowerCase() : x;
     if (k === "calibrated") throw new RangeError(RETIRED_CALIBRATED);
     if (typeof k === "string" && Object.prototype.hasOwnProperty.call(TIER_ALIASES, k)) return TIER_ALIASES[k];
-    throw new RangeError(`Unknown engine mode '${x}': the tiers are 'ss+parameshvara', 'ss' and 'drik' ('classical' = 'ss')`);
+    throw new RangeError(`Unknown engine mode '${x}': the tiers are 'ss+parameshvara', 'ss', 'kerala' and 'drik' ('classical' = 'ss')`);
   }
   const tierFamily = (tier) => TIERS[resolveTier(tier)].family;
   const samskaraOfTier = (tier) => TIERS[resolveTier(tier)].samskara;
@@ -762,9 +778,9 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     requireFinite(jd, "Julian day");
     const id = resolveTier(tier);
     if (TIERS[id].family === "ss") {
-      const S = ssTier();
-      return { deg: S.ayanamshaDeg(jd), name: TIERS[id].ayanamsha.name, source: TIERS[id].ayanamsha.source, rateArcsecPerYear: S.ayanamshaRateArcsecPerYear(jd),
-        rateRule: "±54″ a year of the text: 600 librations a yuga × 360° ÷ 4,320,000 years × 0.3 [theorem], signed by the libration's direction", tier: id };
+      const S = ssTier(), o = { samskara: TIERS[id].samskara };
+      return { deg: S.ayanamshaDeg(jd, o), name: TIERS[id].ayanamsha.name, source: TIERS[id].ayanamsha.source, rateArcsecPerYear: S.ayanamshaRateArcsecPerYear(jd, o),
+        rateRule: S.ayanamshaRule(o), tier: id };
     }
     const SD = drikGuard(jd, "the ayanāṃśa");
     const a = drikCall(sdFn("ayanamsha")(jd), jd, "the ayanāṃśa");
@@ -850,7 +866,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
   /** A bridge (lagna, bhāva, sunrise, …) takes a tier, never a named ayanāṃśa. */
   function bridgeTier(x, fallback = "ss") {
     if (x === undefined || x === null) return resolveTier(fallback);
-    if (typeof x === "string" && NAMED_AYANAMSHAS.includes(x)) throw new RangeError(`bridges take a tier: ss+parameshvara, ss or drik (not the named ayanāṃśa '${x}')`);
+    if (typeof x === "string" && NAMED_AYANAMSHAS.includes(x)) throw new RangeError(`bridges take a tier: ss+parameshvara, ss, kerala or drik (not the named ayanāṃśa '${x}')`);
     return resolveTier(x);
   }
 
@@ -1034,7 +1050,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     requireFinite(jd, "Julian day");
     checkSite(latitudeDeg, longitudeEastDeg);
     const tier = bridgeTier(frame);
-    if (TIERS[tier].family === "ss") return ssTier().lagna(jd, { latitude: latitudeDeg, longitude: longitudeEastDeg }).longitude;
+    if (TIERS[tier].family === "ss") return ssTier().lagna(jd, { latitude: latitudeDeg, longitude: longitudeEastDeg }, { samskara: TIERS[tier].samskara }).longitude;
     drikGuard(jd, "the lagna");
     return mod360(drikCall(sdFn("lagna")(jd, latitudeDeg, longitudeEastDeg), jd, "the lagna").asc);
   }
@@ -1049,7 +1065,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     checkSite(latitudeDeg, longitudeEastDeg);
     const tier = bridgeTier(frame);
     if (TIERS[tier].family === "ss") {
-      const m = ssTier().meridian(jd, { latitude: latitudeDeg, longitude: longitudeEastDeg });
+      const m = ssTier().meridian(jd, { latitude: latitudeDeg, longitude: longitudeEastDeg }, { samskara: TIERS[tier].samskara });
       return { tier, ramcDeg: m.ramcDeg, madhyaLagnaSidereal: m.madhyaLagna.longitude, method: m.method };
     }
     drikGuard(jd, "the madhya-lagna");
@@ -2644,13 +2660,13 @@ function chartPrecision(
     requireFinite(jd, "Julian day");
     checkSite(latitudeDeg, longitudeEastDeg);
     requireTz(timezoneHours);
-    const id = bridgeTier(tier), key = `${TIERS[id].family}|${latitudeDeg}|${longitudeEastDeg}|${timezoneHours}`;
+    const id = bridgeTier(tier), key = `${id}|${latitudeDeg}|${longitudeEastDeg}|${timezoneHours}`;   // per tier: each text tier's Sun and ayanāṃśa make its own sunrise (2026-10-09)
     let d = dayCache.get(key, jd);
     if (!d) {
       if (TIERS[id].family === "ss") {
-        const S = ssTier(), site = { latitude: latitudeDeg, longitude: longitudeEastDeg };
-        const x = S.dayOf(jd, site), K = kalaDvara();
-        const prev = x.polar ? null : S.dayEvents(x.N - 1, site).sunsetJd;
+        const S = ssTier(), site = { latitude: latitudeDeg, longitude: longitudeEastDeg }, o = { samskara: TIERS[id].samskara };
+        const x = S.dayOf(jd, site, o), K = kalaDvara();
+        const prev = x.polar ? null : S.dayEvents(x.N - 1, site, o).sunsetJd;
         d = { N: x.N, civilDate: K.civilFromKaliDay(x.N, "gregorian"), sunriseJd: x.sunriseJd, sunsetJd: x.sunsetJd, nextSunriseJd: x.nextSunriseJd,
           prevSunsetJd: prev, varaIndex: x.vara.index, polar: x.polar, rule: x.rule, nadiDays: S.calendar({ samskara: null }).NADI_DAYS };
         const start = x.polar ? Math.floor(textDaysOfJd(jd) + (longitudeEastDeg - UJJAIN_LONGITUDE_DEG) / 360) : x.sunriseJd;
@@ -2805,8 +2821,8 @@ function chartPrecision(
     const id = bridgeTier(tier);
     let rise, set, noon, rule;
     if (TIERS[id].family === "ss") {
-      const S = ssTier(), site = { latitude: latitudeDeg, longitude: longitudeEastDeg };
-      const N = S.dayOf(jdMidnight + 0.5, site).N, ev = S.dayEvents(N, site);
+      const S = ssTier(), site = { latitude: latitudeDeg, longitude: longitudeEastDeg }, o = { samskara: TIERS[id].samskara };
+      const N = S.dayOf(jdMidnight + 0.5, site, o).N, ev = S.dayEvents(N, site, o);
       rise = ev.sunriseJd; set = ev.sunsetJd; noon = rise !== null && set !== null ? (rise + set) / 2 : jdMidnight + 0.5;
       rule = "the Sun's centre on the horizon, no refraction (SS); noon = the middle of the day (SS 2.60-2.63)";
     } else {
@@ -4237,7 +4253,7 @@ function chartPrecision(
     const gnomonLen = 12.0;
     let altDeg = null, zenithDeg = null, shankuShadowAngula = null, palabha = null, shanku;
     if (T.family === "ss") {
-      const sh = ssTier().shadow(jd, site);
+      const sh = ssTier().shadow(jd, site, { samskara: T.samskara });
       if (sh.error) shanku = { error: sh.error, method: "ss-chaya.js (SS 3.14-3.36)" };
       else {
         const sinAlt = Math.max(-1, Math.min(1, sh.atInstant.shanku / SS.radius));
@@ -5237,7 +5253,7 @@ function chartPrecision(
     let rise, set, transit = null, horizonAltitudeDeg, rule, polar = false;
     if (TIERS[id].family === "ss") {
       const S = ssTier(), site = { latitude: latitudeDeg, longitude: longitudeEastDeg };
-      const N = S.dayOf(jdMidnight + 0.5, site).N, ev = S.moonEvents(N, site, { samskara: TIERS[id].samskara });
+      const o = { samskara: TIERS[id].samskara }, N = S.dayOf(jdMidnight + 0.5, site, o).N, ev = S.moonEvents(N, site, o);
       rise = ev.riseJd; set = ev.setJd; horizonAltitudeDeg = 0; rule = ev.rule + " (the civil day from sunrise)";
     } else {
       const r = drikRiseSet("moon", jdMidnight, latitudeDeg, longitudeEastDeg);

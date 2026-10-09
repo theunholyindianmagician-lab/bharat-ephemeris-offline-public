@@ -20,7 +20,7 @@ const path = require('node:path');
 const { chromium } = require('playwright');
 
 const root = path.resolve(__dirname, '..');
-const TIERS = ['ss+parameshvara', 'ss', 'drik'];
+const TIERS = ['ss+parameshvara', 'ss', 'kerala', 'drik'];
 const PAST_MS = Date.UTC(1700, 5, 15, 6, 30, 0);          // a "now" outside the dṛk span, for the pages that show the present
 
 // Installed before any page script: record (and throw on) every call into a vendored foreign theory.
@@ -115,7 +115,7 @@ async function labelsShown(page, tier, selector = 'details.tier-labels') {
           sun: document.getElementById('engSurya').textContent, wantSun: `${rows[0].longitude.toFixed(4)}°`, tags: [...document.querySelectorAll('[data-tier-tag]')].map((n) => n.dataset.tier),
           labelSa: M.TIERS[tier].labelSa };
       }, tier);
-      assert.equal(r.tier, tier); assert.equal(r.select, tier); assert.equal(r.options, 3);
+      assert.equal(r.tier, tier); assert.equal(r.select, tier); assert.equal(r.options, TIERS.length);
       assert.ok(r.chip.includes(r.labelSa), r.chip);
       assert.equal(r.tithi, r.want, 'index tithi = panchangExtended(…, tier)');
       assert.equal(r.sun, r.wantSun, 'index Sun = tierGrahaRows(…, tier)');
@@ -146,7 +146,7 @@ async function labelsShown(page, tier, selector = 'details.tier-labels') {
       const o = await open('index.html', { query: '?tier=drik', fakeNowMs: PAST_MS });
       const r = await o.page.evaluate(() => ({ refusal: document.getElementById('homeTierRefusal').hidden ? '' : document.getElementById('homeTierRefusal').textContent,
         buttons: [...document.querySelectorAll('#homeTierRefusal button')].map((b) => b.dataset.tier) }));
-      assert.match(r.refusal, /1850\.0–2150\.0/); assert.deepEqual(r.buttons, ['ss+parameshvara', 'ss']);
+      assert.match(r.refusal, /1850\.0–2150\.0/); assert.deepEqual(r.buttons, TIERS.filter((t) => t !== 'drik'));
       await o.page.click('#homeTierRefusal button[data-tier="ss"]');
       await o.page.waitForTimeout(600);
       const after = await o.page.evaluate(() => ({ tier: window.LiveBoard.lastState() && window.LiveBoard.lastState().tier, year: window.LiveBoard.lastState() && window.LiveBoard.lastState().date }));
@@ -209,7 +209,7 @@ async function labelsShown(page, tier, selector = 'details.tier-labels') {
         return { text, refused, after, csv: texts[0], deepCsv: texts[1], deep, beyond };
       });
       assert.notEqual(r.text.tithi, '—'); assert.match(r.text.masa, /चैत्र/);
-      assert.match(r.refused.box, /1850\.0–2150\.0/); assert.equal(r.refused.tithi, '—'); assert.deepEqual(r.refused.buttons, ['ss+parameshvara', 'ss']);
+      assert.match(r.refused.box, /1850\.0–2150\.0/); assert.equal(r.refused.tithi, '—'); assert.deepEqual(r.refused.buttons, TIERS.filter((t) => t !== 'drik'));
       assert.equal(r.after.select, 'ss'); assert.notEqual(r.after.tithi, '—'); assert.equal(r.after.refusalHidden, true); assert.equal(r.after.stored, 'ss');
       const csvRows = r.csv.split('\n').filter((l) => /^"ss"/.test(l));
       assert.equal(csvRows.length, 3); assert.match(r.csv, /^# Bharat Ephemeris · tier ss — Sūrya-Siddhānta/); assert.match(r.csv, /# ayanamsha: SS 3\.9-3\.10/);
@@ -316,7 +316,7 @@ async function labelsShown(page, tier, selector = 'details.tier-labels') {
         toggleDrawer('dDasha'); await sleep(200); jumpTo(TODAY0 - 300 * 365.25); await sleep(200); renderDasha(); renderBhavaChakra(); updateHUD({}, '#fff');
         return { dasha: $('dashaBody').textContent, bhava: $('bhavachakra').textContent, buttons: [...document.querySelectorAll('#dashaBody button')].map((b) => b.dataset.tier) };
       });
-      assert.match(r.dasha, /1850\.0–2150\.0/); assert.match(r.bhava, /1850\.0–2150\.0/); assert.deepEqual(r.buttons, ['ss+parameshvara', 'ss']);
+      assert.match(r.dasha, /1850\.0–2150\.0/); assert.match(r.bhava, /1850\.0–2150\.0/); assert.deepEqual(r.buttons, TIERS.filter((t) => t !== 'drik'));
       await clean(o, 'museum.html [drik refused ~1726]');
       await close(o);
       ok('museum.html: the dṛk choice refuses a sim-instant three centuries back and offers the text tiers');

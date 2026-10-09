@@ -1524,6 +1524,113 @@ Several P0s were found by more than one role (the "cure protocol" PDF by three; 
 - **Cautions.** The breath-hold, fasting, infant and eye-safety wordings are general guidance; a physician should
   review them.
 
+## 23. The three choices (2026-10-08 → 2026-10-09)
+
+The owner's decisions of 2026-10-08, after the ShunyaBheda map (seven ayanāṃśas on one page; two "Sūrya-Siddhānta" engines 2.8° apart in the Moon; rules differing page by page), superseded §18.6's two-tier arrangement. Every page now offers three choices, one code path each; the labels on every block come from `math-core.js` `TIERS`.
+
+| id | name | what it is | span |
+|---|---|---|---|
+| `ss+parameshvara` (default) | सूर्य-सिद्धान्त + परमेश्वर-संस्कार | the text, with Parameśvara's correction from his own eclipse records applied to the Moon and the node (§21; `corpus/parampara/samskara.json`, read by `parampara.js`; no number typed in code) | −50,000 … +50,000 |
+| `ss` | the plain Sūrya-Siddhānta | civil days from Laṅkā midnight (no ΔT), the text's ε (2.28) and ayanāṃśa (3.9-3.10) everywhere, vāra from sunrise, SS 2.67 karaṇas, SS 1.55 saṃvatsara (reading A), amānta month with adhika/kṣaya | −50,000 … +50,000 |
+| `drik` | आधुनिक भारतीय (दृक्) | the series fitted to the owner's N-body (restarted from NASA-JPL DE440s states every 720 days), its reduction and Earth orientation, the precise Citrā-pakṣa ayanāṃśa (true), the owner's eclipse search (`drik-grahana.js`); refused outside its span, no foreign fallback | 1850.0 … 2150.0 |
+
+`ss-tier.js` is the text tiers' adapter (gate-clean: only sovereign requires, no trigonometry); `math-core.js`'s classical path delegates to it and equals the sovereign modules bit for bit at 200 instants over ±50,000 years (`tier-unity.test.js`). The vendored VSOP87B + ELP/MPP02 and Astronomy Engine are referees in tests only and are no longer loaded or precached by any page.
+
+### 23.1 Measured [measured, held by the suites]
+- Dṛk tier: λ ≤ 0.9″ against DE440s (every 20 days, 5,476 epochs; not independent of JPL); 2026 end times within 0.83 s and sunrise within 2.3 s of the referees; eclipses 1900–2100: 457 lunar and 452 solar, one-to-one with Astronomy Engine, peaks within 9 s.
+- 100,000-year calendars (`scripts/calendar-100k.cjs`, Kali −46,897 … 53,099): plain text 99,997 years, 1,236,845 months, 0 failures, adhika − kṣaya = 36,881 against the text's rate 36,881.67; the default tier 38,885 adhika, 2,004 kṣaya.
+- The default tier against the sky in 2026 (every 5 days, tropical frame): Sun −101′ mean; Moon rms 130′ (max 289′); Moon − Sun mean +1′, rms 84′ (max 199′) — so a tithi end differs from the sky's by about 2.7 h rms. Parameśvara's correction moves the mean; the text's Moon has only the manda equation, and that scatter is the text's. The pages say which choice they show; the dṛk choice is one click away.
+
+### 23.2 The paramparā as data (owner, 2026-10-08: observation is never mandatory)
+`corpus/parampara/registry.json` (59 records: 20 observations, 12 determinations, 9 rules, 9 doctrines, 7 owner-statements, 2 instrument operations), each with its Sanskrit line, edition, page and locus; `corpus/sources/time-units.json` (every unit with the text that states its ratio; the engine's chain canonical; pala = 1/60 ghaṭī); `corpus/parampara/graha.json` (the BPHS naming layer). Only Parameśvara's determination is applied today; Lalla's and the Grahacāranibandhana bījas, Govindasvāmin's corrections and Śrīpati's rule are recorded, not applied — they belong to the Āryabhaṭa/Parahita canon (`parahita-madhyama.js`), so their honest use is a labelled Kerala-paramparā choice, an owner decision (§23.4).
+
+### 23.3 Owner audit items adopted (2026-10-08, cross-checked in code)
+A1 finite and physical-domain guards (`dhruva.js`, `panchanga.checkSite`); A2 one ε in the text tier (done by delegation); A3 the north-line and solstice-pair records in the vedha ledger, shown beside the text's values as a preview only.
+
+### 23.4 Left for the owner
+- Seal DRAFT BE-S13 (SANKALP-DRAFTS.md): the three choices supersede BE-S02's default frame.
+- Ujjayinī's meridian: the site uses 75.7885°; TRUTH-AUDIT §3.4 has 75.7683°; Parameśvara quotes Āryabhaṭa's "1/15 of the circle north of Laṅkā" for its latitude (registry UJJAYINI-fifteenth).
+- SS 1.55 saṃvatsara: reading A (remainder 0 = Vijaya) is the default; reading B is one index back.
+- Which Caitra opens a year that ends with an adhika Caitra [unverified convention].
+- A fourth choice from the Kerala paramparā (Parahita + the recorded bījas) — or the bījas offered as labelled saṃskāras.
+- A research page for the owner's own derivations that no page shows today (the gurutva force-law tiers, the N-body anchor mode, the 2PN term, the libration, the Earth orientation from first principles, the candravākyas, the chedyaka drawing), each with its measured figure and status.
+- Editions of the Gītā, the Chāndogya, the Navagraha Stotra and the Purāṇas (none in any repository): allow a source host in the environment's network settings, or upload them; the owner-statement records then become [text].
+
+## 24. The fourth choice, Parameśvara's ayanāṃśa, and the 101′ (2026-10-09, later)
+
+### 24.1 What the owner asked
+
+"Put in the fourth, Kerala-paramparā choice too, and a research page with every derivation on it; against the sky in 2026 we were within a minute and within arcseconds — when did it become 101 minutes? Find the mistakes and fix them all. Whatever got this much corrected by applying only Parameśvara: apply the rest too, each where it applies, see what improves and improve it all; leave nothing wrong." The owner also sealed BE-S14 ("never deny evolution of knowledge") the same morning.
+
+### 24.2 Measured: the paramparā's records applied one by one
+
+`scripts/parampara-apply.cjs` applies each applicable record of `corpus/parampara/registry.json` as a model of `samskara.js` or `parahita-madhyama.js` (no number typed in the script) and scores it against the dṛk tier (`siddhanta-tier.js`, λ ≤ 0.9″ vs DE440s) in the tropical frame — each candidate with its own ayanāṃśa — over 2026 (every 5 days) and 1900–2100 (every 97 days). Candidate minus sky, arcminutes, mean · rms · max [measured]; the data is `corpus/research/parampara-apply.json`.
+
+| candidate (2026) | Sun | Moon | Moon − Sun | ayanāṃśa − Citrā-pakṣa |
+|---|---|---|---|---|
+| `ss` the plain text | −100.6 · 101.3 · 117.8 | −91.4 · 123.9 · 279.5 | +9.2 · 84.0 · 189.5 | −79.3 |
+| `par` + the record's Moon and node | −100.6 · 101.3 · 117.8 | −99.8 · 130.3 · 288.5 | **+0.8** · 83.7 · 198.6 | −79.3 |
+| `par+ayanPhase` + his ayanāṃśa as a phase (**the default now**) | **−43.0** · 44.6 · 60.2 | −42.2 · 93.9 · 230.9 | +0.8 · 83.7 · 198.6 | −21.7 |
+| `par+ayanAmp` the same record read as an amplitude (not adopted) | −6.6 · 13.6 · 23.8 | −5.8 · 84.1 · 194.5 | +0.8 · 83.7 · 198.6 | +14.7 |
+| `par+keralaLin` + Nīlakaṇṭha's linear rule instead | −44.2 · 45.8 · 61.4 | −43.4 · 94.4 · 232.2 | +0.8 · 83.7 · 198.6 | −22.9 |
+| `par+keralaLin+sunEpoch` + his epoch Sun as a shift (not adopted) | −38.3 · 40.1 · 55.6 | −43.4 · 94.4 · 232.2 | −5.1 · 83.9 · 204.3 | −22.9 |
+| `kerala` Parahita + Dṛggaṇita means, the text's epicycles (**the fourth choice**) | −36.0 · 37.9 · 53.3 | −51.9 · 94.3 · 218.0 | −15.9 · **80.2** · 192.4 | −22.9 |
+| `kerala+vakyaMoon` the same with candravakya.js's Moon | −36.0 · 37.9 · 53.3 | −51.9 · 95.2 · 219.9 | −15.9 · 81.2 · 194.3 | −22.9 |
+
+1900–2100: `ss` Sun −98.4 · 99.2 · 123.6; `par+ayanPhase` Sun −40.8 · 42.7 · 66.0, ayanāṃśa −23.2 · 23.5 · 29.7; `par+ayanAmp` Sun −6.1 · 13.2 · 25.3, ayanāṃśa +11.5 · 13.6 · 23.8; `kerala` Sun −34.0 · 36.2 · 58.7, Moon −48.7 · 94.9 · 243.1, Moon − Sun −14.8 · 82.4 · 204.3.
+
+Two mistakes of the measurement itself were found and fixed on the way: `parahita-madhyama.js` counts its Kali day from **sunrise** at Laṅkā (Āryabhaṭa's day), a quarter day after the text's midnight — read at midnight, the Parahita Moon missed Parameśvara's epoch by 3.29° (= 13.18°/day ÷ 4); read at sunrise it reproduces his four epoch places to 0.16–0.43′ [measured, tier-unity.test.js (13)]. And the `{ num, den }` arcseconds of `parahitaArcsec` must be reduced as a rational, not as `Number(num)/Number(den)` (which is exact only by luck).
+
+### 24.3 What was adopted, and what was not
+
+**Corrected the same afternoon (owner: "adopt every improvement; the evolution of knowledge is our primary motive").** The phase reading below was superseded. The paramparā has *three* determinations of the ayanāṃśa, not two: Āryabhaṭa's statement that it was zero in Kali 3600 (registry `ABH-no-ayanacalana-3600`), Nīlakaṇṭha's 14°26′ at Kali day 1,643,524 and Parameśvara's 15° in Kali 4536. Fitting the text's libration on both its parameters — its phase and its greatest value (27° + δ) — to the three by least squares (`scripts/parampara-samskara.cjs ayanamshaDetermination()`, a grid refined three times) gives **phase 0.001°, δ = +1.8613°** (greatest value 28.8613°, rate 57.72″ a year), residuals **0.0′, −0.5′, +0.5′** [measured]. The phase-only reading meets the two Kerala figures but breaks Āryabhaṭa's zero by 57.6′; the amplitude-only reading is within a minute of the joint fit. So the reading I had refused in the morning as "unattested" is the one the three texts jointly determine: Āryabhaṭa's zero stands and the swing is wider, which is exactly what his zero and Nīlakaṇṭha's figure imply between them (14.43° in 899.6 years = 57.8″ a year). The default tier now carries both parameters (`sphuta.js ayanamshaSS(spandas, phaseDeg, amplitudeDeltaDeg)`); the Kerala tier's linear rule is now the line through the same three records (0.9620′ a year, its zero at Kali 3600.0, residuals 0.0, −0.5, +0.5′), with Nīlakaṇṭha's stated 0.9′ kept as a cross-check. Effect in 2026: the default's ayanāṃśa 24.492° against Citrā-pakṣa's 24.233° (+15.5′; the morning's phase reading: −21.7′); the tropical Sun from −100.6′ (the text) to about −7′ mean (table: `par+ayan3`). What the records cannot settle — whether the libration's turn (now at 28.86°, about 2235 CE) is real — stays with the owner (24.7).
+
+*The morning's account, kept as written:*
+
+- **The default tier now carries Parameśvara's ayanāṃśa.** His determination — "पञ्चदशभागाः पूर्णा इति परीक्ष्य निर्णीतम्", 15° complete in Kali 4536 (registry `PAR-ayanamsha-4536`) — is applied as a change of the **phase** of the text's libration (SS 3.9-3.10): +57.6′ in his year, 3.2° of the libration angle (64 years: one turn of 600 a yuga is 7,200 years, so 1° is 20 years — the morning's text said 12, a unit slip the other session's audit caught). One record cannot tell a phase from an amplitude change [theorem]; Nīlakaṇṭha states the rate as 0.9′ a year, the text's own 54″ (`NIL-ayanamsha-rate`), so the amplitude stands and the zero moves [reading]. Cross-check: his 14°26′ at Kali day 1,643,524 is met within **+1.3′** (the text alone: −56.3′) [measured]. It is not fitted with the eclipses (they see the elongation and the argument of latitude, both sidereal): `scripts/parampara-samskara.cjs ayanamshaDetermination()` writes it into `samskara.json` (`ayanamsha`, `corrects: ["moon","node","ayanamsha"]`), `parampara.js` validates it, `ss-tier.js` applies it through `sphuta.js ayanamshaSS(spandas, phaseDeg)`. Effect in 2026: the tropical Sun from −100.6′ to −43.0′; the sidereal places, the tithi and the nakṣatra unchanged; sunrise, the lagna and the shadow move with the sāyana Sun (sunrise by under three minutes [measured]).
+- **The amplitude reading was not adopted** (morning) although it lands nearer the sky in 2026 (−6.6′): "no text states a 28.85° amplitude or a 57.7″ rate" — wrong, see the correction above: three texts determine it jointly.
+- **Parameśvara's epoch Sun is not a correction to the text**: read at sunrise, "Meṣa 0°15′" is Āryabhaṭa's mean Sun (0.243° there) to 0.4′ — a difference of canons (+5.9′ in 1421 between the two mean Suns), not an observation of the Sun. Applied as a shift it worsens the elongation (−5.1′). Not adopted.
+- **The vākya Moon** (`candravakya.js`, canon `parahita`, the 31.5 epicycle [unverified]) differs from the text's epicycle on the same means by less than the scatter; the Kerala tier keeps the text's attested epicycles.
+- **Nothing recorded touches the text's year or the Moon's one-term equation**: the Sun's −21′ sidereal (2026 mean) and the elongation's 84′ rms are the text's own; see 24.4.
+
+### 24.4 Where the 101′ came from
+
+The arcsecond figure belongs to the dṛk choice alone (λ ≤ 0.9″ against DE440s, 1850–2150, its label). The "one minute" is the elongation of the default choice, +0.8′ mean in 2026 after Parameśvara's Moon and node — the quantity his eclipses fix. The 101′ is the **text's tropical Sun**, and it decomposes exactly as sidereal + ayanāṃśa [theorem]:
+
+- −79.3′ (2026) is the **ayanāṃśa**: the text's libration has its zero at Kali 3600 (499 CE, Āryabhaṭa's statement `ABH-no-ayanacalana-3600`) and moves at 54″ a year [text]; the Citrā-pakṣa convention has its zero near 285 CE and moves at the real 50.29″ [standard]. *(morning's reading, superseded — see 24.3)* Parameśvara's record moves the zero 64 years earlier and removes 57.6′ of it; the remaining −21.7′ is the rate. *(afternoon)* With the three determinations fitted, the zero stays Āryabhaṭa's and the rate is 57.7″; the ayanāṃśa then stands +15.5′ from Citrā-pakṣa in 2026 (its rate exceeds the real 50.3″ by 7.4″ a year, so the sign of the residual turns over the centuries: −0.1′ in 1900, +25′ in 2100 [measured, parampara-apply.json]).
+- −21.3′ (2026 mean) is the **Sun's sidereal place**: the text's year is 365.258756 civil days (SS 1.37 with 14.10), the sky's 365.25636, so the mean Sun falls behind the stars by 0.1415′ a year [theorem from the two numbers] — 85′ since Parameśvara's epoch. No recorded rule corrects the Sun's year; the Kerala year (Āryabhaṭa's integers, 365.258681 d) differs from the text's by 6.5 s, and its mean Sun stands at −13′ sidereal in 2026 [measured].
+- The **Moon's** scatter (84′ rms in the elongation, 2.75 h rms in a tithi's end) is the text's single manda equation; the tradition's second lunar inequality (Muñjāla, the Kerala dvitīya-sphuṭa) is in no local edition, so it is not built.
+
+The research page (`ganita-shala.html`, section 2) computes this decomposition live for any instant, from the engine's own labels and rates.
+
+### 24.5 The fourth choice: केरल-परम्परा (परहित + दृग्गणित)
+
+`ss-tier.js` `{ samskara: 'kerala' }`, `math-core.js` `TIERS.kerala` (`TIER_IDS = ['ss+parameshvara', 'ss', 'kerala', 'drik']`; aliases `kerala`, `kerala-parampara`, `parahita`, `drgganita`):
+
+- **Mean places**: the Sun, Moon, apogee and node of `parahita-madhyama.js` — Āryabhaṭa's integers over 1,577,917,500 civil days (Gītikā 3, the local edition), Haridatta's Śakābda-saṃskāra from Śaka 444, Parameśvara's fractions 4/5, 1, 11/12 — counted from sunrise at Laṅkā [reading: registry `PAR-epoch-1651700`; measured: his epoch reproduced to 0.43′]. Āryabhaṭa's Sun apogee 78° (`ABH-apsides-G9`) [text].
+- **Equations**: the text's epicycles (SS 2.34-2.38) on those means [reading: no local edition attests Āryabhaṭa's]. The five star-planets, mean Jupiter (the saṃvatsara) and every rule are the text's, labelled (the Parahita planets' integers are in the registry, `PH-yugabhoga`; their epicycles are not).
+- **Ayanāṃśa**: the line through the paramparā's three determinations (Āryabhaṭa's zero in Kali 3600, Nīlakaṇṭha's 14°26′, Parameśvara's 15°) by least squares, 0.9620′ a year [reading], residuals 0.0, −0.5, +0.5′ [measured]; Nīlakaṇṭha's stated 0.9′ a year is kept as a cross-check (as stated it misses Āryabhaṭa's zero by 56′). Whether the Kerala tradition's ayanāṃśa librates is for the owner (24.7).
+- **One code path**: the tier's calendar is `Panchanga.withPlaces(places, name, ayanamshaFn)` — `panchanga.js build()` now takes the tier's ayanāṃśa — so sunrise, the day, the lagna, the meridian, the shadow, the muhūrtas, moonrise and the months follow the tier. `dayOf`, `dayEvents`, `lagna`, `meridian` and `shadow` in `ss-tier.js`, and `tierDay`'s cache key in `math-core.js`, are now per tier (they assumed the Sun was the text's in every text tier).
+- **Eclipses**: `samskara.js model()` takes `opts.ayanamsha`; the Kerala model is the text's canon moved at Parameśvara's epoch by the difference of the canons' mean places and per yuga by the difference of their rates (`sunApogee.rev` added for the text's moving apogee against Āryabhaṭa's fixed one); it equals the exact places to 3.6 × 10⁻⁶° over ±50,000 years [measured, tier-unity.test.js (13)].
+- **The 100,000-year calendar**: `scripts/calendar-100k.cjs --tier kerala` → `corpus/calendar/manifest-100k-kerala.json` (99,997 years, 0 failures, 872 s on 4 workers). Measured per tier (deep-time.test.js): the first year opens −50001-12-18 (the text's tiers −50001-12-20), the last 50000-05-26 (−05-24); 2026-27 has an adhika Jyeṣṭha in all three; 2028-29 ends with Phālguna in the Kerala calendar and with an adhika Caitra in the text's.
+
+### 24.6 What changed on the pages
+
+Every page offers the four choices (they are read from `M.TIER_IDS`); the legacy pages load `parahita-madhyama.js` before `ss-tier.js`; the sovereign pañcāṅga describes the fourth choice; `museum.html`'s Δ instrument compares three tiers; the service worker is v27. **The research page** `ganita-shala.html` (strict CSP, its own script `ganita-shala-page.js`): the four choices against the sky at any instant (re-computed to 0.1′ in `scripts/ganita-shala-ui.test.cjs`), the 101′ decomposition live, the paramparā table from `corpus/research/parampara-apply.json`, and the derivations ledger `corpus/research/derivations.json` — each entry with the text it starts from and the assertion its test makes, copied, not retyped.
+
+### 24.8 सूक्ष्म-काल: the resolution the vargas demand (the owner's point of the afternoon)
+
+The owner: the micro-charts of Bhṛgu and Parāśara — D-60, D-144, D-150 — presuppose readings of time at a micro level; that requirement had not been stated, so the engine's accuracy "was not complete"; the time loop is several loops, ℤ/27 (nakṣatra) and ℤ/9 (graha), and their links make the accuracy. Measured at Ujjain on 2026-10-09 (`sukshma-kala.js`, the research page §5): one ṣaṣṭyāṃśa (30′) is 90–137 s of clock for the lagna (its rate 0.22–0.33°/min through the day), 54 min for the Moon, 12.2 h for the Sun; one D-150 part (12′) is 36–55 s, 22 min, 4.9 h. Against that, the default text choice's Moon stands 94′ rms from the sky (3.1 ṣaṣṭyāṃśas, 7.8 nāḍyaṃśas), the ayanāṃśa choice alone moves every placement by 22–79′, and the Vimśottarī balance moves 2.7–9.1 days per 1′ of the Moon (Sūrya … Śukra). The dṛk choice (0.9″, lagna 2″) decides every placement off an edge today.
+
+`sukshma-kala.js` (sovereign, no import, micro-arcsecond BigInt): the sixteen vargas of BPHS ch.6 as the local edition states them (and D-144, D-150 as [standard]), each index and margin exact, `assess` under a declared uncertainty, `resolution` in time for given rates, and the lattice ℤ/27 × ℤ/4 ≅ ℤ/108 ≅ 12 × 9 with the theorem that one pāda is one navāṃśa (3°20′ exactly: 12,000,000,000 µas), the 27 → 9 lord projection equal to dasha.js's, and the daśā days per minute of arc. `sukshma-kala.test.js` checks every rule against `computeVarga` on 6,000 longitudes and the exact boundaries. The rules were audited against the local edition's own "गणित / तकनीक" lines (a reader on a small model, 2026-10-09): thirteen agree verbatim; D-16's dual-sign start is a text variant in the edition ("usually Dhanu"), D-24's even signs are stated only as a reversed deity sequence with no sign output, D-27's sign offsets by element are not in the edition at all (it prints the arc as 1°1′20″, a slip for 1°6′40″), and for D-60 verse 6.40 takes the sixty *names* of even signs in reverse while the part's sign is counted forward in every text: those four carry a note in `SukshmaKala.VARGAS` and the first three are tagged [standard] rather than [text]. What it does not do: no division adds a measurement; it states what each choice can decide. The śāstras' micro-vargas presuppose a Moon and a lagna known to their parts; the sky choice meets that within its span, a text choice within its own model only — and the frame (the ayanāṃśa) is the first thing to settle for any micro-placement.
+
+### 24.7 Left for the owner
+
+- Seal DRAFT BE-S13 as revised (four choices; the default's ayanāṃśa zero from `PAR-ayanamsha-4536`).
+- Whether the Kerala ayanāṃśa should librate (the text's model with the Kerala zero) or stay linear as Nīlakaṇṭha words it.
+- The Parahita planets: an edition attesting Āryabhaṭa's epicycles would let the Kerala tier carry its own five planets; until then they are the text's, labelled.
+- The Moon's second inequality: not in any local edition; the owner's observing season (`vedha.html`) is the only way to measure it here.
+
 ## Appendix A. The three designs and the three judges
 
 | Design | Fidelity lens | Honesty lens | Reachability lens | Sum |

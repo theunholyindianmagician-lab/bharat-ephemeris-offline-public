@@ -1,7 +1,7 @@
 /* page-live.js — (1) LegacyTier: the one tier helper every legacy page uses (index, panchang, museum, library, the
  * dashboard); (2) the live strip on pages that ask for it (<body data-page-live="strip">: library, the dashboard).
  *
- * THE TIERS (owner, 2026-10-08). Every page offers three choices, one code path each, through math-core's tier API:
+ * THE TIERS (owner, 2026-10-08; the fourth 2026-10-09). Every page offers the choices of M.TIER_IDS, one code path each, through math-core's tier API:
  *   'ss+parameshvara' (the page default) · 'ss' (the plain Sūrya-Siddhānta) · 'drik' (Modern Bhāratīya: the owner's own
  *   series, 1850.0–2150.0, refused outside). The choice is the shared yantraState key 'tier' ('' = the page default),
  *   so a choice made on one page holds on every page. Every label shown here is read from M.TIERS — never re-typed —

@@ -408,7 +408,7 @@ function yuti(places, N, star, ms) {
       await p.goto(base + '/vedha.html?tier=bogus');
       await p.waitForFunction(() => document.body.dataset.ready === '1', null, { timeout: 120000 });
       assert.equal(await p.inputValue('#moon-tier input:checked'), 'ss+parameshvara', 'a bad link shows the default');
-      assert.match(await p.locator('#moon-tier-note').textContent(), /not one of the three/);
+      assert.match(await p.locator('#moon-tier-note').textContent(), /not one of the choices/);
       assert.equal(await p.evaluate(() => JSON.parse(localStorage.getItem('bharat-ephemeris-yantra-state-v1') || '{}').tier || ''), '', 'the bad choice is not stored');
       const over = () => p.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       for (const id of ['ss+parameshvara', 'ss', 'drik']) {

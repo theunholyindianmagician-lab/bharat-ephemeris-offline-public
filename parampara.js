@@ -233,6 +233,10 @@
     else for (const p of ["moon.epoch", "node.epoch"]) if (!s.fits[0].params || !s.fits[0].params[p] || s.fits[0].params[p].status !== "fitted") errors.push(`samskara: ${p} not fitted`);
     if (!s.offered || !isStr(s.offered.label)) errors.push("samskara: no label");
     if (!Number.isInteger(s.epochKali)) errors.push("samskara: no epoch");
+    if (s.offered && Array.isArray(s.offered.corrects) && s.offered.corrects.includes("ayanamsha")) {
+      for (const k of ["phaseDeg", "amplitudeDeg"]) if (!s.ayanamsha || typeof s.ayanamsha[k] !== "number" || !Number.isFinite(s.ayanamsha[k])) errors.push(`samskara: corrects the ayanāṃśa but gives no ${k}`);
+      if (!s.ayanamsha || !Array.isArray(s.ayanamsha.records) || !s.ayanamsha.records.length || !s.ayanamsha.records.every((r) => isStr(r.id))) errors.push("samskara: the ayanāṃśa names no registry records");
+    }
     return errors;
   }
 
@@ -243,9 +247,12 @@
     const used = [...new Set(main.used.map(recordOfRow))];
     const known = new Set(reg.records.map((r) => r.id));
     for (const id of used) if (!known.has(id)) throw new RangeError(`parampara: the saṃskāra used ${id}, which the registry does not name`);
+    if (s.ayanamsha) for (const r of s.ayanamsha.records || []) if (!known.has(r.id)) throw new RangeError(`parampara: the saṃskāra's ayanāṃśa cites ${r.id}, which the registry does not name`);
     return deepFreeze({
       epochKali: s.epochKali, julian: s.julian, vara: s.vara,
       moonArcmin: mo.delta, nodeArcmin: no.delta, sigma: { moon: mo.sigma, node: no.sigma },
+      ayanamsha: s.ayanamsha || null, ayanamshaPhaseDeg: s.ayanamsha && Number.isFinite(s.ayanamsha.phaseDeg) ? s.ayanamsha.phaseDeg : null,
+      ayanamshaAmplitudeDeg: s.ayanamsha && Number.isFinite(s.ayanamsha.amplitudeDeg) ? s.ayanamsha.amplitudeDeg : null,
       padas: main.man_padas, records: used, rows: main.rows, setAside: main.rejected.map((r) => ({ id: r.id, sigma: r.normalized })),
       chi2PerDof: main.chi2PerDof, tag: s.tag,
       label: s.offered.label, labelSa: s.offered.labelSa, caption: s.offered.caption,

@@ -9,8 +9,8 @@ const path = require('node:path');
 const { chromium } = require('playwright');
 
 const root = path.resolve(__dirname, '..');
-const STRICT = ['vedha.html', 'siddhanta-panchanga.html'];
-const PAGES = ['index.html', 'panchang.html', 'siddhanta-panchanga.html', 'museum.html', 'library.html', 'shunyabheda.html', 'shoonya_sovereign_dashboard.html', 'vedha.html',
+const STRICT = ['vedha.html', 'siddhanta-panchanga.html', 'ganita-shala.html'];
+const PAGES = ['index.html', 'panchang.html', 'siddhanta-panchanga.html', 'museum.html', 'library.html', 'shunyabheda.html', 'shoonya_sovereign_dashboard.html', 'vedha.html', 'ganita-shala.html',
   ...fs.readdirSync(path.join(__dirname, '..', 'editions')).filter((f) => f.endsWith('.html')).sort().map((f) => `editions/${f}`)];
 (async () => {
   for (const p of PAGES) {

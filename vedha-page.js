@@ -95,7 +95,7 @@
   const tierTitle = (id) => `${TIERS[id].labelSa} · ${TIERS[id].label}`;
   let moonTier, linkNote = "";
   try { moonTier = MC.pageTier(shared.get().tier); }
-  catch (e) { moonTier = MC.pageTier(""); linkNote = `The link asked for the computation “${String(shared.get().tier)}”, which is not one of the three; the default is used and nothing was stored.`; }
+  catch (e) { moonTier = MC.pageTier(""); linkNote = `The link asked for the computation “${String(shared.get().tier)}”, which is not one of the choices; the default is used and nothing was stored.`; }
   /** The paramparā record for the default choice (corpus/parampara/*.json, read once from this page's own origin). */
   const record = { state: "loading", error: null };
   async function loadRecord() {

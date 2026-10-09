@@ -390,10 +390,10 @@
       "source": "JM", "locus": "JM p.44 (§17), for the worked eclipse",
       "quote": [{ "sa": "ततः दशांशोनतदन्तराब्दकलाः चतुस्त्रिंशत्संख्याः शोध्याः । शिष्टं 'तन्त्रं वेद्यम्' (१४° २६' ) इति कलादिकमयनचलनम् ।", "from": "etext:jm/mulam.md:1378" }],
       "numerals": [{ "word": "तन्त्रं वेद्यम्", "form": "katapayadi", "value": 1426, "read": "14°26′" }],
-      "value": { "ayanamshaAtTheEclipse": "14°26′", "subtractedArcmin": 34, "rate": "the intervening years less a tenth, as minutes: 0.9′ a year" },
+      "value": { "ayanamshaAtTheEclipse": "14°26′", "subtractedArcmin": 34, "rate": "the intervening years less a tenth, as minutes: 0.9′ a year", "rateArcminPerYear": 0.9 },
       "assumptions": [{ "text": "'years less a tenth, as minutes' = 0.9′ a year (the literal 'a tenth of the years' would be 0.1′); the same as the SS 3.9 rate", "tag": "[reading]" }],
       "sigma": null,
-      "status": "cross-check", "why": "15° − 34′ = 14°26′ (the text's numbers). At 0.9′ a year the 34′ is 37.8 years; the worked eclipse, Kali day 1,643,524, is 4499.62 Kali years elapsed (4499 whole), 36.38 years (37 whole) before Kali 4536, which give 32.7′ (33.3′): the text's 34′ is about a minute more than its own rate gives for that date [theorem]", "tags": ["[text]", "[paramparā]"], "sha256": "3a67c91d07d8980cbcf0b204c668a990fc9d7410a75d5855af85f8b847c937e8"
+      "status": "cross-check", "why": "15° − 34′ = 14°26′ (the text's numbers). At 0.9′ a year the 34′ is 37.8 years; the worked eclipse, Kali day 1,643,524, is 4499.62 Kali years elapsed (4499 whole), 36.38 years (37 whole) before Kali 4536, which give 32.7′ (33.3′): the text's 34′ is about a minute more than its own rate gives for that date [theorem]", "tags": ["[text]", "[paramparā]"], "sha256": "606129652b40dab4c4c85d7f6b02efd303a52c5fbc272cef34716aab087bea79"
     },
     {
       "id": "PH-vagbhavona", "class": "rule", "observer": "Haridatta's Parahita school",

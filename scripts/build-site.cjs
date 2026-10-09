@@ -19,9 +19,9 @@ const path = require('node:path');
 
 const ROOT = path.join(__dirname, '..');
 const PAGES = ['index.html', 'panchang.html', 'siddhanta-panchanga.html', 'museum.html', 'library.html', 'shunyabheda.html',
-  'shoonya_sovereign_dashboard.html', 'vedha.html'];
+  'shoonya_sovereign_dashboard.html', 'vedha.html', 'ganita-shala.html'];
 const DIRS = ['editions', 'downloads', 'og'];
-const EXTRA = ['sw.js', 'manifest.webmanifest', 'icon.svg', 'LICENSE', 'vsop87-full-LICENSE.txt', 'elp-moon-LICENSE.txt'];
+const EXTRA = ['sw.js', 'manifest.webmanifest', 'icon.svg', 'LICENSE'];   // the VSOP87/ELP notices left with the code: referees in tests only, not served (2026-10-09)
 const DENY = [/^\./, /(^|\/)\.git(\/|$)/, /^AI_Archive/, /^gtm\//, /^node_modules\//, /^scripts\//, /^test-fixtures\//, /^\.claude\//,
   /\.py$/, /\.patch$/, /\.zip$/, /\.test\.(?:js|cjs|mjs)$/, /\.(?:cpp|sh|command)$/, /^[^/]+\.md$/, /\.pdf$/, /(^|\/)serve\.py$/];
 

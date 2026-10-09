@@ -109,7 +109,7 @@
   let tier = TIER_IDS[0];
   let linkNote = "";
   try { tier = MC.pageTier(shared.get().tier); }
-  catch (e) { tier = MC.pageTier(""); linkNote = `The link asked for the computation “${String(shared.get().tier)}”, which is not one of the three; the default is shown and nothing was stored. `; }
+  catch (e) { tier = MC.pageTier(""); linkNote = `The link asked for the computation “${String(shared.get().tier)}”, which is not one of the choices; the default is shown and nothing was stored. `; }
   const tierTitle = (id) => `${TIERS[id].labelSa} · ${TIERS[id].label}`;
 
   // ── the place and the clock ───────────────────────────────────────────────────────────────────────

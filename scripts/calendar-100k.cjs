@@ -61,6 +61,7 @@ const kaliDay = (year, month, day) => K.kaliDayFromCivil({ calendar: 'gregorian'
 
 // ── the tiers ──────────────────────────────────────────────────────────────────────────────────────────────
 const PARAMESHVARA = SST.correction('parameshvara');               // the paramparā record, through parampara.js (never typed here)
+const KERALA = SST.correction('kerala');                           // the Kerala paramparā: parahita-madhyama.js and the registry, through ss-tier.js
 /** The calendars this generator builds, by tier id. `calendar` is the panchanga.js instance whose places make the new
  *  moons and saṅkrāntis (for the default, ss-tier.js's: Panchanga.withPlaces on the saṃskāra places; for "ss", panchanga.js
  *  itself); `manifest` is the tier's manifest file in corpus/calendar/; `modules` are the files, beyond MODULES, whose
@@ -80,11 +81,19 @@ const TIERS = Object.freeze({
     role: "the text tier's secondary, labelled choice (owner decision 2026-10-08); the default is the Sūrya-Siddhānta with Parameśvara's saṃskāra",
     samskara: null, modules: Object.freeze([]),
   }),
+  kerala: Object.freeze({
+    id: 'kerala', calendar: SST.calendar({ samskara: 'kerala' }), manifest: 'manifest-100k-kerala.json',
+    label: KERALA.label, labelSa: KERALA.labelSa,
+    role: "the text tier's third choice, the Kerala paramparā (owner, 2026-10-09)",
+    samskara: Object.freeze({ corrects: KERALA.corrects, epochKali: KERALA.epochKali, julian: KERALA.julian, rule: KERALA.rule,
+      record: 'parahita-madhyama.js and corpus/parampara/registry.json (' + KERALA.records.join(', ') + '), through ss-tier.js' }),
+    modules: Object.freeze(['ss-tier.js', 'parahita-madhyama.js', 'parampara.js', 'corpus/parampara/registry.json']),
+  }),
 });
 const DEFAULT_TIER = 'ss+parameshvara';
-const TIER_ALIASES = Object.freeze({ classical: 'ss', 'ss parameshvara': 'ss+parameshvara', 'ss-parameshvara': 'ss+parameshvara' });
-const NOT_GENERATED = "The generator builds the two text tiers: 'ss+parameshvara' (the default: the Sūrya-Siddhānta with Parameśvara's saṃskāra) and 'ss' " +
-  "(the plain Sūrya-Siddhānta). 'Modern Bhāratīya (dṛk)' ('drik') is not generated: it refuses outside 1850-2150. 'calibrated' was retired on 2026-10-08.";
+const TIER_ALIASES = Object.freeze({ classical: 'ss', 'ss parameshvara': 'ss+parameshvara', 'ss-parameshvara': 'ss+parameshvara', 'kerala-parampara': 'kerala', parahita: 'kerala', drgganita: 'kerala' });
+const NOT_GENERATED = "The generator builds the three text tiers: 'ss+parameshvara' (the default: the Sūrya-Siddhānta with Parameśvara's saṃskāra), 'ss' " +
+  "(the plain Sūrya-Siddhānta) and 'kerala' (the Kerala paramparā: Parahita + Dṛggaṇita). 'Modern Bhāratīya (dṛk)' ('drik') is not generated: it refuses outside 1850-2150. 'calibrated' was retired on 2026-10-08.";
 /** What a tier's manifest says about itself, beside its label. */
 const TIER_NOTE = Object.freeze({
   'ss+parameshvara': "Built for the text tier's primary default (owner decision 2026-10-08): the Sūrya-Siddhānta's model with Parameśvara's " +
@@ -95,6 +104,10 @@ const TIER_NOTE = Object.freeze({
     "2026-10-08) is the Sūrya-Siddhānta with Parameśvara's saṃskāra, which corrects only the Moon and the node; since the Moon " +
     "makes the new moons that bound every month, that calendar differs from this one [reasoning]. Its 100,000-year calendar has " +
     "its own manifest, manifest-100k-ss-parameshvara.json; this file stays the plain text's.",
+  kerala: "Built for the Kerala paramparā choice (owner, 2026-10-09): the mean Sun, Moon, apogee and node of the Parahita karaṇa with " +
+    "Parameśvara's fractions (parahita-madhyama.js, counted from sunrise at Laṅkā), Āryabhaṭa's Sun apogee, the text's equations on them. " +
+    "Its Sun differs from the text's, so the saṅkrāntis move, and its Moon, so the new moons; mean Jupiter (the saṃvatsara), the planets and " +
+    "every rule are the text's. The other calendars: manifest-100k-ss-parameshvara.json (the default) and manifest-100k.json (the plain text).",
 });
 /** The tier record for an id (or alias); no id → the default tier ('ss+parameshvara'). Refuses an unknown tier. */
 function tierOf(id) {

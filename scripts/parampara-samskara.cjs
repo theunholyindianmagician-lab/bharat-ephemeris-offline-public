@@ -26,6 +26,7 @@ const path = require('node:path');
 const ROOT = path.join(__dirname, '..');
 const SK = require(path.join(ROOT, 'samskara.js')), V = require(path.join(ROOT, 'vedha-lekha.js')), GH = require(path.join(ROOT, 'ss-grahana.js'));
 const K = require(path.join(ROOT, 'kala-dvara.js'));
+const S = require(path.join(ROOT, 'sphuta.js'));
 const FILES = {
   registry: path.join(ROOT, 'corpus', 'parampara', 'registry.json'),
   samskara: path.join(ROOT, 'corpus', 'parampara', 'samskara.json'),
@@ -168,15 +169,70 @@ function inputDigests() {
   return { readings: V.sha256(fs.readFileSync(FILES.readings, 'utf8')), eclipses: V.sha256(fs.readFileSync(FILES.eclipses, 'utf8')),
     registryRows: V.sha256(V.canonical({ rows, site: REG.sites.ashvatthagrama })) };
 }
+/** The ayanāṃśa from the paramparā's THREE determinations (2026-10-09, revised the same day): Āryabhaṭa's zero in Kali 3600
+ *  (registry ABH-no-ayanacalana-3600), Nīlakaṇṭha's 14°26′ at Kali day 1,643,524 (NIL-ayanamsha-rate) and Parameśvara's 15°
+ *  complete in Kali 4536 ("परीक्ष्य निर्णीतम्", PAR-ayanamsha-4536). The text's libration (SS 3.9-3.10) has two parameters here,
+ *  its phase and its greatest value (27° + δ): both are fitted to the three records by least squares (sphuta.js
+ *  ayanamshaSS(spandas, phaseDeg, amplitudeDeltaDeg)). One record cannot tell a phase from an amplitude change [theorem];
+ *  three can: the fit keeps Āryabhaṭa's zero and widens the swing, so the rate grows from 54″ to about 57.7″ a year, which is
+ *  what Āryabhaṭa's zero and Nīlakaṇṭha's figure already imply between them. The single-record readings (phase only,
+ *  amplitude only) are kept beside it. Not part of the eclipse fit: the eclipses see the elongation and the argument of
+ *  latitude, both sidereal, never the ayanāṃśa. */
+function ayanamshaDetermination() {
+  const rec = (id) => { const r = REG.records.find((x) => x.id === id); if (!r) throw new RangeError(`registry: ${id} is needed for the ayanāṃśa`); return r; };
+  const abh = rec('ABH-no-ayanacalana-3600'), nil = rec('NIL-ayanamsha-rate'), par = rec('PAR-ayanamsha-4536');
+  const yearDays = Number(S.YUGA_DAYS) / 4320000;                              // the text's year (SS 1.37), civil days
+  const r4 = (x) => Math.round(x * 1e4) / 1e4, r1 = (x) => Math.round(x * 10) / 10, r2 = (x) => Math.round(x * 100) / 100;
+  const m = /^(\d+)°(\d+)′$/.exec(nil.value.ayanamshaAtTheEclipse), nilDeg = Number(m[1]) + Number(m[2]) / 60;
+  const records = [
+    { id: abh.id, who: 'Āryabhaṭa', kaliDay: r4(abh.era.kaliYear * yearDays), deg: abh.value.ayanamshaAtKali3600, stated: `${abh.value.ayanamshaAtKali3600}° in Kali ${abh.era.kaliYear} (${abh.era.ad} CE)`,
+      instant: "the start of Kali year 3600 elapsed, by the text's year [reading]", quote: abh.quote && abh.quote[0] ? abh.quote[0].sa : '' },
+    { id: nil.id, who: 'Nīlakaṇṭha', kaliDay: nil.era.kaliDay, deg: r4(nilDeg), stated: `${nil.value.ayanamshaAtTheEclipse} at Kali day ${nil.era.kaliDay} (${nil.era.julian} Julian)`, instant: 'the worked eclipse', quote: nil.quote[0].sa },
+    { id: par.id, who: 'Parameśvara', kaliDay: r4(par.value.kaliYearsElapsed * yearDays), deg: par.value.ayanamshaDegrees, stated: `${par.value.ayanamshaDegrees}° complete in Kali ${par.value.kaliYearsElapsed} (${par.era.ad} CE)`,
+      instant: "the start of the year after 4536 elapsed, by the text's year [reading]; 'pūrṇāḥ' may make 15° a lower bound", quote: par.quote[1].sa },
+  ];
+  const at = (p, a, t) => SK.model({ 'ayanamsha.phase': p, 'ayanamsha.amplitude': a }, { epoch: EPOCH }).ayanamsha(t);
+  const resid = (p, a) => records.map((r) => (at(p, a, r.kaliDay) - r.deg) * 60);
+  const ss = (p, a) => resid(p, a).reduce((x, y) => x + y * y, 0);
+  // least squares on the two parameters: a coarse grid, then three refinements (deterministic; the model is piecewise linear in both)
+  let best = { p: 0, a: 0, ss: ss(0, 0) };
+  for (let p = -6; p <= 6.0001; p += 0.05) for (let a = -3; a <= 4.0001; a += 0.02) { const v = ss(p, a); if (v < best.ss) best = { p, a, ss: v }; }
+  for (const step of [0.005, 0.0005, 0.00005]) {
+    let b = best;
+    for (let p = best.p - 12 * step; p <= best.p + 12 * step + 1e-12; p += step) for (let a = best.a - 12 * step; a <= best.a + 12 * step + 1e-12; a += step) { const v = ss(p, a); if (v < b.ss) b = { p, a, ss: v }; }
+    best = b;
+  }
+  const phaseDeg = r4(best.p), amplitudeDeg = r4(best.a), residuals = resid(phaseDeg, amplitudeDeg).map(r1);
+  const bisect = (f, lo, hi) => { for (let i = 0; i < 60; i++) { const mid = (lo + hi) / 2; if (f(mid) < 0) lo = mid; else hi = mid; } return (lo + hi) / 2; };
+  const tPar = records[2].kaliDay, phaseOnly = r4(bisect((p) => at(p, 0, tPar) - par.value.ayanamshaDegrees, -45, 45)), ampOnly = r4(bisect((a) => at(0, a, tPar) - par.value.ayanamshaDegrees, -20, 20));
+  const textRate = 600 * 360 / 4320000 * 0.3 * 3600;                           // 54″ a year [theorem]
+  return {
+    records: records.map((r, i) => ({ ...r, textDeg: r4(at(0, 0, r.kaliDay)), textResidualArcmin: r1((at(0, 0, r.kaliDay) - r.deg) * 60), modelDeg: r4(at(phaseDeg, amplitudeDeg, r.kaliDay)), residualArcmin: residuals[i] })),
+    phaseDeg, amplitudeDeg, amplitudeTotalDeg: r4(27 + amplitudeDeg), rateArcsecPerYear: r2(textRate * (27 + amplitudeDeg) / 27),
+    unit: "phaseDeg in degrees of the libration angle (SS 3.9: 600 turns a yuga, so one turn is 7,200 years and one degree is 20 years); amplitudeDeg added to the text's 27°; applied as sphuta.js ayanamshaSS(spandas, phaseDeg, amplitudeDeg)",
+    method: 'least squares of the three records on the two parameters (a grid of 0.05° × 0.02° refined three times to 0.00005°), the residuals in arcminutes',
+    reading: "three determinations fix both parameters: Āryabhaṭa's zero in Kali 3600 stands (the phase stays at zero) and the libration's greatest value grows, so its rate grows with it; a single record could not tell the two apart [theorem], and the phase reading alone would break Āryabhaṭa's zero by about an hour of arc",
+    alternatives: {
+      phaseOnly: { phaseDeg: phaseOnly, residualsArcmin: resid(phaseOnly, 0).map(r1), note: "Parameśvara's record as a phase alone (the default of the morning of 2026-10-09): breaks Āryabhaṭa's zero" },
+      amplitudeOnly: { amplitudeDeg: ampOnly, residualsArcmin: resid(0, ampOnly).map(r1), note: "Parameśvara's record as an amplitude alone: within a minute of the joint fit" },
+    },
+    statedRate: { record: nil.id, rateArcminPerYear: nil.value.rateArcminPerYear, rate: nil.value.rate, fittedArcminPerYear: r4(textRate * (27 + amplitudeDeg) / 27 / 60),
+      note: "Nīlakaṇṭha's rule 'the years less a tenth, as minutes' (0.9′ a year) is the text's 54″; his own figure against Āryabhaṭa's zero implies the fitted rate [theorem]" },
+    notFitted: 'not part of the eclipse fit: the eclipses see the elongation and the argument of latitude, both sidereal, never the ayanāṃśa',
+    tag: '[paramparā]',
+  };
+}
 /** The whole generated record: corpus/parampara/samskara.json. */
 function result() {
-  const fits = SENSITIVITY.map((m) => fit(m)), main = fits[0], loo = leaveOneOut(MAN, main);
+  const fits = SENSITIVITY.map((m) => fit(m)), main = fits[0], loo = leaveOneOut(MAN, main), ay = ayanamshaDetermination();
   const mo = main.params['moon.epoch'], no = main.params['node.epoch'];
   const caption = `The text's own model, with the Moon's and the node's mean places moved by ${mo.delta} ± ${mo.sigma}′ and ${no.delta} ± ${no.sigma}′ ` +
     `at Kali day ${EPOCH} (${julianOf(EPOCH)} Julian) and carried at the text's own rates; fitted by this engine to Parameśvara's recorded eclipses ` +
     `(Siddhāntadīpikā vv.69-85, quoted in the Jyotirmīmāṃsā pp.33-34), a man's height taken as ${MAN} of his own padas [unverified], the Sun held. ` +
     `Held out one eclipse at a time, the mean error of the timed contacts goes from ${loo.meanTextGhati} to ${loo.meanCorrectedGhati} ghaṭikā. ` +
-    'Only the Moon and the node are moved; every other number is the text\'s. The default of the text tier; the plain Sūrya-Siddhānta is one labelled choice away.';
+    `The ayanāṃśa is the text's libration fitted to the paramparā's three determinations (Āryabhaṭa's zero in Kali 3600, Nīlakaṇṭha's 14°26′, Parameśvara's 15°): ` +
+    `phase ${ay.phaseDeg}°, greatest value ${ay.amplitudeTotalDeg}° (the text's 27°), ${ay.rateArcsecPerYear}″ a year; residuals ${ay.records.map((r) => `${r.who} ${r.residualArcmin}′`).join(', ')}. ` +
+    'Only the Moon, the node and the ayanāṃśa are moved; every other number is the text\'s. The default of the text tier; the plain Sūrya-Siddhānta is one labelled choice away.';
   const improved = loo.meanCorrectedGhati < loo.meanTextGhati;
   return {
     format: 'parampara-samskara/1',
@@ -185,10 +241,11 @@ function result() {
     epochKali: EPOCH, julian: julianOf(EPOCH), vara: K.varaOfKaliDay(EPOCH).name,
     site: { registry: 'sites.ashvatthagrama', palabha: SITE_IN.palabha, deshantaraVinadi: VILLAGE.deshantara.vinadi, deshantaraDegrees: SITE_IN.deshantara },
     params: PARAMS, held: { 'sun.epoch': 'shadows fix it; six contacts cannot separate a common shift of Sun, Moon and node', rates: 'one epoch: no rate is identifiable', 'moonApogee.epoch': 'unseen by these records' },
-    fits, leaveOneOut: loo,
-    offered: { label: LABEL, labelSa: LABEL_SA, caption, corrects: ['moon', 'node'], offered: improved, default: improved,
+    fits, leaveOneOut: loo, ayanamsha: ay,
+    offered: { label: LABEL, labelSa: LABEL_SA, caption, corrects: ['moon', 'node', 'ayanamsha'], offered: improved, default: improved,
       rule: "owner, 2026-10-08 (decision a): Parameśvara's saṃskāra is the primary default of the text tier; the plain Sūrya-Siddhānta is the " +
-        'secondary labelled choice, exactly the text; the saṃskāra corrects only the Moon and the node. It is the default only while its ' +
+        "secondary labelled choice, exactly the text; the saṃskāra corrects only the Moon, the node and the ayanāṃśa (owner, 2026-10-09: " +
+        "apply what the paramparā recorded where it applies, and adopt every improvement the records support). It is the default only while its " +
         'leave-one-out test improves on the plain text (offered and default are both that test).',
       choices: [
         { id: 'ss+parameshvara', label: LABEL, labelSa: LABEL_SA, default: improved },
@@ -291,5 +348,5 @@ if (require.main === module) {
     if (f.textNone.length) console.log('  not rows: ' + f.textNone.map((z) => `${z.id} ${z.contact} (${z.why})`).join('; '));
   }
 }
-module.exports = { observations, fit, leaveOneOut, residualTable, registryRows, result, resultText, inputDigests, recordDigest, stamp, etextQuotes, etextLines, loadParampara,
+module.exports = { observations, fit, leaveOneOut, residualTable, registryRows, result, resultText, ayanamshaDetermination, inputDigests, recordDigest, stamp, etextQuotes, etextLines, loadParampara,
   site, EPOCH, MAN, LABEL, LABEL_SA, PLAIN_LABEL, PLAIN_LABEL_SA, FILES };

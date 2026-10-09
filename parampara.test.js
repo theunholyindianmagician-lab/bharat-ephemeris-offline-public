@@ -380,8 +380,18 @@ test('[paramparā] samskaraParameshvara: the fit re-run reproduces samskara.json
   assert.equal(s.labelSa, 'सूर्य-सिद्धान्त + परमेश्वर-संस्कार');
   assert.equal(s.default, true); assert.equal(s.offered, true);
   assert.deepEqual(s.choices.map((c) => [c.id, c.label, c.default]), [['ss+parameshvara', "Sūrya-Siddhānta + Parameśvara's saṃskāra", true], ['ss', 'Sūrya-Siddhānta', false]]);
-  assert.deepEqual(s.corrects, ['moon', 'node']);
+  assert.deepEqual(s.corrects, ['moon', 'node', 'ayanamsha']);
   assert.deepEqual(fresh.params, ['moon.epoch', 'node.epoch']);
+  // 2026-10-09 (owner: apply what the paramparā recorded where it applies, adopt every improvement the records support): the
+  // text's libration fitted to the three determinations — Āryabhaṭa's zero (Kali 3600), Nīlakaṇṭha's 14°26′ (Kali day 1,643,524),
+  // Parameśvara's 15° (Kali 4536) — on its phase and its greatest value; not fitted with the eclipses. Pinned: phase 0.001°,
+  // +1.8613° on the 27°, 57.72″ a year; residuals 0, −0.5, +0.5′; the phase-only reading of the morning breaks Āryabhaṭa's zero by 57.6′
+  assert.equal(s.ayanamshaPhaseDeg, 0.001); assert.equal(s.ayanamshaAmplitudeDeg, 1.8613); assert.equal(s.ayanamsha.amplitudeTotalDeg, 28.8613); assert.equal(s.ayanamsha.rateArcsecPerYear, 57.72);
+  assert.deepEqual(s.ayanamsha.records.map((r) => [r.id, r.who, r.residualArcmin, r.textResidualArcmin]),
+    [['ABH-no-ayanacalana-3600', 'Āryabhaṭa', 0, 0], ['NIL-ayanamsha-rate', 'Nīlakaṇṭha', -0.5, -56.3], ['PAR-ayanamsha-4536', 'Parameśvara', 0.5, -57.6]]);
+  assert.equal(s.ayanamsha.alternatives.phaseOnly.phaseDeg, 3.2); assert.deepEqual(s.ayanamsha.alternatives.phaseOnly.residualsArcmin, [57.6, 1.3, 0]);
+  assert.deepEqual(s.ayanamsha.alternatives.amplitudeOnly.residualsArcmin, [0, -1, 0]);
+  assert.match(s.caption, /three determinations/);
   assert.match(s.caption, /-8\.37 ± 1\.04′ and -73\.54 ± 6\.72′ at Kali day 1652000 \(1422-01-23 Julian\)/);
   // the inputs the record was made from are the files in the repository now
   assert.deepEqual(fresh.inputs, P.inputDigests());

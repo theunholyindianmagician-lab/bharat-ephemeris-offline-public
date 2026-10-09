@@ -20,6 +20,7 @@ choices:
 |---|---|---|
 | **Sūrya-Siddhānta + Parameśvara's saṃskāra**: the default. The saṃskāra moves only what the paramparā record names (today the Moon and the node). | `ss+parameshvara` (`ss-parameshvara` and `ss parameshvara` are accepted; the default of `--tier`) | **yes: `manifest-100k-ss-parameshvara.json`** |
 | Sūrya-Siddhānta (plain text): the secondary, labelled choice | `ss` (`classical` is accepted for it) | **yes: `manifest-100k.json`** |
+| **Kerala paramparā (Parahita + Dṛggaṇita)**: the third text choice (owner, 2026-10-09). The mean Sun, Moon, apogee and node of parahita-madhyama.js with Parameśvara's fractions, the text's equations on them; the planets the text's. | `kerala` (`kerala-parampara`, `parahita`, `drgganita` accepted) | **yes: `manifest-100k-kerala.json`** |
 | Modern Bhāratīya (dṛk), from the owner's own dṛk derivations | `drik` | no (it refuses outside 1850.0 … 2150.0) |
 
 **`manifest-100k-ss-parameshvara.json` is the default tier's calendar** (`"tier": "ss+parameshvara"`). Its places are
@@ -31,8 +32,15 @@ The Sun, the planets, mean Jupiter (the saṃvatsara) and every rate are the tex
 calendars and the new moons are later by the Moon's shift over the elongation rate (16.4–16.6 minutes for the record's
 present Moon shift [measured on the 109 sampled years, deep-time.test.js]); now and then that moves a month's name or the year's start.
 
-**`manifest-100k.json` is the plain Sūrya-Siddhānta's calendar** (`"tier": "ss"`), the secondary choice. Any other tier
-is refused with an explanation; `calibrated` was retired on 2026-10-08.
+**`manifest-100k.json` is the plain Sūrya-Siddhānta's calendar** (`"tier": "ss"`), the secondary choice.
+
+**`manifest-100k-kerala.json` is the Kerala paramparā's calendar** (`"tier": "kerala"`, 2026-10-09): `SSTier.calendar({ samskara: 'kerala' })`,
+the Parahita + Dṛggaṇita mean places (exact, `parahita-madhyama.js`, counted from sunrise at Laṅkā) with the text's equations. Its Sun
+differs from the text's, so its saṅkrāntis move, and its Moon, so its new moons; mean Jupiter and every rule are the text's. Measured on the
+109 sampled years: the first year opens −50001-12-18, the last 50000-05-26 (the text's tiers: −12-20 and −05-24); 2028-29 ends with
+Phālguna, not an adhika Caitra. The manifest records the sha256 of `ss-tier.js`, `parahita-madhyama.js`, `parampara.js` and the registry.
+
+Any other tier is refused with an explanation; `calibrated` was retired on 2026-10-08.
 
 ## Running it
 

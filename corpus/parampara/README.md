@@ -66,19 +66,23 @@ P.samskaraParameshvara()
 | `label` | "Sūrya-Siddhānta + Parameśvara's saṃskāra" (`labelSa` सूर्य-सिद्धान्त + परमेश्वर-संस्कार) | the choice's exact wording |
 | `default` | `true` | owner, 2026-10-08 (decision a): the primary default of the text tier |
 | `choices` | `[{ id: "ss+parameshvara", default: true }, { id: "ss", label: "Sūrya-Siddhānta", default: false }]` | the plain text is the secondary labelled choice, exactly the text |
-| `corrects` | `["moon", "node"]` | nothing else is moved: the Sun, the apogee and every rate stay the text's |
+| `corrects` | `["moon", "node", "ayanamsha"]` | nothing else is moved: the Sun, the apogee and every rate stay the text's |
+| `ayanamsha` / `ayanamshaPhaseDeg` / `ayanamshaAmplitudeDeg` | `{ records: [ABH-no-ayanacalana-3600 (0° in Kali 3600), NIL-ayanamsha-rate (14°26′), PAR-ayanamsha-4536 (15°)], phaseDeg: 0.001, amplitudeDeg: 1.8613, amplitudeTotalDeg: 28.8613, rateArcsecPerYear: 57.72, residuals 0, −0.5, +0.5′, alternatives: { phaseOnly, amplitudeOnly }, statedRate, … }` | 2026-10-09 (revised the same afternoon): the text's libration fitted by least squares to the paramparā's three determinations on its phase and its greatest value; Āryabhaṭa's zero stands and the swing widens; not fitted with the eclipses (they do not see the ayanāṃśa); the single-record readings kept beside it |
 | `leaveOneOut` | mean \|text − record\| 1.08 → 0.67 ghaṭikā; 5 of 6 contacts improve | each timed eclipse held out whole and predicted by the rest |
 | `source` | registry → readings.json → `scripts/parampara-samskara.cjs` → `samskara.json`, with input digests | where every number comes from |
 
 How Stage B applies it: the text's model with `moon.epoch` and `node.epoch` moved by `moonArcmin` and `nodeArcmin` at
-`epochKali` and carried at the text's own rates — exactly `samskara.js` `model({ "moon.epoch": moonArcmin,
-"node.epoch": nodeArcmin }, { epoch: epochKali })`. The record is generated, never typed: `parampara.test.js` re-runs the
+`epochKali` and carried at the text's own rates, and the libration's phase moved by `ayanamshaPhaseDeg` — exactly `samskara.js`
+`model({ "moon.epoch": moonArcmin, "node.epoch": nodeArcmin, "ayanamsha.phase": ayanamshaPhaseDeg }, { epoch: epochKali })`
+(`ss-tier.js` applies the phase through `sphuta.js ayanamshaSS(spandas, phaseDeg)`). The record is generated, never typed: `parampara.test.js` re-runs the
 fit and fails if `samskara.json` differs by a byte; in Node, `P.samskaraParameshvara({ fit: require('./scripts/parampara-samskara.cjs').result })`
 computes it afresh. The correction stays the default only while its leave-one-out test improves on the plain text
 (`offered` and `default` are both that test).
 
 The third choice, "Modern Bhāratīya (dṛk)" (owner, 2026-10-08, decision b), is built from the owner's own dṛk derivations
-by another stage and is not part of this corpus.
+by another stage and is not part of this corpus. The fourth, "Kerala paramparā (Parahita + Dṛggaṇita)" (owner, 2026-10-09), reads
+this registry's `NIL-ayanamsha-rate`, `PAR-ayanamsha-4536`, `ABH-apsides-G9`, `PAR-epoch-1651700` and `PAR-fractions` through
+`P.record(id)` in `ss-tier.js keralaCorrection()`, with the mean places of `parahita-madhyama.js`.
 
 Other accessors: `P.records({ class, observer, status, tag, source })`, `P.record(id)`, `P.sites`, `P.timeUnits.unit(id)`,
 `P.timeUnits.spandasOf(id)`, `P.timeUnits.canonical | ladders | conflicts`, `P.graha.layer(name)`, `P.graha.of(graha)`.

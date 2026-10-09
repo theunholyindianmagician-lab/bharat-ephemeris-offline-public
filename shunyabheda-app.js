@@ -64,7 +64,7 @@
   };
 
   /* ══════════════════════════════════════════════════════════════════════
-     THE THREE TIERS (owner, 2026-10-08) — one choice drives every panel.
+     THE TIERS (owner, 2026-10-08; the fourth, the Kerala paramparā, 2026-10-09) — one choice drives every panel.
      The choices, their labels and their spans are math-core's (M.TIERS, M.TIER_IDS, M.resolveTier, M.pageTier); this
      page re-types none of them. A stored or linked tier the engine refuses is reported (not silently replaced).
      ══════════════════════════════════════════════════════════════════════ */

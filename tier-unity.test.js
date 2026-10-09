@@ -33,7 +33,7 @@ const jdOfDays = (t) => (t - 75.7885 / 360) + 588465.5;           // ss-tier.js 
 const wrap = (d) => ((d % 360) + 540) % 360 - 180;
 const UJJAIN = { latitude: 23.1765, longitude: 75.7885 };
 const siteOf = (s) => ({ latitude: s.latitude, deshantara: s.longitude - 75.7885 });
-const TEXT_TIERS = ['ss', 'ss+parameshvara'];
+const TEXT_TIERS = ['ss', 'ss+parameshvara', 'kerala'];
 
 /** 200 instants over −50,000 … +50,000 years, each at a different time of day (a fixed LCG). */
 function instants(n = 200) {
@@ -46,8 +46,9 @@ function instants(n = 200) {
 const JDS = instants();
 
 // ── the tiers and their labels ─────────────────────────────────────────────────────────────────────────────────────
-test('three tiers, one default: ss+parameshvara is the page default, API parameters default to the plain text', () => {
-  assert.deepEqual(Object.keys(M.TIERS), ['ss+parameshvara', 'ss', 'drik']);
+test('four tiers, one default: ss+parameshvara is the page default, API parameters default to the plain text', () => {
+  assert.deepEqual(Object.keys(M.TIERS), ['ss+parameshvara', 'ss', 'kerala', 'drik']);
+  assert.deepEqual([...M.TIER_IDS], ['ss+parameshvara', 'ss', 'kerala', 'drik']);
   assert.equal(M.DEFAULT_TIER, 'ss+parameshvara');
   assert.deepEqual(Object.values(M.TIERS).filter((t) => t.default).map((t) => t.id), ['ss+parameshvara']);
   assert.equal(M.pageTier(''), 'ss+parameshvara');
@@ -71,9 +72,11 @@ test('three tiers, one default: ss+parameshvara is the page default, API paramet
   for (const id of TEXT_TIERS) assert.match(M.TIERS[id].obliquity, /1397 on R = 3438 \(SS 2\.28\)/);
   // aliases; 'calibrated' retired
   const alias = { classical: 'ss', ss: 'ss', 'ss parameshvara': 'ss+parameshvara', 'ss-parameshvara': 'ss+parameshvara', 'ss+parameshvara': 'ss+parameshvara',
-    modern: 'drik', 'bharatiya-drik': 'drik', drik: 'drik' };
+    modern: 'drik', 'bharatiya-drik': 'drik', drik: 'drik', kerala: 'kerala', parahita: 'kerala', drgganita: 'kerala', 'kerala-parampara': 'kerala' };
   for (const [k, v] of Object.entries(alias)) assert.equal(M.resolveTier(k), v, k);
-  for (const [k, v] of Object.entries({ ss: 'ss', 'ss+parameshvara': 'ss', classical: 'ss', drik: 'drik' })) assert.equal(M.tierFamily(k), v);
+  for (const [k, v] of Object.entries({ ss: 'ss', 'ss+parameshvara': 'ss', classical: 'ss', kerala: 'ss', drik: 'drik' })) assert.equal(M.tierFamily(k), v);
+  assert.equal(M.TIERS.kerala.label, 'Kerala paramparā (Parahita + Dṛggaṇita)'); assert.equal(M.TIERS.kerala.labelSa, 'केरल-परम्परा (परहित + दृग्गणित)');
+  assert.equal(M.TIERS.kerala.samskara, 'kerala'); assert.equal(M.TIERS.kerala.default, false);
   assert.throws(() => M.resolveTier('calibrated'), /retired 2026-10-08/);
   assert.throws(() => M.resolveTier('lahiri'), /Unknown engine mode/);
   // API parameter defaults stay the plain text (the dṛk design's CRITIC note): a call without a tier is 'ss'
@@ -182,7 +185,8 @@ test("the default tier applies Parameśvara's saṃskāra as the paramparā reco
   assert.equal(rec.offered, true);
   const corr = SST.correction('parameshvara');
   const shift = { moon: 0, node: 0, moonApogee: 0 };
-  for (const b of rec.corrects) shift[b] = rec[{ moon: 'moonArcmin', node: 'nodeArcmin', moonApogee: 'moonApogeeArcmin' }[b]] / 60;
+  for (const b of rec.corrects.filter((x) => x !== 'ayanamsha')) shift[b] = rec[{ moon: 'moonArcmin', node: 'nodeArcmin', moonApogee: 'moonApogeeArcmin' }[b]] / 60;
+  assert.ok(rec.corrects.includes('ayanamsha') && Number.isFinite(rec.ayanamshaPhaseDeg) && Number.isFinite(rec.ayanamshaAmplitudeDeg), 'the record corrects the ayanāṃśa (2026-10-09: its phase and its greatest value)');
   assert.deepEqual({ ...corr.shiftDeg }, shift);
   assert.deepEqual([...corr.corrects], rec.corrects);
   assert.equal(M.TIERS['ss+parameshvara'].label, rec.label);
@@ -194,7 +198,7 @@ test("the default tier applies Parameśvara's saṃskāra as the paramparā reco
   // the tier's places are exactly samskara.js's model with the record's deltas at its epoch — the code the fit itself uses
   // (README "How Stage B applies it"): an independent path to the same numbers
   const SK = require('./samskara.js');
-  const fitModel = SK.model({ 'moon.epoch': rec.moonArcmin, 'node.epoch': rec.nodeArcmin }, { epoch: rec.epochKali });
+  const fitModel = SK.model({ 'moon.epoch': rec.moonArcmin, 'node.epoch': rec.nodeArcmin, 'ayanamsha.phase': rec.ayanamshaPhaseDeg, 'ayanamsha.amplitude': rec.ayanamshaAmplitudeDeg }, { epoch: rec.epochKali });
   for (const jd of JDS.filter((_, i) => i % 10 === 0)) {
     const t = textDays(jd), a = fitModel.places(t), b = SST.places(t, { samskara: 'parameshvara' });
     // equal to the last bit or two (samskara.js reduces the Sun's sum in its own order: ≤ 1 ulp of 360° measured)
@@ -214,9 +218,23 @@ test("the default tier applies Parameśvara's saṃskāra as the paramparā reco
     const pan = M.panchangAtJd(jd, 5.5, 'ss+parameshvara', UJJAIN);
     assert.equal(pan.tithiIndex, Math.floor(mod(moon - a[0].longitude) / 12));
     assert.equal(pan.nakshatraIndex, Math.floor(moon / (360 / 27)));
-    assert.equal(M.ayanamshaDeg(jd, 'ss+parameshvara'), M.ayanamshaDeg(jd, 'ss'), 'the saṃskāra does not touch the ayanāṃśa');
-    assert.equal(M.tierDay(jd, 23.1765, 75.7885, 5.5, 'ss+parameshvara').N, M.tierDay(jd, 23.1765, 75.7885, 5.5, 'ss').N, 'nor the Sun, so nor the day');
+    // the ayanāṃśa (2026-10-09): the text's libration with the record's phase and greatest value, through sphuta.js; the Sun
+    // is the text's, so the day differs only by the sunrise the moved sāyana Sun gives (under three minutes [measured])
+    assert.equal(M.ayanamshaDeg(jd, 'ss+parameshvara'), S.ayanamshaSS(S.spandasOfDays(t), rec.ayanamshaPhaseDeg, rec.ayanamshaAmplitudeDeg));
+    assert.equal(M.ayanamshaDeg(jd, 'ss'), S.ayanamshaSS(S.spandasOfDays(t)));
+    assert.equal(fitModel.ayanamsha(t), M.ayanamshaDeg(jd, 'ss+parameshvara'));
+    const N = M.tierDay(jd, 23.1765, 75.7885, 5.5, 'ss').N;
+    assert.ok(Math.abs(SST.dayEvents(N, UJJAIN, { samskara: 'parameshvara' }).sunriseJd - SST.dayEvents(N, UJJAIN, { samskara: null }).sunriseJd) < 3 / 1440, `sunrise of day ${N}`);
   }
+  // the three determinations: each met within a minute by the fitted libration, Āryabhaṭa's zero within 0.1′; the text alone
+  // misses the two Kerala figures by about an hour of arc (the record states both residuals)
+  for (const r of rec.ayanamsha.records) {
+    assert.ok(Math.abs(S.ayanamshaSS(S.spandasOfDays(r.kaliDay), rec.ayanamshaPhaseDeg, rec.ayanamshaAmplitudeDeg) - r.deg) * 60 < 0.6, `${r.who}: ${r.stated}`);
+    assert.ok(Math.abs((S.ayanamshaSS(S.spandasOfDays(r.kaliDay)) - r.deg) * 60 - r.textResidualArcmin) < 0.1, `${r.who}: the text's own residual as recorded`);
+  }
+  assert.ok(Math.abs(S.ayanamshaSS(S.spandasOfDays(rec.ayanamsha.records[0].kaliDay), rec.ayanamshaPhaseDeg, rec.ayanamshaAmplitudeDeg)) * 60 < 0.1, "Āryabhaṭa's zero stands");
+  assert.equal(M.tierAyanamsha(2461322.5, 'ss+parameshvara').name, "SS 3.9-3.10 on the paramparā's three determinations");
+  assert.ok(Math.abs(M.tierAyanamsha(2461322.5, 'ss+parameshvara').rateArcsecPerYear - rec.ayanamsha.rateArcsecPerYear) < 0.01, 'the rate grows with the greatest value');
 });
 
 // ── (2) one frame per tier ────────────────────────────────────────────────────────────────────────────────────────
@@ -228,7 +246,7 @@ test("(2) one frame per text tier: the ayanāṃśa shown is the one applied, an
     assert.ok(Math.abs(wrap(M.sayanaAscendantDeg(jd, 23.1765, 75.7885, tier) - M.siderealAscendantDeg(jd, 23.1765, 75.7885, tier) - A)) < 1e-9);
     const b = M.bhavaModel(jd, 23.1765, 75.7885, tier);
     assert.equal(b.lagna, M.siderealAscendantDeg(jd, 23.1765, 75.7885, tier));
-    assert.equal(b.madhyaLagna, P.meridianAt(textDays(jd), siteOf(UJJAIN)).madhyaLagna.longitude);
+    assert.equal(b.madhyaLagna, SST.calendar({ samskara: M.TIERS[tier].samskara }).meridianAt(textDays(jd), siteOf(UJJAIN)).madhyaLagna.longitude, `${tier}: the tier's own meridian`);
     assert.equal(b.ayanamsha, A);
     const s = M.getSolarCoordinates(jd, tier), m = M.getLunarCoordinates(jd, tier);
     assert.equal(s.obliquityDeg, D.SS_EPSILON_DEG);
@@ -273,7 +291,7 @@ test("(3) 'calibrated' is refused by every tier-taking API, and a named ayanā�
   for (const name of ['bhavaModel', 'siderealAscendantDeg', 'sayanaAscendantDeg', 'tierMeridian', 'coordinateFrameOffsetDeg', 'tierDay', 'solarRiseSet',
     'lunarRiseSet', 'getSolarCoordinates', 'getLunarCoordinates', 'computeSpecialLagnas', 'kalaUpagrahaParts', 'computeUpagrahas', 'panchangExtended',
     'computeSuryaSiddhanta14Adhikaras']) {
-    assert.throws(() => calls[name]('spica_lahiri'), /bridges take a tier: ss\+parameshvara, ss or drik/, name);
+    assert.throws(() => calls[name]('spica_lahiri'), /bridges take a tier: ss\+parameshvara, ss, kerala or drik/, name);
   }
   assert.equal(M.drigGrahaLongitude, undefined);
 });
@@ -386,8 +404,9 @@ test('(4) the EDGE RULE: a month or year that needs an instant outside 1850.0–
 test("(e) the saṃskāra tier's eclipses use samskara.js's model built from what the record corrects, as its places do (C4)", () => {
   const SK = require('./samskara.js');
   const corr = SST.correction('parameshvara'), deltas = SST.samskaraDeltas({ samskara: 'parameshvara' });
-  assert.deepEqual(Object.keys(deltas), corr.corrects.map((b) => `${b}.epoch`));
-  for (const b of corr.corrects) assert.equal(deltas[`${b}.epoch`], corr.shiftArcmin[b]);
+  assert.deepEqual(Object.keys(deltas), corr.corrects.flatMap((b) => (b === 'ayanamsha' ? ['ayanamsha.phase', 'ayanamsha.amplitude'] : [`${b}.epoch`])));
+  for (const b of corr.corrects.filter((x) => x !== 'ayanamsha')) assert.equal(deltas[`${b}.epoch`], corr.shiftArcmin[b]);
+  assert.equal(deltas['ayanamsha.phase'], corr.ayanamshaPhaseDeg); assert.equal(deltas['ayanamsha.amplitude'], corr.ayanamshaAmplitudeDeg);
   assert.equal(SST.samskaraDeltas({ samskara: null }), null);
   const model = SK.model(deltas, { epoch: corr.epochKali });
   for (const jd of JDS.filter((_, i) => i % 10 === 0)) {
@@ -476,7 +495,7 @@ test('(5) ss-tier.js is gate-clean: requires only sovereign files (and the param
   assert.equal(FORBIDDEN.test(read('corpus/parampara/samskara.json')), false);
   assert.equal((src.match(/Math\.(?:sin|cos|tan|asin|acos|atan2|atan)\b/g) || []).length, 0);
   const SOVEREIGN = ['kala-dvara.js', 'sphuta.js', 'dhruva.js', 'ss-udaya.js', 'ss-graha.js', 'ss-chaya.js', 'ss-grahana.js', 'ss-ahargana.js', 'panchanga.js',
-    'dasha.js', 'muhurta.js', 'utsava.js', 'parampara.js', 'samskara.js', 'corpus/parampara/registry.json', 'corpus/parampara/samskara.json'];
+    'dasha.js', 'muhurta.js', 'utsava.js', 'parampara.js', 'samskara.js', 'parahita-madhyama.js', 'corpus/parampara/registry.json', 'corpus/parampara/samskara.json'];
   const gate = read('kala-dvara.test.js');
   for (const f of SOVEREIGN.filter((x) => x.endsWith('.js'))) assert.ok(gate.includes(`'${f}'`), `${f} is in the gate's list`);
   const reqs = [...src.matchAll(/\brequire\s*\(\s*["']([^"']+)["']\s*\)/g)].map((m) => m[1].replace(/^\.\//, ''));
@@ -604,4 +623,54 @@ test('(12) a new moon inside one civil day: the instants either side get their o
     if (N(before) === N(after)) assert.equal(a1.day.N, b1.day.N, 'the same civil day, two months');
     if (tier === 'ss') { assert.equal(a1.masa.name, P.lunarMonth(textDays(before)).name); assert.equal(b1.masa.name, P.lunarMonth(textDays(after)).name); }
   }
+});
+
+// ── (13) the fourth choice: the Kerala paramparā (owner, 2026-10-09) ─────────────────────────────────────────────────
+test("(13) the Kerala tier: Parahita + Dṛggaṇita means reproduce Parameśvara's epoch to the minute; its eclipse model equals its exact places; its ayanāṃśa is the record's; the planets stay the text's", () => {
+  const K = SST.correction('kerala');
+  assert.deepEqual([...K.corrects], ['sun', 'moon', 'moonApogee', 'node', 'ayanamsha']);
+  assert.equal(K.epochKali, 1651700); assert.equal(K.sunriseDay, 0.25); assert.equal(K.sunApogeeDeg, 78);
+  const R = ['Meṣa', 'Vṛṣa', 'Mithuna', 'Karkaṭa', 'Siṃha', 'Kanyā', 'Tulā', 'Vṛścika', 'Dhanus', 'Makara', 'Kumbha', 'Mīna'];
+  const deg = (s) => { const x = /^(\S+) (\d+)°(\d+)′/.exec(s); return R.indexOf(x[1]) * 30 + Number(x[2]) + Number(x[3]) / 60; };
+  const m = K.mean(K.epochKali + K.sunriseDay);
+  for (const [b, k] of [['sun', 'sun'], ['moon', 'moon'], ['apogee', 'moonApogee'], ['node', 'node']]) {
+    assert.ok(Math.abs(wrap(m[k] - deg(K.epochPlaces[b]))) * 60 < 0.5, `${b}: ${m[k]} vs ${K.epochPlaces[b]} (registry PAR-epoch-1651700)`);
+  }
+  // the samskara.js model that carries the places into the eclipse search equals the exact places over the span (float only)
+  const model = SST.model({ samskara: 'kerala' });
+  for (const jd of JDS.filter((_, i) => i % 5 === 0)) {
+    const t = textDays(jd), a = model.places(t), b = SST.places(t, { samskara: 'kerala' });
+    for (const [x, y, k] of [[b.sun, a.sun, 'sun'], [b.moon, a.moon, 'moon'], [b.rahu, a.node, 'node'], [b.mean.sunApogee, a.mean.sunApogee, 'sun apogee']]) {
+      assert.ok(Math.abs(wrap(x - y)) < 1e-5, `${k} at JD ${jd}: ${x} vs ${y}`);
+    }
+    assert.equal(model.ayanamsha(t), SST.ayanamshaDeg(jd, { samskara: 'kerala' }));
+    assert.equal(SST.calendar({ samskara: 'kerala' }).ayanamshaAt(t), SST.ayanamshaDeg(jd, { samskara: 'kerala' }), "the tier's calendar carries its ayanāṃśa");
+  }
+  // the ayanāṃśa: Nīlakaṇṭha's 14°26′ at his day and 0.9′ a year, linear; Parameśvara's 15° met within 1.5′; the rate 54″
+  const reg = PA.load({ registry: JSON.parse(read('corpus/parampara/registry.json')), samskara: JSON.parse(read('corpus/parampara/samskara.json')) });
+  const nil = reg.record('NIL-ayanamsha-rate'), par = reg.record('PAR-ayanamsha-4536');
+  const abh = reg.record('ABH-no-ayanacalana-3600');
+  assert.ok(Math.abs(K.ayanamshaAt(abh.era.kaliYear * K.yearDays) - abh.value.ayanamshaAtKali3600) * 60 < 0.1, "Āryabhaṭa's zero");
+  assert.ok(Math.abs(K.ayanamshaAt(nil.era.kaliDay) - (14 + 26 / 60)) * 60 < 0.6, "Nīlakaṇṭha's figure");
+  assert.ok(Math.abs(K.ayanamshaAt(par.value.kaliYearsElapsed * K.yearDays) - par.value.ayanamshaDegrees) * 60 < 0.6, "Parameśvara's 15°");
+  assert.ok(Math.abs(K.ayanamshaAt(nil.era.kaliDay + 100 * K.yearDays) - K.ayanamshaAt(nil.era.kaliDay) - 100 * K.ayanamshaLine.ratePerYear) < 1e-9, 'linear');
+  assert.ok(K.ayanamshaLine.ratePerYear * 60 > nil.value.rateArcminPerYear && K.ayanamshaLine.ratePerYear * 60 < 1, "the line's rate lies between Nīlakaṇṭha's stated 0.9′ and 1′ a year");
+  assert.ok(Math.abs(M.tierAyanamsha(2461322.5, 'kerala').rateArcsecPerYear - K.ayanamshaLine.ratePerYear * 3600) < 1e-9);
+  assert.equal(M.tierAyanamsha(2461322.5, 'kerala').name, 'Kerala linear, through the three determinations');
+  // the five star-planets are the text's; the Sun, the Moon and the node are the Kerala tier's
+  const jd = 2461322.5, a = M.canonicalGrahaModel(jd, { mode: 'ss' }), b = M.canonicalGrahaModel(jd, { mode: 'kerala' });
+  for (const i of [2, 3, 4, 5, 6]) assert.equal(b[i].longitude, a[i].longitude, `${a[i].key} is the text's`);
+  for (const i of [0, 1, 7]) assert.notEqual(b[i].longitude, a[i].longitude, `${a[i].key} is the Kerala tier's`);
+  // the day, the lagna and the shadow follow the tier; the eclipses are found on its model
+  const d1 = M.tierDay(jd, 23.1765, 75.7885, 5.5, 'kerala'), d0 = M.tierDay(jd, 23.1765, 75.7885, 5.5, 'ss');
+  assert.ok(Number.isFinite(d1.sunriseJd) && Math.abs(d1.sunriseJd - d0.sunriseJd) < 3 / 1440, 'the Kerala sunrise is its own, within three minutes of the text\'s [measured]');
+  assert.notEqual(M.siderealAscendantDeg(jd, 23.1765, 75.7885, 'kerala'), M.siderealAscendantDeg(jd, 23.1765, 75.7885, 'ss'));
+  const sh = SST.shadow(jd, UJJAIN, { samskara: 'kerala' });
+  assert.equal(sh.samskara, 'kerala'); assert.equal(sh.ayanamsha, SST.ayanamshaDeg(jd, { samskara: 'kerala' }));
+  const E = SST.eclipsesNear(2461103.5, UJJAIN, 20, { samskara: 'kerala' });
+  assert.ok(E.some((e) => e.kind === 'lunar'), 'the lunar eclipse of 2026-03-03 on the Kerala model'); assert.match(E[0].method, /saṃskāra model/);
+  assert.equal(SST.label({ samskara: 'kerala' }).id, 'kerala'); assert.match(SST.label({ samskara: 'kerala' }).caption, /Parahita/);
+  // no number of the registry's records is typed in ss-tier.js's code (comments aside)
+  const src = read('ss-tier.js').replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, '').replace(/PAR-ayanamsha-4536/g, '');   // the record's id names its year; that is not typing it
+  for (const v of [nil.era.kaliDay, par.value.kaliYearsElapsed, K.shiftArcmin.moon.toFixed(2), K.shiftArcmin.node.toFixed(2), '14°26']) assert.equal(src.includes(String(v)), false, `ss-tier.js types ${v}`);
 });

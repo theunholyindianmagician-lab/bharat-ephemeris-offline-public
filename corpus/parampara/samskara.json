@@ -281,17 +281,97 @@
   "improved": 5,
   "n": 6
  },
+ "ayanamsha": {
+  "records": [
+   {
+    "id": "ABH-no-ayanacalana-3600",
+    "who": "Āryabhaṭa",
+    "kaliDay": 1314931.5233,
+    "deg": 0,
+    "stated": "0° in Kali 3600 (499 CE)",
+    "instant": "the start of Kali year 3600 elapsed, by the text's year [reading]",
+    "quote": "अस्मिन् काले गीतिकोक्तभगणत्रैराशिकेनानीता ग्रहोच्चपातमध्यमाः शुद्धाः । मकरादावुत्तरायणं, कर्कादी दक्षिणायनं च स्थितम्",
+    "textDeg": 0,
+    "textResidualArcmin": 0,
+    "modelDeg": 0.0003,
+    "residualArcmin": 0
+   },
+   {
+    "id": "NIL-ayanamsha-rate",
+    "who": "Nīlakaṇṭha",
+    "kaliDay": 1643524,
+    "deg": 14.4333,
+    "stated": "14°26′ at Kali day 1643524 (1398-11-09 Julian)",
+    "instant": "the worked eclipse",
+    "quote": "ततः दशांशोनतदन्तराब्दकलाः चतुस्त्रिंशत्संख्याः शोध्याः । शिष्टं 'तन्त्रं वेद्यम्' (१४° २६' ) इति कलादिकमयनचलनम् ।",
+    "textDeg": 13.4942,
+    "textResidualArcmin": -56.3,
+    "modelDeg": 14.4248,
+    "residualArcmin": -0.5
+   },
+   {
+    "id": "PAR-ayanamsha-4536",
+    "who": "Parameśvara",
+    "kaliDay": 1656813.7194,
+    "deg": 15,
+    "stated": "15° complete in Kali 4536 (1435 CE)",
+    "instant": "the start of the year after 4536 elapsed, by the text's year [reading]; 'pūrṇāḥ' may make 15° a lower bound",
+    "quote": "पञ्चदशभागाः पूर्णा इति परीक्ष्य निर्णीतम् ।",
+    "textDeg": 14.04,
+    "textResidualArcmin": -57.6,
+    "modelDeg": 15.0082,
+    "residualArcmin": 0.5
+   }
+  ],
+  "phaseDeg": 0.001,
+  "amplitudeDeg": 1.8613,
+  "amplitudeTotalDeg": 28.8613,
+  "rateArcsecPerYear": 57.72,
+  "unit": "phaseDeg in degrees of the libration angle (SS 3.9: 600 turns a yuga, so one turn is 7,200 years and one degree is 20 years); amplitudeDeg added to the text's 27°; applied as sphuta.js ayanamshaSS(spandas, phaseDeg, amplitudeDeg)",
+  "method": "least squares of the three records on the two parameters (a grid of 0.05° × 0.02° refined three times to 0.00005°), the residuals in arcminutes",
+  "reading": "three determinations fix both parameters: Āryabhaṭa's zero in Kali 3600 stands (the phase stays at zero) and the libration's greatest value grows, so its rate grows with it; a single record could not tell the two apart [theorem], and the phase reading alone would break Āryabhaṭa's zero by about an hour of arc",
+  "alternatives": {
+   "phaseOnly": {
+    "phaseDeg": 3.2,
+    "residualsArcmin": [
+     57.6,
+     1.3,
+     0
+    ],
+    "note": "Parameśvara's record as a phase alone (the default of the morning of 2026-10-09): breaks Āryabhaṭa's zero"
+   },
+   "amplitudeOnly": {
+    "amplitudeDeg": 1.8462,
+    "residualsArcmin": [
+     0,
+     -1,
+     0
+    ],
+    "note": "Parameśvara's record as an amplitude alone: within a minute of the joint fit"
+   }
+  },
+  "statedRate": {
+   "record": "NIL-ayanamsha-rate",
+   "rateArcminPerYear": 0.9,
+   "rate": "the intervening years less a tenth, as minutes: 0.9′ a year",
+   "fittedArcminPerYear": 0.962,
+   "note": "Nīlakaṇṭha's rule 'the years less a tenth, as minutes' (0.9′ a year) is the text's 54″; his own figure against Āryabhaṭa's zero implies the fitted rate [theorem]"
+  },
+  "notFitted": "not part of the eclipse fit: the eclipses see the elongation and the argument of latitude, both sidereal, never the ayanāṃśa",
+  "tag": "[paramparā]"
+ },
  "offered": {
   "label": "Sūrya-Siddhānta + Parameśvara's saṃskāra",
   "labelSa": "सूर्य-सिद्धान्त + परमेश्वर-संस्कार",
-  "caption": "The text's own model, with the Moon's and the node's mean places moved by -8.37 ± 1.04′ and -73.54 ± 6.72′ at Kali day 1652000 (1422-01-23 Julian) and carried at the text's own rates; fitted by this engine to Parameśvara's recorded eclipses (Siddhāntadīpikā vv.69-85, quoted in the Jyotirmīmāṃsā pp.33-34), a man's height taken as 7 of his own padas [unverified], the Sun held. Held out one eclipse at a time, the mean error of the timed contacts goes from 1.08 to 0.67 ghaṭikā. Only the Moon and the node are moved; every other number is the text's. The default of the text tier; the plain Sūrya-Siddhānta is one labelled choice away.",
+  "caption": "The text's own model, with the Moon's and the node's mean places moved by -8.37 ± 1.04′ and -73.54 ± 6.72′ at Kali day 1652000 (1422-01-23 Julian) and carried at the text's own rates; fitted by this engine to Parameśvara's recorded eclipses (Siddhāntadīpikā vv.69-85, quoted in the Jyotirmīmāṃsā pp.33-34), a man's height taken as 7 of his own padas [unverified], the Sun held. Held out one eclipse at a time, the mean error of the timed contacts goes from 1.08 to 0.67 ghaṭikā. The ayanāṃśa is the text's libration fitted to the paramparā's three determinations (Āryabhaṭa's zero in Kali 3600, Nīlakaṇṭha's 14°26′, Parameśvara's 15°): phase 0.001°, greatest value 28.8613° (the text's 27°), 57.72″ a year; residuals Āryabhaṭa 0′, Nīlakaṇṭha -0.5′, Parameśvara 0.5′. Only the Moon, the node and the ayanāṃśa are moved; every other number is the text's. The default of the text tier; the plain Sūrya-Siddhānta is one labelled choice away.",
   "corrects": [
    "moon",
-   "node"
+   "node",
+   "ayanamsha"
   ],
   "offered": true,
   "default": true,
-  "rule": "owner, 2026-10-08 (decision a): Parameśvara's saṃskāra is the primary default of the text tier; the plain Sūrya-Siddhānta is the secondary labelled choice, exactly the text; the saṃskāra corrects only the Moon and the node. It is the default only while its leave-one-out test improves on the plain text (offered and default are both that test).",
+  "rule": "owner, 2026-10-08 (decision a): Parameśvara's saṃskāra is the primary default of the text tier; the plain Sūrya-Siddhānta is the secondary labelled choice, exactly the text; the saṃskāra corrects only the Moon, the node and the ayanāṃśa (owner, 2026-10-09: apply what the paramparā recorded where it applies, and adopt every improvement the records support). It is the default only while its leave-one-out test improves on the plain text (offered and default are both that test).",
   "choices": [
    {
     "id": "ss+parameshvara",

@@ -6,15 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#03060e">
   <title>सिद्धान्त-पञ्चाङ्ग · Siddhānta Pañcāṅga — Bharat Ephemeris</title>
-  <meta name="description" content="The pañcāṅga for your place and day in three choices — the Sūrya-Siddhānta with Parameśvara's saṃskāra, the plain Sūrya-Siddhānta, or Modern Bhāratīya (dṛk) — tithi, nakṣatra, yoga, karaṇa, the month and year, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā, computed on your device. Nothing leaves it.">
+  <meta name="description" content="The pañcāṅga for your place and day in four choices — the Sūrya-Siddhānta with Parameśvara's saṃskāra, the plain Sūrya-Siddhānta, or Modern Bhāratīya (dṛk) — tithi, nakṣatra, yoga, karaṇa, the month and year, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā, computed on your device. Nothing leaves it.">
   <meta property="og:title" content="सिद्धान्त-पञ्चाङ्ग · Siddhānta Pañcāṅga — Bharat Ephemeris">
-  <meta property="og:description" content="The pañcāṅga for your place and day in three choices — the Sūrya-Siddhānta with Parameśvara's saṃskāra, the plain Sūrya-Siddhānta, or Modern Bhāratīya (dṛk) — tithi, nakṣatra, yoga, karaṇa, the month and year, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā, computed on your device. Nothing leaves it.">
+  <meta property="og:description" content="The pañcāṅga for your place and day in four choices — the Sūrya-Siddhānta with Parameśvara's saṃskāra, the plain Sūrya-Siddhānta, or Modern Bhāratīya (dṛk) — tithi, nakṣatra, yoga, karaṇa, the month and year, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā, computed on your device. Nothing leaves it.">
   <meta property="og:image" content="https://offline.bharatephemeris.com/og/siddhanta-panchanga.png">
   <meta property="og:url" content="https://offline.bharatephemeris.com/siddhanta-panchanga.html">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="सिद्धान्त-पञ्चाङ्ग · Siddhānta Pañcāṅga — Bharat Ephemeris">
-  <meta name="twitter:description" content="The pañcāṅga for your place and day in three choices — the Sūrya-Siddhānta with Parameśvara's saṃskāra, the plain Sūrya-Siddhānta, or Modern Bhāratīya (dṛk) — tithi, nakṣatra, yoga, karaṇa, the month and year, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā, computed on your device. Nothing leaves it.">
+  <meta name="twitter:description" content="The pañcāṅga for your place and day in four choices — the Sūrya-Siddhānta with Parameśvara's saṃskāra, the plain Sūrya-Siddhānta, or Modern Bhāratīya (dṛk) — tithi, nakṣatra, yoga, karaṇa, the month and year, festivals, saṅkrāntis, eclipses and the Vimśottarī daśā, computed on your device. Nothing leaves it.">
   <meta name="twitter:image" content="https://offline.bharatephemeris.com/og/siddhanta-panchanga.png">
   <link rel="stylesheet" href="global.css?v=107">
   <link rel="manifest" href="manifest.webmanifest">
@@ -123,7 +123,7 @@
     .dasha tr.cur > td { background: var(--vh); }
     .dasha td.sub { padding: 0 0 4px 12px; }
     .dasha td.sub table { margin: 0; font-size: 0.84rem; }
-    /* the three choices, their labels in every block, and the dṛk choice's refusal */
+    /* the four choices, their labels in every block, and the dṛk choice's refusal */
     #tier-pick { display: flex; flex-wrap: wrap; gap: 4px 14px; }
     #tier-pick label { flex-direction: row; align-items: center; gap: 6px; color: var(--vi); font-size: 0.92rem; }
     #tier-note { margin: 4px 0 0; }
@@ -156,6 +156,7 @@
     <a href="library.html" id="nav-library">LIBRARY</a>
     <a href="panchang.html" id="nav-panchang">PANCHANG</a>
     <a href="siddhanta-panchanga.html" id="nav-siddhanta" class="active" aria-current="page">सिद्धान्त-पञ्चाङ्ग</a>
+    <a href="ganita-shala.html" id="nav-ganita">गणित-शाला</a>
     <a href="shunyabheda.html" id="nav-engine">ENGINE</a>
     <a href="shoonya_sovereign_dashboard.html" id="nav-dashboard">DASHBOARD</a>
     <a href="vedha.html" id="nav-vedha">VEDHA</a>
@@ -169,7 +170,7 @@
     </div>
     <p>The pañcāṅga for your place and day, computed here on your device in the choice you make below. Nothing is fetched from elsewhere and nothing leaves it.</p>
     <fieldset id="tier-field">
-      <legend>गणना · the computation (three choices, one code path each)</legend>
+      <legend>गणना · the computation (four choices, one code path each)</legend>
       <div id="tier-pick" role="radiogroup" aria-label="the computation"></div>
       <p id="tier-note" class="muted small"></p>
     </fieldset>
@@ -286,7 +287,8 @@
   <section id="parichaya" aria-labelledby="h-parichaya">
     <h2 id="h-parichaya">९ · परिचय — about these numbers</h2>
     <ul>
-      <li><b>सूर्य-सिद्धान्त + परमेश्वर-संस्कार · Sūrya-Siddhānta + Parameśvara's saṃskāra</b> (the default): the text's own model, with the mean places that the paramparā's record names moved by its arcminutes. The record is read on this device from <code>corpus/parampara/samskara.json</code>: it was fitted to the eclipses Parameśvara recorded. Every block below names this choice and its rules.</li>
+      <li><b>सूर्य-सिद्धान्त + परमेश्वर-संस्कार · Sūrya-Siddhānta + Parameśvara's saṃskāra</b> (the default): the text's own model, with the mean places that the paramparā's record names moved by its arcminutes, and the text's ayanāṃśa libration fitted to the paramparā's three determinations (Āryabhaṭa's zero in Kali 3600, Nīlakaṇṭha's 14°26′, Parameśvara's 15°). The record is read on this device from <code>corpus/parampara/samskara.json</code>: it was fitted to the eclipses Parameśvara recorded, and the ayanāṃśa to those three records. Every block below names this choice and its rules.</li>
+      <li><b>केरल-परम्परा (परहित + दृग्गणित) · Kerala paramparā (Parahita + Dṛggaṇita)</b>: the Kerala line of the same geocentric model — the mean Sun, Moon, apogee and node of the Parahita karaṇa (Āryabhaṭa's integers with the Śakābda-saṃskāra) carried to Parameśvara's Dṛggaṇita by his fractions, counted from sunrise at Laṅkā; Āryabhaṭa's Sun apogee; the text's epicycles on those means; Nīlakaṇṭha's linear ayanāṃśa. The five star-planets are the text's. Parameśvara's epoch places are reproduced to the minute.</li>
       <li><b>सूर्य-सिद्धान्त · Sūrya-Siddhānta</b>: the text exactly as it stands — its revolutions, true Sun and Moon (chapter 2, with Mādhava's sine), ayanāṃśa (3.9-3.10) and eclipse rules (chapters 4-6).</li>
       <li><b>आधुनिक भारतीय (दृक्) · Modern Bhāratīya (dṛk)</b>: the owner's own series, served for 1850–2150 and refused outside it. Its engine, span and the agreement measured in this repository's tests are printed in each block's label as the engine states them; nothing else is computed in the browser to compare it with.</li>
       <li>Your own observations are optional. The default choice already carries the saṃskāra from the paramparā's recorded observations; if you wish to keep your own beside the text, the observation companion <a href="vedha.html">वेध · vedha</a> does that, and nothing you record there changes a value on this page.</li>

@@ -22,19 +22,27 @@ const P = require('./panchanga.js');
 const K = require('./kala-dvara.js');
 const SST = require('./ss-tier.js');
 const UJJAYINI = { latitude: 23.1765, deshantara: 0 };
-const TIERS = ['ss+parameshvara', 'ss'];
+const TIERS = ['ss+parameshvara', 'ss', 'kerala'];
+// measured per tier (2026-10-09): the first and last years' starts, and how 2028-29 ends (the Kerala Sun and Moon differ from the text's)
+const FIRST_START = { 'ss+parameshvara': '-50001-12-20', ss: '-50001-12-20', kerala: '-50001-12-18' };
+const LAST_START = { 'ss+parameshvara': '50000-05-24', ss: '50000-05-24', kerala: '50000-05-26' };
+const END_5129 = { 'ss+parameshvara': ['Caitra', true], ss: ['Caitra', true], kerala: ['Phālguna', false] };
 
 const built = new Map();
 const year = (k, tier) => { const key = `${tier}|${k}`; if (!built.has(key)) built.set(key, C.buildYear(k, tier)); return built.get(key); };
 
 test('the tiers are named: "ss+parameshvara" is the default ("ss-parameshvara", "ss parameshvara" accepted), "ss" the plain text ("classical" accepted); others are refused with the reason', () => {
-  assert.deepEqual(Object.keys(C.TIERS), ['ss+parameshvara', 'ss']);
+  assert.deepEqual(Object.keys(C.TIERS), ['ss+parameshvara', 'ss', 'kerala']);
   assert.equal(C.DEFAULT_TIER, 'ss+parameshvara');
   assert.equal(C.tierOf('ss').calendar, P); assert.equal(C.tierOf('classical').id, 'ss');
   for (const alias of [undefined, '', 'ss-parameshvara', 'ss parameshvara']) assert.equal(C.tierOf(alias).id, 'ss+parameshvara', String(alias));
   assert.equal(C.tierOf('ss+parameshvara').calendar, SST.calendar({ samskara: 'parameshvara' }), "ss-tier.js's calendar, the one math-core and the pages use");
   assert.equal(path.relative(__dirname, C.manifestPath('ss')), path.join('corpus', 'calendar', 'manifest-100k.json'));
   assert.equal(path.relative(__dirname, C.manifestPath('ss+parameshvara')), path.join('corpus', 'calendar', 'manifest-100k-ss-parameshvara.json'));
+  // the fourth choice (owner, 2026-10-09): the Kerala paramparā, ss-tier.js's calendar on the Parahita + Dṛggaṇita places
+  assert.equal(C.tierOf('kerala').calendar, SST.calendar({ samskara: 'kerala' })); assert.equal(C.tierOf('parahita').id, 'kerala'); assert.equal(C.tierOf('kerala-parampara').id, 'kerala');
+  assert.equal(path.relative(__dirname, C.manifestPath('kerala')), path.join('corpus', 'calendar', 'manifest-100k-kerala.json'));
+  assert.deepEqual([...C.TIERS.kerala.samskara.corrects], [...SST.correction('kerala').corrects]); assert.equal(C.TIERS.kerala.label, SST.correction('kerala').label);
   for (const bad of ['drik', 'toString', '__proto__', 'calibrated', 'modern']) {
     assert.throws(() => C.tierOf(bad), (e) => e instanceof RangeError && /not generated/.test(e.message) && /1850-2150/.test(e.message) && /retired/.test(e.message), String(bad));
   }
@@ -59,10 +67,10 @@ for (const TIER of TIERS) {
     const first = year(range.kaliFrom, TIER), last = year(range.kaliTo, TIER);
     assert.ok(first.y.start <= lo && first.y.end > lo, 'the first year holds −50000-01-01');
     assert.ok(last.y.start < hi && last.y.end >= hi, 'the last year holds 50000-12-31');
-    assert.equal(first.line.start.gregorian, '-50001-12-20'); assert.equal(A.yearOfKali(range.kaliTo + 1, C.TIERS[TIER].calendar).start >= hi, true);
+    assert.equal(first.line.start.gregorian, FIRST_START[TIER]); assert.equal(A.yearOfKali(range.kaliTo + 1, C.TIERS[TIER].calendar).start >= hi, true);
     // the text's sidereal year drifts against the Gregorian one, about a day in 61.5 years: Caitra opens in December at the
     // start of the span and in May at its end [measured, both tiers]
-    assert.equal(last.line.start.gregorian, '50000-05-24');
+    assert.equal(last.line.start.gregorian, LAST_START[TIER]);
   });
 
   test(`[${TIER}] the invariants hold on ${samples.length} sampled years (every 1,000th Gregorian year, JDN 0, the Kali epoch, ±2^23 Kali days, 2026, 2028, the span's ends)`, { timeout: 180000 }, () => {
@@ -81,7 +89,7 @@ for (const TIER of TIERS) {
       const a = year(k, TIER), b = year(k + 1, TIER);
       assert.deepEqual(C.checkSequence(C.tailOf(a, null), C.headOf(b)), [], `${k} → ${k + 1}`);
     }
-    assert.equal(year(5129, TIER).y.months.at(-1).name, 'Caitra'); assert.equal(year(5129, TIER).y.months.at(-1).adhika, true, '2028-29 ends with an adhika Caitra');
+    assert.equal(year(5129, TIER).y.months.at(-1).name, END_5129[TIER][0]); assert.equal(year(5129, TIER).y.months.at(-1).adhika, END_5129[TIER][1], `2028-29 ends with ${END_5129[TIER][1] ? 'an adhika ' : ''}${END_5129[TIER][0]} [measured]`);
     // 2026-27 has an adhika Jyeṣṭha in both tiers [measured]
     assert.deepEqual(year(5127, TIER).y.months.filter((m) => m.adhika).map((m) => m.name), ['Jyeṣṭha']);
     assert.ok(Math.abs(adhika - kshaya - samples.length * C.ADHIKA_PER_YEAR) < 0.15 * samples.length, `adhika ${adhika} − kṣaya ${kshaya} on ${samples.length} years`);
@@ -112,7 +120,11 @@ for (const TIER of TIERS) {
     // the manifest says which calendar it is
     assert.equal(man.tier, TIER); assert.equal(man.tierLabel, C.TIERS[TIER].label); assert.equal(man.tierNote, C.TIER_NOTE[TIER]);
     if (TIER === 'ss') { assert.match(man.tierNote, /manifest-100k-ss-parameshvara\.json/); assert.equal(man.samskara, undefined); }
-    else {
+    else if (TIER === 'kerala') {
+      const corr = SST.correction('kerala');
+      assert.deepEqual([...man.samskara.corrects], [...corr.corrects]); assert.equal(man.samskara.epochKali, corr.epochKali);
+      for (const f of ['ss-tier.js', 'parahita-madhyama.js', 'parampara.js', 'corpus/parampara/registry.json']) assert.match(man.moduleSha256[f], /^[0-9a-f]{64}$/, f);
+    } else {
       const corr = SST.correction('parameshvara');
       assert.deepEqual([man.samskara.moonArcmin, man.samskara.nodeArcmin, man.samskara.epochKali], [corr.moonArcmin, corr.nodeArcmin, corr.epochKali]);
       for (const f of ['ss-tier.js', 'parampara.js', 'corpus/parampara/samskara.json', 'corpus/parampara/registry.json']) assert.match(man.moduleSha256[f], /^[0-9a-f]{64}$/, f);

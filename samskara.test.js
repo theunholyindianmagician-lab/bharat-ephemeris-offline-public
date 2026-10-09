@@ -494,3 +494,18 @@ test('[council KH-03] an eclipse seen or not seen, untimed, is an inequality on 
     }
   }
 });
+
+// A partial eclipse has no inner contacts; absence must never become the middle time.
+test('solar model preserves absent contacts and rejects unknown contact names', () => {
+  const model = SK.model({}), site = { latitude: 23.1765, deshantara: 0 };
+  const text = GH.solarEclipse(1870377, site);
+  assert.equal(text.contacts.nimilana, null);
+  const eclipse = SK.solarEclipseOnModel(model, 1870377, site);
+  assert.equal(eclipse.at('nimilana'), null);
+  assert.equal(eclipse.at('unmilana'), null);
+  assert.equal(eclipse.at('sparsha'), text.contacts.sparsha);
+  assert.equal(eclipse.at('moksha'), text.contacts.moksha);
+  assert.throws(() => eclipse.at('unknown'), RangeError);
+  const absent = SK.solarEclipseOnModel(model, 1870000, site);
+  assert.equal(absent.at('sparsha'), null);
+});

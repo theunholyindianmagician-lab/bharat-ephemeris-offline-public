@@ -1,4 +1,4 @@
-const CACHE = "bharat-ephemeris-s9-v25-tiers";
+const CACHE = "bharat-ephemeris-s9-v27-kerala";   // v27: the fourth choice (Kerala paramparā) and Parameśvara's ayanāṃśa in the default; v26: the eclipse-contact fix; the referee theories are not precached
 const CORE = [
   "./",
   "./index.html",
@@ -7,11 +7,7 @@ const CORE = [
   "./panchang.html",
   "./shunyabheda.html",
   "./shoonya_sovereign_dashboard.html",
-  "./vsop87-full.js",
-  "./elp-moon.js",
   "./math-core.js",
-  "./drik-engine.js",
-  "./drik-tier.js",
   "./siddhanta-drik.js",
   "./siddhanta-tier.js",
   "./payment.js",
@@ -40,6 +36,8 @@ const CORE = [
   "./corpus/surya-siddhanta/yogatara.json",
   // siddhanta-panchanga.html, the public pañcāṅga on the same engine (with muhurta.js and dasha.js)
   "./siddhanta-panchanga.html", "./siddhanta-panchanga-page.js", "./muhurta.js", "./dasha.js",
+  // ganita-shala.html, the research page: every derivation with its measured figure, and the four choices against the sky
+  "./ganita-shala.html", "./ganita-shala-page.js", "./sukshma-kala.js", "./corpus/research/derivations.json", "./corpus/research/parampara-apply.json",
   // the three tiers (2026-10-08): every page that loads math-core.js loads the text tiers' modules, the paramparā record
   // (parampara-record.js = corpus/parampara/registry.json + samskara.json as one script; the JSON files too, for a page
   // that reads them), ss-tier.js, and for the Modern Bhāratīya (dṛk) choice siddhanta-tier.js and drik-grahana.js;

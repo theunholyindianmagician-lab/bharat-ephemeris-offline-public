@@ -130,6 +130,7 @@
     def(`${b}.epoch`, { kind: "epoch", body: b, unit: "arcmin", scale: fast ? 60 : 600, step: fast ? 0.05 : 0.5 });
   }
   def("sunApogee.epoch", { kind: "epoch", body: "sunApogee", unit: "arcmin", scale: 600, step: 0.5 });
+  def("sunApogee.rev", { kind: "rev", body: "sunApogee", unit: "revolutions a yuga", scale: 1000, step: 10 });
   for (const b of ["sun", "moon"]) for (const end of ["even", "odd"]) def(`${b}.paridhi.${end}`, { kind: "paridhi", body: b, end, unit: "degrees of the epicycle", scale: 1, step: 0.01 });
   def("moon.latitude", { kind: "latitude", body: "moon", unit: "arcmin", scale: 30, step: 0.1 });
   def("ayanamsha.phase", { kind: "ayanamsha", unit: "degrees of the libration arc", scale: 2, step: 0.01 });
@@ -208,7 +209,7 @@
     const d = (k) => x[k] || 0;
     const L = {};
     for (const b of BODIES) L[b] = { e: d(`${b}.epoch`) / 60, n: (RETRO[b] ? -1 : 1) * d(`${b}.rev`) * perDay };
-    const sunApogeeE = d("sunApogee.epoch") / 60;
+    const sunApogeeE = d("sunApogee.epoch") / 60, sunApogeeN = d("sunApogee.rev") * perDay;
     const pairSun = [S.PARIDHI.sun[0] + d("sun.paridhi.even"), S.PARIDHI.sun[1] + d("sun.paridhi.odd")];
     const pairMoon = [S.PARIDHI.moon[0] + d("moon.paridhi.even"), S.PARIDHI.moon[1] + d("moon.paridhi.odd")];
     const incl = S.MOON_MAX_LATITUDE_ARCMIN + d("moon.latitude");
@@ -217,7 +218,7 @@
     function mean(t) {
       const b = base(t), tau = t - tRef, out = {};
       for (const k of BODIES) out[k] = mod(b[k] + L[k].e + L[k].n * tau, 360);
-      if (b.sunApogee !== undefined) out.sunApogee = mod(b.sunApogee + sunApogeeE, 360);
+      if (b.sunApogee !== undefined) out.sunApogee = mod(b.sunApogee + sunApogeeE + sunApogeeN * tau, 360);
       return out;
     }
     /** True Sun and Moon (sidereal degrees), the node, and the Moon's latitude (arcmin): SS 2.29-2.45, 2.57. */
@@ -230,6 +231,7 @@
     }
     /** SS 3.9-3.10 with the libration's phase, amplitude and rate moved. */
     function ayanamsha(t) {
+      if (ctx.ayanamshaFn) return ctx.ayanamshaFn(t);                                 // the tier's own rule (see model)
       needTrue();
       const b = S.bhuja(base(t).theta + ay.phase + ay.rate * (t - tRef));
       return -b.sign * ay.amp / 90 * b.bhuja;
@@ -250,13 +252,15 @@
     }
     return { x, ctx, mean, places, ayanamsha, sayanaSun, motion, planet };
   }
-  function contextOf(canonName, epoch) {
+  function contextOf(canonName, epoch, ayanamshaFn = null) {
     const canon = canonOf(canonName);
     if (!Number.isFinite(epoch)) throw new TypeError("samskara: the epoch is a Kali day");
-    return { canon, epoch, base: baseOf(canon), planetBase: planetBaseOf() };
+    if (ayanamshaFn !== null && typeof ayanamshaFn !== "function") throw new TypeError("samskara: opts.ayanamsha is a function of the day count (degrees)");
+    return { canon, epoch, base: baseOf(canon), planetBase: planetBaseOf(), ayanamshaFn };
   }
-  /** The model at the text's values moved by `deltas`, about a declared epoch (Kali day). */
-  function model(deltas, opts = {}) { return buildModel(contextOf(opts.canon, opts.epoch ?? 0), deltas || {}); }
+  /** The model at the text's values moved by `deltas`, about a declared epoch (Kali day). opts.ayanamsha: a tier's own
+   *  ayanāṃśa rule (a function of t, degrees) in place of the text's libration — ss-tier.js gives the Kerala tier's. */
+  function model(deltas, opts = {}) { return buildModel(contextOf(opts.canon, opts.epoch ?? 0, opts.ayanamsha ?? null), deltas || {}); }
 
   // ── events on the model: opposition, conjunction, the lunar eclipse, the crescent ───────────────────
   /** The instant near t0 at which Moon − Sun = target degrees (Newton on the model's own places). */
@@ -333,12 +337,19 @@
     const geom = (MM, t) => {
       const b = { sun: MM.motion(t, "sun"), moon: MM.motion(t, "moon") }, d = GH.discsFrom(b);
       const beta = MM.places(t).latitude - nati(t - (MM === M0 ? 0 : shift));
-      return { beta, halfSum: (d.sun + d.moon) / 2, sthiti: GH.ardhas(d.sun, d.moon, beta, b.moon - b.sun).sthiti, grahya: d.sun };
+      const halves = GH.ardhas(d.sun, d.moon, beta, b.moon - b.sun);
+      return { beta, halfSum: (d.sun + d.moon) / 2, sthiti: halves.sthiti, vimarda: halves.vimarda, grahya: d.sun };
     };
     const at = (c) => {
-      if (c === "madhya" || E0.contacts[c] === null || E0.contacts[c] === undefined) return E0.middle + shift;
-      const s = c === "sparsha" ? -1 : 1, t0 = E0.contacts[c], g0 = geom(M0, t0), g = geom(M, t0 + shift);
-      const d = (g.sthiti > 0 ? g.sthiti : 0) - (g0.sthiti > 0 ? g0.sthiti : 0);     // nāḍīs
+      if (!["madhya", "sparsha", "nimilana", "unmilana", "moksha"].includes(c))
+        throw new RangeError(`samskara: unknown solar contact ${c}`);
+      if (c === "madhya") return tm;
+      if (!E0.contacts || !Number.isFinite(E0.contacts[c])) return null;
+      const s = (c === "sparsha" || c === "nimilana") ? -1 : 1;
+      const t0 = E0.contacts[c], g0 = geom(M0, t0), g = geom(M, t0 + shift);
+      const duration = (c === "nimilana" || c === "unmilana") ? "vimarda" : "sthiti";
+      if (!(g[duration] > 0) || !(g0[duration] > 0)) return null;
+      const d = g[duration] - g0[duration];     // nāḍīs; inner contacts use vimarda (SS 6.20–22)
       return t0 + shift + s * d / 60;
     };
     const g = geom(M, tm);

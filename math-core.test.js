@@ -139,7 +139,7 @@ test("canonical model is sphuta plus bīja for exactly the intended bodies", () 
 test("graha-model option contracts reject silently ignored positional arguments", () => {
   const jd = 2461269.4375;
   // a named ayanāṃśa is not a tier (2026-10-08): the rejection names the three tiers
-  assert.throws(() => M.sphutaGrahaModel(jd, "effective_49", { applyBija: false }), /Unknown engine mode 'effective_49': the tiers are 'ss\+parameshvara', 'ss' and 'drik'/);
+  assert.throws(() => M.sphutaGrahaModel(jd, "effective_49", { applyBija: false }), /Unknown engine mode 'effective_49': the tiers are 'ss\+parameshvara', 'ss', 'kerala' and 'drik'/);
   assert.throws(() => M.canonicalGrahaModel(jd, { applyBija: "false" }), /expected a boolean or/);
   const plainBoolean = M.canonicalGrahaModel(jd, false);
   const plainObject = M.canonicalGrahaModel(jd, { applyBija: false });
@@ -303,7 +303,7 @@ test("whole-sign bhāva agrees with the cusp bhāva for this sample instant", ()
 test("bridges (lagna, bhāva, frame offset, sunrise, Sun, Moon) take a tier and reject a named ayanāṃśa (2026-10-08)", () => {
   const jd = 2451545.0;
   for (const name of ["effective_49", "spica_lahiri", "linear_54"]) {
-    const re = new RegExp(`bridges take a tier: ss\\+parameshvara, ss or drik \\(not the named ayanāṃśa '${name}'\\)`);
+    const re = new RegExp(`bridges take a tier: ss\\+parameshvara, ss, kerala or drik \\(not the named ayanāṃśa '${name}'\\)`);
     assert.throws(() => M.bhavaModel(jd, 28.6139, 77.209, name), re);
     assert.throws(() => M.siderealAscendantDeg(jd, 28.6139, 77.209, name), re);
     assert.throws(() => M.coordinateFrameOffsetDeg(jd, name), re);

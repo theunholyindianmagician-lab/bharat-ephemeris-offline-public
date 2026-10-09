@@ -30,7 +30,7 @@
   else root.Panchanga = factory(root.Sphuta, root.Dhruva, root.KalaDvara, root.SSUdaya);
 })(typeof globalThis !== "undefined" ? globalThis : this, function panchangaOf(S, D, K, U) {
   "use strict";
-  function build(placesFn, model) {
+  function build(placesFn, model, ayanamshaFn) {
   const D2R = Math.PI / 180, R2D = 180 / Math.PI;
   const mod = (a, m) => ((a % m) + m) % m;
   const wrap180 = (a) => mod(a + 180, 360) - 180;
@@ -65,7 +65,12 @@
 
   // ── places ──────────────────────────────────────────────────────────────────────────────────────
   function placesAt(t) { return placesFn(t); }
-  function ayanamshaAt(t, opts) { return opts && typeof opts.ayanamsha === "number" ? opts.ayanamsha : S.ayanamshaSS(S.spandasOfDays(t)); }
+  /** The ayanāṃśa at t: opts.ayanamsha (a number) overrides; else this instance's own rule (ayanamshaFn, given to
+   *  withPlaces by a tier: ss-tier.js), else the text's SS 3.9-3.10. */
+  function ayanamshaAt(t, opts) {
+    if (opts && typeof opts.ayanamsha === "number") return opts.ayanamsha;
+    return typeof ayanamshaFn === "function" ? ayanamshaFn(t) : S.ayanamshaSS(S.spandasOfDays(t));
+  }
   const epsOf = (opts) => (opts && typeof opts.epsilon === "number" ? opts.epsilon : D.SS_EPSILON_DEG);
 
   /** Hour angle of the true Sun (degrees, 0 at the meridian, increasing westward) at the site. */
@@ -315,7 +320,7 @@
     if (site.deshantara <= -360 || site.deshantara >= 360) throw new RangeError(`panchanga: deśāntara ${site.deshantara}° is not within one turn (−360°, 360°) of the Laṅkā–Ujjayinī meridian`);   // longitude − 75.79°: San Francisco is −198°
   }
 
-  return Object.freeze({ ayanamshaAt, moonModel: model, withPlaces: (fn, name) => build(fn, name || "custom"),
+  return Object.freeze({ ayanamshaAt, moonModel: model, withPlaces: (fn, name, ayanamsha) => build(fn, name || "custom", typeof ayanamsha === "function" ? ayanamsha : undefined),
     sine: S.sine || "table", withSine: (name) => panchangaOf(S.withSine(name), D, K, U && U.withSine(name)), NADI_DAYS, NAKSHATRA, TITHI, YOGA, KARANA_MOVABLE, KARANA_FIXED, RASHI, MONTH, MONTH_OF_FULLMOON_NAKSHATRA, NAMES_SOURCE,
     placesAt, sunHourAngle, sunEvent, sunrise, sunset, limbsAt, tithiName, karanaName, nextChange, prevChange, syzygyNear, sankrantisBetween, nameMonth, lunarMonth,
     ramcOf, lagnaAt, meridianAt, civilDayOf, panchanga });
