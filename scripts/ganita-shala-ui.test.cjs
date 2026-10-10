@@ -145,6 +145,7 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
     const now = await page.$$eval('#kalachakra-now p', (ps) => ps.map((p) => ({ tier: p.dataset.tier, text: p.textContent, refusal: p.className === 'refusal' })));
     assert.equal(now.length, 4); assert.ok(now.every((n) => !n.refusal && /cell \d+ .*running/.test(n.text)), JSON.stringify(now));
     assert.ok((await page.$$eval('#kalachakra-readings li', (ls) => ls.length)) >= 8);
+    const audit = await page.$$eval('#kalachakra-audit p', (ps) => ps.map((p) => p.textContent)); assert.equal(audit.length, 4); assert.match(audit[0], /^the readings adopted: 63 of 63 checks pass$/); assert.match(audit[1], /84 ≠ 83/);
     // section 6: the library sweep, one card per edition with its findings; the tower table from the loaded modules
     const sweep = JSON.parse(fs.readFileSync(path.join(root, 'corpus', 'research', 'library-sweep.json'), 'utf8'));
     await page.waitForFunction((n) => document.body.dataset.granthas === String(n), sweep.reads.length, { timeout: 120000 });

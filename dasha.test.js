@@ -70,3 +70,10 @@ test('46.16: the balance is the lord\'s years × the part of the nakṣatra stil
   assert.equal(chain.length, 5);
   assert.equal(chain[0].name, 'Rāhu');
 });
+
+test('the year is validated once, in yearOf: a name in YEAR, or a positive rational of civil days — a zero denominator, a zero or negative length and an unknown name are refused', () => {
+  const t = K.kaliDayFromCivil({ calendar: 'gregorian', year: 2000, month: 1, day: 1 }) + 0.5;
+  for (const year of [{ num: 1n, den: 0n }, { num: -360n, den: 1n }, { num: 0n, den: 1n }, { num: 360n, den: -1n }]) assert.throws(() => Dh.vimshottari(t, { year }), /year/);
+  assert.throws(() => Dh.vimshottari(t, { year: 'bogus' }), /unknown year/); assert.throws(() => Dh.vimshottari(t, { year: { num: 360, den: 1 } }), /year must be/);
+  assert.deepEqual(Dh.yearOf({ year: { num: -720n, den: -2n } }), { num: 360n, den: 1n }); assert.deepEqual(Dh.yearOf({}), Dh.YEAR['saura-surya']); assert.deepEqual(Dh.yearOf({ year: 'savana-360' }), Dh.YEAR['savana-360']);
+});

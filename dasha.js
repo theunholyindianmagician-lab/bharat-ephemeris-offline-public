@@ -50,7 +50,12 @@
     const y = opts && opts.year;
     if (!y) return YEAR["saura-surya"];
     if (typeof y === "string") { if (!YEAR[y]) throw new RangeError(`dasha: unknown year "${y}"`); return YEAR[y]; }
-    if (typeof y.num === "bigint" && typeof y.den === "bigint") return y;
+    if (typeof y.num === "bigint" && typeof y.den === "bigint") {
+      if (y.den === 0n) throw new RangeError("dasha: a year's denominator cannot be zero");
+      const r = q(y.num, y.den);                                                // normalised: den > 0
+      if (r.num <= 0n) throw new RangeError("dasha: a year must be a positive number of civil days");
+      return r;
+    }
     throw new TypeError("dasha: year must be a name in YEAR or { num, den } civil days (BigInt)");
   }
   /** Years (rational) → spandas (rational). */
@@ -128,7 +133,7 @@
     return { ...K.civilFromKaliDay(Number(day), calendar), time: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}` };
   }
 
-  return Object.freeze({ panchanga: P, withPanchanga: (p) => build(p), withSine: (name) => dashaOf(P.withSine(name), K), LORDS, YEARS, TOTAL, LEVELS, YEAR, lordOfNakshatra, mahadashas, subPeriods, chainAt, birthState, vimshottari, toCivil, q, add, sub, mul, cmp });
+  return Object.freeze({ panchanga: P, withPanchanga: (p) => build(p), withSine: (name) => dashaOf(P.withSine(name), K), LORDS, YEARS, TOTAL, LEVELS, YEAR, yearOf, lordOfNakshatra, mahadashas, subPeriods, chainAt, birthState, vimshottari, toCivil, q, add, sub, mul, cmp });
   }
   return build(P);
 });

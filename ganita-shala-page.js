@@ -251,7 +251,9 @@
       } catch (e) { const p = el("p", "refusal", `${M.TIERS[id].labelSa}: ${e.message}`); p.dataset.tier = id; out.appendChild(p); }
     }
     const ul = $("kalachakra-readings").querySelector("ul"); ul.textContent = "";
-    for (const r of KC.READINGS) ul.appendChild(el("li", null, `${r.verse} [${r.tag}]: ${r.what}`));
+    for (const r of KC.READINGS) ul.appendChild(el("li", null, `${r.verse} [${r.tag}]: ${r.what} — evidence: ${r.evidence} — ${r.status}.`));
+    const au = $("kalachakra-audit"); au.textContent = "";
+    for (const name of Object.keys(KC.VARIANTS)) { const a = KC.audit(name); au.appendChild(el("p", a.failures.length ? "src" : "ok", `${a.label}: ${a.passed} of ${a.total} checks pass${a.failures.length ? ` — fails ${a.failures.map((f) => `${f.type} ${f.pada} ${f.check}${f.detail ? ` (${f.detail})` : ""}`).join("; ")}` : ""}`)); }
   }
 
   // ── section 6: the library, and the ring tower in the text's numbers ─────────────────────────────────────────────

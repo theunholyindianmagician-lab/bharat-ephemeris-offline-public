@@ -39,6 +39,7 @@
   const SIGN_YEARS = Object.freeze(SIGN_LORD.map((l) => LORD_YEARS[l]));                                                                 // [7,16,9,21,5,9,16,7,10,4,4,10]
   const PARAMAYUS = Object.freeze([100, 85, 83, 86]);                                                                                   // 46.89, by the trine of the aṃśaka (Meṣa, Vṛṣa, Mithuna, Karka)
   const PADA_ARCMIN = 200, NAKSHATRA_ARCMIN = 800;
+  const MICRO = 3600000000n, CIRCLE = 360n * MICRO, PADA = CIRCLE / 108n;   // micro-arcseconds: a pāda is 12,000,000,000 µas exactly, as in sukshma-kala.js
   const NAKSHATRAS = P.NAKSHATRA;
 
   /** The sixteen chains, signs 1…12, listed in the counting order of 46.95 (savya from deha, apasavya from jīva). */
@@ -50,16 +51,57 @@
   });
   const VERSES = Object.freeze({ ashvini: ["46.60", "46.61", "46.62", "46.63-64"], bharani: ["46.66", "46.67", "46.68", "46.69"], rohini: ["46.73", "46.74", "46.75", "46.76"], mrigashira: ["46.78", "46.79", "46.80", "46.81"] });
   const GROUP = Object.freeze({ ashvini: "savya", bharani: "savya", rohini: "apasavya", mrigashira: "apasavya" });
+  /** Deha and jīva as each verse names them (signs 1…12), the hard checks of audit(); 46.66 names only "jhaṣa" for the line and is not a hard check. */
+  const DEHA_JIVA = Object.freeze({
+    ashvini: [{ deha: 1, jiva: 9 }, { deha: 10, jiva: 3 }, { deha: 2, jiva: 3 }, { deha: 4, jiva: 12 }],
+    bharani: [{ deha: 8, jiva: 12, attested: false, note: "46.66 names only jhaṣa (Mīna) for the deha–jīva line" }, { deha: 11, jiva: 6 }, { deha: 7, jiva: 6 }, { deha: 4, jiva: 9 }],
+    rohini: [{ deha: 4, jiva: 9 }, { deha: 7, jiva: 6 }, { deha: 11, jiva: 6 }, { deha: 8, jiva: 12 }],
+    mrigashira: [{ deha: 4, jiva: 12 }, { deha: 2, jiva: 3 }, { deha: 10, jiva: 3 }, { deha: 1, jiva: 9 }],
+  });
+  /** Each reading with its evidence and its status: what the verse's own letters attest, and what is forced by the identities
+   *  that hold on the undisputed chains (the reversal pairs 46.60↔46.81, 46.64↔46.78, 46.67↔46.75, 46.69↔46.73, and the
+   *  sums 100, 85, 83, 86 on the twelve chains the edition decoded without emendation). audit() runs the alternatives. */
   const READINGS = Object.freeze([
-    { verse: "46.61", what: "the verse names deha Mṛga (Makara) and jīva Mithuna and says 'in order up to Mithuna'; the interior is Mṛgaśira's pāda 3 (46.80) reversed: Makara, Kumbha, Mīna, Vṛścika, Tulā, Kanyā, Karka, Siṃha, Mithuna; sum 85 = the aṃśaka Vṛṣa's paramāyus", tag: "reading" },
-    { verse: "46.62", what: "the compound gives 2, 1, 12, 11, 10, 9; the close to the jīva Mithuna is Meṣa, Vṛṣa, Mithuna — Mṛgaśira's pāda 2 (46.79) reversed; sum 83", tag: "reading" },
-    { verse: "46.63", what: "the printed compound (kvakṣirāmarkṣa…) does not decode; 46.64 states the chain: the nine signs from Karka, deha Karka, jīva Mīna; sum 86", tag: "text (46.64)" },
-    { verse: "46.66", what: "the compound read left to right, as 46.67–69 are: Vṛścika, Tulā, Kanyā, Karka, Siṃha, Mithuna, Vṛṣa, Meṣa, Mīna — deha Vṛścika, jīva Mīna ('the deha–jīva line [ends at] Mīna'); it is Rohiṇī's pāda 4 (46.76) reversed; sum 100. The standard printed tables start this chain at Mīna with Karka before Siṃha", tag: "reading" },
-    { verse: "46.74", what: "the printed first word aṅka (9) breaks deha Tulā–jīva Kanyā and the sum; aṅga (6) restores both: Kanyā, Tulā, Vṛścika, Mīna, Kumbha, Makara, Dhanu, Vṛścika, Tulā = Bharaṇī's pāda 3 (46.68) reversed; sum 83", tag: "reading (one letter)" },
-    { verse: "46.77", what: "the octad 'like Cāndra' puts the second and third stars of each apasavya triad with Mṛgaśira; the standard tables put the third with Rohiṇī — TYPE_RULE 'standard'", tag: "reading" },
-    { verse: "46.89", what: "akṣa-aṣṭau, tri-gajāḥ, aṅga-gajāḥ read units first (aṅkānāṃ vāmato gatiḥ): 85, 83, 86 — every chain's sum confirms; the edition's 28, 38, 68 read them the other way and then reports a 3-year mismatch at 46.80", tag: "reading" },
-    { verse: "46.94", what: "the aṃśaka that keys the paramāyus in apasavya is counted viloma: 4r + (5 − p); with 46.88 as printed the sums would not match", tag: "reading" },
+    { verse: "46.61", what: "the verse names deha Mṛga (Makara) and jīva Mithuna and says 'in order up to Mithuna'; the interior is Mṛgaśira's pāda 3 (46.80) reversed: Makara, Kumbha, Mīna, Vṛścika, Tulā, Kanyā, Karka, Siṃha, Mithuna; sum 85 = the aṃśaka Vṛṣa's paramāyus", tag: "reading",
+      evidence: "46.80's own letters (tri-bāṇa-abdhi-rasa-aga-aṣṭa-sūrya-īśa-daśa = 3, 5, 4, 6, 7, 8, 12, 11, 10) reversed; the verse's deha and jīva stand at its two ends; the sum 85", status: "forced by the reversal pattern and the sum; not spelled in 46.61's own letters" },
+    { verse: "46.62", what: "the compound gives 2, 1, 12, 11, 10, 9; the close to the jīva Mithuna is Meṣa, Vṛṣa, Mithuna — Mṛgaśira's pāda 2 (46.79) reversed; sum 83", tag: "reading",
+      evidence: "46.79's letters (tri-dvi-eka-aṅka-diś-īśa-arka-candra-akṣi = 3, 2, 1, 9, 10, 11, 12, 1, 2) reversed agree with the six the compound gives and supply the three to the jīva; the sum 83", status: "forced by the reversal pattern and the sum; the verse spells six of nine" },
+    { verse: "46.63", what: "the printed compound (kvakṣirāmarkṣa…) does not decode; 46.64 states the chain: the nine signs from Karka, deha Karka, jīva Mīna; sum 86", tag: "text (46.64)",
+      evidence: "46.64's words karkādi-nava-rāśi-pāḥ; 46.78's letters reversed agree; the sum 86", status: "text" },
+    { verse: "46.66", what: "the compound read left to right, as 46.67–69 are: Vṛścika, Tulā, Kanyā, Karka, Siṃha, Mithuna, Vṛṣa, Meṣa, Mīna — deha Vṛścika, jīva Mīna ('the deha–jīva line [ends at] Mīna'); it is Rohiṇī's pāda 4 (46.76) reversed; sum 100. The standard printed tables start this chain at Mīna with Karka before Siṃha", tag: "reading",
+      evidence: "the sum is 100 in either direction, so only the pair decides: 46.76's letters (sūrya-indu-dvi-guṇa-iṣu-abdhi-tarka-śaila-aṣṭa = 12, 1, 2, 3, 5, 4, 6, 7, 8) are exactly this compound read left to right and reversed; the standard order would need 46.76 to read abdhi-iṣu", status: "forced by the reversal pattern alone; the verse's deha–jīva words are ambiguous (audit '46.66-standard-tables')" },
+    { verse: "46.74", what: "the printed first word aṅka (9) breaks deha Tulā–jīva Kanyā and the sum; aṅga (6) restores both: Kanyā, Tulā, Vṛścika, Mīna, Kumbha, Makara, Dhanu, Vṛścika, Tulā = Bharaṇī's pāda 3 (46.68) reversed; sum 83", tag: "reading (one letter)",
+      evidence: "as printed the chain sums to 84, starts on Dhanu where the verse puts the jīva Kanyā, is not 46.68 reversed, and takes a step Dhanu → Tulā that is no motion of 46.96–100; with aṅga all four hold (audit '46.74-as-printed')", status: "forced by four independent checks; one letter" },
+    { verse: "46.77", what: "the octad 'like Cāndra' puts the second and third stars of each apasavya triad with Mṛgaśira; the standard tables put the third with Rohiṇī — TYPE_RULE 'standard'", tag: "reading",
+      evidence: "the verse's plain words; no sum or pair distinguishes the two assignments (both types give 86, 83, 85, 100)", status: "text as printed, differs from the standard tables; undecidable from the numbers" },
+    { verse: "46.89", what: "akṣa-aṣṭau, tri-gajāḥ, aṅga-gajāḥ read units first (aṅkānāṃ vāmato gatiḥ): 85, 83, 86 — every chain's sum confirms; the edition's 28, 38, 68 read them the other way and then reports a 3-year mismatch at 46.80", tag: "reading",
+      evidence: "the twelve chains the edition itself decoded without emendation sum to 100, 85, 83 or 86 and never to 28, 38 or 68 (audit '46.89-as-edition' fails all sixteen)", status: "proven on the undisputed chains" },
+    { verse: "46.94", what: "the aṃśaka that keys the paramāyus in apasavya is counted viloma: 4r + (5 − p); with 46.88 as printed the sums would not match", tag: "reading",
+      evidence: "Rohiṇī's and Mṛgaśira's undisputed chains sum to 86, 83, 85, 100 for pādas 1…4 — 46.89's order reversed", status: "forced by the sums" },
   ]);
+  /** The alternatives an audit can run: the adopted readings, and each contested one the other way. */
+  const VARIANTS = Object.freeze({
+    text: { label: "the readings adopted", chains: CHAINS, paramayus: PARAMAYUS },
+    "46.74-as-printed": { label: "46.74 with the printed aṅka (9) as its first word", chains: { ...CHAINS, rohini: [CHAINS.rohini[0], [9, 7, 8, 12, 11, 10, 9, 8, 7], CHAINS.rohini[2], CHAINS.rohini[3]] }, paramayus: PARAMAYUS },
+    "46.66-standard-tables": { label: "46.66 as the standard printed tables (Mīna first, Karka before Siṃha)", chains: { ...CHAINS, bharani: [[12, 1, 2, 3, 4, 5, 6, 7, 8], ...CHAINS.bharani.slice(1)] }, paramayus: PARAMAYUS },
+    "46.89-as-edition": { label: "46.89 as the edition read it (100, 28, 38, 68)", chains: CHAINS, paramayus: [100, 28, 38, 68] },
+  });
+  /** Every hard check on a variant's chains: the sum against the paramāyus, deha and jīva against the verse (where attested), the
+   *  reversal pair, and the steps. Returns the counts and the failures, so each reading's proof is runnable. */
+  function audit(name = "text") {
+    const v = VARIANTS[name]; if (!v) throw new RangeError(`kalachakra: unknown variant "${name}" (${Object.keys(VARIANTS).join(", ")})`);
+    const checks = [], fail = (type, p, check, detail) => checks.push({ type, pada: p + 1, check, ok: false, detail }), pass = (type, p, check) => checks.push({ type, pada: p + 1, check, ok: true });
+    for (const type of Object.keys(v.chains)) for (let p = 0; p < 4; p++) {
+      const signs = v.chains[type][p], savya = GROUP[type] === "savya", r = { ashvini: 0, bharani: 1, rohini: 0, mrigashira: 1 }[type];
+      const key = savya ? 4 * r + p + 1 : 4 * r + 4 - p, want = v.paramayus[(key - 1) % 4], sum = signs.reduce((a, s) => a + SIGN_YEARS[s - 1], 0);
+      sum === want ? pass(type, p, "sum = paramāyus") : fail(type, p, "sum = paramāyus", `${sum} ≠ ${want}`);
+      const dj = DEHA_JIVA[type][p]; if (dj.attested !== false) { const d = savya ? signs[0] : signs[8], j = savya ? signs[8] : signs[0]; (d === dj.deha && j === dj.jiva) ? pass(type, p, "deha, jīva as the verse") : fail(type, p, "deha, jīva as the verse", `${SIGNS[d - 1]}, ${SIGNS[j - 1]} for ${SIGNS[dj.deha - 1]}, ${SIGNS[dj.jiva - 1]}`); }
+      const pair = { rohini: ["bharani", 3 - p], mrigashira: ["ashvini", 3 - p], bharani: ["rohini", 3 - p], ashvini: ["mrigashira", 3 - p] }[type];
+      const other = v.chains[pair[0]][pair[1]]; signs.every((s, i) => s === other[8 - i]) ? pass(type, p, "reversal pair") : fail(type, p, "reversal pair", `not ${pair[0]} pāda ${pair[1] + 1} reversed`);
+      try { stepsOf(signs); pass(type, p, "steps"); } catch (e) { fail(type, p, "steps", e.message); }
+    }
+    return { variant: name, label: v.label, total: checks.length, passed: checks.filter((c) => c.ok).length, failures: checks.filter((c) => !c.ok), checks };
+  }
   /** The three motions on a step between two signs (46.99–100), by the unordered pair; every other step of every chain is one sign. */
   const MOTIONS = Object.freeze([
     { pair: [6, 4], name: "maṇḍūkī", verse: "46.99" }, { pair: [5, 3], name: "maṇḍūkī", verse: "46.99" },
@@ -88,12 +130,14 @@
   const fin = (x, what) => { if (typeof x !== "number" || !Number.isFinite(x)) throw new TypeError(`kalachakra: ${what} must be a finite number`); return x; };
   const mod = (a, n) => ((a % n) + n) % n;
 
-  /** The 108-cell index of a sidereal longitude (degrees): cell = 4n + (p − 1), nakṣatra n = 0…26, pāda p = 1…4. */
+  /** The 108-cell index of a sidereal longitude (degrees): cell = 4n + (p − 1), nakṣatra n = 0…26, pāda p = 1…4. The longitude
+   *  is rounded ONCE, to a micro-arcsecond, and the cell and the arc gone in it are the quotient and remainder of that one
+   *  integer by the pāda — so the arc gone is always less than a pāda and never disagrees with the cell (the second review found
+   *  the earlier float floor and a separate rounding of the arc could put the arc at a full pāda with no sign running). */
   function cellOf(lonDeg) {
-    const lam = mod(fin(lonDeg, "the longitude"), 360);
-    const arcmin = lam * 60;
-    const cell = Math.min(107, Math.floor(arcmin / PADA_ARCMIN));
-    return { cell, nakshatra: Math.floor(cell / 4), pada: cell % 4 + 1, goneArcmin: arcmin - cell * PADA_ARCMIN };
+    const micro = ((BigInt(Math.round(fin(lonDeg, "the longitude") * 3.6e9)) % CIRCLE) + CIRCLE) % CIRCLE;
+    const cell = Number(micro / PADA), goneMicro = micro % PADA;
+    return { cell, nakshatra: Math.floor(cell / 4), pada: cell % 4 + 1, micro, goneMicro, goneArcmin: Number(goneMicro) / 6e7 };
   }
   /** Which chain a nakṣatra (0-based) and pāda take, and the aṃśaka that keys its years. opts.types: 'text' (46.77) or 'standard'. */
   function TYPE_RULE(nakshatra0, types = "text") {
@@ -135,13 +179,20 @@
   // ── the daśā from a birth ──────────────────────────────────────────────────────────────────────────────────────────
   const { q, add, sub, mul, cmp } = D;
   const yearsToSpandas = (years, year) => mul(years, q(year.num * SPD, year.den));
-  const yearOf = (opts) => D.YEAR[(opts && opts.year) || "saura-surya"] || (opts && opts.year);
+  const yearOf = (opts) => D.yearOf(opts);                                     // dasha.js validates: a name in YEAR, or a positive rational of civil days
+  const cyclesOf = (opts) => { const c = opts && opts.cycles !== undefined ? opts.cycles : 1; if (!Number.isInteger(c) || c < 1 || c > 108) throw new RangeError("kalachakra: cycles is an integer 1…108 (one chain per pāda)"); return c; };
+  const rationalOf = (x, what) => {
+    if (typeof x === "bigint") return q(x, 1n);
+    if (x && typeof x.num === "bigint" && typeof x.den === "bigint" && x.den !== 0n) return q(x.num, x.den);
+    throw new TypeError(`kalachakra: ${what} must be a BigInt or { num, den } of spandas`);
+  };
   const S = (x) => { const w = Math.floor(x); return BigInt(w) * SPD + BigInt(Math.round((x - w) * Number(SPD))); };
 
-  /** The nine periods of one chain from an instant at which `gone` of its paramāyus (rational years) is already elapsed; the
-   *  signs whose years lie inside `gone` are marked elapsed and the running one carries its balance. */
-  function periodsOf(chain, startSpandas, gone, year, label) {
-    let start = sub(q(startSpandas, 1n), yearsToSpandas(gone, year));          // the chain began before the instant
+  /** The nine periods of one chain from an instant (rational spandas) at which `gone` of its paramāyus (rational years) is
+   *  already elapsed; the signs whose years lie inside `gone` are marked elapsed and the running one carries its balance.
+   *  With 0 ≤ gone < paramāyus exactly one sign is running [theorem: the nine spans partition the paramāyus]. */
+  function periodsOf(chain, startR, gone, year, label) {
+    let start = sub(startR, yearsToSpandas(gone, year));                        // the chain began before the instant
     const out = []; let acc = q(0n, 1n);
     for (let i = 0; i < 9; i++) {
       const y = q(BigInt(chain.years[i]), 1n), len = yearsToSpandas(y, year), end = add(start, len), accEnd = add(acc, y);
@@ -160,24 +211,26 @@
     return fromMoon(L.moon, S(tDays), { ...opts, limbs: L });
   }
   function fromMoon(moonSidereal, birthSpandas, opts) {
-    const year = yearOf(opts), c = cellOf(moonSidereal), chain = chainOf(c.nakshatra, c.pada, opts);
-    const goneMicro = BigInt(Math.round(c.goneArcmin * 1e6));                   // the arc gone in the pāda, in micro-arcminutes
-    const gone = q(goneMicro * BigInt(chain.paramayus), BigInt(PADA_ARCMIN) * 1000000n);   // 46.93: × the pāda's years ÷ 200′
-    const periods = periodsOf(chain, birthSpandas, gone, year, "birth pāda");
+    const year = yearOf(opts), cycles = cyclesOf(opts), birth = rationalOf(birthSpandas, "the birth instant");
+    const c = cellOf(moonSidereal), chain = chainOf(c.nakshatra, c.pada, opts);
+    const gone = q(c.goneMicro * BigInt(chain.paramayus), PADA);                 // 46.93: the arc gone in the pāda × the pāda's years ÷ the pāda — exact, and < paramāyus
+    const periods = periodsOf(chain, birth, gone, year, "birth pāda");
     const next = [];
     let start = periods[8].end, cell = c.cell;
-    for (let k = 1; k < ((opts && opts.cycles) || 1); k++) {
+    for (let k = 1; k < cycles; k++) {
       cell = (cell + 1) % 108; const ch = chainOf(Math.floor(cell / 4), cell % 4 + 1, opts);
-      const ps = periodsOf(ch, start.num / start.den, q(0n, 1n), year, `pāda +${k} [standard continuation]`);
-      // periodsOf takes a BigInt start; rebuild exactly from the rational end
-      let s = start; for (const p of ps) { const len = sub(p.end, p.start); p.start = s; p.end = add(s, len); s = p.end; }
-      next.push({ chain: ch, periods: ps }); start = s;
+      const ps = periodsOf(ch, start, q(0n, 1n), year, `pāda +${k} [standard continuation]`);
+      next.push({ chain: ch, periods: ps }); start = ps[8].end;
     }
-    return { birth: { moonSidereal, cell: c, nakshatra: c.nakshatra + 1, nakshatraName: NAKSHATRAS[c.nakshatra], pada: c.pada, goneArcmin: c.goneArcmin, limbs: opts && opts.limbs },
+    return { birth: { moonSidereal, cell: c, nakshatra: c.nakshatra + 1, nakshatraName: NAKSHATRAS[c.nakshatra], pada: c.pada, goneArcmin: c.goneArcmin, spandas: birth, limbs: opts && opts.limbs },
       chain, goneYears: gone, balanceYears: sub(q(BigInt(chain.paramayus), 1n), gone), periods, next, year, types: (opts && opts.types) || "text" };
   }
-  /** Sub-periods of a period: the nine signs of its own chain in order, each (period × sign-years ÷ the chain's sum) [standard, not in 46.52–100]. */
-  function subPeriods(period, chain) {
+  /** Sub-periods of a period: the nine signs of its own chain in order, each (period × sign-years ÷ the chain's sum) [standard, not in
+   *  46.52–100]. The second argument is the period's chain, or the daśā result it came from (the chain is then found by the period's cell). */
+  function subPeriods(period, ctx) {
+    if (!period || !Array.isArray(period.path)) throw new TypeError("kalachakra: subPeriods needs a period of dasha()/fromMoon()");
+    const chain = ctx && Array.isArray(ctx.signs) ? ctx : chainOf(Math.floor(period.path[0] / 4), period.path[0] % 4 + 1, { types: ctx && ctx.types });
+    if (chain.cell !== period.path[0]) throw new RangeError("kalachakra: the chain given is not the period's own");
     const span = sub(period.end, period.start), out = []; let start = period.start;
     for (let i = 0; i < 9; i++) {
       const len = mul(span, q(BigInt(chain.years[i]), BigInt(chain.sum)));
@@ -188,5 +241,5 @@
   }
   const runningAt = (dasha, instant) => { const t = typeof instant === "bigint" ? q(instant, 1n) : instant; return [...dasha.periods, ...dasha.next.flatMap((n) => n.periods)].find((p) => cmp(p.start, t) <= 0 && cmp(t, p.end) < 0) || null; };
 
-  return Object.freeze({ SIGNS, SIGN_LORD, LORD_YEARS, SIGN_YEARS, PARAMAYUS, CHAINS, VERSES, GROUP, READINGS, MOTIONS, PADA_ARCMIN, NAKSHATRA_ARCMIN, cellOf, TYPE_RULE, chainOf, table, dasha, fromMoon, subPeriods, runningAt, toCivil: D.toCivil, motionOf });
+  return Object.freeze({ SIGNS, SIGN_LORD, LORD_YEARS, SIGN_YEARS, PARAMAYUS, CHAINS, VERSES, GROUP, DEHA_JIVA, READINGS, VARIANTS, MOTIONS, PADA_ARCMIN, NAKSHATRA_ARCMIN, PADA_MICRO: PADA, cellOf, TYPE_RULE, chainOf, table, audit, dasha, fromMoon, subPeriods, runningAt, toCivil: D.toCivil, motionOf });
 });

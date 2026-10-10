@@ -93,3 +93,46 @@ test('the readings are recorded with their verses, and nothing of the phala vers
   assert.ok(K.READINGS.length >= 8); for (const r of K.READINGS) { assert.match(r.verse, /^46\.\d+$/); assert.ok(r.what.length > 40); assert.ok(r.tag); }
   assert.ok(!Object.keys(K).some((k) => /phala|result|effect/i.test(k)));
 });
+
+test('boundaries (the second review\'s finding): at every edge of all 108 cells, for both type readings and the three years, exactly one sign is running, the cell agrees with sukshma-kala, the arc gone is less than a pāda and the balance is positive', () => {
+  const D = require('./dasha.js'); const SPD = 328050000000n, birth = 1865000n * SPD, b = D.q(birth, 1n); let n = 0;
+  for (let k = 0; k < 108; k++) for (const off of [0, 1e-9, 1e-7, 1e-5, 10 / 3 - 1e-12, 10 / 3 - 1e-9, 10 / 3 - 1e-6, 10 / 3 - 1e-4]) {
+    const lon = k * (10 / 3) + off, s = SK.cell(lon);
+    for (const types of ['text', 'standard']) for (const year of Object.keys(D.YEAR)) {
+      const d = K.fromMoon(lon, birth, { types, year }), running = d.periods.filter((p) => p.running);
+      assert.equal(running.length, 1, `${lon} ${types} ${year}`); assert.equal(d.birth.cell.cell, s.k); assert.equal(d.birth.pada, s.pada);
+      assert.ok(d.birth.cell.goneMicro < K.PADA_MICRO && d.birth.cell.goneMicro >= 0n);
+      assert.ok(D.cmp(d.goneYears, D.q(BigInt(d.chain.paramayus), 1n)) < 0); assert.ok(D.cmp(running[0].balanceYears, D.q(0n, 1n)) > 0);
+      assert.ok(D.cmp(running[0].start, b) <= 0 && D.cmp(b, running[0].end) < 0); assert.equal(K.runningAt(d, birth), running[0]);
+      const el = d.periods.filter((p) => p.elapsed).length; assert.equal(d.periods.indexOf(running[0]), el); n++;
+    }
+  }
+  assert.ok(n >= 5000);
+  // the one rounding: a longitude a hair below a cell's end stays in that cell with the arc gone below a pāda; a hair above lands in the next with the arc gone near zero
+  const lo = K.cellOf(10 - 1e-9), hi = K.cellOf(10 + 1e-9); assert.equal(lo.cell, 2); assert.ok(lo.goneMicro >= K.PADA_MICRO - 5n && lo.goneMicro < K.PADA_MICRO); assert.equal(hi.cell, 3); assert.ok(hi.goneMicro <= 5n);
+  const on = K.cellOf(10 - 1e-10); assert.equal(on.cell, 3); assert.equal(on.goneMicro, 0n);                    // a tenth of a nano-degree is under half a micro-arcsecond: it rounds onto the edge, into the new cell, with nothing gone
+});
+
+test('the inputs are validated: the year (a name, or a positive rational of civil days), the cycles, the birth instant; subPeriods finds a period\'s own chain from the daśā result', () => {
+  for (const year of [{ num: 1n, den: 0n }, { num: -360n, den: 1n }, { num: 0n, den: 1n }, 'bogus', { num: 360, den: 1 }]) assert.throws(() => K.fromMoon(10, 1n, { year }), /year/);
+  for (const cycles of [0, 1.5, -1, 109, '2']) assert.throws(() => K.fromMoon(10, 1n, { cycles }), /cycles/);
+  for (const birth of [1.5, '1', null, { num: 1n, den: 0n }]) assert.throws(() => K.fromMoon(10, birth, {}), /birth instant/);
+  assert.throws(() => K.fromMoon(NaN, 1n, {}), /longitude/);
+  const d = K.fromMoon(123.456, 1865000n * 328050000000n, { cycles: 3, year: { num: -720n, den: -2n } });   // a negative over a negative is a positive year
+  assert.deepEqual(d.year, { num: 360n, den: 1n }); assert.equal(d.next.length, 2);
+  const p = d.next[1].periods[4], sub = K.subPeriods(p, d); assert.equal(sub.length, 9); assert.deepEqual(sub[0].start, p.start); assert.deepEqual(sub[8].end, p.end);
+  assert.deepEqual(K.subPeriods(p, d.next[1].chain)[3], sub[3]);
+  assert.throws(() => K.subPeriods(p, d.chain), /not the period's own/); assert.throws(() => K.subPeriods({}, d), /needs a period/);
+});
+
+test('audit(): the adopted readings pass every hard check; each contested reading the other way fails exactly the checks its evidence names', () => {
+  const a = K.audit(); assert.equal(a.passed, a.total); assert.equal(a.total, 63);                                    // 16 × 4 less the one unattested deha–jīva (46.66)
+  const printed = K.audit('46.74-as-printed'); assert.equal(printed.failures.length, 5);
+  assert.deepEqual(printed.failures.filter((f) => f.type === 'rohini' && f.pada === 2).map((f) => f.check).sort(), ['deha, jīva as the verse', 'reversal pair', 'steps', 'sum = paramāyus']);
+  assert.equal(printed.failures.find((f) => f.check === 'sum = paramāyus').detail, '84 ≠ 83');
+  const std = K.audit('46.66-standard-tables'); assert.deepEqual(std.failures.map((f) => `${f.type}${f.pada}:${f.check}`).sort(), ['bharani1:reversal pair', 'rohini4:reversal pair']);   // the sum is 100 either way: only the pair with 46.76 decides
+  const ed = K.audit('46.89-as-edition'); assert.equal(ed.failures.length, 12); assert.ok(ed.failures.every((f) => f.check === 'sum = paramāyus'));   // every chain with paramāyus 85, 83 or 86 fails; the four 100s stand
+  assert.throws(() => K.audit('nope'), /unknown variant/);
+  for (const r of K.READINGS) { assert.ok(r.evidence && r.evidence.length > 40, r.verse); assert.ok(r.status, r.verse); }
+  assert.equal(K.DEHA_JIVA.bharani[0].attested, false);
+});
