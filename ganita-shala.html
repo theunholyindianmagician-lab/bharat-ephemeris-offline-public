@@ -119,6 +119,9 @@
     <h2 id="h-parampara">३ · परम्परा के सूत्र, एक-एक करके लागू · The paramparā's records, applied one by one</h2>
     <p>Each record of the registry that can be applied was applied where it belongs, and the result measured against the sky over 2026 (every 5 days) and over 1900–2100 (every 97 days) in the tropical frame. What improved was adopted; what did not is reported. The data is <code>corpus/research/parampara-apply.json</code>, written by <code>scripts/parampara-apply.cjs</code>; rows are candidate minus the sky, in minutes of arc (mean · rms · max).</p>
     <div id="parampara-out"></div>
+    <h3>नापे हुए रूप · The measured forms (from the sibling Kerala-corrections file)</h3>
+    <p>The owner's SSEA engine, the <code>sphuta</code> engine and <code>bharat-ephemeris-web</code> share one Kerala-corrections file that adds to the Moon a second correction with the evection's argument, the variation and the annual equation, and carries scales on the manda epicycles. Nothing of it is typed here: its five forms are fitted by least squares against the sky as candidates of the measurement above (the rows <code>kerala+dvitiya</code> … <code>kerala+all</code>), with their provenance — Munjāla's second correction is Indian (Laghumānasa, c. 930 CE; the owner's Moon dossier §3, after Duke; not in this library's editions), the variation and the annual equation are not. The amplitudes come out at the values these forms are known to have, which is the evidence that the fit is physical. They are an <b>option</b> of the Kerala tier (<code>ss-tier.js</code>, <code>opts.measured</code>, amplitudes read from this record), not its default. [measured]</p>
+    <div id="measured-out"></div>
   </section>
 
   <section id="ledger" aria-labelledby="h-ledger">

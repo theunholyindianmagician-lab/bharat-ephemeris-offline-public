@@ -65,6 +65,66 @@ const spandasOfDays = (t) => { const a = t - SUNRISE; return BigInt(Math.floor(a
 const degOf = (x) => Number(x.num * 1000000n / x.den) / 1e6 / 3600;                                           // {num, den} arcseconds → degrees
 const parahitaMean = (b, t) => degOf(PA.parahitaArcsec(b, spandasOfDays(t), { parameshvara: true }));
 const CV = require(path.join(ROOT, 'candravakya.js'));
+const KER = ST.correction('kerala');
+/** The Kerala tier's pieces at a JD: the Parahita means, the text's two equations, the true Sun and Moon (sidereal) and the ayanāṃśa. */
+function keralaParts(jd) {
+  const t = tOf(jd), ayan = KER.ayanamshaAt(t);
+  const m = KER.mean(t);                                                     // the tier's own means (Parahita Sun, Moon, apogee, node; the record's Sun apogee) — the candidate IS the tier
+  const sunEq = S.mandaPhala(m.sun, m.sunApogee, S.PARIDHI.sun).degrees, moonEq = S.mandaPhala(m.moon, m.moonApogee, S.PARIDHI.moon).degrees;
+  return { t, ayan, mean: m, sunEq, moonEq, sun: mod(m.sun + sunEq, 360), moon: mod(m.moon + moonEq, 360) };
+}
+// ── what the sibling Kerala-corrections file (SSEA / sphuta / web) adds to the Moon, as forms whose amplitudes are MEASURED here ──
+// The forms: Munjāla's second correction (Laghumānasa c. 930 CE, the first Indian second inequality — the owner's Moon dossier §3,
+// citing Duke; the modern evection has the same argument), the variation and the annual equation (no Indian source — the same
+// dossier), and a scale on each manda epicycle (the text's 14° and 32° against the sky). Nothing is typed from the sibling: every
+// amplitude is a least-squares fit of the Kerala tier's residual against the dṛk tier over the long span, and is reported as such.
+const sinD = (x) => S.jya(x) / S.R;                                              // the text's own sine, as the tier evaluates the forms
+const TERMS = {
+  dvitiya:   { of: (k) => sinD(2 * (k.mean.moon - k.mean.sun) - (k.mean.moon - k.mean.moonApogee)), body: 'moon', form: 'sin(2(λ☾ − λ☉) − (λ☾ − apogee))', provenance: "Munjāla, Laghumānasa c. 930 CE — the first attested Indian second inequality (the owner's Moon dossier §3, after Duke); not in this library's editions [paramparā, unverified here]; the argument is the evection's" },
+  variation: { of: (k) => sinD(2 * (k.mean.moon - k.mean.sun)), body: 'moon', form: 'sin(2(λ☾ − λ☉))', provenance: 'no Indian source (Tycho) — the owner\'s Moon dossier §3 [standard]' },
+  annual:    { of: (k) => sinD(k.mean.sun - k.mean.sunApogee), body: 'moon', form: 'sin(λ☉ − apogee☉)', provenance: 'no Indian source (al-Zarqālluh, Tycho) — the owner\'s Moon dossier §3 [standard]' },
+  moonManda: { of: (k) => k.moonEq, body: 'moon', form: '× the Moon\'s own manda-phala (a scale on the 32° epicycle)', provenance: 'SS 2.34-2.39 form; the scale measured [measured]' },
+  sunManda:  { of: (k) => k.sunEq, body: 'sun', form: '× the Sun\'s own manda-phala (a scale on the 14° epicycle)', provenance: 'SS 2.34-2.39 form; the scale measured [measured]' },
+};
+/** Least squares of the Kerala tier's residual (tropical, candidate minus dṛk, in degrees) on a constant plus the named terms, over a span. */
+function fitTerms(names, body, from, step, n) {
+  const cols = names.length + 1, A = Array.from({ length: cols }, () => new Array(cols).fill(0)), b = new Array(cols).fill(0);
+  for (let i = 0; i < n; i++) {
+    const jd = from + i * step, k = keralaParts(jd), sk = sky(jd);
+    const r = wrap((body === 'moon' ? k.moon + k.ayan : k.sun + k.ayan) - (body === 'moon' ? sk.moon : sk.sun));   // the residual the terms must cancel: fitted amplitudes carry the opposite sign
+    const x = [1, ...names.map((nm) => TERMS[nm].of(k))];
+    for (let p = 0; p < cols; p++) { b[p] += -r * x[p]; for (let q = 0; q < cols; q++) A[p][q] += x[p] * x[q]; }
+  }
+  for (let p = 0; p < cols; p++) { let piv = p; for (let q = p + 1; q < cols; q++) if (Math.abs(A[q][p]) > Math.abs(A[piv][p])) piv = q; [A[p], A[piv]] = [A[piv], A[p]]; [b[p], b[piv]] = [b[piv], b[p]];
+    for (let q = 0; q < cols; q++) if (q !== p) { const f = A[q][p] / A[p][p]; for (let r2 = p; r2 < cols; r2++) A[q][r2] -= f * A[p][r2]; b[q] -= f * b[p]; } }
+  const sol = b.map((v, p) => v / A[p][p]);
+  return { constantDeg: sol[0], amplitudes: Object.fromEntries(names.map((nm, i) => [nm, sol[i + 1]])) };
+}
+const FIT_SPAN = 1;                                                                           // fitted on the long span; scored on both
+const fitted = (names, body) => fitTerms(names, body, SPANS_FIT[0], SPANS_FIT[1], SPANS_FIT[2]);
+const SPANS_FIT = [2415020.5, 97, 753];
+/** The Kerala tier's places with given amplitudes of the forms (degrees for the three sines, scales for the two manda terms): the one
+ *  formula the tier's `measured` option must reproduce (ss-tier.js placesOf). */
+function measuredPlaces(jd, amplitudes) {
+  const k = keralaParts(jd); let dm = 0, ds = 0;
+  for (const [nm, a] of Object.entries(amplitudes)) { if (!TERMS[nm]) throw new RangeError(`unknown form ${nm}`); if (TERMS[nm].body === 'moon') dm += a * TERMS[nm].of(k); else ds += a * TERMS[nm].of(k); }
+  const sun = mod(k.sun + ds, 360), moon = mod(k.moon + dm, 360);
+  return { sun: sun + k.ayan, moon: moon + k.ayan, ayan: k.ayan, sid: { sun, moon } };
+}
+const withTerms = (moonNames, sunNames) => {                                 // the fits run on first use (a test that only needs the formula never pays for them)
+  let fm, fs, done = false;
+  const fit = () => { if (!done) { fm = moonNames.length ? fitted(moonNames, 'moon') : null; fs = sunNames.length ? fitted(sunNames, 'sun') : null; done = true; } return { moon: fm, sun: fs, moonTerms: moonNames, sunTerms: sunNames }; };
+  const fn = (jd) => { const f = fit(); return measuredPlaces(jd, { ...(f.moon ? f.moon.amplitudes : {}), ...(f.sun ? f.sun.amplitudes : {}) }); };
+  Object.defineProperty(fn, 'fit', { get: fit, enumerable: true });
+  return fn;
+};
+const MEASURED = {
+  'kerala+dvitiya': withTerms(['dvitiya'], []),
+  'kerala+dvitiya+var': withTerms(['dvitiya', 'variation'], []),
+  'kerala+dvitiya+var+annual': withTerms(['dvitiya', 'variation', 'annual'], []),
+  'kerala+manda': withTerms(['moonManda'], ['sunManda']),
+  'kerala+all': withTerms(['dvitiya', 'variation', 'annual', 'moonManda'], ['sunManda']),
+};
 const keralaMoon = (t) => { const a0 = t - SUNRISE, d = Math.floor(a0), a = CV.trueMoon(d, { canon: 'parahita' }).degrees, b = CV.trueMoon(d + 1, { canon: 'parahita' }).degrees; return a + wrap(b - a) * (a0 - d); };   // Mādhava's sine, Āryabhaṭa's 31.5 epicycle [unverified]; linear within the day
 const aryaSunAtEpoch = parahitaMean('sun', tEp);
 const aryaMoonAtEpoch = parahitaMean('moon', tEp), ssMoonAtEpoch = S.sphutaAtDays(tEp).mean.moon;
@@ -75,7 +135,6 @@ function textLike(model, ayan) {
     return { sun: p.sun + a, moon: p.moon + a, ayan: a, sid: { sun: p.sun, moon: p.moon } }; };
 }
 const mk = (deltas) => SK.model(deltas, { epoch: rec.epochKali });
-const KER = ST.correction('kerala');
 const CANDIDATES = {
   'ss': textLike(null),
   'par': textLike(mk(base)),
@@ -84,14 +143,11 @@ const CANDIDATES = {
   'par+ayan3': textLike(mk({ ...base, 'ayanamsha.phase': rec.ayanamshaPhaseDeg, 'ayanamsha.amplitude': rec.ayanamshaAmplitudeDeg })),
   'par+keralaLin': textLike(mk(base), keralaLinear),
   'par+keralaLin+sunEpoch': textLike(mk({ ...base, 'sun.epoch': sunEpochArcmin }), keralaLinear),
-  'kerala': (jd) => { const t = tOf(jd), a = KER.ayanamshaAt(t);                    // Parahita means (Sun, Moon, apogee, node) with the text's epicycles; the line through the three determinations
-    const m = { sun: parahitaMean('sun', t), moon: parahitaMean('moon', t), moonApogee: parahitaMean('apogee', t), node: parahitaMean('node', t) };
-    const sunApogee = S.madhyama(S.spandasOfDays(t)).sunApogee;
-    const sun = mod(m.sun + S.mandaPhala(m.sun, sunApogee, S.PARIDHI.sun).degrees, 360), moon = mod(m.moon + S.mandaPhala(m.moon, m.moonApogee, S.PARIDHI.moon).degrees, 360);
-    return { sun: sun + a, moon: moon + a, ayan: a, sid: { sun, moon } }; },
+  'kerala': (jd) => { const k = keralaParts(jd); return { sun: k.sun + k.ayan, moon: k.moon + k.ayan, ayan: k.ayan, sid: { sun: k.sun, moon: k.moon } }; },   // Parahita means with the text's epicycles; the line through the three determinations
   'kerala+vakyaMoon': (jd) => { const t = tOf(jd), a = KER.ayanamshaAt(t), m = parahitaMean('sun', t), sunApogee = S.madhyama(S.spandasOfDays(t)).sunApogee;
     const sun = mod(m + S.mandaPhala(m, sunApogee, S.PARIDHI.sun).degrees, 360), moon = keralaMoon(t);
     return { sun: sun + a, moon: moon + a, ayan: a, sid: { sun, moon } }; },
+  ...MEASURED,
 };
 function sky(jd) { const rows = M.tierGrahaRows(jd, 'drik'), a = M.tierAyanamsha(jd, 'drik').deg, s = rows.find((r) => r.key === 'surya').longitude, m = rows.find((r) => r.key === 'candra').longitude; return { sun: s + a, moon: m + a, ayan: a, sid: { sun: s, moon: m } }; }
 function score(name, from, step, n) {
@@ -108,7 +164,12 @@ function result() {
   return { generatedBy: 'node scripts/parampara-apply.cjs --write', frame: 'candidate minus the Modern Bhāratīya (dṛk) tier in the tropical frame (each candidate with its own ayanāṃśa); the ayanāṃśa column is candidate minus Citrā-pakṣa', unit: 'arcminutes',
     record: { moonArcmin: rec.moonArcmin, nodeArcmin: rec.nodeArcmin, epochKali: rec.epochKali }, phaseDeg: phase, amplitudeDeg: amp, keralaLinear2026: keralaLinear(tOf(2461322.5)), citra2026: M.tierAyanamsha(2461322.5, 'drik').deg,
     sunEpochArcmin, aryaSunAtEpoch, parameshvaraMoonDeg: rashiDeg(PAR_EP.value.moon), parahitaMoonAtEpoch: aryaMoonAtEpoch, textMoonAtEpoch: ssMoonAtEpoch,
-    candidates: { ss: 'the plain Sūrya-Siddhānta', par: "+ Parameśvara's Moon and node (the record)", 'par+ayanPhase': "+ Parameśvara's 15° as a phase shift alone (the morning's default of 2026-10-09; it breaks Āryabhaṭa's zero by 57.6′: superseded)", 'par+ayanAmp': "+ the same single record as an amplitude change alone (within a minute of the three-record fit)", 'par+ayan3': "+ the libration fitted to the paramparā's three determinations — Āryabhaṭa's zero in Kali 3600, Nīlakaṇṭha's 14°26′, Parameśvara's 15° — on its phase and greatest value: THE DEFAULT TIER (adopted; residuals 0, −0.5, +0.5′)", 'par+keralaLin': "+ Nīlakaṇṭha's stated linear rule (14°26′ + 0.9′ a year) instead: it misses Āryabhaṭa's zero by 56′, kept as a cross-check", 'par+keralaLin+sunEpoch': "+ Parameśvara's epoch Sun as a shift of the text's (a canon difference, not a correction: not adopted)", kerala: "the Kerala tier: Parahita + Dṛggaṇita means, the text's epicycles, the line through the three determinations", 'kerala+vakyaMoon': 'the same with the Moon of candravakya.js (Mādhava\'s sine, the 31.5 epicycle [unverified])' },
+    measured: { fittedOn: '1900-2100, every 97 days (753 samples); the 2026 span lies inside it', method: 'least squares of the Kerala tier\'s tropical residual against the dṛk tier on a constant plus the terms; the constant (the ayanāṃśa\'s business) is not applied',
+      terms: Object.fromEntries(Object.entries(TERMS).map(([k, v]) => [k, { form: v.form, body: v.body, provenance: v.provenance }])),
+      candidates: Object.fromEntries(Object.entries(MEASURED).map(([k, fn]) => [k, { moonTerms: fn.fit.moonTerms, sunTerms: fn.fit.sunTerms, moonFit: fn.fit.moon, sunFit: fn.fit.sun }])) },
+    candidates: { ss: 'the plain Sūrya-Siddhānta', par: "+ Parameśvara's Moon and node (the record)", 'par+ayanPhase': "+ Parameśvara's 15° as a phase shift alone (the morning's default of 2026-10-09; it breaks Āryabhaṭa's zero by 57.6′: superseded)", 'par+ayanAmp': "+ the same single record as an amplitude change alone (within a minute of the three-record fit)", 'par+ayan3': "+ the libration fitted to the paramparā's three determinations — Āryabhaṭa's zero in Kali 3600, Nīlakaṇṭha's 14°26′, Parameśvara's 15° — on its phase and greatest value: THE DEFAULT TIER (adopted; residuals 0, −0.5, +0.5′)", 'par+keralaLin': "+ Nīlakaṇṭha's stated linear rule (14°26′ + 0.9′ a year) instead: it misses Āryabhaṭa's zero by 56′, kept as a cross-check", 'par+keralaLin+sunEpoch': "+ Parameśvara's epoch Sun as a shift of the text's (a canon difference, not a correction: not adopted)", kerala: "the Kerala tier: Parahita + Dṛggaṇita means, the text's epicycles, the line through the three determinations", 'kerala+vakyaMoon': 'the same with the Moon of candravakya.js (Mādhava\'s sine, the 31.5 epicycle [unverified])',
+      'kerala+dvitiya': "the Kerala tier + Munjāla's second correction (the evection's argument), amplitude measured [paramparā form, measured amplitude]", 'kerala+dvitiya+var': '+ the variation (no Indian source) [standard form, measured amplitude]', 'kerala+dvitiya+var+annual': '+ the annual equation (no Indian source) [standard form, measured amplitude]',
+      'kerala+manda': "the Kerala tier with a measured scale on each of the text's manda epicycles (14° Sun, 32° Moon) [measured]", 'kerala+all': 'all five measured forms together — what the sibling Kerala-corrections file (SSEA / sphuta / web) would do here, with every amplitude fitted, none typed [measured]' },
     spans };
 }
 if (require.main === module) {
@@ -125,4 +186,4 @@ if (require.main === module) {
     for (const name of Object.keys(CANDIDATES)) { const s = score(name, from, step, n); console.log(`  ${name.padEnd(24)} Sun ${f(s.sun).padEnd(34)} Moon ${f(s.moon).padEnd(34)} Moon−Sun ${f(s.el).padEnd(34)} → tithi end ${(s.el.rms / 731.4 * 24).toFixed(2)} h rms | ayan ${f(s.ay)}`); }
   }
 }
-module.exports = { CANDIDATES, SPANS, score, sky, phase, amp, keralaLinear, sunEpochArcmin, result };
+module.exports = { CANDIDATES, SPANS, score, sky, phase, amp, keralaLinear, sunEpochArcmin, result, keralaParts, measuredPlaces, TERMS };

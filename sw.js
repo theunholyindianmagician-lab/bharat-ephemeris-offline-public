@@ -1,4 +1,4 @@
-const CACHE = "bharat-ephemeris-s9-v30-kalachakra-audit"; // v30: the Kālacakra edge fix, evidence and audit; v29: the Kālacakra daśā module and block; v28: the library sweep, the ν₃ tower, the Śulba 3.1 note and the Gītikā citation; v27: the fourth choice (Kerala paramparā) and Parameśvara's ayanāṃśa in the default; v26: the eclipse-contact fix; the referee theories are not precached
+const CACHE = "bharat-ephemeris-s9-v31-measured-forms"; // v31: the measured forms of the Kerala-corrections file as an option of the Kerala tier; v30: the Kālacakra edge fix, evidence and audit; v29: the Kālacakra daśā module and block; v28: the library sweep, the ν₃ tower, the Śulba 3.1 note and the Gītikā citation; v27: the fourth choice (Kerala paramparā) and Parameśvara's ayanāṃśa in the default; v26: the eclipse-contact fix; the referee theories are not precached
 const CORE = [
   "./",
   "./index.html",

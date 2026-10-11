@@ -234,34 +234,66 @@
   }
   /** A tier's true places at day count t, in the shape of Sphuta.sphutaAtDays, from its mean places: the text's equations
    *  (SS 2.29-2.45, 2.57) on them. The plain text is Sphuta.sphutaAtDays itself. */
-  function placesOf(meanFn) {
+  // ── the measured forms (an option on the Kerala tier) ────────────────────────────────────────────────
+  // The forms are the sibling Kerala-corrections file's (SSEA / sphuta / bharat-ephemeris-web): Munjāla's second correction
+  // (Laghumānasa c. 930 CE, the evection's argument), the variation, the annual equation, and a scale on each of the text's manda
+  // epicycles. No amplitude is typed here: the caller passes them from corpus/research/parampara-apply.json (`measured`), where
+  // scripts/parampara-apply.cjs fitted them by least squares against the dṛk tier over 1900–2100 and recorded their provenance.
+  const MEASURED_KEYS = Object.freeze(["dvitiya", "variation", "annual", "moonManda", "sunManda"]);   // degrees, degrees, degrees, scale, scale
+  const sinD = (x) => S.jya(x) / S.R;                                               // the text's own sine (2.15-2.22), as everywhere in the tier
+  function measuredOf(x) {
+    if (x === undefined || x === null) return null;
+    if (typeof x !== "object") throw new TypeError("ss-tier: opts.measured is an object of amplitudes from the measurement record");
+    const out = {};
+    for (const k of Object.keys(x)) { if (!MEASURED_KEYS.includes(k)) throw new RangeError(`ss-tier: unknown measured form "${k}" (${MEASURED_KEYS.join(", ")})`); if (typeof x[k] !== "number" || !Number.isFinite(x[k])) throw new TypeError(`ss-tier: measured.${k} must be a finite number`); out[k] = x[k]; }
+    return Object.keys(out).length ? Object.freeze(out) : null;
+  }
+  /** The amplitudes of one measured candidate of corpus/research/parampara-apply.json (default 'kerala+all'). */
+  function measuredFromRecord(record, candidate = "kerala+all") {
+    const c = record && record.measured && record.measured.candidates && record.measured.candidates[candidate];
+    if (!c) throw new RangeError(`ss-tier: the measurement record has no candidate "${candidate}"`);
+    return measuredOf({ ...(c.moonFit ? c.moonFit.amplitudes : {}), ...(c.sunFit ? c.sunFit.amplitudes : {}) });
+  }
+  function placesOf(meanFn, measured = null) {
     return function places(t) {
       const m = meanFn(t);
       const sunEq = S.mandaPhala(m.sun, m.sunApogee, S.PARIDHI.sun);                 // 2.29-2.45, as sphuta.js
       const moonEq = S.mandaPhala(m.moon, m.moonApogee, S.PARIDHI.moon);
-      const sun = mod(m.sun + sunEq.degrees, 360), moon = mod(m.moon + moonEq.degrees, 360);
+      let sun = mod(m.sun + sunEq.degrees, 360), moon = mod(m.moon + moonEq.degrees, 360), forms = null;
+      if (measured) {
+        const D = m.moon - m.sun; forms = {};
+        if (measured.dvitiya !== undefined) forms.dvitiya = measured.dvitiya * sinD(2 * D - (m.moon - m.moonApogee));
+        if (measured.variation !== undefined) forms.variation = measured.variation * sinD(2 * D);
+        if (measured.annual !== undefined) forms.annual = measured.annual * sinD(m.sun - m.sunApogee);
+        if (measured.moonManda !== undefined) forms.moonManda = measured.moonManda * moonEq.degrees;
+        if (measured.sunManda !== undefined) forms.sunManda = measured.sunManda * sunEq.degrees;
+        moon = mod(moon + (forms.dvitiya || 0) + (forms.variation || 0) + (forms.annual || 0) + (forms.moonManda || 0), 360);
+        sun = mod(sun + (forms.sunManda || 0), 360);
+      }
       const moonLatitude = S.jya(moon - m.node) * S.MOON_MAX_LATITUDE_ARCMIN / S.R / 60;   // 2.57, degrees
-      return { sun, moon, rahu: m.node, ketu: mod(m.node + 180, 360), moonLatitude, mean: m, equations: { sun: sunEq, moon: moonEq } };
+      return { sun, moon, rahu: m.node, ketu: mod(m.node + 180, 360), moonLatitude, mean: m, equations: { sun: sunEq, moon: moonEq }, measured: forms };
     };
   }
 
   // ── one tier: the modules bound to its places ────────────────────────────────────────────────────────
   const tiers = new Map();
-  function tierOf(name) {
-    const s = resolveSamskara(name);
-    if (tiers.has(s)) return tiers.get(s);
+  function tierOf(name, measuredOpt) {
+    const s = resolveSamskara(name), meas = measuredOf(measuredOpt);
+    if (meas && s !== "kerala") throw new RangeError("ss-tier: the measured forms are an option of the Kerala tier only (opts.samskara 'kerala')");
+    const key = meas ? `${s}+measured:${JSON.stringify(meas)}` : s;
+    if (tiers.has(key)) return tiers.get(key);
     const corr = correction(s);
-    const places = corr ? placesOf(corr.mean) : S.sphutaAtDays;
+    const places = corr ? placesOf(corr.mean, meas) : S.sphutaAtDays;
     const ayanamsha = corr ? corr.ayanamshaAt : textAyanamsha;
-    const cal = corr ? P.withPlaces(places, corr.calendarName, ayanamsha) : P;
-    const T = { samskara: s, correction: corr, places, ayanamsha, calendar: cal, months: [], years: [],
+    const cal = corr ? P.withPlaces(places, meas ? `${corr.calendarName} + measured forms` : corr.calendarName, ayanamsha) : P;
+    const T = { samskara: s, correction: corr, measured: meas, places, ayanamsha, calendar: cal, months: [], years: [],
       dasha: corr ? DA.withPanchanga(cal) : DA, muhurta: corr ? MU.withPanchanga(cal) : MU, utsava: corr ? UT.withPanchanga(cal) : UT,
       model: null, last: { t: NaN, g: null } };
-    tiers.set(s, T);
+    tiers.set(key, T);
     return T;
   }
   const optsOf = (opts) => (opts && typeof opts === "object" ? opts : {});
-  const T_ = (opts) => tierOf(optsOf(opts).samskara);
+  const T_ = (opts) => tierOf(optsOf(opts).samskara, optsOf(opts).measured);
 
   // ── grahas ─────────────────────────────────────────────────────────────────────────────────────────────
   const PLANET_KEYS = Object.freeze({ mars: "mangala", mercury: "budha", jupiter: "guru", venus: "shukra", saturn: "shani" });
@@ -487,12 +519,12 @@
   /** The labels a page shows for a text tier. */
   function label(opts) {
     const T = T_(opts);
-    return T.correction ? { id: T.correction.tierId, label: T.correction.label, labelSa: T.correction.labelSa, caption: T.correction.caption }
+    return T.correction ? { id: T.correction.tierId, label: T.measured ? `${T.correction.label} + measured forms (${Object.keys(T.measured).join(", ")})` : T.correction.label, labelSa: T.correction.labelSa, caption: T.measured ? `${T.correction.caption}; with the measured forms of corpus/research/parampara-apply.json (amplitudes fitted against the sky, never typed)` : T.correction.caption, measured: T.measured || null }
       : { id: "ss", label: "Sūrya-Siddhānta", labelSa: "सूर्य-सिद्धान्त", caption: "the text exactly as it stands" };
   }
 
   return Object.freeze({
-    MERIDIAN_DEG, KALI_JD0, LANKA_OFFSET, SPAN_YEARS, EPSILON_DEG, SAMSKARAS, DEFAULT_SAMSKARA, SUNRISE_DAY,
+    MERIDIAN_DEG, KALI_JD0, LANKA_OFFSET, SPAN_YEARS, EPSILON_DEG, SAMSKARAS, DEFAULT_SAMSKARA, SUNRISE_DAY, MEASURED_KEYS, measuredOf, measuredFromRecord,
     daysOfJd, jdOfDays, spandasOfJd, meanAtDays, siteOf, useParampara, correction, label,
     calendar: (opts) => T_(opts).calendar, places: (t, opts) => T_(opts).places(t), ayanamshaAt: (t, opts) => T_(opts).ayanamsha(t), dasha: (opts) => T_(opts).dasha, utsava: (opts) => T_(opts).utsava, muhurta: (opts) => T_(opts).muhurta,
     model: (opts) => { const T = T_(opts); if (!T.correction) return null; const SK = samskaraModule ? samskaraModule() : null; if (!SK) throw new Error("ss-tier: the model needs samskara.js loaded"); return modelOf(T, SK); },

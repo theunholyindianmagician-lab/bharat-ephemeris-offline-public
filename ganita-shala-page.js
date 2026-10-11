@@ -179,7 +179,17 @@
   }
 
   // ── section 3: the paramparā's records applied ───────────────────────────────────────────────────────────────────────
+  function renderMeasured(data) {
+    const out = $("measured-out"); out.textContent = ""; const m = data.measured; if (!m) return;
+    out.appendChild(el("p", "src", `Fitted on ${m.fittedOn}. ${m.method}.`));
+    const tbl = el("table"); const th = el("thead"), hr = el("tr"); for (const h of ["form", "argument", "provenance", "amplitude (kerala+all)"]) hr.appendChild(el("th", null, h)); th.appendChild(hr); tbl.appendChild(th);
+    const tb = el("tbody"); const all = m.candidates["kerala+all"]; const amps = { ...(all && all.moonFit ? all.moonFit.amplitudes : {}), ...(all && all.sunFit ? all.sunFit.amplitudes : {}) };
+    for (const [k, t] of Object.entries(m.terms)) { const tr = el("tr"); tr.dataset.form = k; tr.appendChild(el("td", null, k)); tr.appendChild(el("td", null, t.form)); tr.appendChild(el("td", "src", t.provenance)); tr.appendChild(el("td", "num", amps[k] === undefined ? "—" : (k.endsWith("Manda") ? `× ${(1 + amps[k]).toFixed(4)} (scale ${amps[k] >= 0 ? "+" : ""}${amps[k].toFixed(4)})` : `${(amps[k] * 60).toFixed(2)}′`))); tb.appendChild(tr); }
+    tbl.appendChild(tb); const d = el("div", "tbl"); d.appendChild(tbl); out.appendChild(d);
+    document.body.dataset.measured = String(Object.keys(m.terms).length);
+  }
   function renderParampara(data) {
+    renderMeasured(data);
     const out = $("parampara-out"); out.textContent = "";
     const intro = el("p", "src", `${data.generatedBy}. Frame: ${data.frame}. The record: Moon ${data.record.moonArcmin}′, node ${data.record.nodeArcmin}′ at Kali day ${data.record.epochKali}; the libration's phase for Parameśvara's 15°: ${data.phaseDeg.toFixed(4)}° of its angle (as an amplitude change it would be ${data.amplitudeDeg.toFixed(4)}°). Kerala linear ayanāṃśa in 2026: ${data.keralaLinear2026.toFixed(4)}°; Citrā-pakṣa: ${data.citra2026.toFixed(4)}°. Parameśvara's epoch Moon ${data.parameshvaraMoonDeg.toFixed(4)}°: the Parahita means give ${data.parahitaMoonAtEpoch.toFixed(4)}°, the text ${data.textMoonAtEpoch.toFixed(4)}°.`);
     out.appendChild(intro);

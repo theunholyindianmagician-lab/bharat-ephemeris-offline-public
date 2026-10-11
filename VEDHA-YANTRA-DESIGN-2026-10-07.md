@@ -1695,6 +1695,23 @@ The owner's review ran 2,10,168 interior arithmetic checks (both type readings, 
 
 Not fixed because not wrong: the page uses each choice's own Moon (the review confirms). Not reachable: the review file itself is on the owner's machine; its summary in the chat was acted on in full.
 
+### 24.13 The SSEA engine: what of it is reachable, what it holds, what it does here (the owner, 2026-10-11)
+
+**Reachable.** The SSEA engine itself is on the owner's desktop (`kaal-sacred-discovery/ssea-engine/`, untracked): no checkout, branch or history in this container carries it, and nothing of it was skipped by choice — it was never here. One cross-reference exists (`kaal-sacred-discovery/REAL-MATHEMATICS/RECOVERED-SIDDHIS-2026-09-25.md`), and it names a file that is reachable and, by that note, identical in SSEA: the Kerala-corrections file, ported verbatim from `bharat-ephemeris-web/lib/bharat-substrate/kerala-corrections.ts` into `sphuta/engine-src/L1-jyoti/kerala/kerala-corrections.ts`. Its content, read in full: (1) three sine terms on the Moon — a second correction with the evection's argument (1.274°), the variation (0.658°) and the annual equation (0.186°), labelled Tantrasaṅgraha there; (2) "refined manda amplitudes" (Sun 1.915°, Moon 6.289° with a 0.214° second harmonic); (3) the reduction to the ecliptic 0.1142°·sin 2F with a fitted node phase; (4) dṛk-saṃskāra constants, linear and quadratic in centuries, fitted against JPL for the mean longitudes and apogees, with the solar mandocca gap −74.71765° (the text's apogee against the true one, which the Siddhis note derives as 153.80° − 79.09°). The owner's own Moon dossier (`bharat-ephemeris-web/docs/MOON-SOVEREIGNTY-DOSSIER.md` §3) rules on provenance: the second correction is Indian — Munjāla's Laghumānasa, c. 930 CE, the first attested Indian second inequality (after Duke) — the variation and the annual equation are not (Tycho; al-Zarqālluh), and the amplitudes in the file are the modern values. The "own Kepler derivation" the owner remembers is not in any reachable file: the siblings hold the standard Kepler solve for the planets (`planet-helpers.ts keplerSolve`) and the note that the text's manda-phala is Kepler-equivalent to first order; this repository holds its own force law seeded from the text (`gurutva-purna.js`, §15). The derivation itself must be pushed from the desktop.
+
+**What it does here, measured.** The forms were added to `scripts/parampara-apply.cjs` as candidates on the Kerala tier, every amplitude a least-squares fit of the tier's residual against the dṛk tier over 1900–2100, none typed (`corpus/research/parampara-apply.json` → `measured`); the candidate is the tier itself (the script now takes the tier's own means — before, its Sun apogee was the text's 77.3° where the tier's is Parameśvara's 78°, a 1.6′ discrepancy in the Sun column, closed).
+
+| candidate (1900–2100) | Sun rms | Moon rms | Moon − Sun rms | tithi end (h rms) |
+|---|---|---|---|---|
+| kerala (as shipped) | 11.9′ | 82.2′ | 82.3′ | 2.74 |
+| + Munjāla's second correction | 11.9′ | 62.1′ | 62.3′ | 2.08 |
+| + the two epicycle scales | 3.3′ | 63.6′ | 64.2′ | 2.14 |
+| all five forms | 3.3′ | 17.4′ | 19.4′ | 0.65 |
+
+The fitted amplitudes are the values the forms are known to have — evection -1.2689° (modern 1.274°), variation 0.6589° (0.658°), annual 0.1861° (0.186°), and the epicycle scales +0.2443 on the Moon's 32° and -0.1233 on the Sun's 14° (the text's greatest equations 5.09° and 2.23° against the sky's 6.29° and 1.92°) — the evidence that the measurement is physical and not a tuning (`measured-samskara.test.js`).
+
+**Where it sits.** The forms are an option of the Kerala tier (`ss-tier.js opts.measured`, amplitudes passed from the record, never typed; `measuredFromRecord(record, candidate)`), reproduced to the micro-arcsecond against the script's formula. They are not the tier's default: the Kerala tier's identity is the paramparā's own numbers (Parahita, Parameśvara's record, the three determinations), and a sky-fitted amplitude, even on an Indian form, is a dṛk-saṃskāra in Parameśvara's spirit that the owner should turn on knowingly; turning it on changes the tier's 100,000-year manifest and every page that shows the tier. The research page §3 shows the forms, their provenance and the numbers. Not taken from the file at all: the modern typed amplitudes, the ecliptic reduction, the JPL-fitted secular constants and quadratics (the dṛk tier is this repository's sky; the text tiers do not carry foreign constants).
+
 ### 24.7 Left for the owner
 
 - Seal DRAFT BE-S13 as revised (four choices; the default's ayanāṃśa zero from `PAR-ayanamsha-4536`).

@@ -139,6 +139,11 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
       const first = ledger.entries.find((e) => e.figures && e.figures.length);
       if (first) assert.ok((await page.locator(`#d-${first.id}`).textContent()).includes(first.figures[0].verbatim.slice(0, 40)), 'a figure is quoted verbatim');
     } else assert.equal((await page.evaluate(() => document.body.dataset.ledger)), 'missing');
+    // the measured forms: five rows from the record, Munjāla's provenance, the amplitude of the evection-form within 5% of 1.274°
+    await page.waitForFunction(() => document.body.dataset.measured === '5', null, { timeout: 60000 });
+    const measured = await page.$$eval('#measured-out tbody tr', (trs) => trs.map((tr) => ({ form: tr.dataset.form, cells: [...tr.children].map((td) => td.textContent) })));
+    assert.deepEqual(measured.map((m) => m.form), ['dvitiya', 'variation', 'annual', 'moonManda', 'sunManda']); assert.match(measured[0].cells[2], /Munjāla/); assert.ok(Math.abs(Math.abs(parseFloat(measured[0].cells[3])) - 76.4) < 4);
+    assert.ok((await page.$$eval('#parampara-out table.parampara-span tbody tr', (trs) => trs.map((tr) => tr.children[0].textContent))).some((n) => n.startsWith('kerala+all')));
     // the Kālacakra block: sixteen chains with the text's check, one line per choice, the readings
     const chains = await page.$$eval('#kalachakra-chains tbody tr', (trs) => trs.map((tr) => ({ type: tr.dataset.type, pada: tr.dataset.pada, ok: tr.dataset.ok, cells: [...tr.children].map((td) => td.textContent) })));
     assert.equal(chains.length, 16); assert.ok(chains.every((c) => c.ok === 'true')); assert.equal(chains[0].cells[2], 'Meṣa → Vṛṣa → Mithuna → Karka → Siṃha → Kanyā → Tulā → Vṛścika → Dhanu'); assert.match(chains[0].cells[4], /^100 = 100/);

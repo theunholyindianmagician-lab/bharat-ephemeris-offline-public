@@ -16,6 +16,130 @@
  "parameshvaraMoonDeg": 304.1,
  "parahitaMoonAtEpoch": 304.09516006555555,
  "textMoonAtEpoch": 304.13449514558624,
+ "measured": {
+  "fittedOn": "1900-2100, every 97 days (753 samples); the 2026 span lies inside it",
+  "method": "least squares of the Kerala tier's tropical residual against the dṛk tier on a constant plus the terms; the constant (the ayanāṃśa's business) is not applied",
+  "terms": {
+   "dvitiya": {
+    "form": "sin(2(λ☾ − λ☉) − (λ☾ − apogee))",
+    "body": "moon",
+    "provenance": "Munjāla, Laghumānasa c. 930 CE — the first attested Indian second inequality (the owner's Moon dossier §3, after Duke); not in this library's editions [paramparā, unverified here]; the argument is the evection's"
+   },
+   "variation": {
+    "form": "sin(2(λ☾ − λ☉))",
+    "body": "moon",
+    "provenance": "no Indian source (Tycho) — the owner's Moon dossier §3 [standard]"
+   },
+   "annual": {
+    "form": "sin(λ☉ − apogee☉)",
+    "body": "moon",
+    "provenance": "no Indian source (al-Zarqālluh, Tycho) — the owner's Moon dossier §3 [standard]"
+   },
+   "moonManda": {
+    "form": "× the Moon's own manda-phala (a scale on the 32° epicycle)",
+    "body": "moon",
+    "provenance": "SS 2.34-2.39 form; the scale measured [measured]"
+   },
+   "sunManda": {
+    "form": "× the Sun's own manda-phala (a scale on the 14° epicycle)",
+    "body": "sun",
+    "provenance": "SS 2.34-2.39 form; the scale measured [measured]"
+   }
+  },
+  "candidates": {
+   "kerala+dvitiya": {
+    "moonTerms": [
+     "dvitiya"
+    ],
+    "sunTerms": [],
+    "moonFit": {
+     "constantDeg": 0.19824775809918996,
+     "amplitudes": {
+      "dvitiya": -1.2691796679102065
+     }
+    },
+    "sunFit": null
+   },
+   "kerala+dvitiya+var": {
+    "moonTerms": [
+     "dvitiya",
+     "variation"
+    ],
+    "sunTerms": [],
+    "moonFit": {
+     "constantDeg": 0.19794940772008163,
+     "amplitudes": {
+      "dvitiya": -1.2686941202086357,
+      "variation": 0.654512533009477
+     }
+    },
+    "sunFit": null
+   },
+   "kerala+dvitiya+var+annual": {
+    "moonTerms": [
+     "dvitiya",
+     "variation",
+     "annual"
+    ],
+    "sunTerms": [],
+    "moonFit": {
+     "constantDeg": 0.19797417907331302,
+     "amplitudes": {
+      "dvitiya": -1.2687101475589457,
+      "variation": 0.6542062365337408,
+      "annual": 0.18591416323471993
+     }
+    },
+    "sunFit": null
+   },
+   "kerala+manda": {
+    "moonTerms": [
+     "moonManda"
+    ],
+    "sunTerms": [
+     "sunManda"
+    ],
+    "moonFit": {
+     "constantDeg": 0.1991089197814848,
+     "amplitudes": {
+      "moonManda": 0.24377372492815685
+     }
+    },
+    "sunFit": {
+     "constantDeg": -0.04699787695823968,
+     "amplitudes": {
+      "sunManda": -0.12330748710564832
+     }
+    }
+   },
+   "kerala+all": {
+    "moonTerms": [
+     "dvitiya",
+     "variation",
+     "annual",
+     "moonManda"
+    ],
+    "sunTerms": [
+     "sunManda"
+    ],
+    "moonFit": {
+     "constantDeg": 0.1981900737393084,
+     "amplitudes": {
+      "dvitiya": -1.2689077494780843,
+      "variation": 0.658901887647549,
+      "annual": 0.18609910881640396,
+      "moonManda": 0.24432106991441666
+     }
+    },
+    "sunFit": {
+     "constantDeg": -0.04699787695823968,
+     "amplitudes": {
+      "sunManda": -0.12330748710564832
+     }
+    }
+   }
+  }
+ },
  "candidates": {
   "ss": "the plain Sūrya-Siddhānta",
   "par": "+ Parameśvara's Moon and node (the record)",
@@ -25,7 +149,12 @@
   "par+keralaLin": "+ Nīlakaṇṭha's stated linear rule (14°26′ + 0.9′ a year) instead: it misses Āryabhaṭa's zero by 56′, kept as a cross-check",
   "par+keralaLin+sunEpoch": "+ Parameśvara's epoch Sun as a shift of the text's (a canon difference, not a correction: not adopted)",
   "kerala": "the Kerala tier: Parahita + Dṛggaṇita means, the text's epicycles, the line through the three determinations",
-  "kerala+vakyaMoon": "the same with the Moon of candravakya.js (Mādhava's sine, the 31.5 epicycle [unverified])"
+  "kerala+vakyaMoon": "the same with the Moon of candravakya.js (Mādhava's sine, the 31.5 epicycle [unverified])",
+  "kerala+dvitiya": "the Kerala tier + Munjāla's second correction (the evection's argument), amplitude measured [paramparā form, measured amplitude]",
+  "kerala+dvitiya+var": "+ the variation (no Indian source) [standard form, measured amplitude]",
+  "kerala+dvitiya+var+annual": "+ the annual equation (no Indian source) [standard form, measured amplitude]",
+  "kerala+manda": "the Kerala tier with a measured scale on each of the text's manda epicycles (14° Sun, 32° Moon) [measured]",
+  "kerala+all": "all five measured forms together — what the sibling Kerala-corrections file (SSEA / sphuta / web) would do here, with every amplitude fitted, none typed [measured]"
  },
  "spans": [
   {
@@ -198,19 +327,19 @@
     {
      "name": "kerala",
      "sun": {
-      "mean": 2.4205284674556498,
-      "rms": 12.208715804025411,
-      "max": 18.460487014667706
+      "mean": 2.421691653378867,
+      "rms": 12.038465067003264,
+      "max": 18.52080367779763
      },
      "moon": {
-      "mean": -13.4374949750948,
-      "rms": 79.94306294317975,
-      "max": 179.60280239396525
+      "mean": -13.437494966753675,
+      "rms": 79.94306294170632,
+      "max": 179.60280238037058
      },
      "el": {
-      "mean": -15.85802344255003,
-      "rms": 80.24819000576137,
-      "max": 192.4203971345787
+      "mean": -15.859186620132588,
+      "rms": 80.2096747672715,
+      "max": 193.57549602130575
      },
      "ay": {
       "mean": 15.495773272263104,
@@ -234,6 +363,121 @@
       "mean": -15.873402154540836,
       "rms": 81.24356705185103,
       "max": 194.2594563646776
+     },
+     "ay": {
+      "mean": 15.495773272263104,
+      "rms": 15.495790855472602,
+      "max": 15.538054589110999
+     }
+    },
+    {
+     "name": "kerala+dvitiya",
+     "sun": {
+      "mean": 2.421691653378867,
+      "rms": 12.038465067003264,
+      "max": 18.52080367779763
+     },
+     "moon": {
+      "mean": -13.986890042045095,
+      "rms": 63.57981109193793,
+      "max": 132.88868097154818
+     },
+     "el": {
+      "mean": -16.408581695423916,
+      "rms": 63.901702001002484,
+      "max": 138.20367529436908
+     },
+     "ay": {
+      "mean": 15.495773272263104,
+      "rms": 15.495790855472602,
+      "max": 15.538054589110999
+     }
+    },
+    {
+     "name": "kerala+dvitiya+var",
+     "sun": {
+      "mean": 2.421691653378867,
+      "rms": 12.038465067003264,
+      "max": 18.52080367779763
+     },
+     "moon": {
+      "mean": -13.963585858021808,
+      "rms": 56.566776916925136,
+      "max": 103.02957031785354
+     },
+     "el": {
+      "mean": -16.385277511401004,
+      "rms": 56.92359580111259,
+      "max": 105.62740941002858
+     },
+     "ay": {
+      "mean": 15.495773272263104,
+      "rms": 15.495790855472602,
+      "max": 15.538054589110999
+     }
+    },
+    {
+     "name": "kerala+dvitiya+var+annual",
+     "sun": {
+      "mean": 2.421691653378867,
+      "rms": 12.038465067003264,
+      "max": 18.52080367779763
+     },
+     "moon": {
+      "mean": -13.964206202447679,
+      "rms": 56.05085219091858,
+      "max": 100.94072318222743
+     },
+     "el": {
+      "mean": -16.385897855826126,
+      "rms": 58.02169956608606,
+      "max": 114.70692507287367
+     },
+     "ay": {
+      "mean": 15.495773272263104,
+      "rms": 15.495790855472602,
+      "max": 15.538054589110999
+     }
+    },
+    {
+     "name": "kerala+manda",
+     "sun": {
+      "mean": 2.420804439566538,
+      "rms": 2.9203063966197123,
+      "max": 4.589577434285275
+     },
+     "moon": {
+      "mean": -13.046918530517859,
+      "rms": 64.94867337484614,
+      "max": 155.2000366086395
+     },
+     "el": {
+      "mean": -15.467722970084022,
+      "rms": 65.49288670343806,
+      "max": 159.75594388705304
+     },
+     "ay": {
+      "mean": 15.495773272263104,
+      "rms": 15.495790855472602,
+      "max": 15.538054589110999
+     }
+    },
+    {
+     "name": "kerala+all",
+     "sun": {
+      "mean": 2.420804439566538,
+      "rms": 2.9203063966197123,
+      "max": 4.589577434285275
+     },
+     "moon": {
+      "mean": -13.572673258751776,
+      "rms": 20.361399321583765,
+      "max": 46.782964740768875
+     },
+     "el": {
+      "mean": -15.993477698318314,
+      "rms": 22.241685063714357,
+      "max": 51.103802607590296
      },
      "ay": {
       "mean": 15.495773272263104,
@@ -413,19 +657,19 @@
     {
      "name": "kerala",
      "sun": {
-      "mean": 2.8219002663117356,
-      "rms": 12.073686168629198,
-      "max": 19.79796097999042
+      "mean": 2.8220255737522777,
+      "rms": 11.90175437160116,
+      "max": 19.62924123945868
      },
      "moon": {
-      "mean": -11.933477759368031,
-      "rms": 82.18593522217795,
-      "max": 203.91360120598165
+      "mean": -11.933477751030939,
+      "rms": 82.18593522097532,
+      "max": 203.91360119514957
      },
      "el": {
-      "mean": -14.755378025679795,
-      "rms": 82.36004177468736,
-      "max": 204.28017179153358
+      "mean": -14.755503324783103,
+      "rms": 82.33447686303066,
+      "max": 202.65248720369982
      },
      "ay": {
       "mean": 12.324306282258142,
@@ -449,6 +693,121 @@
       "mean": -14.755338746006592,
       "rms": 83.42659202644771,
       "max": 206.21182104134732
+     },
+     "ay": {
+      "mean": 12.324306282258142,
+      "rms": 14.253761073326977,
+      "max": 24.66355640402533
+     }
+    },
+    {
+     "name": "kerala+dvitiya",
+     "sun": {
+      "mean": 2.8220255737522777,
+      "rms": 11.90175437160116,
+      "max": 19.62924123945868
+     },
+     "moon": {
+      "mean": -11.894865485951328,
+      "rms": 62.08047600451806,
+      "max": 151.24266157677766
+     },
+     "el": {
+      "mean": -14.716891059703519,
+      "rms": 62.26780488276399,
+      "max": 147.0297866773535
+     },
+     "ay": {
+      "mean": 12.324306282258142,
+      "rms": 14.253761073326977,
+      "max": 24.66355640402533
+     }
+    },
+    {
+     "name": "kerala+dvitiya+var",
+     "sun": {
+      "mean": 2.8220255737522777,
+      "rms": 11.90175437160116,
+      "max": 19.62924123945868
+     },
+     "moon": {
+      "mean": -11.876964463204887,
+      "rms": 55.52686323299468,
+      "max": 116.6513488820442
+     },
+     "el": {
+      "mean": -14.698990036956921,
+      "rms": 55.74446295850972,
+      "max": 110.43402230433912
+     },
+     "ay": {
+      "mean": 12.324306282258142,
+      "rms": 14.253761073326977,
+      "max": 24.66355640402533
+     }
+    },
+    {
+     "name": "kerala+dvitiya+var+annual",
+     "sun": {
+      "mean": 2.8220255737522777,
+      "rms": 11.90175437160116,
+      "max": 19.62924123945868
+     },
+     "moon": {
+      "mean": -11.878450744398613,
+      "rms": 54.96414318243632,
+      "max": 106.03755760677814
+     },
+     "el": {
+      "mean": -14.700476318150693,
+      "rms": 56.79303965115929,
+      "max": 121.23611992119777
+     },
+     "ay": {
+      "mean": 12.324306282258142,
+      "rms": 14.253761073326977,
+      "max": 24.66355640402533
+     }
+    },
+    {
+     "name": "kerala+manda",
+     "sun": {
+      "mean": 2.8198726174944575,
+      "rms": 3.3401536477692497,
+      "max": 6.5056427142076245
+     },
+     "moon": {
+      "mean": -11.946535186888893,
+      "rms": 63.63565216825009,
+      "max": 161.5766294940545
+     },
+     "el": {
+      "mean": -14.766407804383165,
+      "rms": 64.2254027345256,
+      "max": 163.87951432489444
+     },
+     "ay": {
+      "mean": 12.324306282258142,
+      "rms": 14.253761073326977,
+      "max": 24.66355640402533
+     }
+    },
+    {
+     "name": "kerala+all",
+     "sun": {
+      "mean": 2.8198726174944575,
+      "rms": 3.3401536477692497,
+      "max": 6.5056427142076245
+     },
+     "moon": {
+      "mean": -11.891404424358495,
+      "rms": 17.432697652949326,
+      "max": 47.24263520768318
+     },
+     "el": {
+      "mean": -14.711277041852652,
+      "rms": 19.445470443350406,
+      "max": 52.0425626887868
      },
      "ay": {
       "mean": 12.324306282258142,
