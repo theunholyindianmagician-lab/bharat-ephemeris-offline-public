@@ -93,6 +93,18 @@ const TERMS = {
   moon2Dgp:   { of: (k) => sinD(2 * (k.mean.moon - k.mean.sun) - (k.mean.sun - k.mean.sunApogee)), body: 'moon', form: 'sin(2D − g′)', provenance: 'the sky\'s 0.046° term — no Indian source [standard form, measured amplitude]' },
   moonGgp:    { of: (k) => sinD((k.mean.moon - k.mean.moonApogee) - (k.mean.sun - k.mean.sunApogee)), body: 'moon', form: 'sin(g − g′)', provenance: 'the sky\'s 0.041° term — no Indian source [standard form, measured amplitude]' },
   sunManda2:  { of: (k) => sinD(2 * (k.mean.sun - k.mean.sunApogee)), body: 'sun', form: 'sin 2(λ☉ − apogee☉)', provenance: 'the second harmonic of the Sun\'s equation of centre (0.020° in the sky) — no Indian source [standard form, measured amplitude]' },
+  moonLatScale:  { of: (k) => 0, body: 'moonLat', form: '× the text\'s latitude (2.57: 270′ × jya(λ☾ − node)) — a scale', provenance: 'SS 2.57 form; the scale measured (the sky\'s inclination 5.145° against the text\'s 4.5°) [measured]' },
+  moonLat2DmF:   { of: (k) => 0, body: 'moonLat', form: 'sin(2D − F)', provenance: 'the Moon\'s latitude series (0.173° in the sky) — no Indian source [standard form, measured amplitude]' },
+  moonLatGpF:    { of: (k) => 0, body: 'moonLat', form: 'sin(g + F)', provenance: 'the Moon\'s latitude series — no Indian source [standard form, measured amplitude]' },
+  moonLatGmF:    { of: (k) => 0, body: 'moonLat', form: 'sin(g − F)', provenance: 'the Moon\'s latitude series — no Indian source [standard form, measured amplitude]' },
+  moonLat2DpF:   { of: (k) => 0, body: 'moonLat', form: 'sin(2D + F)', provenance: 'the Moon\'s latitude series — no Indian source [standard form, measured amplitude]' },
+  moonLat2DmGmF: { of: (k) => 0, body: 'moonLat', form: 'sin(2D − g − F)', provenance: 'the Moon\'s latitude series — no Indian source [standard form, measured amplitude]' },
+  moonLat2DmGpF: { of: (k) => 0, body: 'moonLat', form: 'sin(2D − g + F)', provenance: 'the Moon\'s latitude series — no Indian source [standard form, measured amplitude]' },
+  nodeTrue2SF:   { of: (k) => 0, body: 'node', form: 'sin 2(λ☉ − node)', provenance: 'the true node\'s principal term (1.498° in the sky, with the 0.123° sin 2D term folded in at a crossing) — the uploaded SSEA engine carried it as a 20th-century reconstruction; measured here at the dṛk Moon\'s latitude crossings [standard form, measured amplitude]' },
+  nodeTrueG:     { of: (k) => 0, body: 'node', form: 'sin g', provenance: 'the true node\'s series — no Indian source [standard form, measured at the crossings]' },
+  nodeTrueGp:    { of: (k) => 0, body: 'node', form: 'sin g′', provenance: 'the true node\'s series (0.150° in the sky) — no Indian source [standard form, measured at the crossings]' },
+  nodeTrue2G:    { of: (k) => 0, body: 'node', form: 'sin 2g', provenance: 'the true node\'s series — no Indian source [standard form, measured at the crossings]' },
+  nodeTrue2SFmG: { of: (k) => 0, body: 'node', form: 'sin(2(λ☉ − node) − g)', provenance: 'the true node\'s series — no Indian source [standard form, measured at the crossings]' },
 };
 /** Least squares of the Kerala tier's residual (tropical, candidate minus dṛk, in degrees) on a constant plus the named terms, over a span. */
 function fitTerms(names, body, from, step, n) {
@@ -211,7 +223,9 @@ function lm(residualsOf, p0, iters = 40) {
 /** Fit the first few parameters, then widen: the stages are prefixes of the parameter list; the rest start at zero. */
 function staged(f, k, stages) { let p = []; for (const st of [...stages.filter((x) => x < k), k]) { const g = (q) => f([...q, ...new Array(k - q.length).fill(0)]); p = lm(g, [...p, ...new Array(st - p.length).fill(0)]); } return p; }
 const PLANET_PARAMS = { text: ['mean.epochDeg', 'mean.ratePerCentury', 'sighrocca.epochDeg', 'sighrocca.ratePerCentury', 'mandocca.epochDeg', 'mandocca.ratePerCentury', 'mandaScale', 'sighraScale', 'manda2', 'radialOwn', 'radialSun'],
-  nilakantha: ['mean.epochDeg', 'mean.ratePerCentury', 'sighrocca.epochDeg', 'sighrocca.ratePerCentury', 'mandocca.epochDeg', 'mandocca.ratePerCentury', 'sighraScale', 'series[0]', 'series[1]', 'series[2]', 'radial[0]', 'radial[1]', 'radialSun'] };
+  nilakantha: ['mean.epochDeg', 'mean.ratePerCentury', 'sighrocca.epochDeg', 'sighrocca.ratePerCentury', 'mandocca.epochDeg', 'mandocca.ratePerCentury', 'sighraScale', 'series[0]', 'series[1]', 'series[2]', 'radial[0]', 'radial[1]', 'radialSun'],
+  latitude: ['latScale', 'node.epochDeg', 'node.ratePerCentury', 'lat2'] };
+const latitudeOf = (q) => ({ latScale: q[0] || 0, node: { epochDeg: q[1] || 0, ratePerCentury: q[2] || 0 }, lat2: q[3] || 0 });
 const bijaPart = (p) => ({ mean: { epochDeg: p[0], ratePerCentury: p[1] }, sighrocca: { epochDeg: p[2], ratePerCentury: p[3] }, mandocca: { epochDeg: p[4] || 0, ratePerCentury: p[5] || 0 } });
 const planetBijaOf = (p, form = 'text') => (form === 'nilakantha'
   ? { ...bijaPart(p), form, sighraScale: p[6] || 0, series: [p[7] || 0, p[8] || 0, p[9] || 0], radial: [p[10] || 0, p[11] || 0], radialSun: p[12] || 0 }
@@ -219,7 +233,7 @@ const planetBijaOf = (p, form = 'text') => (form === 'nilakantha'
 const bijaPair = (e, r) => ({ epochDeg: e, ratePerCentury: r });
 function jointMeasured(from, step, n) {
   const samples = []; for (let i = 0; i < n; i++) { const jd = from + i * step, t = tOf(jd), rows = M.tierGrahaRows(jd, 'drik'), ayD = M.tierAyanamsha(jd, 'drik').deg;
-    samples.push({ jd, t, T: (jd - 2451545) / 36525, ayK: KER.ayanamshaAt(t), sky: Object.fromEntries(rows.map((r) => [r.key, r.longitude + ayD])), skySid: Object.fromEntries(rows.map((r) => [r.key, r.longitude])) }); }
+    samples.push({ jd, t, T: (jd - 2451545) / 36525, ayK: KER.ayanamshaAt(t), sky: Object.fromEntries(rows.map((r) => [r.key, r.longitude + ayD])), skySid: Object.fromEntries(rows.map((r) => [r.key, r.longitude])), skyLat: Object.fromEntries(rows.map((r) => [r.key, r.latitudeDeg])) }); }
   const at = (meas) => { const pl = ST.placesOf(KER.mean, ST.measuredOf(meas)); return samples.map((s) => ({ s, p: pl(s.t) })); };
   const resOf = (meas, body, key) => at(meas).map(({ s, p }) => wrap(p[body] + s.ayK - s.sky[key]));
   const start = MEASURED['kerala+all'].fit;                                                  // the linear amplitudes seed the joint fit
@@ -252,17 +266,42 @@ function jointMeasured(from, step, n) {
     const nila = { stages: { before: st(fn(new Array(13).fill(0))), afterBija: st(fn(n8)), afterSeries: st(fn(n10)), afterRadial: st(fn(n12)), after: st(fn(n13)) }, ...planetBijaOf(n13, 'nilakantha') };
     const chosen = nila.stages.after.rms < text.stages.after.rms ? nila : text, chosenP = chosen === nila ? n13 : p11;
     const lat = samples.map((s, i) => { const d = M.tierGrahaRows(s.jd, 'drik').find((r) => r.key === key).latitudeDeg; return ST.planetWithBija(en, G.meanPlaces(s.t)[en], planetBijaOf(chosenP, chosen.form), s.jd, suns[i]).latitude / 60 - d; });
+    // the latitude: on the chosen form, the text's 2.56-2.57 on the heliocentric argument with the node's bīja, a scale, the distances, + a second harmonic
+    const fl = (q) => samples.map((s, i) => ST.planetWithBija(en, G.meanPlaces(s.t)[en], { ...planetBijaOf(chosenP, chosen.form), ...latitudeOf(q) }, s.jd, suns[i]).latitude / 60 - s.skyLat[key]);
+    const latText = samples.map((s, i) => G.truePlaces(s.t)[en].latitude / 60 - s.skyLat[key]);
+    const l3 = lm(fl, [0, 0, 0]), l4 = lm(fl, [...l3, 0]), latP = latitudeOf(l4);
     const { stages, ...params } = chosen;
-    bodies[key] = { before: text.stages.before, afterMeansOnly: text.stages.afterMeansOnly, afterBija: text.stages.afterBija, afterScales: text.stages.afterScales, afterText: text.stages.after, afterNilakantha: nila.stages.after, after: stages.after, ...params,
+    bodies[key] = { ...latP, latitudeFit: { text: st(latText), helioArgument: st(fl([0, 0, 0, 0])), after: st(fl(l4)), params: PLANET_PARAMS.latitude.map((k, i) => [k, l4[i]]), note: 'the text\'s latitude (2.56-2.57) against the dṛk latitude; then the measured form: the heliocentric argument (helio − node) for every graha, the node with a bīja, the text\'s greatest latitude scaled, × the planet\'s distance ÷ the śīghra karṇa, + a second harmonic [measured]' }, before: text.stages.before, afterMeansOnly: text.stages.afterMeansOnly, afterBija: text.stages.afterBija, afterScales: text.stages.afterScales, afterText: text.stages.after, afterNilakantha: nila.stages.after, after: stages.after, ...params,
       forms: { text: { stages: text.stages, params: PLANET_PARAMS.text.map((k, i) => [k, p11[i]]) }, nilakantha: { stages: nila.stages, params: PLANET_PARAMS.nilakantha.map((k, i) => [k, n13[i]]) } },
-      latitude: { ...st(lat), note: 'the text\'s latitude (2.56-2.57) on the measured means, minus the dṛk latitude; not corrected' },
+      latitude: { ...st(fl(l4)), note: 'the measured latitude (see latitudeFit) minus the dṛk latitude' },
       formNote: chosen.form === 'nilakantha'
         ? 'Nīlakaṇṭha\'s placement (Tantrasaṅgraha, 1500 — not in this library\'s editions [paramparā, unverified here]): the manda on the planet\'s own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text\'s śīghra from the tier\'s true Sun, the epicycle\'s size varying with the planet\'s distance (cos ν, cos 2ν) and the Earth\'s (cos g′); the means shifted by (epoch + rate·T) [measured]'
         : 'the text\'s four steps (ss-graha fourSteps) on means shifted by (epoch + rate·T) for the mean, the śīghrocca and the mandocca; each epicycle × (1 + scale); + manda2·sin 2(mandocca − place) at the third step; the śīghra epicycle varying with the planet\'s distance (cos anomaly) and the Earth\'s (cos g′) [measured]',
       provenance: 'bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse\'s, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]' };
   }
   const MOON_TERMS = ['dvitiya', 'variation', 'annual', 'moonManda', 'moonManda2', 'reduction', 'moonD', 'moon2D2g', 'moon2Dg', 'moon2Dgp', 'moonGgp'], SUN_TERMS = ['sunManda', 'sunManda2'];
-  return { candidate: { moonTerms: MOON_TERMS, sunTerms: SUN_TERMS, moonFit: { amplitudes: Object.fromEntries(MOON_TERMS.map((k) => [k, full[k]])) }, sunFit: { amplitudes: Object.fromEntries(SUN_TERMS.map((k) => [k, full[k]])) },
+  // the Moon's latitude: through the tier's places, a scale on 2.57 and the next terms, against the dṛk latitude
+  const LAT_TERMS = ['moonLatScale', 'moonLat2DmF', 'moonLatGpF', 'moonLatGmF', 'moonLat2DpF', 'moonLat2DmGmF', 'moonLat2DmGpF'];
+  const latOf = (q) => ({ ...full, ...Object.fromEntries(LAT_TERMS.map((k, i) => [k, q[i] || 0])) });
+  const latRes = (q) => at(latOf(q)).map(({ s, p }) => p.moonLatitude - s.skyLat.candra);
+  const latQ = lm(latRes, [...lm(latRes, [...lm(latRes, [0]), 0, 0, 0]), 0, 0, 0]);
+  const stLat = (a) => ({ mean: a.reduce((x, y) => x + y, 0) / a.length * 60, rms: Math.sqrt(a.reduce((x, y) => x + y * y, 0) / a.length) * 60, max: Math.max(...a.map(Math.abs)) * 60 });
+  // the true node: where the dṛk Moon's latitude crosses zero (bisected to 1e-6 d from each sample), the node is the Moon's longitude there
+  // (+180° at a descending crossing); the forms on the tier's mean node fitted at those instants. sin 2F and sin 2D are not separable
+  // from sin 2(λ☉ − node) at a crossing (F = 0 there) and are folded into it.
+  const moonAt = (jd) => { const r = M.tierGrahaRows(jd, 'drik').find((x) => x.key === 'candra'); return { lon: r.longitude, lat: r.latitudeDeg }; };
+  const crossings = [];
+  for (const s of samples) { let a = moonAt(s.jd).lat; for (let d = 1; d <= 15; d++) { const b = moonAt(s.jd + d).lat; if (Math.sign(a) !== Math.sign(b)) { let lo = s.jd + d - 1, hi = s.jd + d, fl = a;
+    for (let k = 0; k < 40; k++) { const mid = (lo + hi) / 2, fm = moonAt(mid).lat; if (Math.sign(fm) === Math.sign(fl)) { lo = mid; fl = fm; } else hi = mid; }
+    const jd = (lo + hi) / 2, lon = moonAt(jd).lon; crossings.push({ jd, t: tOf(jd), node: b > a ? lon : mod(lon + 180, 360) }); break; } a = b; } }
+  const NODE_TERMS = ['nodeTrue2SF', 'nodeTrueG', 'nodeTrueGp', 'nodeTrue2G', 'nodeTrue2SFmG'];
+  const nodeOf = (q) => ({ ...latOf(latQ), ...Object.fromEntries(NODE_TERMS.map((k, i) => [k, q[i] || 0])) });
+  const nodeRes = (q) => { const pl = ST.placesOf(KER.mean, ST.measuredOf(nodeOf(q))); return crossings.map((c) => wrap(pl(c.t).rahuTrue - c.node)); };
+  const nodeQ = lm(nodeRes, [...lm(nodeRes, [...lm(nodeRes, [0]), 0, 0]), 0, 0]);
+  const fullAll = nodeOf(nodeQ);
+  return { candidate: { moonTerms: MOON_TERMS, sunTerms: SUN_TERMS, latTerms: LAT_TERMS, nodeTerms: NODE_TERMS, moonFit: { amplitudes: Object.fromEntries(MOON_TERMS.map((k) => [k, full[k]])) }, sunFit: { amplitudes: Object.fromEntries(SUN_TERMS.map((k) => [k, full[k]])) },
+    latFit: { amplitudes: Object.fromEntries(LAT_TERMS.map((k) => [k, fullAll[k]])), before: stLat(latRes([])), after: stLat(latRes(latQ)), note: 'the Moon\'s latitude against the dṛk latitude, 1900-2100 (arcmin)' },
+    nodeFit: { amplitudes: Object.fromEntries(NODE_TERMS.map((k) => [k, fullAll[k]])), crossings: crossings.length, before: stLat(nodeRes([])), after: stLat(nodeRes(nodeQ)), note: 'the tier\'s Rāhu (mean node; before) and its true node (the mean with the forms; after) against the node read at the dṛk Moon\'s latitude crossings (arcmin)' },
     bija: { sunMean: full.sunMean, sunApogee: full.sunApogee, moonMean: full.moonMean, moonApogee: full.moonApogee, node: full.node }, planets: true,
     method: 'Levenberg–Marquardt through ss-tier placesOf on the tropical residual against the dṛk tier: the node first (linear bīja on Rāhu), then the Sun (mean and apogee bīja, epicycle scale, second harmonic), then the Moon (mean and apogee bīja, the five forms, the second manda harmonic, the reduction, then the five small terms) with the Sun and node held; the planets through ss-tier planetWithBija in both forms, the better kept per graha', isDefault: true,
     score: { before: score(a0), after: score(full) } }, bodies };

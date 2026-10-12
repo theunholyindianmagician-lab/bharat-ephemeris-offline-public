@@ -27,11 +27,11 @@
   "ss-graha.js": "04e8aada697e9ab17eff64e8ea0a2e158e884a883e7fc279d280c4df6c0859c0",
   "ss-ahargana.js": "c9905976e4653f2ea3b65d4474d47edf918b3e8068cb15a7d235dd2c96224cbf",
   "scripts/calendar-100k.cjs": "ba08975ea30c52b413001c1309de6b2e07138d1e7517c8c1d122c4ffb3326d30",
-  "ss-tier.js": "79d4445363e7c00231c81be1f8dbb85d2db75347ced2029e62fb01af65c1d530",
+  "ss-tier.js": "89f06a7531ec6260f00a31e9102cccb87b4461d6cb99bec4b9b69e712401b1df",
   "parahita-madhyama.js": "78f53d3c2b00a015dc565b767b1630632953e77dadadf97487c96fecec3ecb21",
   "parampara.js": "e0eed11d4d328fd41717a00bda6b8775b778dbb5f5133aa0d6fda9ffa4652ed6",
   "corpus/parampara/registry.json": "5eac2e7b3ba8ac5a3c128df4f0ca1e733d1dbc430b8f41ebe1b14e613ba63e7e",
-  "corpus/research/parampara-apply.json": "ddc0e04394cbadf6ec74bf46ac494514f14d29b02efd4c23f97e8bcc4deebb39"
+  "corpus/research/parampara-apply.json": "f3c42efb2be2107c15c1c3b8f706a4f452c711d53c4ff075430b53a99950d0bb"
  },
  "node": "v22.22.0",
  "sine": "madhava",
@@ -885,7 +885,7 @@
   "-899": "b8961a5f75dcb7dc21d6bbbec28ca8ebbdba647b39eb1f0772715452c6662106"
  },
  "hashOf": "sha256 of the uncompressed UTF-8 text: a shard is its year lines joined by \\n with a final \\n; a sample is one year line without the \\n",
- "runtimeSeconds": 537.7,
+ "runtimeSeconds": 639.3,
  "workers": 4,
- "msPerYearPerWorker": 21.51
+ "msPerYearPerWorker": 25.57
 }

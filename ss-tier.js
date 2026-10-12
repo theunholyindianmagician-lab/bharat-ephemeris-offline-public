@@ -241,11 +241,13 @@
   // epicycles. No amplitude is typed here: the caller passes them from corpus/research/parampara-apply.json (`measured`), where
   // scripts/parampara-apply.cjs fitted them by least squares against the dṛk tier over 1900–2100 and recorded their provenance.
   // ── the measured forms (the Kerala tier's option): every number comes from corpus/research/parampara-apply.json [measured] ──
-  const AMPLITUDE_KEYS = Object.freeze(["dvitiya", "variation", "annual", "moonManda", "sunManda", "moonManda2", "reduction", "moonD", "moon2D2g", "moon2Dg", "moon2Dgp", "moonGgp", "sunManda2"]);   // degrees, except the two scales
+  const AMPLITUDE_KEYS = Object.freeze(["dvitiya", "variation", "annual", "moonManda", "sunManda", "moonManda2", "reduction", "moonD", "moon2D2g", "moon2Dg", "moon2Dgp", "moonGgp", "sunManda2",
+    "moonLatScale", "moonLat2DmF", "moonLatGpF", "moonLatGmF", "moonLat2DpF", "moonLat2DmGmF", "moonLat2DmGpF",            // the Moon's latitude: a scale on 2.57's 270′ and the next terms (degrees)
+    "nodeTrue2SF", "nodeTrueG", "nodeTrueGp", "nodeTrue2G", "nodeTrue2SFmG"]);                                            // the true node: forms on the mean node (degrees), measured at the latitude's crossings
   const BIJA_KEYS = Object.freeze(["sunMean", "sunApogee", "moonMean", "moonApogee", "node"]);                                   // {epochDeg, ratePerCentury} on a mean
   const MEASURED_KEYS = Object.freeze([...AMPLITUDE_KEYS, ...BIJA_KEYS, "planets"]);
   const PLANET_EN = Object.freeze({ mangala: "mars", budha: "mercury", guru: "jupiter", shukra: "venus", shani: "saturn" });
-  const PLANET_PARTS = Object.freeze(["mean", "sighrocca", "mandocca"]), PLANET_SCALARS = Object.freeze(["mandaScale", "sighraScale", "manda2", "radialOwn", "radialSun"]);
+  const PLANET_PARTS = Object.freeze(["mean", "sighrocca", "mandocca", "node"]), PLANET_SCALARS = Object.freeze(["mandaScale", "sighraScale", "manda2", "radialOwn", "radialSun", "latScale", "lat2"]);
   const PLANET_FORMS = Object.freeze(["text", "nilakantha"]), PLANET_FIELDS = Object.freeze([...PLANET_PARTS, ...PLANET_SCALARS, "form", "series", "radial"]);
   const DEFAULT_CANDIDATE = "kerala+all+bija";                                                      // the Kerala tier's default (owner, 2026-10-12)
   const cosD = (x) => S.jya(x + 90) / S.R;
@@ -293,7 +295,7 @@
     if (!c) throw new RangeError(`ss-tier: the measurement record has no candidate "${candidate}"`);
     const bodies = record.measured.planets && record.measured.planets.bodies;
     const planets = c.planets && bodies ? Object.fromEntries(Object.entries(bodies).map(([g, b]) => [g, Object.fromEntries(PLANET_FIELDS.filter((k) => b[k] !== undefined && (k !== "form" || PLANET_FORMS.includes(b[k]))).map((k) => [k, b[k]]))])) : undefined;
-    return measuredOf({ ...(c.moonFit ? c.moonFit.amplitudes : {}), ...(c.sunFit ? c.sunFit.amplitudes : {}), ...(c.bija || {}), ...(planets ? { planets } : {}) });
+    return measuredOf({ ...(c.moonFit ? c.moonFit.amplitudes : {}), ...(c.sunFit ? c.sunFit.amplitudes : {}), ...(c.latFit ? c.latFit.amplitudes : {}), ...(c.nodeFit ? c.nodeFit.amplitudes : {}), ...(c.bija || {}), ...(planets ? { planets } : {}) });
   }
   let measuredLoaded = null;
   /** Give the tier the measurement record (corpus/research/parampara-apply.json, or an object carrying its `measured` block): the
@@ -328,10 +330,13 @@
       // the centre is the tier's true Sun, carrying the bīja of the Sun's role (the mean for Mercury and Venus, the śīghrocca for the outer three)
       const helioMean = p.inner ? m.sighrocca : m.mean, centre = sun ? shiftBy(sun.lambda, p.inner ? bija.mean : bija.sighrocca, T) : (p.inner ? m.mean : m.sighrocca), sr = bija.series, rd = bija.radial;
       const mu = mod(helioMean - m.mandocca, 360), eq = sr[0] * sinD(mu) + sr[1] * sinD(2 * mu) + sr[2] * sinD(3 * mu), helio = mod(helioMean + eq, 360), nu = mod(mu + eq, 360);
-      const SP = sighraPair((1 + rd[0] * cosD(nu) + rd[1] * cosD(2 * nu)) * sunRadial);
+      const rfac = 1 + rd[0] * cosD(nu) + rd[1] * cosD(2 * nu), SP = sighraPair(rfac * sunRadial);
       const sg = p.inner ? G.sighra(mod(helio - centre, 360), SP) : G.sighra(mod(centre - helio, 360), SP), longitude = mod((p.inner ? centre : helio) + sg.degrees, 360);
-      const argument = mod((p.inner ? helio : longitude) - m.node, 360), latitude = S.jya(argument) * p.lat / sg.karna;
-      return { longitude, latitude, mandaTrue: helio, steps: [helio, longitude], equations: { manda: eq, sighra: sg }, sighraKendra: sg.kendra, karna: sg.karna, node: m.node, latitudeArgument: argument, measuredMeans: m, form: "nilakantha" };
+      // the latitude: the text's 2.56-2.57 form on the heliocentric argument (helio − node) for every graha, the node with its bīja, the text's
+      // greatest latitude scaled, × the planet's distance, ÷ the śīghra karṇa (the geocentric distance), + a second harmonic [measured]
+      const node = shiftBy(m.node, bija.node, T), argument = mod(helio - node, 360);
+      const latitude = S.jya(argument) * p.lat * (1 + (bija.latScale || 0)) * rfac / sg.karna + (bija.lat2 || 0) * 60 * sinD(2 * argument);
+      return { longitude, latitude, mandaTrue: helio, steps: [helio, longitude], equations: { manda: eq, sighra: sg }, sighraKendra: sg.kendra, karna: sg.karna, node, latitudeArgument: argument, measuredMeans: m, form: "nilakantha" };
     }
     const MP = p.manda.map((x) => x * (1 + (bija.mandaScale || 0))), SP = sighraPair(1), h2 = bija.manda2 || 0;
     const s1 = G.sighra(mod(m.sighrocca - m.mean, 360), SP), p1 = mod(m.mean + s1.degrees / 2, 360);
@@ -375,8 +380,15 @@
         moon = mod(moon + (forms.dvitiya || 0) + (forms.variation || 0) + (forms.annual || 0) + (forms.moonManda || 0) + (forms.moonManda2 || 0) + (forms.reduction || 0) + (forms.moonD || 0) + (forms.moon2D2g || 0) + (forms.moon2Dg || 0) + (forms.moon2Dgp || 0) + (forms.moonGgp || 0), 360);
         sun = mod(sun + (forms.sunManda || 0) + (forms.sunManda2 || 0), 360);
       }
-      const moonLatitude = S.jya(moon - m.node) * S.MOON_MAX_LATITUDE_ARCMIN / S.R / 60;   // 2.57, degrees
-      return { sun, moon, rahu: m.node, ketu: mod(m.node + 180, 360), moonLatitude, mean: m, equations: { sun: sunEq, moon: moonEq }, measured: forms };
+      let moonLatitude = S.jya(moon - m.node) * S.MOON_MAX_LATITUDE_ARCMIN / S.R / 60;   // 2.57, degrees
+      let rahuTrue = m.node;
+      if (measured) {
+        const F = moon - m.node, D = m.moon - m.sun, g = m.moon - m.moonApogee, gp = m.sun - m.sunApogee, SF = sun - m.node;
+        moonLatitude = moonLatitude * (1 + (measured.moonLatScale || 0)) + (measured.moonLat2DmF || 0) * sinD(2 * D - F) + (measured.moonLatGpF || 0) * sinD(g + F) + (measured.moonLatGmF || 0) * sinD(g - F)
+          + (measured.moonLat2DpF || 0) * sinD(2 * D + F) + (measured.moonLat2DmGmF || 0) * sinD(2 * D - g - F) + (measured.moonLat2DmGpF || 0) * sinD(2 * D - g + F);
+        rahuTrue = mod(m.node + (measured.nodeTrue2SF || 0) * sinD(2 * SF) + (measured.nodeTrueG || 0) * sinD(g) + (measured.nodeTrueGp || 0) * sinD(gp) + (measured.nodeTrue2G || 0) * sinD(2 * g) + (measured.nodeTrue2SFmG || 0) * sinD(2 * SF - g), 360);
+      }
+      return { sun, moon, rahu: m.node, ketu: mod(m.node + 180, 360), rahuTrue, ketuTrue: mod(rahuTrue + 180, 360), moonLatitude, mean: m, equations: { sun: sunEq, moon: moonEq }, measured: forms };
     };
   }
 
@@ -419,7 +431,7 @@
       latitudeDeg[key] = planets[en].latitude / 60;
       mean[key] = { mean: means[en].mean, sighrocca: means[en].sighrocca, mandocca: means[en].mandocca, node: means[en].node };
     }
-    out.rahu = p.rahu; out.ketu = p.ketu;
+    out.rahu = p.rahu; out.ketu = p.ketu; out.rahuTrue = p.rahuTrue; out.ketuTrue = p.ketuTrue;   // the true node: the mean node with the measured forms (the plain tiers: the mean)
     out.latitudeDeg = latitudeDeg; out.mean = mean; out.sun = p.equations.sun; out.moon = p.equations.moon; out.planets = planets; out.measuredForms = p.measured || null;
     T.last = { t, g: Object.freeze(out) };
     return T.last.g;

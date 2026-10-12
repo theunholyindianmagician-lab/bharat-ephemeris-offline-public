@@ -84,6 +84,66 @@
     "form": "sin 2(λ☉ − apogee☉)",
     "body": "sun",
     "provenance": "the second harmonic of the Sun's equation of centre (0.020° in the sky) — no Indian source [standard form, measured amplitude]"
+   },
+   "moonLatScale": {
+    "form": "× the text's latitude (2.57: 270′ × jya(λ☾ − node)) — a scale",
+    "body": "moonLat",
+    "provenance": "SS 2.57 form; the scale measured (the sky's inclination 5.145° against the text's 4.5°) [measured]"
+   },
+   "moonLat2DmF": {
+    "form": "sin(2D − F)",
+    "body": "moonLat",
+    "provenance": "the Moon's latitude series (0.173° in the sky) — no Indian source [standard form, measured amplitude]"
+   },
+   "moonLatGpF": {
+    "form": "sin(g + F)",
+    "body": "moonLat",
+    "provenance": "the Moon's latitude series — no Indian source [standard form, measured amplitude]"
+   },
+   "moonLatGmF": {
+    "form": "sin(g − F)",
+    "body": "moonLat",
+    "provenance": "the Moon's latitude series — no Indian source [standard form, measured amplitude]"
+   },
+   "moonLat2DpF": {
+    "form": "sin(2D + F)",
+    "body": "moonLat",
+    "provenance": "the Moon's latitude series — no Indian source [standard form, measured amplitude]"
+   },
+   "moonLat2DmGmF": {
+    "form": "sin(2D − g − F)",
+    "body": "moonLat",
+    "provenance": "the Moon's latitude series — no Indian source [standard form, measured amplitude]"
+   },
+   "moonLat2DmGpF": {
+    "form": "sin(2D − g + F)",
+    "body": "moonLat",
+    "provenance": "the Moon's latitude series — no Indian source [standard form, measured amplitude]"
+   },
+   "nodeTrue2SF": {
+    "form": "sin 2(λ☉ − node)",
+    "body": "node",
+    "provenance": "the true node's principal term (1.498° in the sky, with the 0.123° sin 2D term folded in at a crossing) — the uploaded SSEA engine carried it as a 20th-century reconstruction; measured here at the dṛk Moon's latitude crossings [standard form, measured amplitude]"
+   },
+   "nodeTrueG": {
+    "form": "sin g",
+    "body": "node",
+    "provenance": "the true node's series — no Indian source [standard form, measured at the crossings]"
+   },
+   "nodeTrueGp": {
+    "form": "sin g′",
+    "body": "node",
+    "provenance": "the true node's series (0.150° in the sky) — no Indian source [standard form, measured at the crossings]"
+   },
+   "nodeTrue2G": {
+    "form": "sin 2g",
+    "body": "node",
+    "provenance": "the true node's series — no Indian source [standard form, measured at the crossings]"
+   },
+   "nodeTrue2SFmG": {
+    "form": "sin(2(λ☉ − node) − g)",
+    "body": "node",
+    "provenance": "the true node's series — no Indian source [standard form, measured at the crossings]"
    }
   },
   "candidates": {
@@ -201,6 +261,22 @@
      "sunManda",
      "sunManda2"
     ],
+    "latTerms": [
+     "moonLatScale",
+     "moonLat2DmF",
+     "moonLatGpF",
+     "moonLatGmF",
+     "moonLat2DpF",
+     "moonLat2DmGmF",
+     "moonLat2DmGpF"
+    ],
+    "nodeTerms": [
+     "nodeTrue2SF",
+     "nodeTrueG",
+     "nodeTrueGp",
+     "nodeTrue2G",
+     "nodeTrue2SFmG"
+    ],
     "moonFit": {
      "amplitudes": {
       "dvitiya": -1.2740782093141347,
@@ -221,6 +297,49 @@
       "sunManda": -0.12316297438252265,
       "sunManda2": 0.020339205069714306
      }
+    },
+    "latFit": {
+     "amplitudes": {
+      "moonLatScale": 0.1443712156323914,
+      "moonLat2DmF": 0.14498263804981287,
+      "moonLatGpF": 0.00087311474887336,
+      "moonLatGmF": 0.0077401568971988575,
+      "moonLat2DpF": -0.000027691816481402975,
+      "moonLat2DmGmF": 0.0209733683900202,
+      "moonLat2DmGpF": 0.00023836393561619908
+     },
+     "before": {
+      "mean": -0.6286178672432906,
+      "rms": 28.211741864088385,
+      "max": 48.04795987955926
+     },
+     "after": {
+      "mean": -0.003219041387228599,
+      "rms": 0.9477733846749717,
+      "max": 2.6985604874545377
+     },
+     "note": "the Moon's latitude against the dṛk latitude, 1900-2100 (arcmin)"
+    },
+    "nodeFit": {
+     "amplitudes": {
+      "nodeTrue2SF": 1.6304488221686337,
+      "nodeTrueG": -0.03822438112578558,
+      "nodeTrueGp": 0.15194966442121116,
+      "nodeTrue2G": -0.07711874582533257,
+      "nodeTrue2SFmG": -0.010570783450059303
+     },
+     "crossings": 753,
+     "before": {
+      "mean": -12.392971571205036,
+      "rms": 71.3925921358123,
+      "max": 131.98569802379097
+     },
+     "after": {
+      "mean": -12.236904857537995,
+      "rms": 14.501183878503172,
+      "max": 31.568010348591997
+     },
+     "note": "the tier's Rāhu (mean node; before) and its true node (the mean with the forms; after) against the node read at the dṛk Moon's latitude crossings (arcmin)"
     },
     "bija": {
      "sunMean": {
@@ -326,11 +445,59 @@
      "radial[0]",
      "radial[1]",
      "radialSun"
+    ],
+    "latitude": [
+     "latScale",
+     "node.epochDeg",
+     "node.ratePerCentury",
+     "lat2"
     ]
    },
    "method": "Levenberg–Marquardt on the dṛk residual through ss-tier planetWithBija, in two forms per graha, staged — the text's four steps: the mean and śīghrocca bīja (4), + the mandocca bīja (6), + the two epicycle scales (8), + the second manda harmonic (9), + the radial variation (11); Nīlakaṇṭha's placement: the bīja (6), + the śīghra scale and the first series term (8), + the series (10), + the radial variation (13); the better form kept per graha (`form`)",
    "bodies": {
     "mangala": {
+     "latScale": 0.21690529977665368,
+     "node": {
+      "epochDeg": -14.417684179038893,
+      "ratePerCentury": -0.6957946112176208
+     },
+     "lat2": -0.02994470470095073,
+     "latitudeFit": {
+      "text": {
+       "mean": 3.8334675852366615,
+       "rms": 35.77137404065103,
+       "max": 171.642897374772
+      },
+      "helioArgument": {
+       "mean": -5.627645132283346,
+       "rms": 31.183650213934484,
+       "max": 98.46909681965973
+      },
+      "after": {
+       "mean": -5.773523833957995,
+       "rms": 8.30451391070576,
+       "max": 37.0110125811953
+      },
+      "params": [
+       [
+        "latScale",
+        0.21690529977665368
+       ],
+       [
+        "node.epochDeg",
+        -14.417684179038893
+       ],
+       [
+        "node.ratePerCentury",
+        -0.6957946112176208
+       ],
+       [
+        "lat2",
+        -0.02994470470095073
+       ]
+      ],
+      "note": "the text's latitude (2.56-2.57) against the dṛk latitude; then the measured form: the heliocentric argument (helio − node) for every graha, the node with a bīja, the text's greatest latitude scaled, × the planet's distance ÷ the śīghra karṇa, + a second harmonic [measured]"
+     },
      "before": {
       "mean": -100.49584701211148,
       "rms": 137.38394647606475,
@@ -556,15 +723,57 @@
       }
      },
      "latitude": {
-      "mean": 0.38244568906138793,
-      "rms": 55.16817828427292,
-      "max": 203.09254567116596,
-      "note": "the text's latitude (2.56-2.57) on the measured means, minus the dṛk latitude; not corrected"
+      "mean": -5.773523833957995,
+      "rms": 8.30451391070576,
+      "max": 37.0110125811953,
+      "note": "the measured latitude (see latitudeFit) minus the dṛk latitude"
      },
      "formNote": "Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 — not in this library's editions [paramparā, unverified here]): the manda on the planet's own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text's śīghra from the tier's true Sun, the epicycle's size varying with the planet's distance (cos ν, cos 2ν) and the Earth's (cos g′); the means shifted by (epoch + rate·T) [measured]",
      "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]"
     },
     "budha": {
+     "latScale": 0.3191051301972836,
+     "node": {
+      "epochDeg": 3.9424790103378142,
+      "ratePerCentury": -0.2004179026192093
+     },
+     "lat2": 0.0010434425657270643,
+     "latitudeFit": {
+      "text": {
+       "mean": 26.430786536352187,
+       "rms": 48.258030651885576,
+       "max": 146.91872756824756
+      },
+      "helioArgument": {
+       "mean": 3.8436462242788068,
+       "rms": 30.664825258544514,
+       "max": 65.22762448555837
+      },
+      "after": {
+       "mean": 0.03706391483500349,
+       "rms": 1.678113615607641,
+       "max": 6.38808007247075
+      },
+      "params": [
+       [
+        "latScale",
+        0.3191051301972836
+       ],
+       [
+        "node.epochDeg",
+        3.9424790103378142
+       ],
+       [
+        "node.ratePerCentury",
+        -0.2004179026192093
+       ],
+       [
+        "lat2",
+        0.0010434425657270643
+       ]
+      ],
+      "note": "the text's latitude (2.56-2.57) against the dṛk latitude; then the measured form: the heliocentric argument (helio − node) for every graha, the node with a bīja, the text's greatest latitude scaled, × the planet's distance ÷ the śīghra karṇa, + a second harmonic [measured]"
+     },
      "before": {
       "mean": -18.72538366909026,
       "rms": 160.63745849515558,
@@ -790,15 +999,57 @@
       }
      },
      "latitude": {
-      "mean": 11.3316584427457,
-      "rms": 36.223284196262384,
-      "max": 93.57187593030017,
-      "note": "the text's latitude (2.56-2.57) on the measured means, minus the dṛk latitude; not corrected"
+      "mean": 0.03706391483500349,
+      "rms": 1.678113615607641,
+      "max": 6.38808007247075,
+      "note": "the measured latitude (see latitudeFit) minus the dṛk latitude"
      },
      "formNote": "Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 — not in this library's editions [paramparā, unverified here]): the manda on the planet's own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text's śīghra from the tier's true Sun, the epicycle's size varying with the planet's distance (cos ν, cos 2ν) and the Earth's (cos g′); the means shifted by (epoch + rate·T) [measured]",
      "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]"
     },
     "guru": {
+     "latScale": 0.3063463909212474,
+     "node": {
+      "epochDeg": -3.051258020071562,
+      "ratePerCentury": -0.4156628287310018
+     },
+     "lat2": -0.0020841841036628346,
+     "latitudeFit": {
+      "text": {
+       "mean": -0.9046219220897059,
+       "rms": 13.168687511157275,
+       "max": 23.906486390907556
+      },
+      "helioArgument": {
+       "mean": -2.2016596558657966,
+       "rms": 13.655748599684262,
+       "max": 26.4106156152107
+      },
+      "after": {
+       "mean": -1.8979100286673192,
+       "rms": 2.357304615698714,
+       "max": 5.09870816816941
+      },
+      "params": [
+       [
+        "latScale",
+        0.3063463909212474
+       ],
+       [
+        "node.epochDeg",
+        -3.051258020071562
+       ],
+       [
+        "node.ratePerCentury",
+        -0.4156628287310018
+       ],
+       [
+        "lat2",
+        -0.0020841841036628346
+       ]
+      ],
+      "note": "the text's latitude (2.56-2.57) against the dṛk latitude; then the measured form: the heliocentric argument (helio − node) for every graha, the node with a bīja, the text's greatest latitude scaled, × the planet's distance ÷ the śīghra karṇa, + a second harmonic [measured]"
+     },
      "before": {
       "mean": 274.8791418479618,
       "rms": 279.5287565110156,
@@ -1024,15 +1275,57 @@
       }
      },
      "latitude": {
-      "mean": -0.7451402096163985,
-      "rms": 15.031107938756389,
-      "max": 26.786532478787,
-      "note": "the text's latitude (2.56-2.57) on the measured means, minus the dṛk latitude; not corrected"
+      "mean": -1.8979100286673192,
+      "rms": 2.357304615698714,
+      "max": 5.09870816816941,
+      "note": "the measured latitude (see latitudeFit) minus the dṛk latitude"
      },
      "formNote": "Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 — not in this library's editions [paramparā, unverified here]): the manda on the planet's own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text's śīghra from the tier's true Sun, the epicycle's size varying with the planet's distance (cos ν, cos 2ν) and the Earth's (cos g′); the means shifted by (epoch + rate·T) [measured]",
      "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]"
     },
     "shukra": {
+     "latScale": 0.21776816682394992,
+     "node": {
+      "epochDeg": -6.843934884494336,
+      "ratePerCentury": -0.5136856321018953
+     },
+     "lat2": 0.008742490459642718,
+     "latitudeFit": {
+      "text": {
+       "mean": 1.004057480500161,
+       "rms": 33.70440854674678,
+       "max": 155.1877865317601
+      },
+      "helioArgument": {
+       "mean": 0.25735943699695374,
+       "rms": 31.775939519493782,
+       "max": 112.70148088676291
+      },
+      "after": {
+       "mean": -0.25524702173557096,
+       "rms": 1.8779241773505189,
+       "max": 10.768563010932368
+      },
+      "params": [
+       [
+        "latScale",
+        0.21776816682394992
+       ],
+       [
+        "node.epochDeg",
+        -6.843934884494336
+       ],
+       [
+        "node.ratePerCentury",
+        -0.5136856321018953
+       ],
+       [
+        "lat2",
+        0.008742490459642718
+       ]
+      ],
+      "note": "the text's latitude (2.56-2.57) against the dṛk latitude; then the measured form: the heliocentric argument (helio − node) for every graha, the node with a bīja, the text's greatest latitude scaled, × the planet's distance ÷ the śīghra karṇa, + a second harmonic [measured]"
+     },
      "before": {
       "mean": -24.210854082640854,
       "rms": 400.6147344845267,
@@ -1258,15 +1551,57 @@
       }
      },
      "latitude": {
-      "mean": 0.6196560109056317,
-      "rms": 31.771807609040707,
-      "max": 110.64750683285172,
-      "note": "the text's latitude (2.56-2.57) on the measured means, minus the dṛk latitude; not corrected"
+      "mean": -0.25524702173557096,
+      "rms": 1.8779241773505189,
+      "max": 10.768563010932368,
+      "note": "the measured latitude (see latitudeFit) minus the dṛk latitude"
      },
      "formNote": "Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 — not in this library's editions [paramparā, unverified here]): the manda on the planet's own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text's śīghra from the tier's true Sun, the epicycle's size varying with the planet's distance (cos ν, cos 2ν) and the Earth's (cos g′); the means shifted by (epoch + rate·T) [measured]",
      "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]"
     },
     "shani": {
+     "latScale": 0.24303774653262505,
+     "node": {
+      "epochDeg": -10.570465676020566,
+      "ratePerCentury": -0.5926580146392815
+     },
+     "lat2": -0.06187886531037898,
+     "latitudeFit": {
+      "text": {
+       "mean": 2.966280665545696,
+       "rms": 34.86399542737086,
+       "max": 59.536744463685096
+      },
+      "helioArgument": {
+       "mean": -0.6525606103974201,
+       "rms": 27.4601192120007,
+       "max": 43.687754310455745
+      },
+      "after": {
+       "mean": -1.4221513663654448,
+       "rms": 1.7902190458996907,
+       "max": 3.6139131636782817
+      },
+      "params": [
+       [
+        "latScale",
+        0.24303774653262505
+       ],
+       [
+        "node.epochDeg",
+        -10.570465676020566
+       ],
+       [
+        "node.ratePerCentury",
+        -0.5926580146392815
+       ],
+       [
+        "lat2",
+        -0.06187886531037898
+       ]
+      ],
+      "note": "the text's latitude (2.56-2.57) against the dṛk latitude; then the measured form: the heliocentric argument (helio − node) for every graha, the node with a bīja, the text's greatest latitude scaled, × the planet's distance ÷ the śīghra karṇa, + a second harmonic [measured]"
+     },
      "before": {
       "mean": -362.20846037120066,
       "rms": 373.03040280604637,
@@ -1492,10 +1827,10 @@
       }
      },
      "latitude": {
-      "mean": 0.9316132660164034,
-      "rms": 28.21369833080896,
-      "max": 51.02278323475487,
-      "note": "the text's latitude (2.56-2.57) on the measured means, minus the dṛk latitude; not corrected"
+      "mean": -1.4221513663654448,
+      "rms": 1.7902190458996907,
+      "max": 3.6139131636782817,
+      "note": "the measured latitude (see latitudeFit) minus the dṛk latitude"
      },
      "formNote": "Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 — not in this library's editions [paramparā, unverified here]): the manda on the planet's own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text's śīghra from the tier's true Sun, the epicycle's size varying with the planet's distance (cos ν, cos 2ν) and the Earth's (cos g′); the means shifted by (epoch + rate·T) [measured]",
      "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]"
@@ -1661,81 +1996,81 @@
    "trueLongitudeFit": {
     "mangala": {
      "before": {
-      "mean": -3.342567262863217,
-      "rms": 10.22087068637442,
-      "max": 36.05482030625808
+      "mean": 0.000010407459810893891,
+      "rms": 7.134096374633065,
+      "max": 21.0962152335469
      },
      "after": {
-      "mean": -9.731038462849978e-17,
-      "rms": 9.447202861794649,
-      "max": 41.70750673935993
+      "mean": 1.4154237764145422e-16,
+      "rms": 7.134096374622918,
+      "max": 21.096204437173355
      },
-     "epochDeg": 0.05579290454036375,
-     "ratePerCentury": 0.0580574679772021,
+     "epochDeg": -1.737082522613138e-7,
+     "ratePerCentury": -1.743381707205716e-7,
      "form": "λ + (epoch + rate·T), T in Julian centuries from J2000, on the true longitude",
      "provenance": "bīja-saṃskāra form [paramparā]; the numbers measured here against the dṛk tier [measured]"
     },
     "budha": {
      "before": {
-      "mean": -12.076166768237375,
-      "rms": 14.746365595983038,
-      "max": 32.475366768317144
+      "mean": 3.8710728780954585e-7,
+      "rms": 4.210489165890852,
+      "max": 12.19801025463994
      },
      "after": {
-      "mean": -1.1057998253238611e-15,
-      "rms": 4.533958354859233,
-      "max": 12.626396409143862
+      "mean": 1.2882567965022983e-16,
+      "rms": 4.210489165890821,
+      "max": 12.198009655765748
      },
-     "epochDeg": 0.2015659926419661,
-     "ratePerCentury": 0.20631163968209562,
+     "epochDeg": -6.4621700239076834e-9,
+     "ratePerCentury": -7.2228317936592285e-9,
      "form": "λ + (epoch + rate·T), T in Julian centuries from J2000, on the true longitude",
      "provenance": "bīja-saṃskāra form [paramparā]; the numbers measured here against the dṛk tier [measured]"
     },
     "guru": {
      "before": {
-      "mean": -3.0993052055726226e-8,
-      "rms": 4.488442762712148,
-      "max": 13.433584084593804
+      "mean": -3.913097330893156e-8,
+      "rms": 4.170929549881333,
+      "max": 14.010517096573949
      },
      "after": {
-      "mean": -5.059034200856665e-17,
-      "rms": 4.488442762712147,
-      "max": 13.433584125915209
+      "mean": -1.119967885585823e-16,
+      "rms": 4.170929549881334,
+      "max": 14.010517149365782
      },
-     "epochDeg": 5.170656086570857e-10,
-     "ratePerCentury": 3.58112710032556e-10,
+     "epochDeg": 6.528637139297583e-10,
+     "ratePerCentury": 4.736599899492283e-10,
      "form": "λ + (epoch + rate·T), T in Julian centuries from J2000, on the true longitude",
      "provenance": "bīja-saṃskāra form [paramparā]; the numbers measured here against the dṛk tier [measured]"
     },
     "shukra": {
      "before": {
-      "mean": 0.00000985402020054303,
-      "rms": 7.272870568273238,
-      "max": 33.71081545986726
+      "mean": 0.000009697317171274161,
+      "rms": 5.5762968704466305,
+      "max": 21.09446966424457
      },
      "after": {
-      "mean": -2.0567876751023818e-16,
-      "rms": 7.272870568264735,
-      "max": 33.710830144990766
+      "mean": -1.9697059388581277e-16,
+      "rms": 5.576296870435626,
+      "max": 21.09448453432919
      },
-     "epochDeg": -1.6444729520551743e-7,
-     "ratePerCentury": -1.4862210097057152e-7,
+     "epochDeg": -1.6184415076910514e-7,
+     "ratePerCentury": -1.545862633984698e-7,
      "form": "λ + (epoch + rate·T), T in Julian centuries from J2000, on the true longitude",
      "provenance": "bīja-saṃskāra form [paramparā]; the numbers measured here against the dṛk tier [measured]"
     },
     "shani": {
      "before": {
-      "mean": 2.7817040393119717e-9,
-      "rms": 5.358762479077772,
-      "max": 13.406799941308236
+      "mean": 7.579152710481633e-10,
+      "rms": 5.295793784797395,
+      "max": 13.469386174583633
      },
      "after": {
-      "mean": 2.841905551082323e-16,
-      "rms": 5.358762479077768,
-      "max": 13.406799871303885
+      "mean": -1.2771987982490597e-16,
+      "rms": 5.295793784797395,
+      "max": 13.469386103194685
      },
-     "epochDeg": -4.3469332052123366e-11,
-     "ratePerCentury": 2.012285347187721e-9,
+     "epochDeg": -9.700347612569678e-12,
+     "ratePerCentury": 2.039537613361156e-9,
      "form": "λ + (epoch + rate·T), T in Julian centuries from J2000, on the true longitude",
      "provenance": "bīja-saṃskāra form [paramparā]; the numbers measured here against the dṛk tier [measured]"
     }

@@ -140,9 +140,9 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
       if (first) assert.ok((await page.locator(`#d-${first.id}`).textContent()).includes(first.figures[0].verbatim.slice(0, 40)), 'a figure is quoted verbatim');
     } else assert.equal((await page.evaluate(() => document.body.dataset.ledger)), 'missing');
     // the measured forms: five rows from the record, Munjāla's provenance, the amplitude of the evection-form within 5% of 1.274°
-    await page.waitForFunction(() => document.body.dataset.measured === '13', null, { timeout: 60000 });
+    await page.waitForFunction(() => document.body.dataset.measured === '25', null, { timeout: 60000 });
     const measured = await page.$$eval('#measured-out tbody tr[data-form]', (trs) => trs.map((tr) => ({ form: tr.dataset.form, cells: [...tr.children].map((td) => td.textContent) })));
-    assert.deepEqual(measured.map((m) => m.form).slice(0, 7), ['dvitiya', 'variation', 'annual', 'moonManda', 'sunManda', 'moonManda2', 'reduction']); assert.equal(measured.length, 13); assert.match(measured[0].cells[2], /Munjāla/); assert.ok(Math.abs(Math.abs(parseFloat(measured[0].cells[3])) - 76.4) < 4);
+    assert.deepEqual(measured.map((m) => m.form).slice(0, 7), ['dvitiya', 'variation', 'annual', 'moonManda', 'sunManda', 'moonManda2', 'reduction']); assert.equal(measured.length, 25); assert.ok(measured.some((m) => m.form === 'moonLatScale' && /× 1\.1[0-9]/.test(m.cells[4])), 'the Moon\'s latitude scale (the sky\'s inclination)'); assert.ok(measured.some((m) => m.form === 'nodeTrue2SF' && Math.abs(parseFloat(m.cells[4])) > 80), 'the true node\'s principal term'); assert.match(measured[0].cells[2], /Munjāla/); assert.ok(Math.abs(Math.abs(parseFloat(measured[0].cells[3])) - 76.4) < 4);
     assert.ok(Math.abs(Math.abs(parseFloat(measured[5].cells[4])) - 12.8) < 1 && Math.abs(Math.abs(parseFloat(measured[6].cells[4])) - 6.9) < 1, 'the joint fit recovers the sky\'s second harmonic and reduction');
     const bija = await page.$$eval('#measured-out tr[data-bija]', (trs) => trs.map((tr) => tr.dataset.bija)); assert.deepEqual(bija, ['sunMean', 'sunApogee', 'moonMean', 'moonApogee', 'node']);
     assert.ok((await page.$$eval('#parampara-out table.parampara-span tbody tr', (trs) => trs.map((tr) => tr.children[0].textContent))).some((n) => n.startsWith('kerala+all')));

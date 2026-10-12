@@ -1797,6 +1797,26 @@ The Earth's radial term is 0.0163–0.0173 on all five (e = 0.0167). The measure
 
 **Provenance, said plainly.** The bīja on the means and the revised epicycles are the paramparā's forms; Nīlakaṇṭha's placement is the paramparā's (Tantrasaṅgraha is not in this library's editions: [paramparā, unverified here]); the series, the radial variation and the Moon's small terms are the ellipse's and the sky's, with no Indian source for the numbers [standard form]; every amplitude is measured against the dṛk tier, none typed [measured]. The forms table on the research page says this per row.
 
+### 24.17 The latitudes and the true node, measured the same way (2026-10-12, the owner's fourth ask)
+
+The owner asked for the planets' latitudes to be corrected the same way, and whatever else remained. Three things remained with a reference available; all three are now in the Kerala tier's default (`corpus/research/parampara-apply.json` → `measured`, candidate `kerala+all+bija`; rms 1900–2100 against the dṛk tier, every number fitted through the tier's own arithmetic).
+
+**The planets' latitudes.** The text's 2.56–2.57 gives the latitude as the greatest latitude × jya(argument) ÷ the śīghra karṇa, the argument from the śīghrocca for the inner planets and from the geocentric place for the outer three. The measured form keeps the text's shape and changes four things: the argument is heliocentric (the Nīlakaṇṭha form's heliocentric place − node) for every graha; the node gets a bīja (the text's nodes are 3–14° off at J2000: Mars −14.4°, Saturn −10.6°, Venus −6.8°, Jupiter −3.1°, Mercury +3.9°, with rates of −0.2 to −0.7° a century); the greatest latitude is scaled (+22 to +32 %); and the planet's distance (the same radial factor as the śīghra) multiplies it. A second harmonic adds up to 3.7′ (Saturn).
+
+| graha | text's latitude | heliocentric argument alone | measured |
+|---|---|---|---|
+| Mercury | 48.3′ | 30.7′ | 1.7′ |
+| Venus | 33.7′ | 31.8′ | 1.9′ |
+| Mars | 35.8′ | 31.2′ | 8.3′ |
+| Jupiter | 13.2′ | 13.7′ | 2.4′ |
+| Saturn | 34.9′ | 27.5′ | 1.8′ |
+
+**The Moon's latitude.** The text's 2.57 (270′ × jya(λ☾ − node), an inclination of 4.5°) stood at 28.2′ rms. A scale of +0.144 on it is the sky's 5.145° inclination exactly (5.145 / 4.5 − 1 = 0.143), and takes it to 6.2′; the next terms of the latitude series (sin(2D − F) 0.145°, the sky's 0.173°, and five smaller) take it to 0.95′. This is the latitude the eclipse search uses (the samskara.js model is wrapped onto the tier's places), so the Kerala tier's eclipse magnitudes now carry it.
+
+**The true node.** The dṛk tier carries the mean node, so the reference was read where the dṛk Moon's latitude actually crosses zero: 753 crossings bisected to 10⁻⁶ day over 1900–2100, the node being the Moon's longitude there (+180° at a descending crossing). Against that, the tier's Rāhu (the mean node with its bīja) stands at 71.4′ rms; with the forms fitted at those instants — 1.630° sin 2(λ☉ − Ω) (the sky's 1.498° with the 0.123° sin 2D term folded in, since the two are one at a crossing), 0.152° sin g′ (the sky's 0.150°), −0.077° sin 2g, −0.038° sin g — the true node stands at 14.5′. The sin 2F term of the series cannot be measured at a crossing (F is zero there) and is not in the tier; the 14.5′ that remains is mostly it. The tier exposes it as `rahuTrue` / `ketuTrue` beside the mean `rahu` / `ketu` (the plain tiers give the mean for both; the dṛk tier's Rāhu is still its mean node).
+
+**Said plainly.** The forms of the Moon's latitude series and the node's series have no Indian source and are tagged [standard form, measured amplitude]; the latitude's heliocentric argument is Nīlakaṇṭha's placement carried through [paramparā, unverified here]; the node bīja and the scale are the paramparā's forms. The manifest was rerun so its hash of the record is the committed one (the calendar itself does not depend on latitudes or the node). Left: the dṛk tier's own true node (it would need the same crossing method at run time, or the series typed — neither is this repository's way); the planets' 4–7′ in longitude, which is the mutual perturbations (the Jupiter–Saturn great inequality among them) that no single-planet form reaches.
+
 ## Appendix A. The three designs and the three judges
 
 | Design | Fidelity lens | Honesty lens | Reachability lens | Sum |

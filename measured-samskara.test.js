@@ -101,3 +101,16 @@ test('a bīja is epoch-bound: its rate is held at ±5 Julian centuries from J200
   const far = 2451545 + 400 * 36525, g = ST.grahas(far, { samskara: 'kerala' }), h = ST.grahas(far, { samskara: 'kerala', measured: false });
   for (const k of ['surya', 'candra', 'rahu', 'budha', 'shani']) assert.ok(d(g[k], h[k]) < 30, `${k} at +400 centuries: the measured tier stays within 30° of the bare paramparā (${d(g[k], h[k]).toFixed(2)}°)`);
 });
+
+test('the latitudes and the true node: the planets\' latitudes on the heliocentric argument with the node\'s bīja, the Moon\'s latitude with the sky\'s inclination, the true node at the latitude crossings — measured, and the plain tier keeps the text\'s', () => {
+  const c = REC.measured.candidates['kerala+all+bija'], b = REC.measured.planets.bodies;
+  for (const g of Object.keys(b)) { assert.ok(b[g].latitudeFit.after.rms < b[g].latitudeFit.text.rms / 3, `${g}: latitude ${b[g].latitudeFit.text.rms.toFixed(1)}′ → ${b[g].latitudeFit.after.rms.toFixed(1)}′`); assert.ok(b[g].latitudeFit.after.rms < 10); }
+  assert.ok(Math.abs(c.latFit.amplitudes.moonLatScale - (5.145 / 4.5 - 1)) < 0.02, `the Moon's latitude scale ${c.latFit.amplitudes.moonLatScale} (the sky's 5.145° over the text's 4.5°)`);
+  assert.ok(c.latFit.after.rms < 1.5 && c.latFit.before.rms > 20, `Moon latitude ${c.latFit.before.rms} → ${c.latFit.after.rms}`);
+  assert.ok(c.nodeFit.crossings > 700 && c.nodeFit.after.rms < 20 && c.nodeFit.before.rms > 60, `true node ${c.nodeFit.before.rms} → ${c.nodeFit.after.rms}`);
+  assert.ok(Math.abs(c.nodeFit.amplitudes.nodeTrue2SF - 1.62) < 0.1, `the principal term ${c.nodeFit.amplitudes.nodeTrue2SF} (the sky's 1.498° + 0.123° folded)`);
+  const jd = 2461041.5, g = ST.grahas(jd, { samskara: 'kerala' }), h = ST.grahas(jd, { samskara: 'kerala', measured: false }), G = require('./ss-graha.js');
+  assert.notEqual(g.rahuTrue, g.rahu); assert.equal(h.rahuTrue, h.rahu); assert.equal(h.ketuTrue, h.ketu); assert.ok(Math.abs(((g.ketuTrue - g.rahuTrue + 360) % 360) - 180) < 1e-9, 'Ketu opposite the true Rāhu');
+  assert.notEqual(g.latitudeDeg.candra, h.latitudeDeg.candra); assert.ok(Math.abs(h.latitudeDeg.guru * 60 - G.truePlaces(jd - 588465.5 + 75.7885 / 360).jupiter.latitude) < 1e-9, 'the plain tier keeps the text\'s latitude');
+  const m = ST.measuredFromRecord(REC, 'kerala+all+bija'); assert.ok(m.moonLatScale !== undefined && m.nodeTrue2SF !== undefined && m.planets.guru.node && typeof m.planets.guru.latScale === 'number');
+});
