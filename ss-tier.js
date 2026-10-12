@@ -335,9 +335,11 @@
     const m = { ...means, mean: shiftBy(means.mean, bija.mean, T), sighrocca: shiftBy(means.sighrocca, bija.sighrocca, T), mandocca: shiftBy(means.mandocca, bija.mandocca, T) };
     const sunRadial = sun ? 1 + (bija.radialSun || 0) * cosD(sun.anomaly) : 1, sighraPair = (radial) => p.sighra.map((x) => x * (1 + (bija.sighraScale || 0)) * radial);
     if (bija.form === "nilakantha") {
-      // Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 [paramparā; not in this library's editions — unverified here]): the manda on the planet's
-      // own heliocentric mean (the śīghrocca for Mercury and Venus, the mean for the outer three) as a measured series in its anomaly; the
-      // text's śīghra then from the true Sun; the epicycle's size varying with the planet's and the Earth's distances [measured].
+      // Nīlakaṇṭha's placement — Tantrasaṅgraha 2.68b-74 (registry TS-2-68b-74-budha-shukra, read from the Sarma 1977 scan): Mercury's manda from
+      // Mercury's own mean less its own mandocca, the śīghra then applied to the Sun [text]. Here: the manda on the planet's own heliocentric
+      // mean (the śīghrocca for Mercury and Venus, the mean for the outer three) as a MEASURED series in its anomaly; the śīghra from the tier's
+      // TRUE Sun where the text takes the mean Sun (रविमध्य, 2.70, 2.73-74) — this repository's measured choice, not the text's; the epicycle's
+      // size varying with the planet's and the Earth's distances [measured]. The latitude on the manda-true place: Yuktidīpikā 1003 [text: commentary].
       // the centre is the tier's true Sun, carrying the bīja of the Sun's role (the mean for Mercury and Venus, the śīghrocca for the outer three)
       const helioMean = p.inner ? m.sighrocca : m.mean, centre = sun ? shiftBy(sun.lambda, p.inner ? bija.mean : bija.sighrocca, T) : (p.inner ? m.mean : m.sighrocca), sr = bija.series, rd = bija.radial;
       const mu = mod(helioMean - m.mandocca, 360), eq = sr[0] * sinD(mu) + sr[1] * sinD(2 * mu) + sr[2] * sinD(3 * mu), nu = mod(mu + eq, 360);

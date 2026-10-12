@@ -81,11 +81,11 @@
    "fileKind": "owner-statement"
   },
   "TS": {
-   "edition": "Tantrasaṅgraha of Nīlakaṇṭha Somayājī (1500 CE): ed. K. V. Sarma (with the Laghuvivṛti and the Yuktidīpikā of Śaṅkara Vāriyar), Hoshiarpur 1977; tr. K. Ramasubramanian and M. S. Sriram, Hindustan Book Agency / Springer 2011",
-   "file": null,
-   "fileKind": "NOT HELD: no local edition or e-text (2026-10-12); the session's network policy denied archive.org, sa.wikisource.org and gretil.sub.uni-goettingen.de, so none could be fetched — the owner supplies the text, after which the record below takes its verses",
-   "pages": null,
-   "licence": "to be stated with the edition"
+   "edition": "Tantrasaṅgraha of Nīlakaṇṭha Somayājī with Yuktidīpikā and Laghuvivṛti of Śaṅkara, ed. K. V. Sarma, Panjab University Indological Series 10, Hoshiarpur 1977 (the 2011 Ramasubramanian–Sriram translation is not held)",
+   "file": "corpus/sources/tantrasangraha-transcriptions.md",
+   "fileKind": "the 494-page image-only scan is held PRIVATELY by the owner (kaal-sacred-discovery, branch tantrasangraha-upload, commit 09cdc3a, editions/tantrasangraha-sarma-1977.pdf, SHA-256 6ec7555c…97a520), not in this repository and never in the public export; this repository holds only this session's transcriptions of the quoted lines, read from the page images (no OCR), with PDF page, printed page and verse",
+   "pages": "printed page = PDF page − 85 (checked at printed 5 = PDF 90); cited by printed page and verse",
+   "licence": "All Rights Reserved, First Edition 1977 (the edition's copyright page): short quotations for research only; the scan is not redistributed"
   }
  },
  "sites": {
@@ -3246,33 +3246,231 @@
    "sha256": "87a234ed5e3abb957042001f7271da7334648b946ff88beccaf5c45fc2a6a09b"
   },
   {
-   "id": "NIL-tantrasangraha-planets",
-   "class": "owner-statement",
-   "observer": "the owner (2026-10-12): 'put Tantrasaṅgraha and Nīlakaṇṭha into the library'; the attribution of the planetary form to Nīlakaṇṭha is the standard history of the Kerala school [standard]",
+   "id": "TS-1-40-mandocca",
+   "class": "determination",
+   "observer": "Nīlakaṇṭha Somayājī (Tantrasaṅgraha, 1500 CE)",
    "era": {
-    "note": "Tantrasaṅgraha completed 1500 CE (Kali 4601) [standard]"
+    "note": "Tantrasaṅgraha completed Kali 4601 (1500 CE) [standard]"
    },
-   "source": "owner",
-   "locus": null,
-   "quote": [],
+   "source": "TS",
+   "locus": "TS 1.40, printed p. 77 (PDF 162)",
+   "quote": [
+    {
+     "sa": "स्वररवयः खाकृतयो द्विनगभुवोऽशीतिरभ्रजिनाः ।",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:8"
+    },
+    {
+     "sa": "भौमान्मन्दोच्चांशा, वसुतुरगा भास्करस्यापि ॥ ४० ॥",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:9"
+    }
+   ],
    "value": {
-    "form": "for Mercury and Venus the manda correction is applied to the planet's own mean (what the Sūrya-Siddhānta calls their śīghrocca), not to the mean Sun; the śīghra correction is then taken about the Sun; the latitude is reckoned from the planet's own heliocentric place — the form ss-tier.js planetWithBija uses as 'nilakantha' for all five star-planets, every amplitude measured against the dṛk tier (corpus/research/parampara-apply.json)"
+    "mandoccaDegrees": {
+     "mars": 127,
+     "mercury": 220,
+     "jupiter": 172,
+     "venus": 80,
+     "saturn": 240,
+     "sun": 78
+    },
+    "decoding": "the editor's figures printed above the words; the Yuktidīpikā (८२०) gives the same in signs and degrees",
+    "crossCheck": "the Sūrya-Siddhānta's moving apogees at Kali 4600 (ss-graha meanPlaces): Mars 130.0°, Mercury 220.5°, Jupiter 171.3°, Venus 79.9°, Saturn 236.6° — within 1° for three, 3.0° (Mars) and 3.4° (Saturn) apart [measured]; the Sun's 78° is Āryabhaṭa's, the Kerala tier's value"
    },
    "assumptions": [
     {
-     "text": "the form is Nīlakaṇṭha's as the standard history states it; no verse of the Tantrasaṅgraha is held here to quote",
-     "tag": "[standard]"
+     "text": "the Sanskrit is this session's transcription of the scan's page image, read on 2026-10-12 without OCR; a reader with the scan verifies the line against the page",
+     "tag": "[reading]"
     }
    ],
    "sigma": null,
-   "status": "awaiting edition",
-   "why": "the local library has Nīlakaṇṭha's Jyotirmīmāṃsā (JM) and his bhāṣya on the Āryabhaṭīya (ABh1931) but not the Tantrasaṅgraha (sources.TS, awaited); until its edition is held the form is tagged [paramparā, unverified here] wherever the engine uses it",
+   "status": "cross-check",
+   "why": "the apogees Nīlakaṇṭha states; a cross-check of the Kerala tier's Sun apogee (78°) and of the measured mandocca bīja; not a row (no date, no observation)",
    "tags": [
-    "[owner-statement]",
-    "[paramparā]",
-    "[unverified]"
+    "[text]",
+    "[reading]",
+    "[paramparā]"
    ],
-   "sha256": "dd27cbaacdd510cd6a7dae46eae9deac51fc3ea072763f41e262f90e0ddcb71a"
+   "sha256": "abab84d47082113b9c6f645951c53e71626bc0ebb4c09ffb8ca96c5c6063ef86"
+  },
+  {
+   "id": "TS-2-60-four-operations",
+   "class": "rule",
+   "observer": "Nīlakaṇṭha Somayājī (Tantrasaṅgraha, 1500 CE)",
+   "era": {
+    "note": "Tantrasaṅgraha completed Kali 4601 (1500 CE) [standard]"
+   },
+   "source": "TS",
+   "locus": "TS 2.60, printed p. 172 (PDF 257)",
+   "quote": [
+    {
+     "sa": "मान्दं शैघ्रं पुनर्मान्दं शैघ्रं चत्वार्यनुक्रमात् ।",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:13"
+    },
+    {
+     "sa": "कुजगुर्वर्कजानां हि कर्माण्युक्तानि सूरिभिः ॥ ६० ॥",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:14"
+    }
+   ],
+   "value": {
+    "order": "for Mars, Jupiter and Saturn four operations in order: manda, śīghra, manda again, śīghra — as the earlier teachers (sūribhiḥ) state",
+    "note": "the Sūrya-Siddhānta's order (2.43-2.44) is śīghra, manda, manda, śīghra: the text tiers keep the Sūrya-Siddhānta's; the Kerala tier's measured form for the outer planets is a single manda on the planet's own mean and one śīghra (planetWithBija 'nilakantha'), which is neither text's four steps and is measured, not read"
+   },
+   "assumptions": [
+    {
+     "text": "the Sanskrit is this session's transcription of the scan's page image, read on 2026-10-12 without OCR; a reader with the scan verifies the line against the page",
+     "tag": "[reading]"
+    }
+   ],
+   "sigma": null,
+   "status": "cross-check",
+   "why": "the order of the operations for the outer planets as Nīlakaṇṭha gives it; recorded, not applied",
+   "tags": [
+    "[text]",
+    "[reading]",
+    "[paramparā]"
+   ],
+   "sha256": "97190496db22defaff255ce55fc921f42fa346d859ddb89702da4e44c3d3143a"
+  },
+  {
+   "id": "TS-2-68b-74-budha-shukra",
+   "class": "rule",
+   "observer": "Nīlakaṇṭha Somayājī (Tantrasaṅgraha, 1500 CE)",
+   "era": {
+    "note": "Tantrasaṅgraha completed Kali 4601 (1500 CE) [standard]"
+   },
+   "source": "TS",
+   "locus": "TS 2.68b-74, printed pp. 173-175 (PDF 258-260)",
+   "quote": [
+    {
+     "sa": "बुधमध्यात् स्वमन्दोच्चं त्यक्त्वा दोःकोटिजीवयोः ॥ ६८b ॥",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:17"
+    },
+    {
+     "sa": "एवंकृतं हि यन्मध्यं स्फुटमध्यं बुधस्य तु ।",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:20"
+    },
+    {
+     "sa": "रविमध्यं ततः शोध्यं, दोःकोटिज्ये ततो नयेत् ॥ ७० ॥",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:21"
+    },
+    {
+     "sa": "कर्णेनाप्तस्य यच्चापं कृत्स्नं तद् भानुमध्यमे ।",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:26"
+    },
+    {
+     "sa": "क्रमेण प्रक्षिपेज्जह्यात् केन्द्रे मेषतुलादिगे ॥ ७३ ॥",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:27"
+    },
+    {
+     "sa": "एवं शीघ्रफलेनैव संस्कृतं रविमध्यमम् ।",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:28"
+    },
+    {
+     "sa": "बुधः स्यात् स स्फुटः, शुक्रोऽप्येवमेव स्फुटो भवेत् ॥ ७४ ॥",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:29"
+    }
+   ],
+   "value": {
+    "form": "Mercury's manda is reckoned from Mercury's own mean (बुधमध्य) less its own mandocca (68b-69); the mean so corrected is Mercury's sphuṭa-madhya (70); from it the MEAN Sun (रविमध्य) is subtracted for the śīghra's sines (70); the whole arc from the karṇa is added to or subtracted from the mean Sun by the quadrant (73); the mean Sun corrected by the śīghra alone is the true Mercury, and Venus likewise (74)",
+    "engine": "ss-tier.js planetWithBija form 'nilakantha': the manda on the planet's own mean (the Sūrya-Siddhānta's śīghrocca for Mercury and Venus) as 68b-70 — [text]; the centre of the śīghra is the tier's TRUE Sun, not the text's mean Sun (रविमध्य, 70, 73, 74): a measured choice of this repository (4′ against 15′ rms for Mercury over 1900-2100), not Nīlakaṇṭha's — [measured]; the manda as a series in the anomaly and the varying epicycle are measured, not the text's epicycle — [measured]"
+   },
+   "assumptions": [
+    {
+     "text": "the Sanskrit is this session's transcription of the scan's page image, read on 2026-10-12 without OCR; a reader with the scan verifies the line against the page",
+     "tag": "[reading]"
+    }
+   ],
+   "sigma": null,
+   "status": "cross-check",
+   "why": "the placement of Mercury's and Venus's manda on their own mean, the engine's 'nilakantha' form, now read in the text; the true-Sun centre is this repository's and is tagged apart",
+   "tags": [
+    "[text]",
+    "[reading]",
+    "[paramparā]"
+   ],
+   "sha256": "30c514839a9c97616f33b07457852119e588c4db03740d286467d64fc97b79ca"
+  },
+  {
+   "id": "TS-2-75-76-shukra-visesha",
+   "class": "rule",
+   "observer": "Nīlakaṇṭha Somayājī (Tantrasaṅgraha, 1500 CE)",
+   "era": {
+    "note": "Tantrasaṅgraha completed Kali 4601 (1500 CE) [standard]"
+   },
+   "source": "TS",
+   "locus": "TS 2.75-76, printed pp. 176-177 (PDF 261-262)",
+   "quote": [
+    {
+     "sa": "मन्दकेन्द्रभुजाजीवा खजिनांशेन संयुता ।",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:33"
+    },
+    {
+     "sa": "मनवस्तस्य हारः स्यात्, तद्भक्ते बाहुकोटिके ॥ ७५ ॥",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:34"
+    },
+    {
+     "sa": "स्यातां, मन्दफले तस्य दोःफलं च स्वमध्यमे ।",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:35"
+    },
+    {
+     "sa": "कृत्वाऽविशेषकर्णं च, क्रियतां शीघ्रकर्म च ॥ ७६ ॥",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:36"
+    }
+   ],
+   "value": {
+    "form": "for Venus the manda divisor varies with the manda-kendra: the bhujajyā of the manda-kendra plus 240 (खजिन), divided by 14 (मनव), is the divisor of the bhuja and koṭi (75); the manda-phala so found is applied to Venus's own mean, the karṇa iterated, then the śīghra operation (76)",
+    "engine": "a varying manda epicycle for Venus — the engine's measured radial and series terms play this role with measured numbers; the text's 240/14 rule is recorded, not applied"
+   },
+   "assumptions": [
+    {
+     "text": "the Sanskrit is this session's transcription of the scan's page image, read on 2026-10-12 without OCR; a reader with the scan verifies the line against the page",
+     "tag": "[reading]"
+    }
+   ],
+   "sigma": null,
+   "status": "cross-check",
+   "why": "Venus's special manda rule as Nīlakaṇṭha gives it; recorded",
+   "tags": [
+    "[text]",
+    "[reading]",
+    "[paramparā]"
+   ],
+   "sha256": "271e53a070cf3f0ec2bdcce9dcf7e3f54cd064ca393710d8a0ce12ce7a39cd37"
+  },
+  {
+   "id": "TS-YD-1003-vikshepa",
+   "class": "doctrine",
+   "observer": "Nīlakaṇṭha Somayājī (Tantrasaṅgraha, 1500 CE)",
+   "era": {
+    "note": "Tantrasaṅgraha completed Kali 4601 (1500 CE) [standard]"
+   },
+   "source": "TS",
+   "locus": "Yuktidīpikā 1003 on TS 2.75, printed p. 176 (PDF 261) — Śaṅkara's commentary, not the mūla",
+   "quote": [
+    {
+     "sa": "मन्दस्फुटात् स्वपातोनाद् दोर्ज्याऽन्त्यक्षेपताडिता ॥ १००३ ॥",
+     "from": "corpus/sources/tantrasangraha-transcriptions.md:40"
+    }
+   ],
+   "value": {
+    "form": "the latitude: the sine of (the manda-true place less its own node) multiplied by the greatest latitude — the argument of latitude taken from the manda-corrected (heliocentric) place",
+    "engine": "ss-tier.js planetWithBija 'nilakantha' latitude: the heliocentric argument (helio − node) for every graha — the commentary's placement [text: commentary]; the node bīja, the scale and the distances are measured [measured]"
+   },
+   "assumptions": [
+    {
+     "text": "the Sanskrit is this session's transcription of the scan's page image, read on 2026-10-12 without OCR; a reader with the scan verifies the line against the page",
+     "tag": "[reading]"
+    }
+   ],
+   "sigma": null,
+   "status": "cross-check",
+   "why": "the commentary's placement of the latitude's argument on the manda-true place; the engine's measured latitude uses it",
+   "tags": [
+    "[text]",
+    "[reading]",
+    "[paramparā]"
+   ],
+   "sha256": "fe3ea4f03b5511a8c69a0f8a25ddae28a355b9ef584d79e5ebbc04133d615c58"
   }
  ]
 }

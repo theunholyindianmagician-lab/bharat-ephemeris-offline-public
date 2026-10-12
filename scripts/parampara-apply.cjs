@@ -234,8 +234,14 @@ const bijaPair = (e, r) => ({ epochDeg: e, ratePerCentury: r });
 function jointMeasured(from, step, n) {
   const samples = []; for (let i = 0; i < n; i++) { const jd = from + i * step, t = tOf(jd), rows = M.tierGrahaRows(jd, 'drik'), ayD = M.tierAyanamsha(jd, 'drik').deg;
     samples.push({ jd, t, T: (jd - 2451545) / 36525, ayK: KER.ayanamshaAt(t), sky: Object.fromEntries(rows.map((r) => [r.key, r.longitude + ayD])), skySid: Object.fromEntries(rows.map((r) => [r.key, r.longitude])), skyLat: Object.fromEntries(rows.map((r) => [r.key, r.latitudeDeg])) }); }
-  const at = (meas) => { const pl = ST.placesOf(KER.mean, ST.measuredOf(meas)); return samples.map((s) => ({ s, p: pl(s.t) })); };
-  const resOf = (meas, body, key) => at(meas).map(({ s, p }) => wrap(p[body] + s.ayK - s.sky[key]));
+  // the HOLDOUT grid: midway between the fit samples (the owner's audit point, 2026-10-12): no amplitude is fitted on it; a measured term is kept
+  // only if it also lowers the residual here, and every body's holdout rms is recorded beside its in-sample rms
+  const holdout = []; for (let i = 0; i < n - 1; i++) { const jd = from + step / 2 + i * step, t = tOf(jd), rows = M.tierGrahaRows(jd, 'drik'), ayD = M.tierAyanamsha(jd, 'drik').deg;
+    holdout.push({ jd, t, T: (jd - 2451545) / 36525, ayK: KER.ayanamshaAt(t), sky: Object.fromEntries(rows.map((r) => [r.key, r.longitude + ayD])), skySid: Object.fromEntries(rows.map((r) => [r.key, r.longitude])), skyLat: Object.fromEntries(rows.map((r) => [r.key, r.latitudeDeg])) }); }
+  const atSet = (meas, set) => { const pl = ST.placesOf(KER.mean, ST.measuredOf(meas)); return set.map((s) => ({ s, p: pl(s.t) })); };
+  const at = (meas) => atSet(meas, samples);
+  const resOfSet = (meas, body, key, set) => atSet(meas, set).map(({ s, p }) => wrap(p[body] + s.ayK - s.sky[key]));
+  const resOf = (meas, body, key) => resOfSet(meas, body, key, samples);
   const start = MEASURED['kerala+all'].fit;                                                  // the linear amplitudes seed the joint fit
   const a0 = { ...start.moon.amplitudes, ...start.sun.amplitudes };
   // the node: a linear bīja on the tropical Rāhu (the Kerala tier's node against the dṛk mean node)
@@ -248,8 +254,9 @@ function jointMeasured(from, step, n) {
   const moonP = (() => { const f = (q) => resOf(moonOf(q), 'moon', 'candra'); const p10 = lm(f, [0, 0, 0, 0, a0.moonManda, a0.dvitiya, a0.variation, a0.annual, 0, 0]); return lm(f, [...p10, 0, 0, 0, 0, 0]); })();   // the ten first, then the five small terms
   const full = moonOf(moonP);
   const sunAt = ST.placesOf(KER.mean, ST.measuredOf(full));                                                   // the tier's true Sun for the planets
-  const score = (meas) => { const r = at(meas); const st = (a) => ({ mean: a.reduce((x, y) => x + y, 0) / a.length * 60, rms: Math.sqrt(a.reduce((x, y) => x + y * y, 0) / a.length) * 60, max: Math.max(...a.map(Math.abs)) * 60 });
+  const scoreSet = (meas, set) => { const r = atSet(meas, set); const st = (a) => ({ mean: a.reduce((x, y) => x + y, 0) / a.length * 60, rms: Math.sqrt(a.reduce((x, y) => x + y * y, 0) / a.length) * 60, max: Math.max(...a.map(Math.abs)) * 60 });
     return { sun: st(r.map(({ s, p }) => wrap(p.sun + s.ayK - s.sky.surya))), moon: st(r.map(({ s, p }) => wrap(p.moon + s.ayK - s.sky.candra))), el: st(r.map(({ s, p }) => wrap((p.moon - p.sun) - (s.sky.candra - s.sky.surya)))), rahu: st(r.map(({ s, p }) => wrap(p.rahu + s.ayK - s.sky.rahu))) }; };
+  const score = (meas) => scoreSet(meas, samples);
   // the planets: nine parameters each through the tier's measured four steps, staged 4 → 6 → 8 → 9
   const G = require(path.join(ROOT, 'ss-graha.js')), bodies = {};
   for (const [key, en] of Object.entries(PLANET_EN)) {
@@ -275,7 +282,7 @@ function jointMeasured(from, step, n) {
       forms: { text: { stages: text.stages, params: PLANET_PARAMS.text.map((k, i) => [k, p11[i]]) }, nilakantha: { stages: nila.stages, params: PLANET_PARAMS.nilakantha.map((k, i) => [k, n13[i]]) } },
       latitude: { ...st(fl(l4)), note: 'the measured latitude (see latitudeFit) minus the dṛk latitude' },
       formNote: chosen.form === 'nilakantha'
-        ? 'Nīlakaṇṭha\'s placement (Tantrasaṅgraha, 1500 — not in this library\'s editions [paramparā, unverified here]): the manda on the planet\'s own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text\'s śīghra from the tier\'s true Sun, the epicycle\'s size varying with the planet\'s distance (cos ν, cos 2ν) and the Earth\'s (cos g′); the means shifted by (epoch + rate·T) [measured]'
+        ? 'Nīlakaṇṭha\'s placement (Tantrasaṅgraha 2.68b-74, registry TS-2-68b-74-budha-shukra, read from the Sarma 1977 scan [text]): the manda on the planet\'s own mean; here as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the śīghra from the tier\'s TRUE Sun where the text takes the mean Sun (this repository\'s measured choice), the epicycle\'s size varying with the planet\'s distance (cos ν, cos 2ν) and the Earth\'s (cos g′); the means shifted by (epoch + rate·T) [measured]'
         : 'the text\'s four steps (ss-graha fourSteps) on means shifted by (epoch + rate·T) for the mean, the śīghrocca and the mandocca; each epicycle × (1 + scale); + manda2·sin 2(mandocca − place) at the third step; the śīghra epicycle varying with the planet\'s distance (cos anomaly) and the Earth\'s (cos g′) [measured]',
       provenance: 'bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse\'s, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]' };
   }
@@ -309,17 +316,22 @@ function jointMeasured(from, step, n) {
       for (let c = 0; c < k; c++) if (c !== a) { const f = A[c][a] / (A[a][a] || 1e-300); for (let d = a; d < k; d++) A[c][d] -= f * A[a][d]; b[c] -= f * b[a]; } }
     return b.map((v, a) => v / (A[a][a] || 1e-300)); };
   const rmsOf = (a) => Math.sqrt(a.reduce((x, y) => x + y * y, 0) / a.length) * 60;
-  function selectTerms(res, Ls, rates, combos, threshold, maxTerms) {
-    const T = samples.map((s) => s.T), rad = Math.PI / 180, argOf = (k) => Ls.map((L) => k.reduce((a, c, j) => a + c * L[j], 0) * rad);
+  function selectTerms(res, Ls, rates, combos, threshold, maxTerms, resH, LsH) {
+    const T = samples.map((s) => s.T), TH = holdout.map((s) => s.T), rad = Math.PI / 180;
+    const argOf = (k, L) => L.map((row) => k.reduce((a, c, j) => a + c * row[j], 0) * rad);
     const ok = combos.filter((k) => { const P = 360 / Math.abs(k.reduce((a, c, j) => a + c * rates[j], 0)); return P < 60 * 365.25 && P > 5; });
-    const fitAll = (ks) => { const X = samples.map((s, i) => [1, T[i], ...ks.flatMap((k) => { const a = argOf(k)[i]; return [Math.sin(a), Math.cos(a)]; })]); const c = linfit(X, res); return { c, fitted: res.map((v, i) => v - X[i].reduce((a, x, j) => a + x * c[j], 0)) }; };
-    let kept = [], cur = res.slice(), last = rmsOf(res);
+    const design = (ks, L, Tv) => L.map((_, i) => [1, Tv[i], ...ks.flatMap((k) => { const a = argOf(k, L)[i]; return [Math.sin(a), Math.cos(a)]; })]);
+    const fitAll = (ks) => { const X = design(ks, Ls, T), c = linfit(X, res); return { c, fitted: res.map((v, i) => v - X[i].reduce((a, x, j) => a + x * c[j], 0)) }; };
+    const onHoldout = (ks, c) => { const X = design(ks, LsH, TH); return resH.map((v, i) => v - X[i].reduce((a, x, j) => a + x * c[j], 0)); };
+    let kept = [], cur = res.slice(), last = rmsOf(res), lastH = rmsOf(onHoldout([], linfit(design([], Ls, T), res))), rejected = [];
     for (let step = 0; step < maxTerms; step++) {
       let best = null;
-      for (const k of ok) { if (kept.some((q) => q.join() === k.join())) continue; const arg = argOf(k), X = samples.map((s, i) => [1, T[i], Math.sin(arg[i]), Math.cos(arg[i])]), c = linfit(X, cur), amp = Math.hypot(c[2], c[3]) * 60; if (!best || amp > best.amp) best = { k, amp }; }
+      for (const k of ok) { if (kept.some((q) => q.join() === k.join()) || rejected.some((q) => q.join() === k.join())) continue; const arg = argOf(k, Ls), X = samples.map((s, i) => [1, T[i], Math.sin(arg[i]), Math.cos(arg[i])]), c = linfit(X, cur), amp = Math.hypot(c[2], c[3]) * 60; if (!best || amp > best.amp) best = { k, amp }; }
       if (!best || best.amp < threshold) break;
       const trial = fitAll([...kept, best.k]), rms = rmsOf(trial.fitted); if (rms > last - 0.02) break;
-      kept.push(best.k); cur = trial.fitted; last = rms;
+      const rmsH = rmsOf(onHoldout([...kept, best.k], trial.c));
+      if (rmsH > lastH - 0.02) { rejected.push(best.k); continue; }           // a term that does not hold out of sample is not a term: it is the grid
+      kept.push(best.k); cur = trial.fitted; last = rms; lastH = rmsH;
     }
     const { c } = fitAll(kept);
     return kept.map((k, j) => ({ k, sin: c[2 + 2 * j], cos: c[3 + 2 * j] }));
@@ -328,29 +340,31 @@ function jointMeasured(from, step, n) {
   // the Moon: arguments from the tier's own means (D, g, g′, F), rates from the tier's means a day apart at J2000
   const meanAt = (t) => KER.mean(t), m0 = meanAt(tOf(2451545)), m1 = meanAt(tOf(2451546)), rateOf = (f) => wrap(f(m1) - f(m0));
   const moonRates = [rateOf((m) => m.moon - m.sun), rateOf((m) => m.moon - m.moonApogee), rateOf((m) => m.sun - m.sunApogee), rateOf((m) => m.moon - m.node)];
-  const moonLs = at(fullAll).map(({ s, p }) => { const m = p.mean; return [m.moon - m.sun, m.moon - m.moonApogee, m.sun - m.sunApogee, p.moon - m.node]; });
-  const moonRes0 = resOf(fullAll, 'moon', 'candra');
-  const moonSel = selectTerms(moonRes0, moonLs, moonRates, combosOf([4, 3, 2, 2]).filter((c) => c[3] % 2 === 0), 0.2, 10);
+  const moonLsOf = (set) => atSet(fullAll, set).map(({ s, p }) => { const m = p.mean; return [m.moon - m.sun, m.moon - m.moonApogee, m.sun - m.sunApogee, p.moon - m.node]; });
+  const moonLs = moonLsOf(samples), moonRes0 = resOf(fullAll, 'moon', 'candra');
+  const moonSel = selectTerms(moonRes0, moonLs, moonRates, combosOf([4, 3, 2, 2]).filter((c) => c[3] % 2 === 0), 0.2, 10, resOfSet(fullAll, 'moon', 'candra', holdout), moonLsOf(holdout));
   const moonTermQ = moonSel.length ? lm((q) => resOf({ ...fullAll, moonTerms: termsTo(moonSel, q) }, 'moon', 'candra'), moonSel.flatMap((t) => [t.sin, t.cos])) : [];
   const moonTerms = termsTo(moonSel, moonTermQ), withMoonTerms = { ...fullAll, moonTerms };
-  const moonTermsFit = { basis: ['D', 'g', 'gp', 'F'], terms: moonTerms.map((t) => ({ ...t, amplitudeArcmin: Math.hypot(t.sin, t.cos) * 60 })), before: stLat(moonRes0), after: stLat(resOf(withMoonTerms, 'moon', 'candra')), note: 'the Moon\'s tropical residual after every form above, 1900-2100 (arcmin); terms kept by a greedy scan of integer arguments (|k| ≤ 4, 3, 2, 2; F even), then fitted jointly through the tier' };
+  const moonTermsFit = { basis: ['D', 'g', 'gp', 'F'], terms: moonTerms.map((t) => ({ ...t, amplitudeArcmin: Math.hypot(t.sin, t.cos) * 60 })), before: stLat(moonRes0), after: stLat(resOf(withMoonTerms, 'moon', 'candra')), holdout: { before: stLat(resOfSet(fullAll, 'moon', 'candra', holdout)), after: stLat(resOfSet(withMoonTerms, 'moon', 'candra', holdout)), grid: 'midway between the fit samples, 752 instants, no amplitude fitted on it' }, note: 'the Moon\'s tropical residual after every form above, 1900-2100 (arcmin); terms kept by a greedy scan of integer arguments (|k| ≤ 4, 3, 2, 2; F even), then fitted jointly through the tier' };
   // the planets: arguments from the six mean longitudes (text means), rates from the text's mean motions; applied to the heliocentric place
   const PB = ['mercury', 'venus', 'sun', 'mars', 'jupiter', 'saturn'];
-  const planetLs = samples.map((s) => { const a = G.meanPlaces(s.t); return [a.mercury.sighrocca, a.venus.sighrocca, a.sun, a.mars.mean, a.jupiter.mean, a.saturn.mean]; });
+  const planetLsOf = (set) => set.map((s) => { const a = G.meanPlaces(s.t); return [a.mercury.sighrocca, a.venus.sighrocca, a.sun, a.mars.mean, a.jupiter.mean, a.saturn.mean]; });
+  const planetLs = planetLsOf(samples), planetLsH = planetLsOf(holdout);
   const mo = (n) => G.motions(n), planetRates = [mo('mercury').sighrocca, mo('venus').sighrocca, mo('mars').sighrocca, mo('mars').mean, mo('jupiter').mean, mo('saturn').mean].map((x) => x / 60);
   const SELF = { budha: 0, shukra: 1, mangala: 3, guru: 4, shani: 5 }, stat = stLat;
   for (const [key, en] of Object.entries(PLANET_EN)) {
-    const b = bodies[key], base = { ...b, terms: [] }, sky = samples.map((s) => s.skySid[key]);
-    const sunsK = samples.map((s) => { const q = sunAt(s.t); return { lambda: q.sun, anomaly: q.mean.sun - q.mean.sunApogee }; });
-    const resWith = (terms) => samples.map((s, i) => wrap(ST.planetWithBija(en, G.meanPlaces(s.t)[en], { ...base, terms }, s.jd, sunsK[i]).longitude - sky[i]));
+    const b = bodies[key], base = { ...b, terms: [] };
+    const sunsOf = (set) => set.map((s) => { const q = sunAt(s.t); return { lambda: q.sun, anomaly: q.mean.sun - q.mean.sunApogee }; }), sunsK = sunsOf(samples), sunsH = sunsOf(holdout);
+    const resWithSet = (terms, set, suns) => set.map((s, i) => wrap(ST.planetWithBija(en, G.meanPlaces(s.t)[en], { ...base, terms }, s.jd, suns[i]).longitude - s.skySid[key]));
+    const resWith = (terms) => resWithSet(terms, samples, sunsK), resWithH = (terms) => resWithSet(terms, holdout, sunsH);
     const res0 = resWith([]);
     const self = SELF[key], others = self === 4 || self === 5 ? [4, 5, 2] : self === 3 ? [3, 4, 2, 1] : [0, 1, 2, 4];
     const idx = [...new Set([self, ...others])], ranges = PB.map((_, i) => (idx.includes(i) ? 5 : 0));
     const combos = combosOf(ranges).filter((c) => c.reduce((a, x) => a + Math.abs(x), 0) <= 8);
-    const sel = selectTerms(res0, planetLs, planetRates, combos, 0.3, 10);
+    const sel = selectTerms(res0, planetLs, planetRates, combos, 0.3, 10, resWithH([]), planetLsH);
     const q = sel.length ? lm((qq) => resWith(termsTo(sel, qq)), sel.flatMap((t) => [t.sin, t.cos])) : [];
     const terms = termsTo(sel, q);
-    bodies[key] = { ...b, terms, termBasis: PB, termsFit: { before: stat(res0), after: stat(resWith(terms)), terms: terms.map((t) => ({ ...t, amplitudeArcmin: Math.hypot(t.sin, t.cos) * 60 })), note: 'the residual after the form above; terms kept by a greedy scan of integer arguments of the six mean longitudes (5 d < period < 60 y), fitted jointly through the tier; applied to the heliocentric place' }, after: stat(resWith(terms)), afterNoTerms: b.after };
+    bodies[key] = { ...b, terms, termBasis: PB, termsFit: { before: stat(res0), after: stat(resWith(terms)), holdout: { before: stat(resWithH([])), after: stat(resWithH(terms)), grid: 'midway between the fit samples, 752 instants, no amplitude fitted on it' }, terms: terms.map((t) => ({ ...t, amplitudeArcmin: Math.hypot(t.sin, t.cos) * 60 })), note: 'the residual after the form above; terms kept by a greedy scan of integer arguments of the six mean longitudes (5 d < period < 60 y), fitted jointly through the tier; applied to the heliocentric place' }, after: stat(resWith(terms)), afterNoTerms: b.after };
   }
   return { candidate: { moonTerms: MOON_TERMS, sunTerms: SUN_TERMS, latTerms: LAT_TERMS, nodeTerms: NODE_TERMS, moonFit: { amplitudes: Object.fromEntries(MOON_TERMS.map((k) => [k, full[k]])) }, sunFit: { amplitudes: Object.fromEntries(SUN_TERMS.map((k) => [k, full[k]])) },
     latFit: { amplitudes: Object.fromEntries(LAT_TERMS.map((k) => [k, fullAll[k]])), before: stLat(latRes([])), after: stLat(latRes(latQ)), note: 'the Moon\'s latitude against the dṛk latitude, 1900-2100 (arcmin)' },
@@ -358,7 +372,8 @@ function jointMeasured(from, step, n) {
     moonTermsFit,
     bija: { sunMean: full.sunMean, sunApogee: full.sunApogee, moonMean: full.moonMean, moonApogee: full.moonApogee, node: full.node }, planets: true,
     method: 'Levenberg–Marquardt through ss-tier placesOf on the tropical residual against the dṛk tier: the node first (linear bīja on Rāhu), then the Sun (mean and apogee bīja, epicycle scale, second harmonic), then the Moon (mean and apogee bīja, the five forms, the second manda harmonic, the reduction, then the five small terms) with the Sun and node held; the planets through ss-tier planetWithBija in both forms, the better kept per graha', isDefault: true,
-    score: { before: score(a0), after: score(withMoonTerms), afterWithoutTerms: score(full) } }, bodies };
+    score: { before: score(a0), after: score(withMoonTerms), afterWithoutTerms: score(full) },
+    holdout: { grid: 'midway between the fit samples (JD 2415069 + 97 d × 752), no amplitude fitted on it', before: scoreSet(a0, holdout), after: scoreSet(withMoonTerms, holdout) } }, bodies };
 }
 // ── the bīja done as the paramparā does it: on the MEANS, through the text's own four-step model ──────────────────────
 // For each star-planet the mean (the planet's own for Mars, Jupiter, Saturn; the Sun's for Mercury, Venus) and the śīghrocca

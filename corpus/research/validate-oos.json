@@ -1,0 +1,309 @@
+{
+ "frame": "arcminutes; Sun/Moon/Rāhu tropical (each tier its own ayanāṃśa), planets sidereal, Moon latitude; candidate minus the dṛk tier",
+ "fitGrid": "JD 2415020.5 + 97 d × 753 (1900-2100)",
+ "holdoutInterleaved": {
+  "grid": "JD 2415069 + 97 d × 752 (1900-2100), midway between the fit samples",
+  "sun": {
+   "n": 752,
+   "mean": 0.001,
+   "rms": 0.429,
+   "max": 1.22
+  },
+  "moon": {
+   "n": 752,
+   "mean": -0.002,
+   "rms": 0.539,
+   "max": 2.53
+  },
+  "el": {
+   "n": 752,
+   "mean": -0.003,
+   "rms": 0.655,
+   "max": 2.43
+  },
+  "rahu": {
+   "n": 752,
+   "mean": 0,
+   "rms": 0.203,
+   "max": 0.32
+  },
+  "mangala": {
+   "n": 752,
+   "mean": 0.028,
+   "rms": 4.159,
+   "max": 23.98
+  },
+  "budha": {
+   "n": 752,
+   "mean": 0.061,
+   "rms": 3.482,
+   "max": 10.02
+  },
+  "guru": {
+   "n": 752,
+   "mean": -0.043,
+   "rms": 3.446,
+   "max": 10.96
+  },
+  "shukra": {
+   "n": 752,
+   "mean": -0.19,
+   "rms": 2.6,
+   "max": 9.28
+  },
+  "shani": {
+   "n": 752,
+   "mean": -0.592,
+   "rms": 2.217,
+   "max": 5.54
+  },
+  "moonLat": {
+   "n": 752,
+   "mean": 0.001,
+   "rms": 0.931,
+   "max": 2.73
+  }
+ },
+ "holdoutBefore": {
+  "grid": "1850-1900 every 29 d",
+  "sun": {
+   "n": 630,
+   "mean": 0.011,
+   "rms": 0.49,
+   "max": 1.44
+  },
+  "moon": {
+   "n": 630,
+   "mean": 0.281,
+   "rms": 0.615,
+   "max": 2.26
+  },
+  "el": {
+   "n": 630,
+   "mean": 0.27,
+   "rms": 0.759,
+   "max": 2.97
+  },
+  "rahu": {
+   "n": 630,
+   "mean": -0.001,
+   "rms": 0.206,
+   "max": 0.32
+  },
+  "mangala": {
+   "n": 630,
+   "mean": -0.202,
+   "rms": 4.198,
+   "max": 26.8
+  },
+  "budha": {
+   "n": 630,
+   "mean": 0.141,
+   "rms": 3.37,
+   "max": 9.8
+  },
+  "guru": {
+   "n": 630,
+   "mean": 2.367,
+   "rms": 4.198,
+   "max": 13.67
+  },
+  "shukra": {
+   "n": 630,
+   "mean": 0.033,
+   "rms": 6.647,
+   "max": 34.15
+  },
+  "shani": {
+   "n": 630,
+   "mean": -5.772,
+   "rms": 8.352,
+   "max": 18.17
+  },
+  "moonLat": {
+   "n": 630,
+   "mean": -0.012,
+   "rms": 0.964,
+   "max": 3.11
+  }
+ },
+ "holdoutAfter": {
+  "grid": "2100-2150 every 29 d",
+  "sun": {
+   "n": 630,
+   "mean": -0.204,
+   "rms": 0.523,
+   "max": 1.36
+  },
+  "moon": {
+   "n": 630,
+   "mean": -0.663,
+   "rms": 0.885,
+   "max": 2.86
+  },
+  "el": {
+   "n": 630,
+   "mean": -0.459,
+   "rms": 0.867,
+   "max": 2.81
+  },
+  "rahu": {
+   "n": 630,
+   "mean": -0.059,
+   "rms": 0.21,
+   "max": 0.36
+  },
+  "mangala": {
+   "n": 630,
+   "mean": 0.164,
+   "rms": 4.25,
+   "max": 23.49
+  },
+  "budha": {
+   "n": 630,
+   "mean": -0.029,
+   "rms": 3.394,
+   "max": 9.49
+  },
+  "guru": {
+   "n": 630,
+   "mean": 0.03,
+   "rms": 3.384,
+   "max": 10
+  },
+  "shukra": {
+   "n": 630,
+   "mean": -0.154,
+   "rms": 7.106,
+   "max": 34.46
+  },
+  "shani": {
+   "n": 630,
+   "mean": 0.372,
+   "rms": 4.923,
+   "max": 10.75
+  },
+  "moonLat": {
+   "n": 630,
+   "mean": 0.017,
+   "rms": 0.929,
+   "max": 2.9
+  }
+ },
+ "plainTierOnHoldout": {
+  "grid": "the interleaved grid, the bare paramparā (measured: false)",
+  "sun": {
+   "n": 752,
+   "mean": 2.837,
+   "rms": 11.904,
+   "max": 19.73
+  },
+  "moon": {
+   "n": 752,
+   "mean": -12.065,
+   "rms": 82.484,
+   "max": 208.39
+  },
+  "el": {
+   "n": 752,
+   "mean": -14.902,
+   "rms": 82.637,
+   "max": 207.86
+  },
+  "rahu": {
+   "n": 752,
+   "mean": 0.565,
+   "rms": 1.887,
+   "max": 3.72
+  },
+  "mangala": {
+   "n": 752,
+   "mean": -100.197,
+   "rms": 136.099,
+   "max": 719.95
+  },
+  "budha": {
+   "n": 752,
+   "mean": -18.148,
+   "rms": 161.198,
+   "max": 518.83
+  },
+  "guru": {
+   "n": 752,
+   "mean": 274.905,
+   "rms": 279.546,
+   "max": 409.82
+  },
+  "shukra": {
+   "n": 752,
+   "mean": -10.374,
+   "rms": 365.31,
+   "max": 1541.01
+  },
+  "shani": {
+   "n": 752,
+   "mean": -362.284,
+   "rms": 373.112,
+   "max": 573.74
+  },
+  "moonLat": {
+   "n": 752,
+   "mean": 0.853,
+   "rms": 28.607,
+   "max": 49.65
+  }
+ },
+ "tithiEnds": [
+  {
+   "label": "2026 (inside the fit span)",
+   "tithiEndsFound": 359,
+   "matched": 359,
+   "keralaDefaultMinusDrikMinutes": {
+    "n": 359,
+    "mean": 0.028,
+    "rms": 1.254,
+    "max": 4.51
+   },
+   "plainParamparaMinusDrikMinutes": {
+    "n": 359,
+    "mean": 35.399,
+    "rms": 158.7,
+    "max": 377.61
+   }
+  },
+  {
+   "label": "1880 (before it)",
+   "tithiEndsFound": 358,
+   "matched": 358,
+   "keralaDefaultMinusDrikMinutes": {
+    "n": 358,
+    "mean": -1.013,
+    "rms": 1.608,
+    "max": 4.35
+   },
+   "plainParamparaMinusDrikMinutes": {
+    "n": 358,
+    "mean": 17.343,
+    "rms": 157.279,
+    "max": 354.38
+   }
+  },
+  {
+   "label": "2120 (after it)",
+   "tithiEndsFound": 358,
+   "matched": 358,
+   "keralaDefaultMinusDrikMinutes": {
+    "n": 358,
+    "mean": 0.801,
+    "rms": 1.426,
+    "max": 3.51
+   },
+   "plainParamparaMinusDrikMinutes": {
+    "n": 358,
+    "mean": 37.92,
+    "rms": 171.048,
+    "max": 375.11
+   }
+  }
+ ]
+}

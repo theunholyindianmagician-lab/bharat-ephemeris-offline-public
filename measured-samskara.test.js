@@ -130,9 +130,16 @@ test('the dṛk tier\'s own true node by the crossing method: the latitude is ze
   assert.throws(() => M.tierTrueNode(2300000, 'drik'), /served for 1850/, 'outside the span the dṛk true node is refused, as every dṛk call is (DK-1)');
 });
 
-test('the registry carries the Tantrasaṅgraha as a source awaiting its edition and the attribution of the planetary form to Nīlakaṇṭha as an owner-statement, stamped', () => {
-  const R = require('./corpus/parampara/registry.json'), rec = R.records.find((r) => r.id === 'NIL-tantrasangraha-planets');
-  assert.ok(R.sources.TS && R.sources.TS.file === null && /NOT HELD/.test(R.sources.TS.fileKind)); assert.ok(rec && rec.status === 'awaiting edition' && rec.quote.length === 0 && rec.tags.includes('[unverified]')); assert.match(rec.sha256, /^[0-9a-f]{64}$/);
+test('the registry carries the Tantrasaṅgraha: source TS held privately (the scan is not here), five text records quoting this session\'s transcriptions line for line, the owner-statement retired, stamped', () => {
+  const R = require('./corpus/parampara/registry.json'), fs = require('fs');
+  assert.ok(R.sources.TS && /PRIVATELY/.test(R.sources.TS.fileKind) && R.sources.TS.file === 'corpus/sources/tantrasangraha-transcriptions.md');
+  assert.ok(!R.records.find((r) => r.id === 'NIL-tantrasangraha-planets'), 'the owner-statement is replaced by the text');
+  const ts = R.records.filter((r) => r.source === 'TS'); assert.deepEqual(ts.map((r) => r.id), ['TS-1-40-mandocca', 'TS-2-60-four-operations', 'TS-2-68b-74-budha-shukra', 'TS-2-75-76-shukra-visesha', 'TS-YD-1003-vikshepa']);
+  const file = fs.readFileSync('corpus/sources/tantrasangraha-transcriptions.md', 'utf8').split('\n');
+  for (const r of ts) { assert.match(r.sha256, /^[0-9a-f]{64}$/); assert.ok(r.quote.length >= 1); assert.ok(r.tags.includes('[reading]') && r.tags.includes('[text]'));
+    for (const q of r.quote) { const m = /^(.*):(\d+)$/.exec(q.from); assert.equal(m[1], 'corpus/sources/tantrasangraha-transcriptions.md'); assert.equal(file[+m[2] - 1], q.sa, `${r.id}: the quoted line stands at ${q.from}`); } }
+  assert.equal(R.records.find((r) => r.id === 'TS-1-40-mandocca').value.mandoccaDegrees.sun, 78, "the Sun's apogee of the Kerala tier is the one Nīlakaṇṭha states");
+  assert.ok(!fs.existsSync('editions/tantrasangraha-sarma-1977.pdf') && !fs.existsSync('corpus/sources/tantrasangraha-sarma-1977.pdf'), 'the private scan is not in the repository');
   const PA = require('./parampara.js'); assert.doesNotThrow(() => PA.load({ registry: R, samskara: require('./corpus/parampara/samskara.json') }));
 });
 
@@ -141,7 +148,7 @@ test('the generic measured terms: the Moon\'s on [D, g, g′, F] and each planet
   assert.ok(c.moonTermsFit && c.moonTermsFit.terms.length >= 3 && c.moonTermsFit.after.rms < 1.0 && c.moonTermsFit.after.rms < c.moonTermsFit.before.rms, `Moon terms ${c.moonTermsFit.before.rms} → ${c.moonTermsFit.after.rms}`);
   assert.ok(c.score.after.moon.rms < 1.0 && c.score.after.el.rms < 1.2, `Moon ${c.score.after.moon.rms}, elongation ${c.score.after.el.rms}`);
   for (const g of Object.keys(b)) { assert.ok(b[g].termsFit && b[g].after.rms <= b[g].afterNoTerms.rms + 1e-9, `${g}: terms keep the gain`); assert.deepEqual(b[g].termBasis, ['mercury', 'venus', 'sun', 'mars', 'jupiter', 'saturn']); }
-  assert.ok(b.budha.after.rms < 3.6 && b.shukra.after.rms < 3 && b.shani.after.rms < 1.5 && b.mangala.after.rms < 5 && b.guru.after.rms < 4, Object.entries(b).map(([k, v]) => `${k} ${v.after.rms.toFixed(2)}`).join(', '));
+  assert.ok(b.budha.after.rms < 3.6 && b.shukra.after.rms < 3 && b.shani.after.rms < 2.5 && b.mangala.after.rms < 5 && b.guru.after.rms < 4, Object.entries(b).map(([k, v]) => `${k} ${v.after.rms.toFixed(2)}`).join(', '));
   const m = ST.measuredFromRecord(REC, 'kerala+all+bija'); assert.ok(m.moonTerms.length === c.moonTermsFit.terms.length && m.planets.shani.terms.length === b.shani.terms.length);
   // the tier reproduces the record's Moon score on the record's grid with the terms
   const M = require('./math-core.js'), KER = ST.correction('kerala'), tOf = (jd) => jd - 588465.5 + 75.7885 / 360, wrap = (x) => ((x + 540) % 360) - 180, r = [];
@@ -150,4 +157,14 @@ test('the generic measured terms: the Moon\'s on [D, g, g′, F] and each planet
   assert.throws(() => ST.grahas(2451545, { samskara: 'kerala', measured: { moonTerms: [{ k: [1, 0, 0], sin: 1 }] } }), /4 integers/);
   assert.throws(() => ST.grahas(2451545, { samskara: 'kerala', measured: { planets: { guru: { terms: [{ k: [1, 0, 0, 0, 0, 0.5], sin: 1 }] } } } }), /6 integers/);
   assert.throws(() => ST.grahas(2451545, { samskara: 'kerala', measured: { moonTerms: { k: [1, 0, 0, 0] } } }), /array/);
+});
+
+test('out of sample (the owner\'s audit point): every measured term was kept only if it also lowered the residual on the holdout grid midway between the fit samples; the holdout rms of every body is within 1.5× its in-sample rms, and the record carries both', () => {
+  const c = REC.measured.candidates['kerala+all+bija'], b = REC.measured.planets.bodies;
+  assert.ok(c.holdout && c.holdout.after && c.moonTermsFit.holdout, 'holdout scores recorded');
+  for (const k of ['sun', 'moon', 'el', 'rahu']) assert.ok(c.holdout.after[k].rms < Math.max(1.5 * c.score.after[k].rms, c.score.after[k].rms + 0.1), `${k}: holdout ${c.holdout.after[k].rms} vs in-sample ${c.score.after[k].rms}`);
+  for (const g of Object.keys(b)) { const h = b[g].termsFit.holdout; assert.ok(h.after.rms <= h.before.rms + 1e-9, `${g}: the terms do not worsen the holdout`); assert.ok(h.after.rms < 1.5 * b[g].after.rms + 0.3, `${g}: holdout ${h.after.rms.toFixed(2)} vs in-sample ${b[g].after.rms.toFixed(2)}`); }
+  assert.ok(b.shani.termsFit.holdout.after.rms < 3, `Saturn out of sample ${b.shani.termsFit.holdout.after.rms.toFixed(2)}′ (it was 10′ before the holdout rule)`);
+  const V = require('./corpus/research/validate-oos.json'); assert.ok(V.tithiEnds.length === 3 && V.tithiEnds.every((t) => t.matched > 350 && t.keralaDefaultMinusDrikMinutes.rms < 3), 'tithi ends by root-finding within 3 min rms in 1880, 2026 and 2120');
+  for (const k of ['holdoutInterleaved', 'holdoutBefore', 'holdoutAfter']) { assert.ok(V[k].sun.rms < 1 && V[k].moon.rms < 1.2 && V[k].rahu.rms < 0.5, `${k}`); for (const g of ['mangala', 'budha', 'guru', 'shukra', 'shani']) assert.ok(V[k][g].rms < 12, `${k} ${g} ${V[k][g].rms}`); }
 });
