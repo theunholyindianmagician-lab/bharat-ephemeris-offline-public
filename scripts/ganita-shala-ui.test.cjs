@@ -140,12 +140,14 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
       if (first) assert.ok((await page.locator(`#d-${first.id}`).textContent()).includes(first.figures[0].verbatim.slice(0, 40)), 'a figure is quoted verbatim');
     } else assert.equal((await page.evaluate(() => document.body.dataset.ledger)), 'missing');
     // the measured forms: five rows from the record, Munjāla's provenance, the amplitude of the evection-form within 5% of 1.274°
-    await page.waitForFunction(() => document.body.dataset.measured === '5', null, { timeout: 60000 });
+    await page.waitForFunction(() => document.body.dataset.measured === '7', null, { timeout: 60000 });
     const measured = await page.$$eval('#measured-out tbody tr[data-form]', (trs) => trs.map((tr) => ({ form: tr.dataset.form, cells: [...tr.children].map((td) => td.textContent) })));
-    assert.deepEqual(measured.map((m) => m.form), ['dvitiya', 'variation', 'annual', 'moonManda', 'sunManda']); assert.match(measured[0].cells[2], /Munjāla/); assert.ok(Math.abs(Math.abs(parseFloat(measured[0].cells[3])) - 76.4) < 4);
+    assert.deepEqual(measured.map((m) => m.form), ['dvitiya', 'variation', 'annual', 'moonManda', 'sunManda', 'moonManda2', 'reduction']); assert.match(measured[0].cells[2], /Munjāla/); assert.ok(Math.abs(Math.abs(parseFloat(measured[0].cells[3])) - 76.4) < 4);
+    assert.ok(Math.abs(Math.abs(parseFloat(measured[5].cells[4])) - 12.8) < 1 && Math.abs(Math.abs(parseFloat(measured[6].cells[4])) - 6.9) < 1, 'the joint fit recovers the sky\'s second harmonic and reduction');
+    const bija = await page.$$eval('#measured-out tr[data-bija]', (trs) => trs.map((tr) => tr.dataset.bija)); assert.deepEqual(bija, ['sunMean', 'sunApogee', 'moonMean', 'moonApogee', 'node']);
     assert.ok((await page.$$eval('#parampara-out table.parampara-span tbody tr', (trs) => trs.map((tr) => tr.children[0].textContent))).some((n) => n.startsWith('kerala+all')));
     const planets = await page.$$eval('#measured-out tr[data-graha]', (trs) => trs.map((tr) => ({ g: tr.dataset.graha, cells: [...tr.children].map((td) => td.textContent) })));
-    assert.deepEqual(planets.map((p) => p.g), ['mangala', 'budha', 'guru', 'shukra', 'shani']); assert.ok(parseFloat(planets[2].cells[2]) < parseFloat(planets[2].cells[1]) / 3, 'Jupiter\'s bīja');
+    assert.deepEqual(planets.map((p) => p.g), ['mangala', 'budha', 'guru', 'shukra', 'shani']); assert.ok(parseFloat(planets[2].cells[3]) < parseFloat(planets[2].cells[1]) / 5, 'Jupiter\'s bīja'); assert.ok(parseFloat(planets[3].cells[3]) < parseFloat(planets[3].cells[1]) / 10, 'Venus\'s bīja');
     // the Kālacakra block: sixteen chains with the text's check, one line per choice, the readings
     const chains = await page.$$eval('#kalachakra-chains tbody tr', (trs) => trs.map((tr) => ({ type: tr.dataset.type, pada: tr.dataset.pada, ok: tr.dataset.ok, cells: [...tr.children].map((td) => td.textContent) })));
     assert.equal(chains.length, 16); assert.ok(chains.every((c) => c.ok === 'true')); assert.equal(chains[0].cells[2], 'Meṣa → Vṛṣa → Mithuna → Karka → Siṃha → Kanyā → Tulā → Vṛścika → Dhanu'); assert.match(chains[0].cells[4], /^100 = 100/);

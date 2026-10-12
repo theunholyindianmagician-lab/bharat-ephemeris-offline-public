@@ -44,6 +44,16 @@
     "form": "× the Sun's own manda-phala (a scale on the 14° epicycle)",
     "body": "sun",
     "provenance": "SS 2.34-2.39 form; the scale measured [measured]"
+   },
+   "moonManda2": {
+    "form": "sin 2(λ☾ − apogee☾)",
+    "body": "moon",
+    "provenance": "the second harmonic of the equation of centre (the ellipse's e² term, 0.214° in the sky) — no Indian source; the epicycle cannot give it [standard form, measured amplitude]"
+   },
+   "reduction": {
+    "form": "sin 2(λ☾ − node)",
+    "body": "moon",
+    "provenance": "the reduction of the orbit's longitude to the ecliptic (−0.114° sin 2F in the sky) — no Indian source [standard form, measured amplitude]"
    }
   },
   "candidates": {
@@ -58,7 +68,8 @@
       "dvitiya": -1.2691796679102065
      }
     },
-    "sunFit": null
+    "sunFit": null,
+    "planets": false
    },
    "kerala+dvitiya+var": {
     "moonTerms": [
@@ -73,7 +84,8 @@
       "variation": 0.654512533009477
      }
     },
-    "sunFit": null
+    "sunFit": null,
+    "planets": false
    },
    "kerala+dvitiya+var+annual": {
     "moonTerms": [
@@ -90,7 +102,8 @@
       "annual": 0.18591416323471993
      }
     },
-    "sunFit": null
+    "sunFit": null,
+    "planets": false
    },
    "kerala+manda": {
     "moonTerms": [
@@ -110,7 +123,8 @@
      "amplitudes": {
       "sunManda": -0.12330748710564832
      }
-    }
+    },
+    "planets": false
    },
    "kerala+all": {
     "moonTerms": [
@@ -136,13 +150,533 @@
      "amplitudes": {
       "sunManda": -0.12330748710564832
      }
+    },
+    "planets": true
+   },
+   "kerala+all+bija": {
+    "moonTerms": [
+     "dvitiya",
+     "variation",
+     "annual",
+     "moonManda",
+     "moonManda2",
+     "reduction"
+    ],
+    "sunTerms": [
+     "sunManda"
+    ],
+    "moonFit": {
+     "amplitudes": {
+      "dvitiya": -1.274680649723075,
+      "variation": 0.658450340288632,
+      "annual": 0.18526407933078634,
+      "moonManda": 0.2445024440747906,
+      "moonManda2": 0.21413490998860865,
+      "reduction": -0.11446947594866826
+     }
+    },
+    "sunFit": {
+     "amplitudes": {
+      "sunManda": -0.12316939659571267
+     }
+    },
+    "bija": {
+     "sunMean": {
+      "epochDeg": -0.046973491047673774,
+      "ratePerCentury": 0.021764576217509535
+     },
+     "sunApogee": {
+      "epochDeg": 0.871559589035939,
+      "ratePerCentury": 0.11057892249901713
+     },
+     "moonMean": {
+      "epochDeg": 0.1992427564397556,
+      "ratePerCentury": 0.0662612679668834
+     },
+     "moonApogee": {
+      "epochDeg": -0.8009949225224398,
+      "ratePerCentury": -0.16535524526314532
+     },
+     "node": {
+      "epochDeg": -0.009337351955208472,
+      "ratePerCentury": 0.05172235260750023
+     }
+    },
+    "planets": true,
+    "method": "Levenberg–Marquardt through ss-tier placesOf on the tropical residual against the dṛk tier: the node first (linear bīja on Rāhu), then the Sun (mean and apogee bīja, epicycle scale), then the Moon (mean and apogee bīja, the five forms, the second manda harmonic, the reduction) with the Sun and node held",
+    "score": {
+     "before": {
+      "sun": {
+       "mean": 2.8198726174944575,
+       "rms": 3.340153647769253,
+       "max": 6.5056427142076245
+      },
+      "moon": {
+       "mean": -11.891404424358429,
+       "rms": 17.43269765294929,
+       "max": 47.24263520768318
+      },
+      "el": {
+       "mean": -14.711277041852606,
+       "rms": 19.445470443350484,
+       "max": 52.04256268879362
+      },
+      "rahu": {
+       "mean": 0.5647017719761661,
+       "rms": 1.8893008205744675,
+       "max": 3.702249081525224
+      }
+     },
+     "after": {
+      "sun": {
+       "mean": 4.0449867448472675e-10,
+       "rms": 0.9643310731696557,
+       "max": 2.0836679146077586
+      },
+      "moon": {
+       "mean": -0.001033730462863225,
+       "rms": 5.33679842527083,
+       "max": 18.82301914858317
+      },
+      "el": {
+       "mean": -0.0010337308674253105,
+       "rms": 5.388138501383934,
+       "max": 19.751153879221874
+      },
+      "rahu": {
+       "mean": 2.4485698992950447e-11,
+       "rms": 0.20279059244753211,
+       "max": 0.33033968258678215
+      }
+     }
     }
    }
   },
   "planets": {
    "fittedOn": "1900-2100, every 97 days (753 samples)",
-   "unit": "arcminutes (mean, rms, max); epoch in degrees, rate in degrees per Julian century",
+   "unit": "arcminutes (mean, rms, max); epoch in degrees, rate in degrees per Julian century; scales dimensionless; manda2 in degrees",
+   "parameters": [
+    "mean.epochDeg",
+    "mean.ratePerCentury",
+    "sighrocca.epochDeg",
+    "sighrocca.ratePerCentury",
+    "mandocca.epochDeg",
+    "mandocca.ratePerCentury",
+    "mandaScale",
+    "sighraScale",
+    "manda2"
+   ],
+   "method": "Levenberg–Marquardt on the dṛk residual of the tier's measured four steps (ss-tier planetWithBija), staged: the mean and śīghrocca bīja (4), + the mandocca bīja (6), + the two epicycle scales (8), + the second manda harmonic (9)",
    "bodies": {
+    "mangala": {
+     "before": {
+      "mean": -100.49584701211148,
+      "rms": 137.38394647606475,
+      "max": 681.2601132540613
+     },
+     "afterMeansOnly": {
+      "mean": 3.4074573375858606,
+      "rms": 64.10968055657732,
+      "max": 302.1660457802409
+     },
+     "afterBija": {
+      "mean": -0.00006691248364835796,
+      "rms": 60.742380405029394,
+      "max": 250.4779377556565
+     },
+     "afterScales": {
+      "mean": 0.000001894351792279088,
+      "rms": 51.352916945931206,
+      "max": 211.65042962702046
+     },
+     "after": {
+      "mean": 0.000004609968250605674,
+      "rms": 36.8510582502122,
+      "max": 124.96830363509162
+     },
+     "mean": {
+      "epochDeg": 1.6691404254624986,
+      "ratePerCentury": 0.5001476052255571
+     },
+     "sighrocca": {
+      "epochDeg": 0.2711093895598091,
+      "ratePerCentury": 0.22341595355006008
+     },
+     "mandocca": {
+      "epochDeg": -2.1305807778623667,
+      "ratePerCentury": 0.4053808257889981
+     },
+     "mandaScale": 0.015845785512643314,
+     "sighraScale": 0.01531764333815318,
+     "manda2": -0.716669329567331,
+     "latitude": {
+      "mean": 4.124707894811536,
+      "rms": 33.605986119907165,
+      "max": 156.8125254173766,
+      "note": "the text's latitude (2.56-2.57) on the measured means, minus the dṛk latitude; not corrected"
+     },
+     "form": "the text's four steps (ss-graha fourSteps) on means shifted by (epoch + rate·T) for the mean, the śīghrocca and the mandocca; each epicycle × (1 + scale); + manda2·sin 2(mandocca − place) at the third step",
+     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the second harmonic has no Indian source [standard form]; every number measured against the dṛk tier [measured]"
+    },
+    "budha": {
+     "before": {
+      "mean": -18.72538366909026,
+      "rms": 160.63745849515558,
+      "max": 515.4048247642709
+     },
+     "afterMeansOnly": {
+      "mean": -0.9776793705295079,
+      "rms": 112.58483150758497,
+      "max": 282.0245872185069
+     },
+     "afterBija": {
+      "mean": -0.00002054977772945948,
+      "rms": 111.52776388146131,
+      "max": 280.1923304911679
+     },
+     "afterScales": {
+      "mean": 7.204627548115428e-7,
+      "rms": 99.19418681283454,
+      "max": 208.89749728220522
+     },
+     "after": {
+      "mean": 8.04122484544087e-7,
+      "rms": 98.45466032703561,
+      "max": 202.36982035857181
+     },
+     "mean": {
+      "epochDeg": 0.30877314872888917,
+      "ratePerCentury": 0.24753802976921987
+     },
+     "sighrocca": {
+      "epochDeg": -6.340230727484149,
+      "ratePerCentury": 0.7834950618098269
+     },
+     "mandocca": {
+      "epochDeg": 4.106442881227739,
+      "ratePerCentury": 0.05824485580488898
+     },
+     "mandaScale": 0.2093343259312974,
+     "sighraScale": 0.030733035047239135,
+     "manda2": -0.2739098830321217,
+     "latitude": {
+      "mean": 26.754919641816237,
+      "rms": 45.20272636546161,
+      "max": 127.97055222648602,
+      "note": "the text's latitude (2.56-2.57) on the measured means, minus the dṛk latitude; not corrected"
+     },
+     "form": "the text's four steps (ss-graha fourSteps) on means shifted by (epoch + rate·T) for the mean, the śīghrocca and the mandocca; each epicycle × (1 + scale); + manda2·sin 2(mandocca − place) at the third step",
+     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the second harmonic has no Indian source [standard form]; every number measured against the dṛk tier [measured]"
+    },
+    "guru": {
+     "before": {
+      "mean": 274.8791418479618,
+      "rms": 279.5287565110156,
+      "max": 410.9619465954984
+     },
+     "afterMeansOnly": {
+      "mean": 0.8987914919443702,
+      "rms": 29.482310436635167,
+      "max": 64.9627241097869
+     },
+     "afterBija": {
+      "mean": 0.00000220087470613843,
+      "rms": 26.16368096638804,
+      "max": 62.85208051542668
+     },
+     "afterScales": {
+      "mean": -5.8218132784734833e-8,
+      "rms": 6.249915734851154,
+      "max": 19.307184226945537
+     },
+     "after": {
+      "mean": -4.581615795029802e-8,
+      "rms": 5.928978606197105,
+      "max": 16.097159801311136
+     },
+     "mean": {
+      "epochDeg": -4.58263576344936,
+      "ratePerCentury": -0.3997057025494202
+     },
+     "sighrocca": {
+      "epochDeg": 0.2724977216647836,
+      "ratePerCentury": 0.2643719459709668
+     },
+     "mandocca": {
+      "epochDeg": -3.437412051047504,
+      "ratePerCentury": 0.06405796434294066
+     },
+     "mandaScale": 0.08611375580324614,
+     "sighraScale": -0.034261023687841875,
+     "manda2": -0.04614227379062663,
+     "latitude": {
+      "mean": -0.6897273642460753,
+      "rms": 13.428172405752091,
+      "max": 24.429188275709084,
+      "note": "the text's latitude (2.56-2.57) on the measured means, minus the dṛk latitude; not corrected"
+     },
+     "form": "the text's four steps (ss-graha fourSteps) on means shifted by (epoch + rate·T) for the mean, the śīghrocca and the mandocca; each epicycle × (1 + scale); + manda2·sin 2(mandocca − place) at the third step",
+     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the second harmonic has no Indian source [standard form]; every number measured against the dṛk tier [measured]"
+    },
+    "shukra": {
+     "before": {
+      "mean": -24.210854082640854,
+      "rms": 400.6147344845267,
+      "max": 1592.2637960153975
+     },
+     "afterMeansOnly": {
+      "mean": 0.3884687456312744,
+      "rms": 22.690828329564777,
+      "max": 117.86531051894144
+     },
+     "afterBija": {
+      "mean": 0.00003136770307983931,
+      "rms": 17.08301013794742,
+      "max": 83.32677895366032
+     },
+     "afterScales": {
+      "mean": 0.000009817332805782989,
+      "rms": 10.889467346229642,
+      "max": 43.30067654447021
+     },
+     "after": {
+      "mean": 0.000009764797157848339,
+      "rms": 10.678521934593135,
+      "max": 35.13400811702013
+     },
+     "mean": {
+      "epochDeg": 0.2867266861062343,
+      "ratePerCentury": 0.23624622019928185
+     },
+     "sighrocca": {
+      "epochDeg": -8.324492258713574,
+      "ratePerCentury": -0.5798719746002143
+     },
+     "mandocca": {
+      "epochDeg": -9.67492214800086,
+      "ratePerCentury": 0.21277730185559487
+     },
+     "mandaScale": -0.1157941536399937,
+     "sighraScale": -0.002822437227367341,
+     "manda2": -0.03993500266652381,
+     "latitude": {
+      "mean": 1.3089857259967275,
+      "rms": 31.90488913899071,
+      "max": 112.823864492662,
+      "note": "the text's latitude (2.56-2.57) on the measured means, minus the dṛk latitude; not corrected"
+     },
+     "form": "the text's four steps (ss-graha fourSteps) on means shifted by (epoch + rate·T) for the mean, the śīghrocca and the mandocca; each epicycle × (1 + scale); + manda2·sin 2(mandocca − place) at the third step",
+     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the second harmonic has no Indian source [standard form]; every number measured against the dṛk tier [measured]"
+    },
+    "shani": {
+     "before": {
+      "mean": -362.20846037120066,
+      "rms": 373.03040280604637,
+      "max": 580.2329127966141
+     },
+     "afterMeansOnly": {
+      "mean": -5.039142207679242,
+      "rms": 92.45757337898789,
+      "max": 163.7263771800599
+     },
+     "afterBija": {
+      "mean": 0.00001333446152603571,
+      "rms": 69.72068572138161,
+      "max": 128.1499187385225
+     },
+     "afterScales": {
+      "mean": -4.902466321345493e-9,
+      "rms": 5.884673845764639,
+      "max": 14.641033778598285
+     },
+     "after": {
+      "mean": 1.7953099299359518e-9,
+      "rms": 5.799637241707826,
+      "max": 16.227621092052686
+     },
+     "mean": {
+      "epochDeg": 6.020137628351921,
+      "ratePerCentury": 1.2627367088852106
+     },
+     "sighrocca": {
+      "epochDeg": 0.23862554990966497,
+      "ratePerCentury": 0.23326341019870855
+     },
+     "mandocca": {
+      "epochDeg": 11.794617213075046,
+      "ratePerCentury": -0.4346005456183404
+     },
+     "mandaScale": -0.2081295915943018,
+     "sighraScale": -0.052587443274148,
+     "manda2": -0.023587890720694844,
+     "latitude": {
+      "mean": 0.8968882868422086,
+      "rms": 27.316560688310393,
+      "max": 43.25123397328837,
+      "note": "the text's latitude (2.56-2.57) on the measured means, minus the dṛk latitude; not corrected"
+     },
+     "form": "the text's four steps (ss-graha fourSteps) on means shifted by (epoch + rate·T) for the mean, the śīghrocca and the mandocca; each epicycle × (1 + scale); + manda2·sin 2(mandocca − place) at the third step",
+     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the second harmonic has no Indian source [standard form]; every number measured against the dṛk tier [measured]"
+    }
+   },
+   "meansOnlyGaussNewton": {
+    "mangala": {
+     "before": {
+      "mean": -100.49584701211148,
+      "rms": 137.38394647606475,
+      "max": 681.2601132540613
+     },
+     "afterMeansOnly": {
+      "mean": 3.407458627022608,
+      "rms": 64.10968055658871,
+      "max": 302.16599848891974
+     },
+     "after": {
+      "mean": -0.00006690034188503058,
+      "rms": 60.742380405038865,
+      "max": 250.4778568172219
+     },
+     "mean": {
+      "epochDeg": 1.6699782813612851,
+      "ratePerCentury": 0.49959112326936567
+     },
+     "sighrocca": {
+      "epochDeg": 0.2699912071783876,
+      "ratePerCentury": 0.24380303987665083
+     },
+     "mandocca": {
+      "epochDeg": -2.0466491710301775,
+      "ratePerCentury": 0.2594411850459094
+     },
+     "form": "the text's four steps on means shifted by (epoch + rate·T) for the mean and for the śīghrocca, T in Julian centuries from J2000",
+     "provenance": "bīja-saṃskāra on the means [paramparā form]; the numbers measured against the dṛk tier [measured]"
+    },
+    "budha": {
+     "before": {
+      "mean": -18.72538366909026,
+      "rms": 160.63745849515558,
+      "max": 515.4048247642709
+     },
+     "afterMeansOnly": {
+      "mean": -0.9776794122355696,
+      "rms": 112.58483150758425,
+      "max": 282.02457928479816
+     },
+     "after": {
+      "mean": -0.00002054733954537369,
+      "rms": 111.52776388150946,
+      "max": 280.1923452703568
+     },
+     "mean": {
+      "epochDeg": 0.30859668158304415,
+      "ratePerCentury": 0.2550788667779603
+     },
+     "sighrocca": {
+      "epochDeg": -6.332085483662829,
+      "ratePerCentury": 0.7721458905005504
+     },
+     "mandocca": {
+      "epochDeg": 4.036223147690953,
+      "ratePerCentury": -0.08185398699675811
+     },
+     "form": "the text's four steps on means shifted by (epoch + rate·T) for the mean and for the śīghrocca, T in Julian centuries from J2000",
+     "provenance": "bīja-saṃskāra on the means [paramparā form]; the numbers measured against the dṛk tier [measured]"
+    },
+    "guru": {
+     "before": {
+      "mean": 274.8791418479618,
+      "rms": 279.5287565110156,
+      "max": 410.9619465954984
+     },
+     "afterMeansOnly": {
+      "mean": 0.8987915002131718,
+      "rms": 29.48231043663582,
+      "max": 64.96272423281425
+     },
+     "after": {
+      "mean": 0.00000219682670284243,
+      "rms": 26.163680966390743,
+      "max": 62.85208169197631
+     },
+     "mean": {
+      "epochDeg": -4.581794168922818,
+      "ratePerCentury": -0.3771538617658558
+     },
+     "sighrocca": {
+      "epochDeg": 0.2694355080890722,
+      "ratePerCentury": 0.26983287948881274
+     },
+     "mandocca": {
+      "epochDeg": -3.4212499710510915,
+      "ratePerCentury": 0.14648589193596603
+     },
+     "form": "the text's four steps on means shifted by (epoch + rate·T) for the mean and for the śīghrocca, T in Julian centuries from J2000",
+     "provenance": "bīja-saṃskāra on the means [paramparā form]; the numbers measured against the dṛk tier [measured]"
+    },
+    "shukra": {
+     "before": {
+      "mean": -24.210854082640854,
+      "rms": 400.6147344845267,
+      "max": 1592.2637960153975
+     },
+     "afterMeansOnly": {
+      "mean": 0.3884687474489413,
+      "rms": 22.69082832956615,
+      "max": 117.86531050718168
+     },
+     "after": {
+      "mean": 0.00003136319926026439,
+      "rms": 17.083010137947916,
+      "max": 83.32677892224183
+     },
+     "mean": {
+      "epochDeg": 0.28466297047262645,
+      "ratePerCentury": 0.23791265584541796
+     },
+     "sighrocca": {
+      "epochDeg": -8.318161698952393,
+      "ratePerCentury": -0.5788674845503332
+     },
+     "mandocca": {
+      "epochDeg": -9.558481669740111,
+      "ratePerCentury": -0.009654850300124716
+     },
+     "form": "the text's four steps on means shifted by (epoch + rate·T) for the mean and for the śīghrocca, T in Julian centuries from J2000",
+     "provenance": "bīja-saṃskāra on the means [paramparā form]; the numbers measured against the dṛk tier [measured]"
+    },
+    "shani": {
+     "before": {
+      "mean": -362.20846037120066,
+      "rms": 373.03040280604637,
+      "max": 580.2329127966141
+     },
+     "afterMeansOnly": {
+      "mean": -5.039142207572765,
+      "rms": 92.4575733789874,
+      "max": 163.72637612603285
+     },
+     "after": {
+      "mean": 0.000013446742605626795,
+      "rms": 69.72068572160146,
+      "max": 128.14991410180482
+     },
+     "mean": {
+      "epochDeg": 6.050277777687711,
+      "ratePerCentury": 1.1330502829258986
+     },
+     "sighrocca": {
+      "epochDeg": 0.22412168047427886,
+      "ratePerCentury": 0.22280570848718723
+     },
+     "mandocca": {
+      "epochDeg": 12.096503194750774,
+      "ratePerCentury": -0.6649363333372611
+     },
+     "form": "the text's four steps on means shifted by (epoch + rate·T) for the mean and for the śīghrocca, T in Julian centuries from J2000",
+     "provenance": "bīja-saṃskāra on the means [paramparā form]; the numbers measured against the dṛk tier [measured]"
+    }
+   },
+   "trueLongitudeFit": {
     "mangala": {
      "before": {
       "mean": -100.49584701211151,
@@ -240,7 +774,8 @@
   "kerala+dvitiya+var": "+ the variation (no Indian source) [standard form, measured amplitude]",
   "kerala+dvitiya+var+annual": "+ the annual equation (no Indian source) [standard form, measured amplitude]",
   "kerala+manda": "the Kerala tier with a measured scale on each of the text's manda epicycles (14° Sun, 32° Moon) [measured]",
-  "kerala+all": "all five measured forms together — what the sibling Kerala-corrections file (SSEA / sphuta / web) would do here, with every amplitude fitted, none typed [measured]"
+  "kerala+all": "all five measured forms together — what the sibling Kerala-corrections file (SSEA / sphuta / web) would do here, with every amplitude fitted, none typed [measured]",
+  "kerala+all+bija": "the joint measurement: a bīja (epoch + rate) on the Sun's, the Moon's, the apogees' and the node's means, the five forms, the Moon's second manda harmonic and the reduction to the ecliptic, and the five planets with bīja, epicycle scales and second harmonic — all fitted through the tier's own arithmetic [paramparā and standard forms, every number measured]"
  },
  "spans": [
   {
@@ -564,6 +1099,29 @@
       "mean": -15.993477698318314,
       "rms": 22.241685063714357,
       "max": 51.103802607590296
+     },
+     "ay": {
+      "mean": 15.495773272263104,
+      "rms": 15.495790855472602,
+      "max": 15.538054589110999
+     }
+    },
+    {
+     "name": "kerala+all+bija",
+     "sun": {
+      "mean": -0.05023680557794612,
+      "rms": 0.9695358376155114,
+      "max": 1.8961905851756455
+     },
+     "moon": {
+      "mean": -0.2963696980333063,
+      "rms": 5.770947004294253,
+      "max": 20.226009599896315
+     },
+     "el": {
+      "mean": -0.24613289245526673,
+      "rms": 6.119453362700555,
+      "max": 20.807879905541995
      },
      "ay": {
       "mean": 15.495773272263104,
@@ -894,6 +1452,29 @@
       "mean": -14.711277041852652,
       "rms": 19.445470443350406,
       "max": 52.0425626887868
+     },
+     "ay": {
+      "mean": 12.324306282258142,
+      "rms": 14.253761073326977,
+      "max": 24.66355640402533
+     }
+    },
+    {
+     "name": "kerala+all+bija",
+     "sun": {
+      "mean": 4.0449867448472675e-10,
+      "rms": 0.9643310731696566,
+      "max": 2.0836679146077586
+     },
+     "moon": {
+      "mean": -0.001033730462863225,
+      "rms": 5.336798425270831,
+      "max": 18.82301914858317
+     },
+     "el": {
+      "mean": -0.0010337308673618996,
+      "rms": 5.388138501383878,
+      "max": 19.751153879221874
      },
      "ay": {
       "mean": 12.324306282258142,

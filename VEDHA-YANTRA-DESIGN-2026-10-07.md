@@ -1737,6 +1737,38 @@ Jupiter and Saturn gain fivefold, Mars by half, Mercury and Venus nothing — th
 - The Parahita planets: an edition attesting Āryabhaṭa's epicycles would let the Kerala tier carry its own five planets; until then they are the text's, labelled.
 - The Moon's second inequality: not in any local edition; the owner's observing season (`vedha.html`) is the only way to measure it here.
 
+### 24.15 The whole engine re-examined, micro to macro (2026-10-12, the owner's second ask)
+
+The owner asked for the planets' bīja to be wired into the Kerala tier and for the whole engine to be looked at again, micro to macro, for what had been skipped — without workflows, by hand. This is what was found and what was done. Every number is 1900–2100, every 97 days, 753 samples, against the dṛk tier; the fits are in `corpus/research/parampara-apply.json` → `measured` and the method is in `scripts/parampara-apply.cjs jointMeasured` [measured].
+
+**What the five forms had left in the Moon, by argument.** The Kerala tier with the five measured forms stood at 17.4′ rms. A regression of that residual on the classical arguments (the manda anomaly g, the elongation D, the Sun's anomaly g′, the argument of latitude F) returned, term by term, the sky's own series: sin 2g 12.8′ (the ellipse's e² term, 0.214° in the sky), sin 2F 6.9′ (the reduction to the ecliptic, −0.114°), cos g 6.7′ (an apogee offset of about 1°), and then sin(2D−2g) 3.5′, sin(2D+g) 3.2′, sin(2D−g′) 2.7′, sin(g−g′) 2.5′, sin D 2.1′ (the parallactic inequality) — each within 0.1′ of its textbook amplitude. In the Sun: an apogee offset (cos g′ 1.8′) and sin 2g′ 1.2′. In Rāhu: a plain linear drift (the Kerala tier's node rate against the mean node). That regression is the evidence that what remained was physics and not noise, and it told exactly what to add.
+
+**What was added, all as the Kerala tier's measured option (`ss-tier.js opts.measured`, not the default).**
+
+- *A bīja-saṃskāra on the Sun's, the Moon's, both apogees' and the node's means* — the paramparā's own form (epoch + rate·T on a mean), the numbers measured: Sun −0.047° + 0.022°/cy; Sun apogee +0.87° + 0.11°/cy; Moon +0.20° + 0.066°/cy; Moon apogee −0.80° − 0.17°/cy; node −0.009° + 0.052°/cy. The tier runs the text's arithmetic on the shifted means (`shiftedMeans`).
+- *Two further Moon terms with no Indian source, tagged so* — the second manda harmonic sin 2(λ☾ − apogee) and the reduction sin 2(λ☾ − node). Fitted jointly with the five, the amplitudes come out 0.2141° and −0.1145° against the sky's 0.2136° and −0.1143°; the five keep their values (evection −1.2747°, variation 0.6585°, annual 0.1853°).
+- *The planets' bīja on the means* (mean, śīghrocca, mandocca: epoch and rate each — six parameters), *a scale on each epicycle* (the Kerala school revised the epicycles: Parahita and Dṛggaṇita are revisions of exactly these numbers [paramparā form]), and *a second manda harmonic at the third step* (no Indian source [standard]). `planetWithBija` in ss-tier is the text's four steps with the same arithmetic — with a zero bīja it is `fourSteps` to the last digit (tested) — on the shifted means and scaled pairs. Fitted in stages so each stage's gain is kept (tested).
+
+**The result** (rms 1900–2100; before = the plain Kerala tier):
+
+| body | before | five forms (24.13) | joint (24.15) |
+|---|---|---|---|
+| Sun | 11.9′ | 3.3′ | 0.96′ |
+| Moon | 82.2′ | 17.4′ | 5.3′ |
+| Moon − Sun (tithi end) | 82.3′ (2.74 h) | 19.4′ (0.65 h) | 5.4′ (0.18 h) |
+| Rāhu | — | 1.9′ | 0.20′ |
+| Jupiter | 279.5′ | — | 5.9′ |
+| Saturn | 373.0′ | — | 5.8′ |
+| Venus | 400.6′ | — | 10.7′ |
+| Mars | 137.4′ | — | 36.9′ |
+| Mercury | 160.6′ | — | 98.5′ |
+
+**What was tried and did not help** (in the record as numbers, not adopted): Nīlakaṇṭha's form for the inner planets — the manda on the śīghrocca (the planet's own heliocentric mean) with kendra mandocca − śīghrocca, the śīghra then from the mean Sun — gives Mercury 103′ and Venus 55′ against the text's four steps with bīja (99′, 11′): the four steps' half-corrections already approximate it. The true Sun as the śīghra's centre: no gain for Venus (31′) and none for the outer planets. A sin 2μ term for Mars: 51′ → 37′ (kept, as the planets' manda2). The five small Moon terms of 2–3′: not added; the Moon's 5.3′ rms is mostly them, and they are listed above with their amplitudes for the owner.
+
+**What is left, honestly.** Mercury at 98′ is the text's model: the manda epicycle cannot give the second and third harmonics of an orbit with e = 0.206 (5/4 e² ≈ 3°), and the manda is taken from the mean Sun rather than Mercury's own anomaly; a heliocentric manda with its own harmonics is a different model, not a saṃskāra of this one — a decision for the owner. Mars at 37′ has the same shape in a milder form. The planets' latitudes (text's 2.56–2.57 on the measured means) stand at 13′ (Jupiter) to 45′ (Mercury) rms against the sky and are not corrected — the text's latitude model has no measured form yet. The dṛk tier's node is the mean node, so the true-node term (1.5° sin 2(λ☉ − Ω)) still has no reference here. The Kerala tier's sidereal places differ from the dṛk tier's by the two ayanāṃśas (12′ mean, 25′ max over the span) by design: a measured form is a correction to the tier's sky, not to its frame.
+
+**Not changed.** The text tiers (ss, ss+parameshvara) are untouched; the Kerala tier's default is still its own numbers; the 100,000-year manifest is unchanged. Turning the joint candidate on is `opts.measured = measuredFromRecord(record, 'kerala+all+bija')`; the research page §3 shows every number with its provenance. The measurement is of the tier itself: the fit runs through `ss-tier placesOf` and `planetWithBija`, and the test recomputes the record's Sun, Moon and Rāhu scores on the record's grid through `grahas()` and matches them to 0.02′.
+
 ## Appendix A. The three designs and the three judges
 
 | Design | Fidelity lens | Honesty lens | Reachability lens | Sum |
