@@ -341,6 +341,137 @@
      },
      "note": "the tier's Rāhu (mean node; before) and its true node (the mean with the forms; after) against the node read at the dṛk Moon's latitude crossings (arcmin)"
     },
+    "moonTermsFit": {
+     "basis": [
+      "D",
+      "g",
+      "gp",
+      "F"
+     ],
+     "terms": [
+      {
+       "k": [
+        2,
+        -1,
+        -1,
+        0
+       ],
+       "sin": 0.05705061577964869,
+       "cos": 0.0001131058408286458,
+       "amplitudeArcmin": 3.42304367392033
+      },
+      {
+       "k": [
+        0,
+        1,
+        1,
+        0
+       ],
+       "sin": -0.03038396997982979,
+       "cos": -0.00011431764445462403,
+       "amplitudeArcmin": 1.823051102117687
+      },
+      {
+       "k": [
+        2,
+        0,
+        0,
+        -2
+       ],
+       "sin": 0.015419450091604387,
+       "cos": -0.00021562371684698302,
+       "amplitudeArcmin": 0.9252574587503112
+      },
+      {
+       "k": [
+        0,
+        1,
+        0,
+        2
+       ],
+       "sin": 0.01240122943818196,
+       "cos": -0.00006168153126225157,
+       "amplitudeArcmin": 0.7440829700262108
+      },
+      {
+       "k": [
+        4,
+        -1,
+        0,
+        0
+       ],
+       "sin": -0.010563986036914184,
+       "cos": -0.00016184425222681936,
+       "amplitudeArcmin": 0.6339135433009363
+      },
+      {
+       "k": [
+        0,
+        1,
+        0,
+        -2
+       ],
+       "sin": -0.010362197928882893,
+       "cos": 0.0003493154144629106,
+       "amplitudeArcmin": 0.6220850438919543
+      },
+      {
+       "k": [
+        4,
+        -2,
+        0,
+        0
+       ],
+       "sin": 0.008515715759600386,
+       "cos": 0.000027302148563201323,
+       "amplitudeArcmin": 0.5109455715633918
+      },
+      {
+       "k": [
+        2,
+        -1,
+        1,
+        0
+       ],
+       "sin": -0.00784633638083566,
+       "cos": -0.00014295279565868004,
+       "amplitudeArcmin": 0.47085831029179337
+      },
+      {
+       "k": [
+        2,
+        0,
+        1,
+        0
+       ],
+       "sin": 0.0065716112701520914,
+       "cos": 0.00016916366290269187,
+       "amplitudeArcmin": 0.3944272907786832
+      },
+      {
+       "k": [
+        1,
+        -1,
+        0,
+        0
+       ],
+       "sin": 0.005128813204059515,
+       "cos": -0.000010652011873186408,
+       "amplitudeArcmin": 0.30772945593649603
+      }
+     ],
+     "before": {
+      "mean": -0.0004141530636600753,
+      "rms": 2.8810382476028775,
+      "max": 10.39364862753473
+     },
+     "after": {
+      "mean": -0.0007079383955980696,
+      "rms": 0.5298489621512109,
+      "max": 1.834523283123417
+     },
+     "note": "the Moon's tropical residual after every form above, 1900-2100 (arcmin); terms kept by a greedy scan of integer arguments (|k| ≤ 4, 3, 2, 2; F even), then fitted jointly through the tier"
+    },
     "bija": {
      "sunMean": {
       "epochDeg": -0.04697842736030271,
@@ -390,6 +521,28 @@
       }
      },
      "after": {
+      "sun": {
+       "mean": 4.842968699819152e-10,
+       "rms": 0.42873598425118636,
+       "max": 1.172092254994368
+      },
+      "moon": {
+       "mean": -0.0007079383955980696,
+       "rms": 0.5298489621512109,
+       "max": 1.834523283123417
+      },
+      "el": {
+       "mean": -0.0007079388799402332,
+       "rms": 0.649690396929628,
+       "max": 2.477128590878692
+      },
+      "rahu": {
+       "mean": 2.4485698992950447e-11,
+       "rms": 0.20279059244753211,
+       "max": 0.33033968258678215
+      }
+     },
+     "afterWithoutTerms": {
       "sun": {
        "mean": 4.842968699819152e-10,
        "rms": 0.42873598425118636,
@@ -529,9 +682,9 @@
       "max": 21.0962152335469
      },
      "after": {
-      "mean": 0.000010407459810893891,
-      "rms": 7.134096374633065,
-      "max": 21.0962152335469
+      "mean": 0.024212096664811552,
+      "rms": 4.090493933857927,
+      "max": 22.3026495548379
      },
      "mean": {
       "epochDeg": 1.711196410175547,
@@ -729,7 +882,137 @@
       "note": "the measured latitude (see latitudeFit) minus the dṛk latitude"
      },
      "formNote": "Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 — not in this library's editions [paramparā, unverified here]): the manda on the planet's own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text's śīghra from the tier's true Sun, the epicycle's size varying with the planet's distance (cos ν, cos 2ν) and the Earth's (cos g′); the means shifted by (epoch + rate·T) [measured]",
-     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]"
+     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]",
+     "terms": [
+      {
+       "k": [
+        0,
+        0,
+        1,
+        -1,
+        0,
+        0
+       ],
+       "sin": 0.11975716052031622,
+       "cos": -0.0020425467378860683
+      },
+      {
+       "k": [
+        0,
+        0,
+        3,
+        -3,
+        0,
+        0
+       ],
+       "sin": -0.08463594117192587,
+       "cos": 0.00663100219580833
+      },
+      {
+       "k": [
+        0,
+        0,
+        4,
+        -4,
+        0,
+        0
+       ],
+       "sin": 0.03290980712180827,
+       "cos": -0.0024674663180004213
+      },
+      {
+       "k": [
+        0,
+        0,
+        1,
+        3,
+        -3,
+        0
+       ],
+       "sin": 0.013765674679846464,
+       "cos": 0.013647322444935666
+      }
+     ],
+     "termBasis": [
+      "mercury",
+      "venus",
+      "sun",
+      "mars",
+      "jupiter",
+      "saturn"
+     ],
+     "termsFit": {
+      "before": {
+       "mean": 0.000010407459810893891,
+       "rms": 7.134096374633065,
+       "max": 21.0962152335469
+      },
+      "after": {
+       "mean": 0.024212096664811552,
+       "rms": 4.090493933857927,
+       "max": 22.3026495548379
+      },
+      "terms": [
+       {
+        "k": [
+         0,
+         0,
+         1,
+         -1,
+         0,
+         0
+        ],
+        "sin": 0.11975716052031622,
+        "cos": -0.0020425467378860683,
+        "amplitudeArcmin": 7.186474669477021
+       },
+       {
+        "k": [
+         0,
+         0,
+         3,
+         -3,
+         0,
+         0
+        ],
+        "sin": -0.08463594117192587,
+        "cos": 0.00663100219580833,
+        "amplitudeArcmin": 5.093718270717633
+       },
+       {
+        "k": [
+         0,
+         0,
+         4,
+         -4,
+         0,
+         0
+        ],
+        "sin": 0.03290980712180827,
+        "cos": -0.0024674663180004213,
+        "amplitudeArcmin": 1.9801307182532977
+       },
+       {
+        "k": [
+         0,
+         0,
+         1,
+         3,
+         -3,
+         0
+        ],
+        "sin": 0.013765674679846464,
+        "cos": 0.013647322444935666,
+        "amplitudeArcmin": 1.163045808859943
+       }
+      ],
+      "note": "the residual after the form above; terms kept by a greedy scan of integer arguments of the six mean longitudes (5 d < period < 60 y), fitted jointly through the tier; applied to the heliocentric place"
+     },
+     "afterNoTerms": {
+      "mean": 0.000010407459810893891,
+      "rms": 7.134096374633065,
+      "max": 21.0962152335469
+     }
     },
     "budha": {
      "latScale": 0.3191051301972836,
@@ -805,9 +1088,9 @@
       "max": 12.19801025463994
      },
      "after": {
-      "mean": 3.8710728780954585e-7,
-      "rms": 4.210489165890852,
-      "max": 12.19801025463994
+      "mean": 0.04259056174283701,
+      "rms": 3.3343485579136765,
+      "max": 9.992310937091133
      },
      "mean": {
       "epochDeg": 0.20538481890827037,
@@ -1005,7 +1288,287 @@
       "note": "the measured latitude (see latitudeFit) minus the dṛk latitude"
      },
      "formNote": "Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 — not in this library's editions [paramparā, unverified here]): the manda on the planet's own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text's śīghra from the tier's true Sun, the epicycle's size varying with the planet's distance (cos ν, cos 2ν) and the Earth's (cos g′); the means shifted by (epoch + rate·T) [measured]",
-     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]"
+     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]",
+     "terms": [
+      {
+       "k": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+       ],
+       "sin": -0.0091579988366209,
+       "cos": 0.010357938657170813
+      },
+      {
+       "k": [
+        2,
+        0,
+        1,
+        0,
+        0,
+        0
+       ],
+       "sin": -0.013338051533906652,
+       "cos": -0.017591353124691865
+      },
+      {
+       "k": [
+        3,
+        0,
+        1,
+        0,
+        0,
+        0
+       ],
+       "sin": 0.008721821238449633,
+       "cos": -0.029330708983796125
+      },
+      {
+       "k": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+       ],
+       "sin": -0.15853147443430687,
+       "cos": 0.02244768980966211
+      },
+      {
+       "k": [
+        3,
+        0,
+        -3,
+        0,
+        0,
+        0
+       ],
+       "sin": 0.03847160410473445,
+       "cos": -0.011341659370098687
+      },
+      {
+       "k": [
+        4,
+        0,
+        -1,
+        0,
+        0,
+        0
+       ],
+       "sin": -0.020210278052690947,
+       "cos": 0.007905586172385244
+      },
+      {
+       "k": [
+        2,
+        0,
+        -3,
+        0,
+        0,
+        0
+       ],
+       "sin": -0.047261344307984066,
+       "cos": 0.014445702038064931
+      },
+      {
+       "k": [
+        4,
+        0,
+        -3,
+        0,
+        0,
+        0
+       ],
+       "sin": 0.02636824047853352,
+       "cos": -0.034259160408453525
+      },
+      {
+       "k": [
+        1,
+        0,
+        2,
+        0,
+        0,
+        0
+       ],
+       "sin": -0.09654508530113357,
+       "cos": -0.0028203869858476767
+      },
+      {
+       "k": [
+        3,
+        0,
+        -1,
+        0,
+        0,
+        0
+       ],
+       "sin": 0.024625784791373905,
+       "cos": -0.022082706246856123
+      }
+     ],
+     "termBasis": [
+      "mercury",
+      "venus",
+      "sun",
+      "mars",
+      "jupiter",
+      "saturn"
+     ],
+     "termsFit": {
+      "before": {
+       "mean": 3.8710728780954585e-7,
+       "rms": 4.210489165890852,
+       "max": 12.19801025463994
+      },
+      "after": {
+       "mean": 0.04259056174283701,
+       "rms": 3.3343485579136765,
+       "max": 9.992310937091133
+      },
+      "terms": [
+       {
+        "k": [
+         1,
+         0,
+         1,
+         0,
+         0,
+         0
+        ],
+        "sin": -0.0091579988366209,
+        "cos": 0.010357938657170813,
+        "amplitudeArcmin": 0.8295547054306591
+       },
+       {
+        "k": [
+         2,
+         0,
+         1,
+         0,
+         0,
+         0
+        ],
+        "sin": -0.013338051533906652,
+        "cos": -0.017591353124691865,
+        "amplitudeArcmin": 1.324572974404778
+       },
+       {
+        "k": [
+         3,
+         0,
+         1,
+         0,
+         0,
+         0
+        ],
+        "sin": 0.008721821238449633,
+        "cos": -0.029330708983796125,
+        "amplitudeArcmin": 1.8360006423602897
+       },
+       {
+        "k": [
+         0,
+         0,
+         2,
+         0,
+         0,
+         0
+        ],
+        "sin": -0.15853147443430687,
+        "cos": 0.02244768980966211,
+        "amplitudeArcmin": 9.606771455113417
+       },
+       {
+        "k": [
+         3,
+         0,
+         -3,
+         0,
+         0,
+         0
+        ],
+        "sin": 0.03847160410473445,
+        "cos": -0.011341659370098687,
+        "amplitudeArcmin": 2.406514328810773
+       },
+       {
+        "k": [
+         4,
+         0,
+         -1,
+         0,
+         0,
+         0
+        ],
+        "sin": -0.020210278052690947,
+        "cos": 0.007905586172385244,
+        "amplitudeArcmin": 1.3020879671150964
+       },
+       {
+        "k": [
+         2,
+         0,
+         -3,
+         0,
+         0,
+         0
+        ],
+        "sin": -0.047261344307984066,
+        "cos": 0.014445702038064931,
+        "amplitudeArcmin": 2.9651857789038
+       },
+       {
+        "k": [
+         4,
+         0,
+         -3,
+         0,
+         0,
+         0
+        ],
+        "sin": 0.02636824047853352,
+        "cos": -0.034259160408453525,
+        "amplitudeArcmin": 2.593898039664112
+       },
+       {
+        "k": [
+         1,
+         0,
+         2,
+         0,
+         0,
+         0
+        ],
+        "sin": -0.09654508530113357,
+        "cos": -0.0028203869858476767,
+        "amplitudeArcmin": 5.79517636338974
+       },
+       {
+        "k": [
+         3,
+         0,
+         -1,
+         0,
+         0,
+         0
+        ],
+        "sin": 0.024625784791373905,
+        "cos": -0.022082706246856123,
+        "amplitudeArcmin": 1.98460844762729
+       }
+      ],
+      "note": "the residual after the form above; terms kept by a greedy scan of integer arguments of the six mean longitudes (5 d < period < 60 y), fitted jointly through the tier; applied to the heliocentric place"
+     },
+     "afterNoTerms": {
+      "mean": 3.8710728780954585e-7,
+      "rms": 4.210489165890852,
+      "max": 12.19801025463994
+     }
     },
     "guru": {
      "latScale": 0.3063463909212474,
@@ -1081,9 +1644,9 @@
       "max": 14.010517096573949
      },
      "after": {
-      "mean": -3.913097330893156e-8,
-      "rms": 4.170929549881333,
-      "max": 14.010517096573949
+      "mean": -0.01926826012298177,
+      "rms": 3.0963065371916474,
+      "max": 9.341055933969074
      },
      "mean": {
       "epochDeg": -4.575872252985258,
@@ -1281,7 +1844,62 @@
       "note": "the measured latitude (see latitudeFit) minus the dṛk latitude"
      },
      "formNote": "Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 — not in this library's editions [paramparā, unverified here]): the manda on the planet's own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text's śīghra from the tier's true Sun, the epicycle's size varying with the planet's distance (cos ν, cos 2ν) and the Earth's (cos g′); the means shifted by (epoch + rate·T) [measured]",
-     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]"
+     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]",
+     "terms": [
+      {
+       "k": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        -2
+       ],
+       "sin": 0.056394100281324,
+       "cos": -0.03280885667373764
+      }
+     ],
+     "termBasis": [
+      "mercury",
+      "venus",
+      "sun",
+      "mars",
+      "jupiter",
+      "saturn"
+     ],
+     "termsFit": {
+      "before": {
+       "mean": -3.913097330893156e-8,
+       "rms": 4.170929549881333,
+       "max": 14.010517096573949
+      },
+      "after": {
+       "mean": -0.01926826012298177,
+       "rms": 3.0963065371916474,
+       "max": 9.341055933969074
+      },
+      "terms": [
+       {
+        "k": [
+         0,
+         0,
+         0,
+         0,
+         2,
+         -2
+        ],
+        "sin": 0.056394100281324,
+        "cos": -0.03280885667373764,
+        "amplitudeArcmin": 3.914610611797857
+       }
+      ],
+      "note": "the residual after the form above; terms kept by a greedy scan of integer arguments of the six mean longitudes (5 d < period < 60 y), fitted jointly through the tier; applied to the heliocentric place"
+     },
+     "afterNoTerms": {
+      "mean": -3.913097330893156e-8,
+      "rms": 4.170929549881333,
+      "max": 14.010517096573949
+     }
     },
     "shukra": {
      "latScale": 0.21776816682394992,
@@ -1357,9 +1975,9 @@
       "max": 21.09446966424457
      },
      "after": {
-      "mean": 0.000009697317171274161,
-      "rms": 5.5762968704466305,
-      "max": 21.09446966424457
+      "mean": 0.038363850956510036,
+      "rms": 2.595740567772754,
+      "max": 9.43408155730367
      },
      "mean": {
       "epochDeg": 0.2001060114680918,
@@ -1557,7 +2175,287 @@
       "note": "the measured latitude (see latitudeFit) minus the dṛk latitude"
      },
      "formNote": "Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 — not in this library's editions [paramparā, unverified here]): the manda on the planet's own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text's śīghra from the tier's true Sun, the epicycle's size varying with the planet's distance (cos ν, cos 2ν) and the Earth's (cos g′); the means shifted by (epoch + rate·T) [measured]",
-     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]"
+     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]",
+     "terms": [
+      {
+       "k": [
+        0,
+        1,
+        -1,
+        0,
+        0,
+        0
+       ],
+       "sin": 0.20064237915514593,
+       "cos": -0.029766866754026285
+      },
+      {
+       "k": [
+        0,
+        3,
+        -3,
+        0,
+        0,
+        0
+       ],
+       "sin": -0.07671959590713495,
+       "cos": 0.050204957010535
+      },
+      {
+       "k": [
+        0,
+        4,
+        -4,
+        0,
+        0,
+        0
+       ],
+       "sin": 0.018680540891166064,
+       "cos": -0.014876219483270305
+      },
+      {
+       "k": [
+        1,
+        2,
+        -3,
+        0,
+        0,
+        0
+       ],
+       "sin": -0.03971878657428644,
+       "cos": 0.0007822444218168247
+      },
+      {
+       "k": [
+        2,
+        -1,
+        -3,
+        0,
+        1,
+        0
+       ],
+       "sin": -0.004047492329448735,
+       "cos": 0.014232734552602665
+      },
+      {
+       "k": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+       ],
+       "sin": 0.012565595212639757,
+       "cos": 0.019452905574627925
+      },
+      {
+       "k": [
+        1,
+        1,
+        -2,
+        0,
+        0,
+        0
+       ],
+       "sin": 0.07105966647558108,
+       "cos": 0.0161122103420085
+      },
+      {
+       "k": [
+        1,
+        0,
+        -1,
+        0,
+        0,
+        0
+       ],
+       "sin": -0.043399843488074505,
+       "cos": -0.021069255256316158
+      },
+      {
+       "k": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+       ],
+       "sin": 0.018251407770988347,
+       "cos": 0.024033369733536314
+      },
+      {
+       "k": [
+        0,
+        1,
+        -3,
+        0,
+        0,
+        0
+       ],
+       "sin": 0.017503446112303745,
+       "cos": -0.03966667452347853
+      }
+     ],
+     "termBasis": [
+      "mercury",
+      "venus",
+      "sun",
+      "mars",
+      "jupiter",
+      "saturn"
+     ],
+     "termsFit": {
+      "before": {
+       "mean": 0.000009697317171274161,
+       "rms": 5.5762968704466305,
+       "max": 21.09446966424457
+      },
+      "after": {
+       "mean": 0.038363850956510036,
+       "rms": 2.595740567772754,
+       "max": 9.43408155730367
+      },
+      "terms": [
+       {
+        "k": [
+         0,
+         1,
+         -1,
+         0,
+         0,
+         0
+        ],
+        "sin": 0.20064237915514593,
+        "cos": -0.029766866754026285,
+        "amplitudeArcmin": 12.170306093513075
+       },
+       {
+        "k": [
+         0,
+         3,
+         -3,
+         0,
+         0,
+         0
+        ],
+        "sin": -0.07671959590713495,
+        "cos": 0.050204957010535,
+        "amplitudeArcmin": 5.5011964859020885
+       },
+       {
+        "k": [
+         0,
+         4,
+         -4,
+         0,
+         0,
+         0
+        ],
+        "sin": 0.018680540891166064,
+        "cos": -0.014876219483270305,
+        "amplitudeArcmin": 1.432812706100644
+       },
+       {
+        "k": [
+         1,
+         2,
+         -3,
+         0,
+         0,
+         0
+        ],
+        "sin": -0.03971878657428644,
+        "cos": 0.0007822444218168247,
+        "amplitudeArcmin": 2.3835893286741006
+       },
+       {
+        "k": [
+         2,
+         -1,
+         -3,
+         0,
+         1,
+         0
+        ],
+        "sin": -0.004047492329448735,
+        "cos": 0.014232734552602665,
+        "amplitudeArcmin": 0.8878234831352829
+       },
+       {
+        "k": [
+         0,
+         1,
+         1,
+         0,
+         0,
+         0
+        ],
+        "sin": 0.012565595212639757,
+        "cos": 0.019452905574627925,
+        "amplitudeArcmin": 1.3895017042220206
+       },
+       {
+        "k": [
+         1,
+         1,
+         -2,
+         0,
+         0,
+         0
+        ],
+        "sin": 0.07105966647558108,
+        "cos": 0.0161122103420085,
+        "amplitudeArcmin": 4.371805837204279
+       },
+       {
+        "k": [
+         1,
+         0,
+         -1,
+         0,
+         0,
+         0
+        ],
+        "sin": -0.043399843488074505,
+        "cos": -0.021069255256316158,
+        "amplitudeArcmin": 2.8946253219791
+       },
+       {
+        "k": [
+         0,
+         0,
+         2,
+         0,
+         0,
+         0
+        ],
+        "sin": 0.018251407770988347,
+        "cos": 0.024033369733536314,
+        "amplitudeArcmin": 1.8106850325051873
+       },
+       {
+        "k": [
+         0,
+         1,
+         -3,
+         0,
+         0,
+         0
+        ],
+        "sin": 0.017503446112303745,
+        "cos": -0.03966667452347853,
+        "amplitudeArcmin": 2.601410482182396
+       }
+      ],
+      "note": "the residual after the form above; terms kept by a greedy scan of integer arguments of the six mean longitudes (5 d < period < 60 y), fitted jointly through the tier; applied to the heliocentric place"
+     },
+     "afterNoTerms": {
+      "mean": 0.000009697317171274161,
+      "rms": 5.5762968704466305,
+      "max": 21.09446966424457
+     }
     },
     "shani": {
      "latScale": 0.24303774653262505,
@@ -1633,9 +2531,9 @@
       "max": 13.469386174583633
      },
      "after": {
-      "mean": 7.579152710481633e-10,
-      "rms": 5.295793784797395,
-      "max": 13.469386174583633
+      "mean": 0.037448275569245945,
+      "rms": 0.9226362654794711,
+      "max": 3.192349309611018
      },
      "mean": {
       "epochDeg": 6.020757998830347,
@@ -1833,7 +2731,262 @@
       "note": "the measured latitude (see latitudeFit) minus the dṛk latitude"
      },
      "formNote": "Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 — not in this library's editions [paramparā, unverified here]): the manda on the planet's own heliocentric mean as a measured series in its anomaly (sin μ, sin 2μ, sin 3μ), the text's śīghra from the tier's true Sun, the epicycle's size varying with the planet's distance (cos ν, cos 2ν) and the Earth's (cos g′); the means shifted by (epoch + rate·T) [measured]",
-     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]"
+     "provenance": "bīja-saṃskāra on the means and revised epicycles [paramparā forms — the Kerala school revised both]; the series and the radial variation are the ellipse's, no Indian source for the numbers [standard form]; every number measured against the dṛk tier [measured]",
+     "terms": [
+      {
+       "k": [
+        0,
+        0,
+        4,
+        0,
+        -2,
+        -2
+       ],
+       "sin": -0.0015479813881763946,
+       "cos": 0.010030692214599518
+      },
+      {
+       "k": [
+        0,
+        0,
+        4,
+        0,
+        -3,
+        1
+       ],
+       "sin": 0.09043848988120423,
+       "cos": 0.03228018370045978
+      },
+      {
+       "k": [
+        0,
+        0,
+        4,
+        0,
+        -3,
+        0
+       ],
+       "sin": 0.029710479784056526,
+       "cos": 0.020181320964096347
+      },
+      {
+       "k": [
+        0,
+        0,
+        3,
+        0,
+        0,
+        -3
+       ],
+       "sin": 0.02420355410268833,
+       "cos": -0.007312817503017091
+      },
+      {
+       "k": [
+        0,
+        0,
+        4,
+        0,
+        -2,
+        -1
+       ],
+       "sin": 0.009871414310420533,
+       "cos": 0.009765729732894513
+      },
+      {
+       "k": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2
+       ],
+       "sin": 0.008171090497669677,
+       "cos": -0.008697037325762328
+      },
+      {
+       "k": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+       ],
+       "sin": 0.004234851288992918,
+       "cos": 0.010171634100676362
+      },
+      {
+       "k": [
+        0,
+        0,
+        4,
+        0,
+        -2,
+        1
+       ],
+       "sin": 0.006366408091014118,
+       "cos": 0.006022814486308381
+      },
+      {
+       "k": [
+        0,
+        0,
+        1,
+        0,
+        -1,
+        1
+       ],
+       "sin": -0.0011833500142616627,
+       "cos": -0.0015432926096834861
+      }
+     ],
+     "termBasis": [
+      "mercury",
+      "venus",
+      "sun",
+      "mars",
+      "jupiter",
+      "saturn"
+     ],
+     "termsFit": {
+      "before": {
+       "mean": 7.579152710481633e-10,
+       "rms": 5.295793784797395,
+       "max": 13.469386174583633
+      },
+      "after": {
+       "mean": 0.037448275569245945,
+       "rms": 0.9226362654794711,
+       "max": 3.192349309611018
+      },
+      "terms": [
+       {
+        "k": [
+         0,
+         0,
+         4,
+         0,
+         -2,
+         -2
+        ],
+        "sin": -0.0015479813881763946,
+        "cos": 0.010030692214599518,
+        "amplitudeArcmin": 0.6089661055065417
+       },
+       {
+        "k": [
+         0,
+         0,
+         4,
+         0,
+         -3,
+         1
+        ],
+        "sin": 0.09043848988120423,
+        "cos": 0.03228018370045978,
+        "amplitudeArcmin": 5.761603124324098
+       },
+       {
+        "k": [
+         0,
+         0,
+         4,
+         0,
+         -3,
+         0
+        ],
+        "sin": 0.029710479784056526,
+        "cos": 0.020181320964096347,
+        "amplitudeArcmin": 2.1549928003306515
+       },
+       {
+        "k": [
+         0,
+         0,
+         3,
+         0,
+         0,
+         -3
+        ],
+        "sin": 0.02420355410268833,
+        "cos": -0.007312817503017091,
+        "amplitudeArcmin": 1.5170502930763694
+       },
+       {
+        "k": [
+         0,
+         0,
+         4,
+         0,
+         -2,
+         -1
+        ],
+        "sin": 0.009871414310420533,
+        "cos": 0.009765729732894513,
+        "amplitudeArcmin": 0.8331455285447403
+       },
+       {
+        "k": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         2
+        ],
+        "sin": 0.008171090497669677,
+        "cos": -0.008697037325762328,
+        "amplitudeArcmin": 0.7160018445510591
+       },
+       {
+        "k": [
+         0,
+         0,
+         0,
+         0,
+         1,
+         -1
+        ],
+        "sin": 0.004234851288992918,
+        "cos": 0.010171634100676362,
+        "amplitudeArcmin": 0.6610794056575487
+       },
+       {
+        "k": [
+         0,
+         0,
+         4,
+         0,
+         -2,
+         1
+        ],
+        "sin": 0.006366408091014118,
+        "cos": 0.006022814486308381,
+        "amplitudeArcmin": 0.5258322990689502
+       },
+       {
+        "k": [
+         0,
+         0,
+         1,
+         0,
+         -1,
+         1
+        ],
+        "sin": -0.0011833500142616627,
+        "cos": -0.0015432926096834861,
+        "amplitudeArcmin": 0.11668525874027222
+       }
+      ],
+      "note": "the residual after the form above; terms kept by a greedy scan of integer arguments of the six mean longitudes (5 d < period < 60 y), fitted jointly through the tier; applied to the heliocentric place"
+     },
+     "afterNoTerms": {
+      "mean": 7.579152710481633e-10,
+      "rms": 5.295793784797395,
+      "max": 13.469386174583633
+     }
     }
    },
    "meansOnlyGaussNewton": {

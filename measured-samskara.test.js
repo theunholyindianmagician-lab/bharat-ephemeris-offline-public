@@ -114,3 +114,40 @@ test('the latitudes and the true node: the planets\' latitudes on the heliocentr
   assert.notEqual(g.latitudeDeg.candra, h.latitudeDeg.candra); assert.ok(Math.abs(h.latitudeDeg.guru * 60 - G.truePlaces(jd - 588465.5 + 75.7885 / 360).jupiter.latitude) < 1e-9, 'the plain tier keeps the text\'s latitude');
   const m = ST.measuredFromRecord(REC, 'kerala+all+bija'); assert.ok(m.moonLatScale !== undefined && m.nodeTrue2SF !== undefined && m.planets.guru.node && typeof m.planets.guru.latScale === 'number');
 });
+
+test('the dṛk tier\'s own true node by the crossing method: the latitude is zero at the crossings it finds, the node is the Moon\'s longitude there, it agrees with the Kerala tier\'s measured true node to the record\'s rms, and the API serves all tiers', () => {
+  const D = require('./siddhanta-tier.js'), M = require('./math-core.js'), d = (a, b) => Math.abs(((a - b + 540) % 360) - 180);
+  const diffs = [];
+  for (const jd of [2451545.0, 2461041.5, 2415020.5, 2470000.25, 2440000.5, 2455000.0]) {
+    const n = D.trueNode(jd); assert.ok(n && n.crossings.length === 2 && n.crossings[0].jd < jd && n.crossings[1].jd > jd && n.crossings[1].jd - n.crossings[0].jd < 15, `crossings bracket ${jd}`);
+    for (const c of n.crossings) { const m = D.sunMoon(c.jd); assert.ok(Math.abs(m.moonLat) < 1e-6, `latitude zero at the crossing (${m.moonLat})`); assert.ok(d(c.node, c.kind === 'ascending' ? m.moonSid : m.moonSid + 180) < 1e-9); }
+    assert.ok(n.crossings[0].kind !== n.crossings[1].kind, 'one ascending, one descending'); assert.ok(d(n.descending, n.ascending + 180) < 1e-9);
+    const k = M.tierTrueNode(jd, 'kerala'), s = M.tierTrueNode(jd, 'drik'); assert.equal(s.rahu, n.ascending); diffs.push(d(k.rahu, s.rahu) * 60);
+    assert.ok(d(k.rahu, k.mean) > 0.01 || jd === 2451545.0, 'the Kerala true node moves off the mean');
+  }
+  assert.ok(Math.max(...diffs) < 45, `Kerala vs dṛk true node within 45′ at six dates (${diffs.map((x) => x.toFixed(1)).join(', ')})`);
+  const t = M.tierTrueNode(2461041.5, 'ss'); assert.equal(t.rahu, t.mean); assert.match(t.method, /mean node/);
+  assert.throws(() => M.tierTrueNode(2300000, 'drik'), /served for 1850/, 'outside the span the dṛk true node is refused, as every dṛk call is (DK-1)');
+});
+
+test('the registry carries the Tantrasaṅgraha as a source awaiting its edition and the attribution of the planetary form to Nīlakaṇṭha as an owner-statement, stamped', () => {
+  const R = require('./corpus/parampara/registry.json'), rec = R.records.find((r) => r.id === 'NIL-tantrasangraha-planets');
+  assert.ok(R.sources.TS && R.sources.TS.file === null && /NOT HELD/.test(R.sources.TS.fileKind)); assert.ok(rec && rec.status === 'awaiting edition' && rec.quote.length === 0 && rec.tags.includes('[unverified]')); assert.match(rec.sha256, /^[0-9a-f]{64}$/);
+  const PA = require('./parampara.js'); assert.doesNotThrow(() => PA.load({ registry: R, samskara: require('./corpus/parampara/samskara.json') }));
+});
+
+test('the generic measured terms: the Moon\'s on [D, g, g′, F] and each planet\'s on the six mean longitudes, kept by the scan, fitted through the tier; the gains are in the record and the tier reproduces them; bad terms are refused', () => {
+  const c = REC.measured.candidates['kerala+all+bija'], b = REC.measured.planets.bodies;
+  assert.ok(c.moonTermsFit && c.moonTermsFit.terms.length >= 3 && c.moonTermsFit.after.rms < 1.0 && c.moonTermsFit.after.rms < c.moonTermsFit.before.rms, `Moon terms ${c.moonTermsFit.before.rms} → ${c.moonTermsFit.after.rms}`);
+  assert.ok(c.score.after.moon.rms < 1.0 && c.score.after.el.rms < 1.2, `Moon ${c.score.after.moon.rms}, elongation ${c.score.after.el.rms}`);
+  for (const g of Object.keys(b)) { assert.ok(b[g].termsFit && b[g].after.rms <= b[g].afterNoTerms.rms + 1e-9, `${g}: terms keep the gain`); assert.deepEqual(b[g].termBasis, ['mercury', 'venus', 'sun', 'mars', 'jupiter', 'saturn']); }
+  assert.ok(b.budha.after.rms < 3.6 && b.shukra.after.rms < 3 && b.shani.after.rms < 1.5 && b.mangala.after.rms < 5 && b.guru.after.rms < 4, Object.entries(b).map(([k, v]) => `${k} ${v.after.rms.toFixed(2)}`).join(', '));
+  const m = ST.measuredFromRecord(REC, 'kerala+all+bija'); assert.ok(m.moonTerms.length === c.moonTermsFit.terms.length && m.planets.shani.terms.length === b.shani.terms.length);
+  // the tier reproduces the record's Moon score on the record's grid with the terms
+  const M = require('./math-core.js'), KER = ST.correction('kerala'), tOf = (jd) => jd - 588465.5 + 75.7885 / 360, wrap = (x) => ((x + 540) % 360) - 180, r = [];
+  for (let i = 0; i < 753; i += 3) { const jd = 2415020.5 + i * 97, rows = M.tierGrahaRows(jd, 'drik'), ayD = M.tierAyanamsha(jd, 'drik').deg, g = ST.grahas(jd, { samskara: 'kerala' }); r.push(wrap(g.candra + KER.ayanamshaAt(tOf(jd)) - rows.find((x) => x.key === 'candra').longitude - ayD)); }
+  const rms = Math.sqrt(r.reduce((x, y) => x + y * y, 0) / r.length) * 60; assert.ok(rms < 1.2, `the default tier's Moon on a third of the grid: ${rms.toFixed(2)}′`);
+  assert.throws(() => ST.grahas(2451545, { samskara: 'kerala', measured: { moonTerms: [{ k: [1, 0, 0], sin: 1 }] } }), /4 integers/);
+  assert.throws(() => ST.grahas(2451545, { samskara: 'kerala', measured: { planets: { guru: { terms: [{ k: [1, 0, 0, 0, 0, 0.5], sin: 1 }] } } } }), /6 integers/);
+  assert.throws(() => ST.grahas(2451545, { samskara: 'kerala', measured: { moonTerms: { k: [1, 0, 0, 0] } } }), /array/);
+});

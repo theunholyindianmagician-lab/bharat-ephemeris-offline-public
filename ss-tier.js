@@ -244,11 +244,20 @@
   const AMPLITUDE_KEYS = Object.freeze(["dvitiya", "variation", "annual", "moonManda", "sunManda", "moonManda2", "reduction", "moonD", "moon2D2g", "moon2Dg", "moon2Dgp", "moonGgp", "sunManda2",
     "moonLatScale", "moonLat2DmF", "moonLatGpF", "moonLatGmF", "moonLat2DpF", "moonLat2DmGmF", "moonLat2DmGpF",            // the Moon's latitude: a scale on 2.57's 270′ and the next terms (degrees)
     "nodeTrue2SF", "nodeTrueG", "nodeTrueGp", "nodeTrue2G", "nodeTrue2SFmG"]);                                            // the true node: forms on the mean node (degrees), measured at the latitude's crossings
+  const TERM_KEYS = Object.freeze(["moonTerms"]);                                                                           // generic measured terms: [{ k: [integers], sin, cos }] (degrees) on an argument basis
+  const MOON_BASIS = Object.freeze(["D", "g", "gp", "F"]), PLANET_BASIS = Object.freeze(["Me", "V", "E", "Ma", "J", "Sa"]);   // D = λ☾ − λ☉ (means), g, g′ the anomalies, F = λ☾ − node; the planets' mean heliocentric longitudes and the mean Sun
+  function termsOf(x, n, what) {
+    if (x === undefined || x === null) return [];
+    if (!Array.isArray(x)) throw new TypeError(`ss-tier: ${what} is an array of { k, sin, cos }`);
+    return Object.freeze(x.map((t, i) => { if (!t || !Array.isArray(t.k) || t.k.length !== n || !t.k.every((v) => Number.isInteger(v))) throw new TypeError(`ss-tier: ${what}[${i}].k is ${n} integers`); return Object.freeze({ k: Object.freeze(t.k.slice()), sin: finite(t.sin === undefined ? 0 : t.sin, `${what}[${i}].sin`), cos: finite(t.cos === undefined ? 0 : t.cos, `${what}[${i}].cos`) }); }));
+  }
+  /** Σ sin·sin(arg) + cos·cos(arg), arg = Σ k_i L_i, with the text's sine (degrees). */
+  const termSum = (terms, L) => { let s = 0; for (const t of terms) { let a = 0; for (let i = 0; i < t.k.length; i++) if (t.k[i]) a += t.k[i] * L[i]; s += t.sin * sinD(a) + t.cos * cosD(a); } return s; };
   const BIJA_KEYS = Object.freeze(["sunMean", "sunApogee", "moonMean", "moonApogee", "node"]);                                   // {epochDeg, ratePerCentury} on a mean
-  const MEASURED_KEYS = Object.freeze([...AMPLITUDE_KEYS, ...BIJA_KEYS, "planets"]);
+  const MEASURED_KEYS = Object.freeze([...AMPLITUDE_KEYS, ...BIJA_KEYS, ...TERM_KEYS, "planets"]);
   const PLANET_EN = Object.freeze({ mangala: "mars", budha: "mercury", guru: "jupiter", shukra: "venus", shani: "saturn" });
   const PLANET_PARTS = Object.freeze(["mean", "sighrocca", "mandocca", "node"]), PLANET_SCALARS = Object.freeze(["mandaScale", "sighraScale", "manda2", "radialOwn", "radialSun", "latScale", "lat2"]);
-  const PLANET_FORMS = Object.freeze(["text", "nilakantha"]), PLANET_FIELDS = Object.freeze([...PLANET_PARTS, ...PLANET_SCALARS, "form", "series", "radial"]);
+  const PLANET_FORMS = Object.freeze(["text", "nilakantha"]), PLANET_FIELDS = Object.freeze([...PLANET_PARTS, ...PLANET_SCALARS, "form", "series", "radial", "terms"]);
   const DEFAULT_CANDIDATE = "kerala+all+bija";                                                      // the Kerala tier's default (owner, 2026-10-12)
   const cosD = (x) => S.jya(x + 90) / S.R;
   const centuriesOf = (t) => (Number(t) + KALI_JD0 - LANKA_OFFSET - 2451545) / 36525;          // Julian centuries from J2000 at the text's day count
@@ -271,6 +280,7 @@
       o.form = v.form === undefined ? "text" : v.form; if (!PLANET_FORMS.includes(o.form)) throw new RangeError(`ss-tier: measured.planets.${g}.form is "text" or "nilakantha"`);
       o.series = Object.freeze([0, 1, 2].map((i) => finite(v.series && v.series[i] !== undefined ? v.series[i] : 0, `measured.planets.${g}.series[${i}]`)));
       o.radial = Object.freeze([0, 1].map((i) => finite(v.radial && v.radial[i] !== undefined ? v.radial[i] : 0, `measured.planets.${g}.radial[${i}]`)));
+      o.terms = termsOf(v.terms, PLANET_BASIS.length, `measured.planets.${g}.terms`);
       out[g] = Object.freeze(o);
     }
     return Object.keys(out).length ? Object.freeze(out) : null;
@@ -284,6 +294,7 @@
       if (!MEASURED_KEYS.includes(k)) throw new RangeError(`ss-tier: unknown measured form "${k}" (${MEASURED_KEYS.join(", ")})`);
       if (k === "planets") { const p = planetsOf(x[k]); if (p) out.planets = p; continue; }
       if (BIJA_KEYS.includes(k)) { if (x[k] !== undefined && x[k] !== null) out[k] = bijaOf(x[k], `measured.${k}`); continue; }
+      if (TERM_KEYS.includes(k)) { const t = termsOf(x[k], MOON_BASIS.length, `measured.${k}`); if (t.length) out[k] = t; continue; }
       out[k] = finite(x[k], `measured.${k}`);
     }
     return Object.keys(out).length ? Object.freeze(out) : null;
@@ -295,7 +306,7 @@
     if (!c) throw new RangeError(`ss-tier: the measurement record has no candidate "${candidate}"`);
     const bodies = record.measured.planets && record.measured.planets.bodies;
     const planets = c.planets && bodies ? Object.fromEntries(Object.entries(bodies).map(([g, b]) => [g, Object.fromEntries(PLANET_FIELDS.filter((k) => b[k] !== undefined && (k !== "form" || PLANET_FORMS.includes(b[k]))).map((k) => [k, b[k]]))])) : undefined;
-    return measuredOf({ ...(c.moonFit ? c.moonFit.amplitudes : {}), ...(c.sunFit ? c.sunFit.amplitudes : {}), ...(c.latFit ? c.latFit.amplitudes : {}), ...(c.nodeFit ? c.nodeFit.amplitudes : {}), ...(c.bija || {}), ...(planets ? { planets } : {}) });
+    return measuredOf({ ...(c.moonFit ? c.moonFit.amplitudes : {}), ...(c.sunFit ? c.sunFit.amplitudes : {}), ...(c.latFit ? c.latFit.amplitudes : {}), ...(c.nodeFit ? c.nodeFit.amplitudes : {}), ...(c.bija || {}), ...(c.moonTermsFit ? { moonTerms: c.moonTermsFit.terms } : {}), ...(planets ? { planets } : {}) });
   }
   let measuredLoaded = null;
   /** Give the tier the measurement record (corpus/research/parampara-apply.json, or an object carrying its `measured` block): the
@@ -329,7 +340,12 @@
       // text's śīghra then from the true Sun; the epicycle's size varying with the planet's and the Earth's distances [measured].
       // the centre is the tier's true Sun, carrying the bīja of the Sun's role (the mean for Mercury and Venus, the śīghrocca for the outer three)
       const helioMean = p.inner ? m.sighrocca : m.mean, centre = sun ? shiftBy(sun.lambda, p.inner ? bija.mean : bija.sighrocca, T) : (p.inner ? m.mean : m.sighrocca), sr = bija.series, rd = bija.radial;
-      const mu = mod(helioMean - m.mandocca, 360), eq = sr[0] * sinD(mu) + sr[1] * sinD(2 * mu) + sr[2] * sinD(3 * mu), helio = mod(helioMean + eq, 360), nu = mod(mu + eq, 360);
+      const mu = mod(helioMean - m.mandocca, 360), eq = sr[0] * sinD(mu) + sr[1] * sinD(2 * mu) + sr[2] * sinD(3 * mu), nu = mod(mu + eq, 360);
+      let helio = mod(helioMean + eq, 360);
+      if (bija.terms && bija.terms.length) {                                       // the measured terms on the heliocentric place: arguments from the means of all six bodies
+        const all = G.meanPlaces(daysOfJd(jd));
+        helio = mod(helio + termSum(bija.terms, [all.mercury.sighrocca, all.venus.sighrocca, all.sun, all.mars.mean, all.jupiter.mean, all.saturn.mean]), 360);
+      }
       const rfac = 1 + rd[0] * cosD(nu) + rd[1] * cosD(2 * nu), SP = sighraPair(rfac * sunRadial);
       const sg = p.inner ? G.sighra(mod(helio - centre, 360), SP) : G.sighra(mod(centre - helio, 360), SP), longitude = mod((p.inner ? centre : helio) + sg.degrees, 360);
       // the latitude: the text's 2.56-2.57 form on the heliocentric argument (helio − node) for every graha, the node with its bīja, the text's
@@ -383,8 +399,10 @@
       let moonLatitude = S.jya(moon - m.node) * S.MOON_MAX_LATITUDE_ARCMIN / S.R / 60;   // 2.57, degrees
       let rahuTrue = m.node;
       if (measured) {
-        const F = moon - m.node, D = m.moon - m.sun, g = m.moon - m.moonApogee, gp = m.sun - m.sunApogee, SF = sun - m.node;
-        moonLatitude = moonLatitude * (1 + (measured.moonLatScale || 0)) + (measured.moonLat2DmF || 0) * sinD(2 * D - F) + (measured.moonLatGpF || 0) * sinD(g + F) + (measured.moonLatGmF || 0) * sinD(g - F)
+        const D = m.moon - m.sun, g = m.moon - m.moonApogee, gp = m.sun - m.sunApogee, SF = sun - m.node;
+        if (measured.moonTerms) { const dT = termSum(measured.moonTerms, [D, g, gp, moon - m.node]); moon = mod(moon + dT, 360); forms.moonTerms = dT; }
+        const F = moon - m.node;
+        moonLatitude = S.jya(moon - m.node) * S.MOON_MAX_LATITUDE_ARCMIN / S.R / 60 * (1 + (measured.moonLatScale || 0)) + (measured.moonLat2DmF || 0) * sinD(2 * D - F) + (measured.moonLatGpF || 0) * sinD(g + F) + (measured.moonLatGmF || 0) * sinD(g - F)
           + (measured.moonLat2DpF || 0) * sinD(2 * D + F) + (measured.moonLat2DmGmF || 0) * sinD(2 * D - g - F) + (measured.moonLat2DmGpF || 0) * sinD(2 * D - g + F);
         rahuTrue = mod(m.node + (measured.nodeTrue2SF || 0) * sinD(2 * SF) + (measured.nodeTrueG || 0) * sinD(g) + (measured.nodeTrueGp || 0) * sinD(gp) + (measured.nodeTrue2G || 0) * sinD(2 * g) + (measured.nodeTrue2SFmG || 0) * sinD(2 * SF - g), 360);
       }
@@ -431,7 +449,7 @@
       latitudeDeg[key] = planets[en].latitude / 60;
       mean[key] = { mean: means[en].mean, sighrocca: means[en].sighrocca, mandocca: means[en].mandocca, node: means[en].node };
     }
-    out.rahu = p.rahu; out.ketu = p.ketu; out.rahuTrue = p.rahuTrue; out.ketuTrue = p.ketuTrue;   // the true node: the mean node with the measured forms (the plain tiers: the mean)
+    out.rahu = p.rahu; out.ketu = p.ketu; out.rahuTrue = p.rahuTrue === undefined ? p.rahu : p.rahuTrue; out.ketuTrue = p.ketuTrue === undefined ? p.ketu : p.ketuTrue;   // the true node: the mean node with the measured forms (the plain tiers: the mean)
     out.latitudeDeg = latitudeDeg; out.mean = mean; out.sun = p.equations.sun; out.moon = p.equations.moon; out.planets = planets; out.measuredForms = p.measured || null;
     T.last = { t, g: Object.freeze(out) };
     return T.last.g;
@@ -650,7 +668,7 @@
   }
 
   return Object.freeze({
-    MERIDIAN_DEG, KALI_JD0, LANKA_OFFSET, SPAN_YEARS, EPSILON_DEG, SAMSKARAS, DEFAULT_SAMSKARA, SUNRISE_DAY, MEASURED_KEYS, AMPLITUDE_KEYS, BIJA_KEYS, DEFAULT_CANDIDATE, BIJA_SPAN_CENTURIES, measuredOf, measuredFromRecord, planetWithBija, placesOf, centuriesOf, useMeasured, measuredRecord,
+    MERIDIAN_DEG, KALI_JD0, LANKA_OFFSET, SPAN_YEARS, EPSILON_DEG, SAMSKARAS, DEFAULT_SAMSKARA, SUNRISE_DAY, MEASURED_KEYS, AMPLITUDE_KEYS, BIJA_KEYS, TERM_KEYS, MOON_BASIS, PLANET_BASIS, DEFAULT_CANDIDATE, BIJA_SPAN_CENTURIES, measuredOf, measuredFromRecord, planetWithBija, placesOf, centuriesOf, useMeasured, measuredRecord,
     daysOfJd, jdOfDays, spandasOfJd, meanAtDays, siteOf, useParampara, correction, label,
     calendar: (opts) => T_(opts).calendar, places: (t, opts) => T_(opts).places(t), ayanamshaAt: (t, opts) => T_(opts).ayanamsha(t), dasha: (opts) => T_(opts).dasha, utsava: (opts) => T_(opts).utsava, muhurta: (opts) => T_(opts).muhurta,
     model: (opts) => { const T = T_(opts); if (!T.correction) return null; const SK = samskaraModule ? samskaraModule() : null; if (!SK) throw new Error("ss-tier: the model needs samskara.js loaded"); return modelOf(T, SK); },

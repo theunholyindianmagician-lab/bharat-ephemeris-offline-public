@@ -774,6 +774,21 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
   /** The ayanāṃśa a tier applies — the one function every frame of the tier uses, so the displayed value is the applied
    *  value: 'ss+parameshvara'/'ss' → SS 3.9-3.10 (sphuta.js through ss-tier.js); 'drik' → the true Citrā-pakṣa value
    *  (siddhanta-tier.js: mean + Δψ), refused outside its span. → { deg, meanDeg?, name, source, rateArcsecPerYear }. */
+  /** The true node of a tier at jd (sidereal degrees): the dṛk tier by the crossing method on its own Moon (siddhanta-tier.js
+   *  trueNode: the latitude's zero crossings bisected, the node linear between them; null outside its span); the Kerala tier
+   *  its measured true node (rahuTrue: the mean node with the forms fitted at the dṛk Moon's crossings); the plain text tiers
+   *  the mean node (the text has no other). Returns { tier, jd, rahu, ketu, mean, method }. */
+  function tierTrueNode(jd, tier = "ss") {
+    requireFinite(jd, "Julian day");
+    const id = resolveTier(tier);
+    if (TIERS[id].family === "drik") {
+      drikGuard(jd, "the true node");
+      const n = drikCall(sdFn("trueNode")(jd), jd, "the true node");
+      return { tier: id, jd, rahu: n.ascending, ketu: n.descending, mean: drikRows(jd, {}).rahu.longitude, method: n.method, crossings: n.crossings };
+    }
+    const g = textGrahas(jd, TIERS[id].samskara);
+    return { tier: id, jd, rahu: g.rahuTrue, ketu: g.ketuTrue, mean: g.rahu, method: g.rahuTrue === g.rahu ? "the text's mean node (no true node in the text)" : "the mean node with the measured forms of the Kerala tier (ss-tier.js, measured at the dṛk Moon's latitude crossings)" };
+  }
   function tierAyanamsha(jd, tier) {
     requireFinite(jd, "Julian day");
     const id = resolveTier(tier);
@@ -7477,7 +7492,7 @@ function quantumBijaCorrection(graha, t) {
     pageTier,
     TierSpanError,
     tierInSpan,
-    tierAyanamsha,
+    tierAyanamsha, tierTrueNode,
     tierGrahaRows,
     tierDay,
     tierMeridian,

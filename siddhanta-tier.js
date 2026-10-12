@@ -670,6 +670,30 @@
     eclipsesMeasured: "1900–2100: 457 lunar and 452 solar eclipses, one-to-one with Astronomy Engine's searches, none missing or extra; peaks within 9 s (its Moon is ≈ 6″ from DE440); fed Astronomy Engine's own Sun, Moon and constants, this geometry reproduces its search within 1 s; on VSOP87B + ELP/MPP02 within 0.8 s (2000–2030) — drik-bharatiya.test.js",
   });
 
+  /** The true node by the crossing method, on this tier's own Moon: its latitude (sunMoon) is bracketed for a sign change
+   *  on each side of jd (a day at a time, within ±20 d — a crossing comes every 13.6 d), each bracket bisected to 1e-7 d;
+   *  the node at a crossing is the Moon's sidereal longitude there (+180° at a descending one — the descending node is the
+   *  ascending node + 180°); between the two crossings the node moves linearly in time. No series is typed: the node is read
+   *  where the Moon actually crosses the ecliptic. Returns { jd, ascending, descending, crossings: [{ jd, kind, node }],
+   *  method }, sidereal degrees; null outside the span (a crossing bracket that leaves the span returns null). ~90 Moon
+   *  evaluations: call it when the true node is wanted, not for every row. */
+  const trueNode = guarded(function (jd, opts) {
+    requireFinite(jd, "trueNode", "the Julian day");
+    const o = optsOf(opts), lat = (x) => { const m = sunMoon(x, o); return m ? m.moonLat : null; }, lon = (x) => sunMoon(x, o).moonSid;
+    const cross = (dir) => {                                                     // the nearest crossing in direction dir (±1)
+      let a = jd, fa = lat(a); if (fa === null) return null;
+      for (let d = 1; d <= 20; d++) { const b = jd + dir * d, fb = lat(b); if (fb === null) return null;
+        if (Math.sign(fa) !== Math.sign(fb) || fb === 0) { let lo = Math.min(a, b), hi = Math.max(a, b), flo = lat(lo);
+          for (let k = 0; k < 40 && hi - lo > 1e-7; k++) { const mid = (lo + hi) / 2, fm = lat(mid); if (Math.sign(fm) === Math.sign(flo)) { lo = mid; flo = fm; } else hi = mid; }
+          const t = (lo + hi) / 2, ascending = lat(t + 1e-4) > lat(t - 1e-4), L = lon(t); return { jd: t, kind: ascending ? "ascending" : "descending", node: n360(ascending ? L : L + 180) }; }
+        a = b; fa = fb; }
+      return null;
+    };
+    const before = cross(-1), after = cross(+1); if (!before || !after) return null;
+    const dn = ((after.node - before.node + 540) % 360) - 180, f = after.jd === before.jd ? 0 : (jd - before.jd) / (after.jd - before.jd);
+    const ascending = n360(before.node + dn * f);
+    return { jd, ascending, descending: n360(ascending + 180), crossings: [before, after], method: "the Moon's latitude crossings bisected to 1e-7 d, the node linear between them (siddhanta-tier.js trueNode)" };
+  });
   function series() { const SD = getSD(); return SD ? SD.series : null; }
   root.SiddhantaTier = {
     available: () => Boolean(getSD()),
@@ -678,7 +702,7 @@
     spanJdUT, inSpan, inSpanTT, deltaTSeconds, utOfTT,
     // jdTTofUT(jd): the TT Julian day of a UT one (ΔT above); no options; TypeError when jd is not a finite number
     jdTTofUT: (jd) => requireFinite(jd, "jdTTofUT", "the Julian day (UT)") + deltaTSeconds(jd) / 86400,
-    ayanamsha, tropicalGrahas, grahas, sun, sunMoon, gast, lagna, riseSet, sunEvents, moonEvents,
+    ayanamsha, tropicalGrahas, grahas, sun, sunMoon, trueNode, gast, lagna, riseSet, sunEvents, moonEvents,
     syzygy, sankrantisBetween, lunarMonth, table, eclipses,
     eclipseKernel: ECLIPSE_KERNEL,
     series, bhaganas: () => { const S = series(); return S ? S.bhaganas : null; },

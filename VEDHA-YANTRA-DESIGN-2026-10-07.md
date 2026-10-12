@@ -1817,6 +1817,30 @@ The owner asked for the planets' latitudes to be corrected the same way, and wha
 
 **Said plainly.** The forms of the Moon's latitude series and the node's series have no Indian source and are tagged [standard form, measured amplitude]; the latitude's heliocentric argument is Nīlakaṇṭha's placement carried through [paramparā, unverified here]; the node bīja and the scale are the paramparā's forms. The manifest was rerun so its hash of the record is the committed one (the calendar itself does not depend on latitudes or the node). Left: the dṛk tier's own true node (it would need the same crossing method at run time, or the series typed — neither is this repository's way); the planets' 4–7′ in longitude, which is the mutual perturbations (the Jupiter–Saturn great inequality among them) that no single-planet form reaches.
 
+### 24.18 The dṛk tier's own true node, the measured terms, and the Tantrasaṅgraha (2026-10-12, the owner's fifth ask)
+
+**The Tantrasaṅgraha and Nīlakaṇṭha in the library.** Nīlakaṇṭha is in the library already: his Jyotirmīmāṃsā (source JM, the 1977 edition, nine records) and his bhāṣya on the Āryabhaṭīya (ABh1931). The Tantrasaṅgraha is not, and could not be brought in from here: the session's network policy denies archive.org (where a scan is listed), sa.wikisource.org and GRETIL, so no e-text was reachable. What was done: the registry now carries the Tantrasaṅgraha as source `TS` (the 1977 Sarma edition with the Laghuvivṛti and Yuktidīpikā; the 2011 Ramasubramanian–Sriram translation), marked NOT HELD, and the record `NIL-tantrasangraha-planets`, an owner-statement awaiting its edition, with the planetary form the engine uses and no verse quoted. The owner supplies the text; the record then takes its verses and the engine's `[unverified here]` tags on Nīlakaṇṭha's placement fall. Nothing was invented to fill the gap.
+
+**The dṛk tier's own true node.** `siddhanta-tier.js trueNode(jd)`: the tier's own Moon latitude is bracketed for a sign change on each side of the instant (a day at a time; a crossing comes every 13.6 days), each bracket bisected to 10⁻⁷ day, the node read as the Moon's sidereal longitude at the crossing (+180° at a descending one), and the node at the instant linear in time between the two crossings. No series is typed: the node is where the Moon crosses the ecliptic. About 90 Moon evaluations, 0.4 s; it is served through `math-core tierTrueNode(jd, tier)`, which gives the Kerala tier its measured true node and the text tiers their mean. At the found crossings the latitude is zero to 10⁻⁶° (tested); the Kerala tier's measured true node stands within the record's 14.5′ rms of it (tested at six dates). The research page shows both at the page's date.
+
+**The measured terms — what the remaining minutes were.** The residuals after every form above were scanned for integer arguments of the mean longitudes: for the Moon on D, g, g′, F (|k| up to 4, 3, 2, 2; F even), for each planet on the six mean longitudes (its own, its perturbers' and the Sun's; |k| ≤ 5, total order ≤ 8). The scan is greedy — the argument whose sine–cosine pair takes most of the residual, a joint refit, repeat — with the tier's own rates as the period filter (5 days to 60 years: slower terms are the bounded bīja's over 1900–2100), kept while a term exceeds the threshold and the rms still falls; the kept amplitudes are then fitted jointly through the tier. They enter the tier as generic terms (`measured.moonTerms`, `measured.planets[g].terms`), the planets' on the heliocentric place before the śīghra.
+
+**The result** (rms 1900–2100 against the dṛk tier; the Moon tropical, the planets sidereal):
+
+| body | after §24.15–24.17 | with the measured terms | terms kept |
+|---|---|---|---|
+| Moon | 2.88′ | 0.53′ | 10 |
+| Moon − Sun (tithi end) | 2.90′ (5.7 min) | 0.65′ (1.3 min) | |
+| Mercury | 4.21′ | 3.33′ | 10 |
+| Venus | 5.58′ | 2.60′ | 10 |
+| Mars | 7.13′ | 4.09′ | 4 |
+| Jupiter | 4.17′ | 3.10′ | 1 |
+| Saturn | 5.30′ | 0.92′ | 9 |
+
+The Moon's ten terms, in order of what they took: +2D+-1g+-1g′ 3.42′, +1g+1g′ 1.82′, +2D+-2F 0.93′, +1g+2F 0.74′, +4D+-1g 0.63′, +1g+-2F 0.62′, +4D+-2g 0.51′, +2D+-1g+1g′ 0.47′, +2D+1g′ 0.39′, +1D+-1g 0.31′. The planets' terms are in the record per graha with their arguments on (Me, V, E, Ma, J, Sa).
+
+**Said plainly.** The Moon's first terms are the sky's own (its 0.057° sin(2D − g − g′) and 0.031° sin(g + g′)); the planets' terms are what the Earth–planet geometry and the mutual perturbations leave in this model over this span, measured and tagged [standard form, measured amplitude]; Jupiter keeps 3′ because its great inequality with Saturn (883 years) is not a 200-year term. The Sun's last 0.4′ was left: the only candidates were a third harmonic of its own argument and a term in Venus and Jupiter at 0.2′, below what the frame comparison can vouch for.
+
 ## Appendix A. The three designs and the three judges
 
 | Design | Fidelity lens | Honesty lens | Reachability lens | Sum |

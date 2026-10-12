@@ -6,7 +6,7 @@ which the time ladder and names were built."*
 
 | file | format | what it holds | made by |
 |---|---|---|---|
-| `registry.json` | `parampara/1` | 59 records: dated observations, determinations, rules, doctrine and instrument operations of the tradition that a local text or e-text states, and the owner's attributions to texts that are not local | hand, from the verified research of 2026-10-08; `--stamp` writes each record's `sha256` |
+| `registry.json` | `parampara/1` | 60 records: dated observations, determinations, rules, doctrine and instrument operations of the tradition that a local text or e-text states, and the owner's attributions to texts that are not local | hand, from the verified research of 2026-10-08; `--stamp` writes each record's `sha256` |
 | `samskara.json` | `parampara-samskara/1` | Parameśvara's saṃskāra: the correction the fit yields from the JM eclipse rows, its σ, the sensitivity to a man's height in padas, the leave-one-out test, and the label | `node scripts/parampara-samskara.cjs --write` (never by hand) |
 | `graha.json` | `graha-names/1` | the grahas' naming layer from the BPHS: colours, deities, avatāras, iconography, mantra pratīkas, japa counts, time measures, seasons; the Navagraha Stotra as an owner-statement awaiting an edition | hand |
 | `etext-lines.json` | `parampara-etext-lines/1` | only what the registries quote from the e-texts (never the e-texts), with each line's SHA-256 | `node scripts/parampara-samskara.cjs --etext-lines DIR` |
