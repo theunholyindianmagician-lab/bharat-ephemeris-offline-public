@@ -87,7 +87,7 @@ const TIERS = Object.freeze({
     role: "the text tier's third choice, the Kerala paramparā (owner, 2026-10-09)",
     samskara: Object.freeze({ corrects: KERALA.corrects, epochKali: KERALA.epochKali, julian: KERALA.julian, rule: KERALA.rule,
       record: 'parahita-madhyama.js and corpus/parampara/registry.json (' + KERALA.records.join(', ') + '), through ss-tier.js' }),
-    modules: Object.freeze(['ss-tier.js', 'parahita-madhyama.js', 'parampara.js', 'corpus/parampara/registry.json']),
+    modules: Object.freeze(['ss-tier.js', 'parahita-madhyama.js', 'parampara.js', 'corpus/parampara/registry.json', 'corpus/research/parampara-apply.json']),
   }),
 });
 const DEFAULT_TIER = 'ss+parameshvara';

@@ -40,12 +40,13 @@
       require("./ss-chaya.js"), require("./ss-grahana.js"), require("./ss-ahargana.js"), require("./panchanga.js"), require("./dasha.js"), require("./muhurta.js"),
       require("./utsava.js"), require("./parampara.js"),
       () => ({ registry: require("./corpus/parampara/registry.json"), samskara: require("./corpus/parampara/samskara.json") }),
-      () => require("./samskara.js"), () => require("./parahita-madhyama.js"));
+      () => require("./samskara.js"), () => require("./parahita-madhyama.js"), () => require("./corpus/research/parampara-apply.json"));
   } else {
     root.SSTier = factory(root.KalaDvara, root.Sphuta, root.Dhruva, root.SSUdaya, root.SSGraha, root.SSChaya, root.SSGrahana, root.SSAhargana, root.Panchanga,
-      root.Dasha, root.Muhurta, root.Utsava, root.Parampara, null, () => root.Samskara || null, () => root.ParahitaMadhyama || null);
+      root.Dasha, root.Muhurta, root.Utsava, root.Parampara, null, () => root.Samskara || null, () => root.ParahitaMadhyama || null,
+      () => (root.ParamparaRecord && root.ParamparaRecord.measured ? { measured: root.ParamparaRecord.measured } : null));
   }
-})(typeof globalThis !== "undefined" ? globalThis : this, function ssTierOf(K, S, D, U, G, C, GH, A, P, DA, MU, UT, PA, nodeCorpus, samskaraModule, parahitaModule) {
+})(typeof globalThis !== "undefined" ? globalThis : this, function ssTierOf(K, S, D, U, G, C, GH, A, P, DA, MU, UT, PA, nodeCorpus, samskaraModule, parahitaModule, measuredModule) {
   "use strict";
   const need = { KalaDvara: K, Sphuta: S, Dhruva: D, SSUdaya: U, SSGraha: G, SSChaya: C, SSGrahana: GH, SSAhargana: A, Panchanga: P, Dasha: DA, Muhurta: MU, Utsava: UT };
   for (const [name, mod] of Object.entries(need)) if (!mod) throw new Error(`ss-tier: ${name} must be loaded before ss-tier.js`);
@@ -240,16 +241,22 @@
   // epicycles. No amplitude is typed here: the caller passes them from corpus/research/parampara-apply.json (`measured`), where
   // scripts/parampara-apply.cjs fitted them by least squares against the dṛk tier over 1900–2100 and recorded their provenance.
   // ── the measured forms (the Kerala tier's option): every number comes from corpus/research/parampara-apply.json [measured] ──
-  const AMPLITUDE_KEYS = Object.freeze(["dvitiya", "variation", "annual", "moonManda", "sunManda", "moonManda2", "reduction"]);   // deg, deg, deg, scale, scale, deg, deg
+  const AMPLITUDE_KEYS = Object.freeze(["dvitiya", "variation", "annual", "moonManda", "sunManda", "moonManda2", "reduction", "moonD", "moon2D2g", "moon2Dg", "moon2Dgp", "moonGgp", "sunManda2"]);   // degrees, except the two scales
   const BIJA_KEYS = Object.freeze(["sunMean", "sunApogee", "moonMean", "moonApogee", "node"]);                                   // {epochDeg, ratePerCentury} on a mean
   const MEASURED_KEYS = Object.freeze([...AMPLITUDE_KEYS, ...BIJA_KEYS, "planets"]);
   const PLANET_EN = Object.freeze({ mangala: "mars", budha: "mercury", guru: "jupiter", shukra: "venus", shani: "saturn" });
-  const PLANET_PARTS = Object.freeze(["mean", "sighrocca", "mandocca"]), PLANET_SCALARS = Object.freeze(["mandaScale", "sighraScale", "manda2"]);
+  const PLANET_PARTS = Object.freeze(["mean", "sighrocca", "mandocca"]), PLANET_SCALARS = Object.freeze(["mandaScale", "sighraScale", "manda2", "radialOwn", "radialSun"]);
+  const PLANET_FORMS = Object.freeze(["text", "nilakantha"]), PLANET_FIELDS = Object.freeze([...PLANET_PARTS, ...PLANET_SCALARS, "form", "series", "radial"]);
+  const DEFAULT_CANDIDATE = "kerala+all+bija";                                                      // the Kerala tier's default (owner, 2026-10-12)
+  const cosD = (x) => S.jya(x + 90) / S.R;
   const centuriesOf = (t) => (Number(t) + KALI_JD0 - LANKA_OFFSET - 2451545) / 36525;          // Julian centuries from J2000 at the text's day count
   const finite = (n, what) => { if (typeof n !== "number" || !Number.isFinite(n)) throw new TypeError(`ss-tier: ${what} must be a finite number`); return n; };
   /** A bīja on a mean: an epoch (degrees) and a rate (degrees a Julian century from J2000); absent fields are 0. */
   const bijaOf = (q, what) => { if (q === null || typeof q !== "object") throw new TypeError(`ss-tier: ${what} is {epochDeg, ratePerCentury}`); return Object.freeze({ epochDeg: finite(q.epochDeg === undefined ? 0 : q.epochDeg, `${what}.epochDeg`), ratePerCentury: finite(q.ratePerCentury === undefined ? 0 : q.ratePerCentury, `${what}.ratePerCentury`) }); };
-  const shiftBy = (v, b, T) => (b ? mod(v + (b.epochDeg || 0) + (b.ratePerCentury || 0) * T, 360) : v);
+  /** A bīja is an epoch-bound correction: its rate is measured on 1900-2100 and HELD at the edge of ±5 Julian centuries from J2000
+   *  (1500-2500); beyond, the shift is the edge's constant (continuous), never a linear extrapolation over the 100,000-year span. */
+  const BIJA_SPAN_CENTURIES = 5, bijaT = (T) => Math.max(-BIJA_SPAN_CENTURIES, Math.min(BIJA_SPAN_CENTURIES, T));
+  const shiftBy = (v, b, T) => (b ? mod(v + (b.epochDeg || 0) + (b.ratePerCentury || 0) * bijaT(T), 360) : v);
   /** The planets' bīja: per graha, a bīja on the mean, the śīghrocca and the mandocca, a scale on each epicycle, and a second manda harmonic (degrees). */
   function planetsOf(x) {
     if (x === undefined || x === null) return null;
@@ -259,13 +266,16 @@
       if (!PLANET_EN[g]) throw new RangeError(`ss-tier: unknown graha "${g}" in measured.planets`);
       const o = {}; for (const part of PLANET_PARTS) o[part] = bijaOf(v[part] || {}, `measured.planets.${g}.${part}`);
       for (const k of PLANET_SCALARS) o[k] = finite(v[k] === undefined ? 0 : v[k], `measured.planets.${g}.${k}`);
+      o.form = v.form === undefined ? "text" : v.form; if (!PLANET_FORMS.includes(o.form)) throw new RangeError(`ss-tier: measured.planets.${g}.form is "text" or "nilakantha"`);
+      o.series = Object.freeze([0, 1, 2].map((i) => finite(v.series && v.series[i] !== undefined ? v.series[i] : 0, `measured.planets.${g}.series[${i}]`)));
+      o.radial = Object.freeze([0, 1].map((i) => finite(v.radial && v.radial[i] !== undefined ? v.radial[i] : 0, `measured.planets.${g}.radial[${i}]`)));
       out[g] = Object.freeze(o);
     }
     return Object.keys(out).length ? Object.freeze(out) : null;
   }
   const sinD = (x) => S.jya(x) / S.R;                                               // the text's own sine (2.15-2.22), as everywhere in the tier
   function measuredOf(x) {
-    if (x === undefined || x === null) return null;
+    if (x === undefined || x === null || x === false) return null;
     if (typeof x !== "object") throw new TypeError("ss-tier: opts.measured is an object of amplitudes from the measurement record");
     const out = {};
     for (const k of Object.keys(x)) {
@@ -282,23 +292,57 @@
     const c = record && record.measured && record.measured.candidates && record.measured.candidates[candidate];
     if (!c) throw new RangeError(`ss-tier: the measurement record has no candidate "${candidate}"`);
     const bodies = record.measured.planets && record.measured.planets.bodies;
-    const planets = c.planets && bodies ? Object.fromEntries(Object.entries(bodies).map(([g, b]) => [g, Object.fromEntries([...PLANET_PARTS, ...PLANET_SCALARS].filter((k) => b[k] !== undefined).map((k) => [k, b[k]]))])) : undefined;
+    const planets = c.planets && bodies ? Object.fromEntries(Object.entries(bodies).map(([g, b]) => [g, Object.fromEntries(PLANET_FIELDS.filter((k) => b[k] !== undefined && (k !== "form" || PLANET_FORMS.includes(b[k]))).map((k) => [k, b[k]]))])) : undefined;
     return measuredOf({ ...(c.moonFit ? c.moonFit.amplitudes : {}), ...(c.sunFit ? c.sunFit.amplitudes : {}), ...(c.bija || {}), ...(planets ? { planets } : {}) });
   }
+  let measuredLoaded = null;
+  /** Give the tier the measurement record (corpus/research/parampara-apply.json, or an object carrying its `measured` block): the
+   *  browser's way; parampara-record.js carries the block and calls this. Node reads the file. */
+  function useMeasured(record) {
+    if (!record || !record.measured || !record.measured.candidates) throw new TypeError("ss-tier: useMeasured takes corpus/research/parampara-apply.json (or an object with its `measured` block)");
+    measuredLoaded = record; tiers.clear();
+    return record;
+  }
+  function measuredRecord() {
+    if (measuredLoaded) return measuredLoaded;
+    const m = measuredModule ? measuredModule() : null;
+    if (m) return (measuredLoaded = m);
+    throw new Error("ss-tier: the Kerala tier's default is the joint measurement (corpus/research/parampara-apply.json → measured, candidate " + DEFAULT_CANDIDATE +
+      ") — load the record and call SSTier.useMeasured(record) first (parampara-record.js carries it), or ask for the plain tier with { samskara: 'kerala', measured: false }");
+  }
+  /** The Kerala tier's default measured option: the joint candidate of the record. */
+  const defaultMeasured = () => measuredFromRecord(measuredRecord(), DEFAULT_CANDIDATE);
   /** The text's four steps (ss-graha fourSteps, 2.43-2.44, 2.56-2.57), the same arithmetic, on means shifted by a graha's bīja, with
    *  each epicycle scaled by (1 + scale) and a second manda harmonic manda2·sin 2(mandocca − place) at the third step [measured].
    *  With a zero bīja it is fourSteps to the last digit (measured-samskara.test.js). */
-  function planetWithBija(en, means, bija, jd) {
+  /** sun: { lambda, anomaly } — the tier's true Sun (sidereal) and its mean anomaly (mean − apogee), for the Nīlakaṇṭha form's centre
+   *  and for the radial variation with the Earth's distance; absent, the text's mean Sun stands and the Sun's radial term is 0. */
+  function planetWithBija(en, means, bija, jd, sun) {
     const T = (jd - 2451545) / 36525, p = G.PLANETS[en];
     const m = { ...means, mean: shiftBy(means.mean, bija.mean, T), sighrocca: shiftBy(means.sighrocca, bija.sighrocca, T), mandocca: shiftBy(means.mandocca, bija.mandocca, T) };
-    const MP = p.manda.map((x) => x * (1 + (bija.mandaScale || 0))), SP = p.sighra.map((x) => x * (1 + (bija.sighraScale || 0))), h2 = bija.manda2 || 0;
+    const sunRadial = sun ? 1 + (bija.radialSun || 0) * cosD(sun.anomaly) : 1, sighraPair = (radial) => p.sighra.map((x) => x * (1 + (bija.sighraScale || 0)) * radial);
+    if (bija.form === "nilakantha") {
+      // Nīlakaṇṭha's placement (Tantrasaṅgraha, 1500 [paramparā; not in this library's editions — unverified here]): the manda on the planet's
+      // own heliocentric mean (the śīghrocca for Mercury and Venus, the mean for the outer three) as a measured series in its anomaly; the
+      // text's śīghra then from the true Sun; the epicycle's size varying with the planet's and the Earth's distances [measured].
+      // the centre is the tier's true Sun, carrying the bīja of the Sun's role (the mean for Mercury and Venus, the śīghrocca for the outer three)
+      const helioMean = p.inner ? m.sighrocca : m.mean, centre = sun ? shiftBy(sun.lambda, p.inner ? bija.mean : bija.sighrocca, T) : (p.inner ? m.mean : m.sighrocca), sr = bija.series, rd = bija.radial;
+      const mu = mod(helioMean - m.mandocca, 360), eq = sr[0] * sinD(mu) + sr[1] * sinD(2 * mu) + sr[2] * sinD(3 * mu), helio = mod(helioMean + eq, 360), nu = mod(mu + eq, 360);
+      const SP = sighraPair((1 + rd[0] * cosD(nu) + rd[1] * cosD(2 * nu)) * sunRadial);
+      const sg = p.inner ? G.sighra(mod(helio - centre, 360), SP) : G.sighra(mod(centre - helio, 360), SP), longitude = mod((p.inner ? centre : helio) + sg.degrees, 360);
+      const argument = mod((p.inner ? helio : longitude) - m.node, 360), latitude = S.jya(argument) * p.lat / sg.karna;
+      return { longitude, latitude, mandaTrue: helio, steps: [helio, longitude], equations: { manda: eq, sighra: sg }, sighraKendra: sg.kendra, karna: sg.karna, node: m.node, latitudeArgument: argument, measuredMeans: m, form: "nilakantha" };
+    }
+    const MP = p.manda.map((x) => x * (1 + (bija.mandaScale || 0))), SP = sighraPair(1), h2 = bija.manda2 || 0;
     const s1 = G.sighra(mod(m.sighrocca - m.mean, 360), SP), p1 = mod(m.mean + s1.degrees / 2, 360);
     const m2 = G.manda(mod(m.mandocca - p1, 360), MP), p2 = mod(p1 + m2.degrees / 2, 360);
     const m3 = G.manda(mod(m.mandocca - p2, 360), MP), p3 = mod(m.mean + m3.degrees + h2 * sinD(2 * (m.mandocca - p2)), 360);
-    const s4 = G.sighra(mod(m.sighrocca - p3, 360), SP), longitude = mod(p3 + s4.degrees, 360);
+    const anom = p.inner ? mod(m.sighrocca - m.mandocca, 360) : mod(p3 - m.mandocca, 360);                   // the planet's own anomaly, for its distance
+    const SP4 = sighraPair((1 + (bija.radialOwn || 0) * cosD(anom)) * sunRadial);
+    const s4 = G.sighra(mod(m.sighrocca - p3, 360), SP4), longitude = mod(p3 + s4.degrees, 360);
     const nodeCorr = p.inner ? -m3.degrees : s4.degrees, node = mod(m.node + nodeCorr, 360), argument = mod((p.inner ? m.sighrocca : longitude) - node, 360);
     const latitude = S.jya(argument) * p.lat / s4.karna;
-    return { longitude, latitude, mandaTrue: p3, steps: [p1, p2, p3, longitude], equations: { sighra1: s1, manda2: m2, manda3: m3, sighra4: s4 }, sighraKendra: s4.kendra, karna: s4.karna, node, latitudeArgument: argument, measuredMeans: m };
+    return { longitude, latitude, mandaTrue: p3, steps: [p1, p2, p3, longitude], equations: { sighra1: s1, manda2: m2, manda3: m3, sighra4: s4 }, sighraKendra: s4.kendra, karna: s4.karna, node, latitudeArgument: argument, measuredMeans: m, form: "text" };
   }
   /** The means of a tier shifted by the Sun/Moon/node bīja of the measured forms (the text's arithmetic then runs on them). */
   function shiftedMeans(m, measured, t) {
@@ -321,8 +365,15 @@
         if (measured.moonManda2 !== undefined) forms.moonManda2 = measured.moonManda2 * sinD(2 * g);
         if (measured.reduction !== undefined) forms.reduction = measured.reduction * sinD(2 * (m.moon - m.node));
         if (measured.sunManda !== undefined) forms.sunManda = measured.sunManda * sunEq.degrees;
-        moon = mod(moon + (forms.dvitiya || 0) + (forms.variation || 0) + (forms.annual || 0) + (forms.moonManda || 0) + (forms.moonManda2 || 0) + (forms.reduction || 0), 360);
-        sun = mod(sun + (forms.sunManda || 0), 360);
+        const gp = m.sun - m.sunApogee;
+        if (measured.moonD !== undefined) forms.moonD = measured.moonD * sinD(D);
+        if (measured.moon2D2g !== undefined) forms.moon2D2g = measured.moon2D2g * sinD(2 * D - 2 * g);
+        if (measured.moon2Dg !== undefined) forms.moon2Dg = measured.moon2Dg * sinD(2 * D + g);
+        if (measured.moon2Dgp !== undefined) forms.moon2Dgp = measured.moon2Dgp * sinD(2 * D - gp);
+        if (measured.moonGgp !== undefined) forms.moonGgp = measured.moonGgp * sinD(g - gp);
+        if (measured.sunManda2 !== undefined) forms.sunManda2 = measured.sunManda2 * sinD(2 * gp);
+        moon = mod(moon + (forms.dvitiya || 0) + (forms.variation || 0) + (forms.annual || 0) + (forms.moonManda || 0) + (forms.moonManda2 || 0) + (forms.reduction || 0) + (forms.moonD || 0) + (forms.moon2D2g || 0) + (forms.moon2Dg || 0) + (forms.moon2Dgp || 0) + (forms.moonGgp || 0), 360);
+        sun = mod(sun + (forms.sunManda || 0) + (forms.sunManda2 || 0), 360);
       }
       const moonLatitude = S.jya(moon - m.node) * S.MOON_MAX_LATITUDE_ARCMIN / S.R / 60;   // 2.57, degrees
       return { sun, moon, rahu: m.node, ketu: mod(m.node + 180, 360), moonLatitude, mean: m, equations: { sun: sunEq, moon: moonEq }, measured: forms };
@@ -332,15 +383,17 @@
   // ── one tier: the modules bound to its places ────────────────────────────────────────────────────────
   const tiers = new Map();
   function tierOf(name, measuredOpt) {
-    const s = resolveSamskara(name), meas = measuredOf(measuredOpt);
-    if (meas && s !== "kerala") throw new RangeError("ss-tier: the measured forms are an option of the Kerala tier only (opts.samskara 'kerala')");
-    const key = meas ? `${s}+measured:${JSON.stringify(meas)}` : s;
+    const s = resolveSamskara(name), isDefault = measuredOpt === undefined && s === "kerala";
+    const given = isDefault ? null : measuredOf(measuredOpt);
+    if (given && s !== "kerala") throw new RangeError("ss-tier: the measured forms are an option of the Kerala tier only (opts.samskara 'kerala')");
+    const key = isDefault ? "kerala" : given ? `${s}+measured:${JSON.stringify(given)}` : s === "kerala" ? "kerala+plain" : s;
     if (tiers.has(key)) return tiers.get(key);
-    const corr = correction(s);
+    const corr = correction(s);                                              // first: a missing module is named before the measurement record is asked for
+    const meas = isDefault ? defaultMeasured() : given;
     const places = corr ? placesOf(corr.mean, meas) : S.sphutaAtDays;
     const ayanamsha = corr ? corr.ayanamshaAt : textAyanamsha;
-    const cal = corr ? P.withPlaces(places, meas ? `${corr.calendarName} + measured forms` : corr.calendarName, ayanamsha) : P;
-    const T = { samskara: s, correction: corr, measured: meas, places, ayanamsha, calendar: cal, months: [], years: [],
+    const cal = corr ? P.withPlaces(places, meas ? `${corr.calendarName}${isDefault ? " + the joint measurement" : " + measured forms"}` : corr.calendarName, ayanamsha) : P;
+    const T = { samskara: s, correction: corr, measured: meas, measuredDefault: isDefault, places, ayanamsha, calendar: cal, months: [], years: [],
       dasha: corr ? DA.withPanchanga(cal) : DA, muhurta: corr ? MU.withPanchanga(cal) : MU, utsava: corr ? UT.withPanchanga(cal) : UT,
       model: null, last: { t: NaN, g: null } };
     tiers.set(key, T);
@@ -357,7 +410,7 @@
     const T = T_(opts), t = daysOfJd(jd);
     if (T.last.t === t) return T.last.g;
     const p = T.places(t), means = G.meanPlaces(t);
-    const planets = T.measured && T.measured.planets ? Object.fromEntries(Object.entries(PLANET_EN).map(([g, en]) => [en, Object.assign({ name: en, days: t, bija: g }, T.measured.planets[g] ? planetWithBija(en, means[en], T.measured.planets[g], jd) : G.fourSteps(en, means[en]))])) : G.truePlaces(t);
+    const planets = T.measured && T.measured.planets ? Object.fromEntries(Object.entries(PLANET_EN).map(([g, en]) => [en, Object.assign({ name: en, days: t, bija: g }, T.measured.planets[g] ? planetWithBija(en, means[en], T.measured.planets[g], jd, { lambda: p.sun, anomaly: p.mean.sun - p.mean.sunApogee }) : G.fourSteps(en, means[en]))])) : G.truePlaces(t);
     const out = { t, jd, samskara: T.samskara, surya: p.sun, candra: p.moon };
     const latitudeDeg = { candra: p.moonLatitude };
     const mean = { surya: p.mean.sun, candra: p.mean.moon, candraApogee: p.mean.moonApogee, suryaApogee: p.mean.sunApogee, rahu: p.mean.node };
@@ -367,7 +420,7 @@
       mean[key] = { mean: means[en].mean, sighrocca: means[en].sighrocca, mandocca: means[en].mandocca, node: means[en].node };
     }
     out.rahu = p.rahu; out.ketu = p.ketu;
-    out.latitudeDeg = latitudeDeg; out.mean = mean; out.sun = p.equations.sun; out.moon = p.equations.moon; out.planets = planets;
+    out.latitudeDeg = latitudeDeg; out.mean = mean; out.sun = p.equations.sun; out.moon = p.equations.moon; out.planets = planets; out.measuredForms = p.measured || null;
     T.last = { t, g: Object.freeze(out) };
     return T.last.g;
   }
@@ -563,6 +616,12 @@
     if (!T.model) {
       const c = T.correction;
       T.model = SK.model(c.modelDeltas, c.modelAyanamsha ? { epoch: c.modelEpoch, ayanamsha: c.modelAyanamsha } : { epoch: c.modelEpoch });
+      if (T.measured) {                                                        // the eclipse search runs on the tier's measured places, not the bare canon
+        const base = T.model, wrapArcmin = (x) => ((x + 10800) % 21600 + 21600) % 21600 - 10800;
+        const places = (t) => { const q = T.places(t); return { sun: q.sun, moon: q.moon, node: q.rahu, latitude: q.moonLatitude * 60, mean: q.mean }; };
+        const motion = (t, body) => { const a = places(t - 0.5), b = places(t + 0.5); return wrapArcmin((b[body] - a[body]) * 60); };
+        T.model = { ...base, places, motion, mean: (t) => T.places(t).mean, sayanaSun: (t) => mod(places(t).sun + base.ayanamsha(t), 360) };
+      }
     }
     return T.model;
   }
@@ -574,12 +633,12 @@
   /** The labels a page shows for a text tier. */
   function label(opts) {
     const T = T_(opts);
-    return T.correction ? { id: T.correction.tierId, label: T.measured ? `${T.correction.label} + measured forms (${Object.keys(T.measured).join(", ")})` : T.correction.label, labelSa: T.correction.labelSa, caption: T.measured ? `${T.correction.caption}; with the measured forms of corpus/research/parampara-apply.json (amplitudes fitted against the sky, never typed)` : T.correction.caption, measured: T.measured || null }
+    return T.correction ? { id: T.correction.tierId, label: T.measured ? (T.measuredDefault ? `${T.correction.label} + the joint measurement` : `${T.correction.label} + measured forms (${Object.keys(T.measured).join(", ")})`) : T.correction.label, labelSa: T.correction.labelSa, caption: T.measured ? `${T.correction.caption}; with the measured forms of corpus/research/parampara-apply.json${T.measuredDefault ? ` (the joint candidate ${DEFAULT_CANDIDATE}, the tier's default)` : ""} (amplitudes fitted against the sky, never typed)` : T.correction.caption, measured: T.measured || null, measuredDefault: !!T.measuredDefault }
       : { id: "ss", label: "Sūrya-Siddhānta", labelSa: "सूर्य-सिद्धान्त", caption: "the text exactly as it stands" };
   }
 
   return Object.freeze({
-    MERIDIAN_DEG, KALI_JD0, LANKA_OFFSET, SPAN_YEARS, EPSILON_DEG, SAMSKARAS, DEFAULT_SAMSKARA, SUNRISE_DAY, MEASURED_KEYS, AMPLITUDE_KEYS, BIJA_KEYS, measuredOf, measuredFromRecord, planetWithBija, placesOf, centuriesOf,
+    MERIDIAN_DEG, KALI_JD0, LANKA_OFFSET, SPAN_YEARS, EPSILON_DEG, SAMSKARAS, DEFAULT_SAMSKARA, SUNRISE_DAY, MEASURED_KEYS, AMPLITUDE_KEYS, BIJA_KEYS, DEFAULT_CANDIDATE, BIJA_SPAN_CENTURIES, measuredOf, measuredFromRecord, planetWithBija, placesOf, centuriesOf, useMeasured, measuredRecord,
     daysOfJd, jdOfDays, spandasOfJd, meanAtDays, siteOf, useParampara, correction, label,
     calendar: (opts) => T_(opts).calendar, places: (t, opts) => T_(opts).places(t), ayanamshaAt: (t, opts) => T_(opts).ayanamsha(t), dasha: (opts) => T_(opts).dasha, utsava: (opts) => T_(opts).utsava, muhurta: (opts) => T_(opts).muhurta,
     model: (opts) => { const T = T_(opts); if (!T.correction) return null; const SK = samskaraModule ? samskaraModule() : null; if (!SK) throw new Error("ss-tier: the model needs samskara.js loaded"); return modelOf(T, SK); },

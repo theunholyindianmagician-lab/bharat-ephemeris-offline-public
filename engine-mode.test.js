@@ -34,6 +34,7 @@ test('Node and a standalone browser build give the same text tiers; a build with
   const scope = { console }; scope.globalThis = scope;
   for (const f of SOVEREIGN) vm.runInNewContext(read(f), scope, { filename: f });
   scope.SSTier.useParampara(scope.Parampara.load({ registry: JSON.parse(read('corpus/parampara/registry.json')), samskara: JSON.parse(read('corpus/parampara/samskara.json')) }));
+  scope.SSTier.useMeasured(JSON.parse(read('corpus/research/parampara-apply.json')));
   for (const f of ['vsop87-full.js', 'elp-moon.js', 'math-core.js']) vm.runInNewContext(read(f), scope, { filename: f });
   for (const mode of ['ss', 'ss+parameshvara']) {
     assert.equal(JSON.stringify(scope.ShunyaMath.canonicalGrahaModel(jd, { mode })), JSON.stringify(M.canonicalGrahaModel(jd, { mode })), mode);

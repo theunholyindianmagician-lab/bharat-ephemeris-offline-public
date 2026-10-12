@@ -101,8 +101,8 @@
   async function loadRecord() {
     try {
       const get = async (u) => { const r = await fetch(u); if (!r.ok) throw new Error(`${u}: ${r.status} ${r.statusText}`); return r.json(); };
-      const [registry, samskara] = await Promise.all([get("corpus/parampara/registry.json"), get("corpus/parampara/samskara.json")]);
-      ST.useParampara(PA.load({ registry, samskara }));
+      const [registry, samskara, measured] = await Promise.all([get("corpus/parampara/registry.json"), get("corpus/parampara/samskara.json"), get("corpus/research/parampara-apply.json")]);
+      ST.useParampara(PA.load({ registry, samskara })); ST.useMeasured(measured);
       record.state = "ready";
     } catch (e) { record.state = "unavailable"; record.error = e && e.message ? e.message : String(e); }
     document.body.dataset.parampara = record.state;

@@ -75,13 +75,13 @@
 
   /** The paramparā record for the default choice: corpus/parampara/registry.json and samskara.json, read once at load
    *  from this page's own origin (sw.js keeps them offline), handed to ss-tier.js through parampara.js. */
-  const RECORD = Object.freeze({ registry: "corpus/parampara/registry.json", samskara: "corpus/parampara/samskara.json" });
+  const RECORD = Object.freeze({ registry: "corpus/parampara/registry.json", samskara: "corpus/parampara/samskara.json", measured: "corpus/research/parampara-apply.json" });
   const record = { state: "loading", error: null };
   const recordReady = (async () => {
     try {
       const get = async (u) => { const r = await fetch(u); if (!r.ok) throw new Error(`${u}: ${r.status} ${r.statusText}`); return r.json(); };
-      const [registry, samskara] = await Promise.all([get(RECORD.registry), get(RECORD.samskara)]);
-      ST.useParampara(PA.load({ registry, samskara }));
+      const [registry, samskara, measured] = await Promise.all([get(RECORD.registry), get(RECORD.samskara), get(RECORD.measured)]);
+      ST.useParampara(PA.load({ registry, samskara })); ST.useMeasured(measured);          // the Kerala choice carries the record's joint candidate by default
       record.state = "ready";
     } catch (e) { record.state = "unavailable"; record.error = e && e.message ? e.message : String(e); }
     document.body.dataset.parampara = record.state;

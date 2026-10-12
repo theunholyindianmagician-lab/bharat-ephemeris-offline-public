@@ -495,7 +495,8 @@ test('(5) ss-tier.js is gate-clean: requires only sovereign files (and the param
   assert.equal(FORBIDDEN.test(read('corpus/parampara/samskara.json')), false);
   assert.equal((src.match(/Math\.(?:sin|cos|tan|asin|acos|atan2|atan)\b/g) || []).length, 0);
   const SOVEREIGN = ['kala-dvara.js', 'sphuta.js', 'dhruva.js', 'ss-udaya.js', 'ss-graha.js', 'ss-chaya.js', 'ss-grahana.js', 'ss-ahargana.js', 'panchanga.js',
-    'dasha.js', 'muhurta.js', 'utsava.js', 'parampara.js', 'samskara.js', 'parahita-madhyama.js', 'corpus/parampara/registry.json', 'corpus/parampara/samskara.json'];
+    'dasha.js', 'muhurta.js', 'utsava.js', 'parampara.js', 'samskara.js', 'parahita-madhyama.js', 'corpus/parampara/registry.json', 'corpus/parampara/samskara.json',
+    'corpus/research/parampara-apply.json'];                                   // the measurement record: the Kerala tier's default (owner, 2026-10-12), numbers measured here, no foreign theory
   const gate = read('kala-dvara.test.js');
   for (const f of SOVEREIGN.filter((x) => x.endsWith('.js'))) assert.ok(gate.includes(`'${f}'`), `${f} is in the gate's list`);
   const reqs = [...src.matchAll(/\brequire\s*\(\s*["']([^"']+)["']\s*\)/g)].map((m) => m[1].replace(/^\.\//, ''));
@@ -549,7 +550,7 @@ test('(7) two fresh browser-like contexts give the same text tiers, as Node does
     const scope = { console }; scope.globalThis = scope;
     for (const f of FILES) {
       vm.runInNewContext(read(f), scope, { filename: f });
-      if (f === 'ss-tier.js') scope.SSTier.useParampara(scope.Parampara.load({ registry: JSON.parse(read('corpus/parampara/registry.json')), samskara: JSON.parse(read('corpus/parampara/samskara.json')) }));
+      if (f === 'ss-tier.js') { scope.SSTier.useParampara(scope.Parampara.load({ registry: JSON.parse(read('corpus/parampara/registry.json')), samskara: JSON.parse(read('corpus/parampara/samskara.json')) })); scope.SSTier.useMeasured(JSON.parse(read('corpus/research/parampara-apply.json'))); }
     }
     return scope.ShunyaMath;
   };
@@ -657,10 +658,13 @@ test("(13) the Kerala tier: Parahita + Dṛggaṇita means reproduce Parameśvar
   assert.ok(K.ayanamshaLine.ratePerYear * 60 > nil.value.rateArcminPerYear && K.ayanamshaLine.ratePerYear * 60 < 1, "the line's rate lies between Nīlakaṇṭha's stated 0.9′ and 1′ a year");
   assert.ok(Math.abs(M.tierAyanamsha(2461322.5, 'kerala').rateArcsecPerYear - K.ayanamshaLine.ratePerYear * 3600) < 1e-9);
   assert.equal(M.tierAyanamsha(2461322.5, 'kerala').name, 'Kerala linear, through the three determinations');
-  // the five star-planets are the text's; the Sun, the Moon and the node are the Kerala tier's
-  const jd = 2461322.5, a = M.canonicalGrahaModel(jd, { mode: 'ss' }), b = M.canonicalGrahaModel(jd, { mode: 'kerala' });
-  for (const i of [2, 3, 4, 5, 6]) assert.equal(b[i].longitude, a[i].longitude, `${a[i].key} is the text's`);
-  for (const i of [0, 1, 7]) assert.notEqual(b[i].longitude, a[i].longitude, `${a[i].key} is the Kerala tier's`);
+  // the bare paramparā (measured: false): the five star-planets are the text's; the Sun, the Moon and the node are the Kerala tier's.
+  // The tier's default (since 2026-10-12) carries the joint measurement, so every graha differs from the text's there.
+  const jd = 2461322.5, a = M.canonicalGrahaModel(jd, { mode: 'ss' }), b = SST.grahas(jd, { samskara: 'kerala', measured: false }), c = M.canonicalGrahaModel(jd, { mode: 'kerala' });
+  for (const i of [2, 3, 4, 5, 6]) assert.equal(b[a[i].key], a[i].longitude, `${a[i].key} is the text's in the bare paramparā`);
+  for (const i of [0, 1, 7]) assert.notEqual(b[a[i].key], a[i].longitude, `${a[i].key} is the Kerala tier's`);
+  for (const i of [0, 1, 2, 3, 4, 5, 6, 7]) assert.notEqual(c[i].longitude, a[i].longitude, `${a[i].key} carries the joint measurement by default`);
+  assert.match(SST.label({ samskara: 'kerala' }).label, /joint measurement/);
   // the day, the lagna and the shadow follow the tier; the eclipses are found on its model
   const d1 = M.tierDay(jd, 23.1765, 75.7885, 5.5, 'kerala'), d0 = M.tierDay(jd, 23.1765, 75.7885, 5.5, 'ss');
   assert.ok(Number.isFinite(d1.sunriseJd) && Math.abs(d1.sunriseJd - d0.sunriseJd) < 3 / 1440, 'the Kerala sunrise is its own, within three minutes of the text\'s [measured]');

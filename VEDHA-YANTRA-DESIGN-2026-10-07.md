@@ -1769,6 +1769,34 @@ The owner asked for the planets' bīja to be wired into the Kerala tier and for 
 
 **Not changed.** The text tiers (ss, ss+parameshvara) are untouched; the Kerala tier's default is still its own numbers; the 100,000-year manifest is unchanged. Turning the joint candidate on is `opts.measured = measuredFromRecord(record, 'kerala+all+bija')`; the research page §3 shows every number with its provenance. The measurement is of the tier itself: the fit runs through `ss-tier placesOf` and `planetWithBija`, and the test recomputes the record's Sun, Moon and Rāhu scores on the record's grid through `grahas()` and matches them to 0.02′.
 
+### 24.16 What was still missed, and the joint measurement as the Kerala tier's default (2026-10-12, the owner's third ask)
+
+The owner asked to look once more at what had been missed that left Mercury at 98′ and Mars at 37′, and then to make the joint candidate the Kerala tier's default and rerun the manifest.
+
+**What was missed.** Two things, both in the śīghra, and one of them was the paramparā's own. (1) The text's śīghra epicycle has one size; the planet's distance from the Sun varies by ±e (Mercury ±21 %) and the Earth's by ±1.7 %, so the epicycle's size must vary with the planet's anomaly and with the Sun's. Adding the two radial terms to the text's four steps took Mercury 98′ → 36′ and the outer planets' Earth term came out at −0.016 on each (the Earth's e = 0.0167). (2) The text applies Mercury's and Venus's manda to the mean Sun; Nīlakaṇṭha (Tantrasaṅgraha, 1500) put it on the planet's own heliocentric mean and took the śīghra from the true Sun — the Kerala tier's own lineage, and the very defect that §24.15 had called "the text's model". With the manda written as a measured series in the planet's own anomaly (sin μ, sin 2μ, sin 3μ) and the radial variation, that placement gives Mercury 4.2′. My earlier test of Nīlakaṇṭha's form had failed (103′) because it kept the text's 5° epicycle amplitude and had no radial term; the heliocentric equation of centre is 23.6° for Mercury, and the fit found exactly that.
+
+**The measurement now** (`corpus/research/parampara-apply.json` → `measured`, candidate `kerala+all+bija`; rms 1900–2100 against the dṛk tier, every number fitted through the tier's own arithmetic):
+
+| body | plain tier | §24.15 | now | the fitted numbers against the sky's |
+|---|---|---|---|---|
+| Sun | 11.9′ | 0.96′ | 0.43′ | second harmonic 0.0203° (sky 0.020°) |
+| Moon | 82.2′ | 5.3′ | 2.9′ | the five small terms −0.034, 0.059, −0.053, −0.046, 0.042° (sky −0.035, 0.059, 0.053, 0.046, 0.041°) |
+| tithi end | 2.74 h | 0.18 h | 0.095 h | |
+| Rāhu | — | 0.20′ | 0.20′ | |
+| Mercury | 160.6′ | 98′ | 4.2′ | series −23.48°, 2.89°, −0.47° (2e = 23.56°, 5e²/4 = 3.0°); radial 0.208 (e = 0.206) |
+| Venus | 400.6′ | 10.7′ | 5.6′ | series 0.78° (2e = 0.78°) |
+| Mars | 137.4′ | 37′ | 7.1′ | series −10.69° (2e = 10.70°); radial −0.093 (e = 0.093) |
+| Jupiter | 279.5′ | 5.9′ | 4.2′ | series −5.55° (2e = 5.54°); radial −0.049 (e = 0.048) |
+| Saturn | 373.0′ | 5.8′ | 5.3′ | series −6.21° (2e = 6.20°); radial −0.054 (e = 0.054) |
+
+The Earth's radial term is 0.0163–0.0173 on all five (e = 0.0167). The measurement fits both forms for every graha and keeps the better (`form`); it is Nīlakaṇṭha's for all five now (the text's four steps with scales and radial terms stand at 29′, 37′, 4.5′, 7.3′, 5.4′ in the record for comparison). Latitudes are still the text's (15–55′ rms), uncorrected.
+
+**The default.** The Kerala tier now carries the joint candidate unless asked otherwise (`ss-tier.js tierOf`: `opts.measured` absent → the record's `kerala+all+bija`; `{ measured: false }` → the bare paramparā; an object → that). In Node the tier reads the record; in the browser `parampara-record.js` carries the `measured` block and calls `SSTier.useMeasured`, and the two pages that fetch the record (vedha, ShunyaBheda) fetch `parampara-apply.json` too. The eclipse search runs on the measured places (the samskara.js model is wrapped onto the tier's `places`). The label reads "+ the joint measurement". `math-core`'s graha detail shows the Nīlakaṇṭha form (one manda series, one śīghra from the true Sun) and the Moon's measured forms. The 100,000-year manifest was rerun for the tier (`manifest-100k-kerala.json`; `parampara-apply.json` is now among its hashed modules). The text tiers are untouched.
+
+**A bīja is epoch-bound.** The first manifest run failed beyond Kali 42,000: the rates, measured on 1900–2100, were being extrapolated linearly over 38,000 years (Mercury's śīghrocca rate alone would reach 300°), and years lost their twelve saṅkrāntis. The rates are now held at the edge of ±5 Julian centuries from J2000 (1500–2500; `ss-tier.js bijaT`): beyond, the shift is the edge's constant, continuous, never a line across the 100,000-year span. The amplitudes (the forms, the series, the scales, the radial terms) are physical and stand everywhere. Inside 1900–2100 nothing changes; the manifest rerun with this bound is the one committed.
+
+**Provenance, said plainly.** The bīja on the means and the revised epicycles are the paramparā's forms; Nīlakaṇṭha's placement is the paramparā's (Tantrasaṅgraha is not in this library's editions: [paramparā, unverified here]); the series, the radial variation and the Moon's small terms are the ellipse's and the sky's, with no Indian source for the numbers [standard form]; every amplitude is measured against the dṛk tier, none typed [measured]. The forms table on the research page says this per row.
+
 ## Appendix A. The three designs and the three judges
 
 | Design | Fidelity lens | Honesty lens | Reachability lens | Sum |

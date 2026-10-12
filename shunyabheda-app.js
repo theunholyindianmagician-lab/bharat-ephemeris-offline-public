@@ -3006,7 +3006,7 @@
   /* ── the paramparā record (Parameśvara's saṃskāra): read once at load from corpus/parampara/ (same origin; the service
      worker keeps it for offline use) and given to ss-tier.js. Until it is in, the default tier waits; if it cannot be
      read, that tier says so and the other two still compute. No other network request is made. ── */
-  const PARAMPARA_FILES = Object.freeze({ registry: "corpus/parampara/registry.json", samskara: "corpus/parampara/samskara.json" });
+  const PARAMPARA_FILES = Object.freeze({ registry: "corpus/parampara/registry.json", samskara: "corpus/parampara/samskara.json", measured: "corpus/research/parampara-apply.json" });
   const parampara = { state: "loading", error: null };
   async function loadParampara() {
     if (!window.SSTier || !window.Parampara) throw new Error("ss-tier.js and parampara.js must be loaded before the page");
@@ -3015,8 +3015,8 @@
       if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
       return res.json();
     };
-    const [registry, samskara] = await Promise.all([get(PARAMPARA_FILES.registry), get(PARAMPARA_FILES.samskara)]);
-    window.SSTier.useParampara(window.Parampara.load({ registry, samskara }));
+    const [registry, samskara, measured] = await Promise.all([get(PARAMPARA_FILES.registry), get(PARAMPARA_FILES.samskara), get(PARAMPARA_FILES.measured)]);
+    window.SSTier.useParampara(window.Parampara.load({ registry, samskara })); window.SSTier.useMeasured(measured);
   }
   function requireTierReady(tier) {
     if (M.TIERS[tier].samskara !== "parameshvara") return;

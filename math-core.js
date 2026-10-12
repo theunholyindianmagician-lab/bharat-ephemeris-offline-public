@@ -395,7 +395,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     kerala: Object.freeze({
       id: "kerala", family: "ss", samskara: "kerala", default: false,
       label: "Kerala paramparā (Parahita + Dṛggaṇita)", labelSa: "केरल-परम्परा (परहित + दृग्गणित)",
-      engine: "the Kerala line of the same geocentric model (ss-tier.js, samskara 'kerala'): the mean Sun, Moon, apogee and node of the Parahita karaṇa — Āryabhaṭa's integers over 1,577,917,500 civil days with Haridatta's Śakābda-saṃskāra — carried to Parameśvara's Dṛggaṇita by his fractions 4/5, 1 and 11/12 (parahita-madhyama.js, exact), counted from sunrise at Laṅkā as Āryabhaṭa's day is; Āryabhaṭa's Sun apogee 78° (Gītikā 9); the text's epicycles (SS 2.34-2.38) on those means [reading: no local edition attests Āryabhaṭa's]; the five star-planets are the text's (their Parahita integers are in the registry, PH-yugabhoga; their epicycles are not)",
+      engine: "the Kerala line of the same geocentric model (ss-tier.js, samskara 'kerala'): the mean Sun, Moon, apogee and node of the Parahita karaṇa — Āryabhaṭa's integers over 1,577,917,500 civil days with Haridatta's Śakābda-saṃskāra — carried to Parameśvara's Dṛggaṇita by his fractions 4/5, 1 and 11/12 (parahita-madhyama.js, exact), counted from sunrise at Laṅkā as Āryabhaṭa's day is; Āryabhaṭa's Sun apogee 78° (Gītikā 9); the text's epicycles (SS 2.34-2.38) on those means [reading: no local edition attests Āryabhaṭa's]; the five star-planets are the text's (their Parahita integers are in the registry, PH-yugabhoga; their epicycles are not); since 2026-10-12 (owner) the tier's default carries the joint measurement of corpus/research/parampara-apply.json (candidate kerala+all+bija): a bīja on the Sun's, Moon's, apogees' and node's means, the Moon's second inequalities, and the five star-planets with bīja, revised epicycles and, where it measures better, Nīlakaṇṭha's placement — every number fitted against the dṛk tier, none typed; { measured: false } gives the plain paramparā",
       ayanamsha: Object.freeze({ name: "Kerala linear, through the three determinations", source: "a line by least squares through Āryabhaṭa's zero in Kali 3600 (registry ABH-no-ayanacalana-3600), Nīlakaṇṭha's 14°26′ at Kali day 1,643,524 (NIL-ayanamsha-rate) and Parameśvara's 15° complete in Kali 4536 (PAR-ayanamsha-4536) [reading]; Nīlakaṇṭha's stated rule of 0.9′ a year is kept as a cross-check" }),
       ...TEXT_TIER_COMMON,
       samvatsara: "SS 1.55 from the text's mean Jupiter at the instant, reading A (remainder 0 = Vijaya) [reading]; the Parahita Jupiter is not built",
@@ -1682,11 +1682,20 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
       const mean = sun ? g.mean.surya : g.mean.candra, mandocca = sun ? g.mean.suryaApogee : g.mean.candraApogee;
       const e = sun ? g.sun : g.moon, sphuta = sun ? g.surya : g.candra;
       const out = { k, mean, mandocca, sighrocca: null, manda: eqShape("manda", mean, mandocca, e), paksika: 0, mandaSphuta: sphuta, sphuta, kind: "manda" };
-      if (!sun) { out.lunarInequalities = null; out.lunarModel = "none: SS 2.39-2.43, the text's one manda equation for the Moon"; }
+      if (!sun) { out.lunarInequalities = g.measuredForms || null; out.lunarModel = g.measuredForms ? `SS 2.39-2.43 with the measured forms of the Kerala tier (${Object.keys(g.measuredForms).join(", ")}; corpus/research/parampara-apply.json, the joint candidate)` : "none: SS 2.39-2.43, the text's one manda equation for the Moon"; }
+      if (g.measuredForms && sun) out.measuredForms = g.measuredForms;
       if (samskara) out.samskara = samskara;
       return out;
     }
     const row = SS_ROW_KEY[k], P = g.planets[SS_PLANET_EN[k]], m = g.mean[row], q = P.equations;
+    if (P.form === "nilakantha") {                                            // the Kerala tier's measured form for this graha (ss-tier planetWithBija)
+      const mm = P.measuredMeans, inner = k === "budha" || k === "shukra", [helio, longitude] = P.steps, sg = q.sighra;
+      const helioMean = inner ? mm.sighrocca : mm.mean, centre = inner ? norm(longitude - sg.degrees) : helio;
+      return { k, mean: m.mean, mandocca: m.mandocca, sighrocca: m.sighrocca, measuredMeans: mm, form: "nilakantha",
+        firstSighra: null, halfSighraPlace: null, firstManda: null, halfMandaPlace: null,
+        fullManda: { kind: "manda", place: helioMean, centre: mm.mandocca, kendra: norm(helioMean - mm.mandocca), paridhi: null, magnitude: Math.abs(q.manda), correction: q.manda, rule: "Nīlakaṇṭha's placement: the manda on the planet's own heliocentric mean as a measured series (ss-tier.js planetWithBija, the measurement record)" },
+        mandaSphuta: helio, finalSighra: Object.assign(eqShape("sighra", inner ? centre : helio, inner ? helio : centre, sg), { rule: "SS 2.38-2.45 from the tier's true Sun, the epicycle varying with the distances (measured)" }), sphuta: longitude, kind: "manda-sighra" };
+    }
     const [p1, p2, p3, longitude] = P.steps;
     return {
       k, mean: m.mean, mandocca: m.mandocca, sighrocca: m.sighrocca,

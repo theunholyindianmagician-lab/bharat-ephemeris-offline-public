@@ -26,7 +26,7 @@ const TIERS = ['ss+parameshvara', 'ss', 'kerala'];
 // measured per tier (2026-10-09): the first and last years' starts, and how 2028-29 ends (the Kerala Sun and Moon differ from the text's)
 const FIRST_START = { 'ss+parameshvara': '-50001-12-20', ss: '-50001-12-20', kerala: '-50001-12-18' };
 const LAST_START = { 'ss+parameshvara': '50000-05-24', ss: '50000-05-24', kerala: '50000-05-26' };
-const END_5129 = { 'ss+parameshvara': ['Caitra', true], ss: ['Caitra', true], kerala: ['Phālguna', false] };
+const END_5129 = { 'ss+parameshvara': ['Caitra', true], ss: ['Caitra', true], kerala: ['Caitra', true] };   // kerala: Phālguna (no adhika) on the bare paramparā; with the joint measurement (the default since 2026-10-12) the intercalation is the sky's, as the text tiers have it [measured]
 
 const built = new Map();
 const year = (k, tier) => { const key = `${tier}|${k}`; if (!built.has(key)) built.set(key, C.buildYear(k, tier)); return built.get(key); };
