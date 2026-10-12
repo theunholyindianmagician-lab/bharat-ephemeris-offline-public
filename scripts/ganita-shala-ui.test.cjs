@@ -37,7 +37,7 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
   assert.doesNotMatch(html, /\son[a-z]+\s*=/i, 'no inline event handlers');
   assert.doesNotMatch(html.replace(/<meta (?:property="og:(?:url|image)"|name="twitter:image") content="https:\/\/offline\.bharatephemeris\.com\/[^"]*">/g, ''), /https?:\/\//, 'no outside URL in the page');
   assert.doesNotMatch(js, /https?:\/\//, 'no outside URL in the page script');
-  for (const f of ['ganita-shala.html', 'ganita-shala-page.js', 'corpus/parampara/registry.json', 'corpus/parampara/samskara.json', 'corpus/research/parampara-apply.json', 'corpus/research/derivations.json', 'corpus/research/library-sweep.json', 'corpus/research/generator-2-search.json']) {
+  for (const f of ['ganita-shala.html', 'ganita-shala-page.js', 'corpus/parampara/registry.json', 'corpus/parampara/samskara.json', 'corpus/research/parampara-apply.json', 'corpus/research/derivations.json', 'corpus/research/library-sweep.json', 'corpus/research/generator-2-search.json', 'corpus/research/ssea-audit.json']) {
     assert.ok(sw.includes(`"./${f}"`), `sw.js precaches ${f}`);
     assert.ok(html.includes(`"${f}"`) || scripts.includes(f) || f.endsWith('.html'), `the page references ${f} (the build publishes what a page references)`);
   }
@@ -141,9 +141,11 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
     } else assert.equal((await page.evaluate(() => document.body.dataset.ledger)), 'missing');
     // the measured forms: five rows from the record, Munjāla's provenance, the amplitude of the evection-form within 5% of 1.274°
     await page.waitForFunction(() => document.body.dataset.measured === '5', null, { timeout: 60000 });
-    const measured = await page.$$eval('#measured-out tbody tr', (trs) => trs.map((tr) => ({ form: tr.dataset.form, cells: [...tr.children].map((td) => td.textContent) })));
+    const measured = await page.$$eval('#measured-out tbody tr[data-form]', (trs) => trs.map((tr) => ({ form: tr.dataset.form, cells: [...tr.children].map((td) => td.textContent) })));
     assert.deepEqual(measured.map((m) => m.form), ['dvitiya', 'variation', 'annual', 'moonManda', 'sunManda']); assert.match(measured[0].cells[2], /Munjāla/); assert.ok(Math.abs(Math.abs(parseFloat(measured[0].cells[3])) - 76.4) < 4);
     assert.ok((await page.$$eval('#parampara-out table.parampara-span tbody tr', (trs) => trs.map((tr) => tr.children[0].textContent))).some((n) => n.startsWith('kerala+all')));
+    const planets = await page.$$eval('#measured-out tr[data-graha]', (trs) => trs.map((tr) => ({ g: tr.dataset.graha, cells: [...tr.children].map((td) => td.textContent) })));
+    assert.deepEqual(planets.map((p) => p.g), ['mangala', 'budha', 'guru', 'shukra', 'shani']); assert.ok(parseFloat(planets[2].cells[2]) < parseFloat(planets[2].cells[1]) / 3, 'Jupiter\'s bīja');
     // the Kālacakra block: sixteen chains with the text's check, one line per choice, the readings
     const chains = await page.$$eval('#kalachakra-chains tbody tr', (trs) => trs.map((tr) => ({ type: tr.dataset.type, pada: tr.dataset.pada, ok: tr.dataset.ok, cells: [...tr.children].map((td) => td.textContent) })));
     assert.equal(chains.length, 16); assert.ok(chains.every((c) => c.ok === 'true')); assert.equal(chains[0].cells[2], 'Meṣa → Vṛṣa → Mithuna → Karka → Siṃha → Kanyā → Tulā → Vṛścika → Dhanu'); assert.match(chains[0].cells[4], /^100 = 100/);
@@ -151,6 +153,12 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
     assert.equal(now.length, 4); assert.ok(now.every((n) => !n.refusal && /cell \d+ .*running/.test(n.text)), JSON.stringify(now));
     assert.ok((await page.$$eval('#kalachakra-readings li', (ls) => ls.length)) >= 8);
     const audit = await page.$$eval('#kalachakra-audit p', (ps) => ps.map((p) => p.textContent)); assert.equal(audit.length, 4); assert.match(audit[0], /^the readings adopted: 63 of 63 checks pass$/); assert.match(audit[1], /84 ≠ 83/);
+    // section 7: the SSEA audit — the groups, the own findings all verified, the decisions
+    const ssea = JSON.parse(fs.readFileSync(path.join(root, 'corpus', 'research', 'ssea-audit.json'), 'utf8'));
+    await page.waitForFunction((n) => document.body.dataset.ssea === String(n), ssea.groups.length, { timeout: 120000 });
+    assert.equal(await page.$$eval('#ssea-out details[data-scope]', (ds) => ds.length), ssea.groups.length);
+    assert.ok((await page.$$eval('#ssea-out tbody tr[data-tag]', (trs) => trs.every((tr) => tr.dataset.found === 'true'))), 'every own finding verified at its line');
+    assert.equal(await page.$$eval('#ssea-out ul li', (ls) => ls.length) >= ssea.decisions.length, true);
     // section 6: the library sweep, one card per edition with its findings; the tower table from the loaded modules
     const sweep = JSON.parse(fs.readFileSync(path.join(root, 'corpus', 'research', 'library-sweep.json'), 'utf8'));
     await page.waitForFunction((n) => document.body.dataset.granthas === String(n), sweep.reads.length, { timeout: 120000 });

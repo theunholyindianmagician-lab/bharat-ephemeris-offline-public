@@ -138,6 +138,92 @@
      }
     }
    }
+  },
+  "planets": {
+   "fittedOn": "1900-2100, every 97 days (753 samples)",
+   "unit": "arcminutes (mean, rms, max); epoch in degrees, rate in degrees per Julian century",
+   "bodies": {
+    "mangala": {
+     "before": {
+      "mean": -100.49584701211151,
+      "rms": 137.38394647606515,
+      "max": 681.2601132540613
+     },
+     "after": {
+      "mean": 5.732466294478895e-14,
+      "rms": 91.8588924990398,
+      "max": 562.0510210426997
+     },
+     "epochDeg": 1.675692455999754,
+     "ratePerCentury": 0.5299064146309277,
+     "form": "λ + (epoch + rate·T), T in Julian centuries from J2000, on the true longitude",
+     "provenance": "bīja-saṃskāra form [paramparā]; the numbers measured here against the dṛk tier [measured]"
+    },
+    "budha": {
+     "before": {
+      "mean": -18.725383669090267,
+      "rms": 160.6374584951555,
+      "max": 515.404824764264
+     },
+     "after": {
+      "mean": -1.8046653149285413e-15,
+      "rms": 159.30186857848912,
+      "max": 497.92815822752567
+     },
+     "epochDeg": 0.3124530891386926,
+     "ratePerCentury": 0.2527956615627564,
+     "form": "λ + (epoch + rate·T), T in Julian centuries from J2000, on the true longitude",
+     "provenance": "bīja-saṃskāra form [paramparā]; the numbers measured here against the dṛk tier [measured]"
+    },
+    "guru": {
+     "before": {
+      "mean": 274.8791418479614,
+      "rms": 279.5287565110155,
+      "max": 410.9619465954984
+     },
+     "after": {
+      "mean": 1.5879285491650646e-14,
+      "rms": 49.08147030183274,
+      "max": 115.46266871802963
+     },
+     "epochDeg": -4.5818581797318485,
+     "ratePerCentury": -0.3750936144617531,
+     "form": "λ + (epoch + rate·T), T in Julian centuries from J2000, on the true longitude",
+     "provenance": "bīja-saṃskāra form [paramparā]; the numbers measured here against the dṛk tier [measured]"
+    },
+    "shukra": {
+     "before": {
+      "mean": -24.210854082640868,
+      "rms": 400.6147344845261,
+      "max": 1592.263796015418
+     },
+     "after": {
+      "mean": 3.857029790729628e-15,
+      "rms": 399.81239113932577,
+      "max": 1558.9601927457497
+     },
+     "epochDeg": 0.4038249249457112,
+     "ratePerCentury": 0.21615163494231857,
+     "form": "λ + (epoch + rate·T), T in Julian centuries from J2000, on the true longitude",
+     "provenance": "bīja-saṃskāra form [paramparā]; the numbers measured here against the dṛk tier [measured]"
+    },
+    "shani": {
+     "before": {
+      "mean": -362.20846037120106,
+      "rms": 373.0304028060468,
+      "max": 580.2329127966073
+     },
+     "after": {
+      "mean": -2.408697411513447e-13,
+      "rms": 80.88171765631976,
+      "max": 169.1360783783248
+     },
+     "epochDeg": 6.0383686234016105,
+     "ratePerCentury": 1.0859755957173287,
+     "form": "λ + (epoch + rate·T), T in Julian centuries from J2000, on the true longitude",
+     "provenance": "bīja-saṃskāra form [paramparā]; the numbers measured here against the dṛk tier [measured]"
+    }
+   }
   }
  },
  "candidates": {

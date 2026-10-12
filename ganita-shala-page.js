@@ -186,6 +186,12 @@
     const tb = el("tbody"); const all = m.candidates["kerala+all"]; const amps = { ...(all && all.moonFit ? all.moonFit.amplitudes : {}), ...(all && all.sunFit ? all.sunFit.amplitudes : {}) };
     for (const [k, t] of Object.entries(m.terms)) { const tr = el("tr"); tr.dataset.form = k; tr.appendChild(el("td", null, k)); tr.appendChild(el("td", null, t.form)); tr.appendChild(el("td", "src", t.provenance)); tr.appendChild(el("td", "num", amps[k] === undefined ? "—" : (k.endsWith("Manda") ? `× ${(1 + amps[k]).toFixed(4)} (scale ${amps[k] >= 0 ? "+" : ""}${amps[k].toFixed(4)})` : `${(amps[k] * 60).toFixed(2)}′`))); tb.appendChild(tr); }
     tbl.appendChild(tb); const d = el("div", "tbl"); d.appendChild(tbl); out.appendChild(d);
+    if (m.planets && m.planets.bodies) {
+      out.appendChild(el("p", "src", `The five star-planets with a bīja-saṃskāra (the paramparā's form: a seed on the motion, linear in time) measured on the Kerala tier's true longitudes against the sky, ${m.planets.fittedOn}; ${m.planets.unit}. Reported only — the śīghra's own errors remain, and the inner planets gain nothing, as the paramparā itself says of them.`));
+      const pt = el("table"); const pth = el("thead"), phr = el("tr"); for (const h of ["graha", "rms before", "rms after", "max before → after", "epoch", "rate / century"]) phr.appendChild(el("th", null, h)); pth.appendChild(phr); pt.appendChild(pth);
+      const ptb = el("tbody"); for (const [k, b] of Object.entries(m.planets.bodies)) { const tr = el("tr"); tr.dataset.graha = k; tr.appendChild(el("td", null, k)); tr.appendChild(el("td", "num", `${b.before.rms.toFixed(1)}′`)); tr.appendChild(el("td", "num", `${b.after.rms.toFixed(1)}′`)); tr.appendChild(el("td", "num", `${b.before.max.toFixed(0)}′ → ${b.after.max.toFixed(0)}′`)); tr.appendChild(el("td", "num", `${b.epochDeg >= 0 ? "+" : ""}${b.epochDeg.toFixed(3)}°`)); tr.appendChild(el("td", "num", `${b.ratePerCentury >= 0 ? "+" : ""}${b.ratePerCentury.toFixed(4)}°`)); ptb.appendChild(tr); }
+      pt.appendChild(ptb); const pd = el("div", "tbl"); pd.appendChild(pt); out.appendChild(pd);
+    }
     document.body.dataset.measured = String(Object.keys(m.terms).length);
   }
   function renderParampara(data) {
@@ -330,6 +336,30 @@
     document.body.dataset.generator = String(t.claims == null ? 0 : t.claims);
   }
 
+  // ── section 7: the SSEA engine audit ─────────────────────────────────────────────────────────────────────
+  function renderSsea(data) {
+    const out = $("ssea-out"); out.textContent = "";
+    const t = data.totals || {};
+    out.appendChild(el("p", "src", `${data.generatedBy}. Engine: ${data.engine.repo} @ ${data.engine.branch} (${data.engine.commit.slice(0, 10)}, ${data.engine.files} files). ${t.groups} reader scopes, ${t.findings} findings (${t.quoteFound} found verbatim at their lines), ${t.candidates} reader candidates, ${t.derivationsClaimed} in-file derivations claimed (${t.derivationsSurviving} surviving three refuters); ${t.ownFindings} findings of this repository's own (${t.ownFound} verified at their lines).`));
+    out.appendChild(el("h3", null, "Decisions"));
+    const ul = el("ul"); for (const d of data.decisions || []) ul.appendChild(el("li", null, `${d.what}: ${d.decision}`)); out.appendChild(ul);
+    out.appendChild(el("h3", null, "This repository's own findings in the engine"));
+    const tbl = el("table"); const th = el("thead"), hr = el("tr"); for (const h of ["file : line", "the line", "finding", "tag"]) hr.appendChild(el("th", null, h)); th.appendChild(hr); tbl.appendChild(th);
+    const tb = el("tbody"); for (const o of data.own || []) { const tr = el("tr"); tr.dataset.tag = o.tag; tr.dataset.found = String(!!o.verseFound); tr.appendChild(el("td", "src", `${o.file} : ${o.line}${o.verseFound ? "" : " (not found as quoted)"}`)); const c = el("td"); c.appendChild(el("code", null, o.quote)); tr.appendChild(c); tr.appendChild(el("td", null, o.finding)); tr.appendChild(el("td", o.tag === "audit" ? "muted" : "ok", o.tag)); tb.appendChild(tr); }
+    tbl.appendChild(tb); const d = el("div", "tbl"); d.appendChild(tbl); out.appendChild(d);
+    out.appendChild(el("h3", null, "The readers' catalogue, by scope"));
+    for (const g of data.groups || []) {
+      const det = el("details"); det.dataset.scope = g.key; det.appendChild(el("summary", null, `${g.key} — ${g.counts.findings} findings (${g.counts.quoteFound} verbatim), ${g.counts.candidates} candidates, ${g.counts.derivationsClaimed} derivations claimed (${g.counts.derivationsSurviving} surviving)`));
+      if (g.notes) det.appendChild(el("p", "src", g.notes));
+      const gt = el("table"); const gth = el("thead"), ghr = el("tr"); for (const h of ["file : line", "kind · provenance", "summary", "candidate for this engine"]) ghr.appendChild(el("th", null, h)); gth.appendChild(ghr); gt.appendChild(gth);
+      const gtb = el("tbody"); for (const f of g.findings || []) { const tr = el("tr"); tr.dataset.kind = f.kind; tr.dataset.found = String(!!f.verseFound); const c1 = el("td", "src"); c1.appendChild(el("div", null, `${f.file} : ${f.line}${f.verseFound ? "" : " (not found as quoted)"}`)); c1.appendChild(el("code", null, f.quote)); tr.appendChild(c1); tr.appendChild(el("td", null, `${f.kind} · ${f.provenance}${f.textCitation ? ` · ${f.textCitation}` : ""}`)); tr.appendChild(el("td", null, f.summary + (f.equation ? ` — ${f.equation}` : ""))); tr.appendChild(el("td", f.candidateForOurEngine ? "ok" : "muted", f.candidateForOurEngine || "—")); gtb.appendChild(tr); }
+      gt.appendChild(gtb); const gd = el("div", "tbl"); gd.appendChild(gt); det.appendChild(gd);
+      if ((g.derivationsClaimed || []).length) { const dl = el("ul"); for (const dc of g.derivationsClaimed) dl.appendChild(el("li", dc.survives ? "ok" : "src", `${dc.file} : ${dc.line} — ${dc.what} — ${dc.equation} — ${dc.isItDerivedOrAsserted}${dc.votes && dc.votes.length ? ` — refuters: ${dc.votes.filter((v) => v && v.refuted).length} of ${dc.votes.length} refuted` : ""}`)); det.appendChild(dl); }
+      out.appendChild(det);
+    }
+    document.body.dataset.ssea = String((data.groups || []).length);
+  }
+
   // ── boot ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
   function defaultInputs() {
     const now = new Date(), tz = 5.5, local = new Date(now.getTime() + tz * 3600000);
@@ -363,6 +393,8 @@
     try { renderTower(); } catch (e) { $("tower-note").textContent = `the tower table could not be computed: ${e.message}`; }
     try { renderGranthas(await get("corpus/research/library-sweep.json")); }
     catch (e) { $("granthas-out").appendChild(el("p", "refusal", `corpus/research/library-sweep.json could not be read: ${e.message}`)); document.body.dataset.granthas = "missing"; }
+    try { renderSsea(await get("corpus/research/ssea-audit.json")); }
+    catch (e) { $("ssea-out").appendChild(el("p", "refusal", `corpus/research/ssea-audit.json could not be read: ${e.message}`)); document.body.dataset.ssea = "missing"; }
     try { renderGenerator(await get("corpus/research/generator-2-search.json")); }
     catch (e) { try { renderGenerator(null); } catch (_) { /* the orbits need the module */ } $("gen-search").appendChild(el("p", "refusal", `corpus/research/generator-2-search.json could not be read: ${e.message}`)); document.body.dataset.generator = "missing"; }
     document.body.dataset.ready = "1";

@@ -2352,6 +2352,27 @@
     "VEDHA-YANTRA-DESIGN-2026-10-07.md"
    ],
    "caveats": "Anchors are numerical regression pins, not observational accuracy evidence (the files say so). The envelope is measured against the repository's own dṛk tier, not the sky. BE-S03's older envelope (Sun<5°, Moon<8°, 1993) is not the current gate. Design-doc §18 does not cover the anchors."
+  },
+  {
+   "id": "mcra-tail",
+   "title": "The Mādhava-Chebyshev rational approximator: the geometric tail of a Chebyshev series in closed form (the owner's derivation, from the SSEA engine)",
+   "titleSa": "माधव-चेबिशेव परिमेय सन्निकटन · शेष-श्रेणी का बन्द रूप",
+   "derives": "For a Chebyshev series Σ c_n T_n(x) whose coefficients beyond degree N fall geometrically, c_n = c_{N+1} β^(n−N−1), the infinite tail Σ_{n>N} c_n T_n(x) equals c_{N+1} (T_{N+1}(x) − β T_N(x)) / (1 − 2βx + β²), with β = c_{N+2}/c_{N+1} read off the first two coefficients past the cut. The uploaded SSEA engine (src/math/chebyshev.ts, madhavaChebyshevApproximator) and the web substrate (planet-helpers.ts mcraEval) carry this as the owner's own construction and use it to evaluate fitted planetary corrections.",
+   "fromText": "none — a theorem of the owner's engine, named for Mādhava's series; not a text of the library",
+   "method": "With t = β the tail is c_{N+1} Σ_{k≥0} t^k T_{N+1+k}(x). The three-term recurrence T_{k+1} = 2x T_k − T_{k−1} applied term by term gives (1 − 2tx + t²) Σ_{k≥0} t^k T_{m+k}(x) = T_m(x) − t T_{m−1}(x) for any m, the shifted generating function of the Chebyshev polynomials (m = 0: Σ t^k T_k = (1 − tx)/(1 − 2tx + t²)); |β| < 1 for convergence. mcra.test.js checks the identity to 1e-11 over β ∈ (−1, 1), x ∈ [−1, 1], N up to 11, against 2,000 summed terms, and shows on e^x (a tail that is not geometric) that the rational tail improves on plain truncation but is not exact.",
+   "figures": {
+    "identityWorstErrorOver800Checks": "below 1e-11",
+    "convergence": "|β| < 1"
+   },
+   "caveats": "Exact only when the tail is geometric; on a real series it is an estimate of the tail from two coefficients. The text tiers of this engine do not use it (they carry no fitted series); it is recorded as the owner's verified derivation. 'Mādhava' is the name the owner gave it: the identity is the Chebyshev generating function, not a result of the Kerala texts.",
+   "sourceFiles": [
+    "mcra.test.js"
+   ],
+   "tags": [
+    "theorem",
+    "owner-derivation",
+    "from the SSEA engine (2026-10-12)"
+   ]
   }
  ],
  "notYetInLedger": {

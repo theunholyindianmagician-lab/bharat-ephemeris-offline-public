@@ -158,6 +158,24 @@ function score(name, from, step, n) {
   return { sun: st(d.sun), moon: st(d.moon), el: st(d.el), ay: st(d.ay) };
 }
 const SPANS = [['2026, every 5 days', 2461041.5, 5, 73], ['1900-2100, every 97 days', 2415020.5, 97, 753]];
+// ── the five star-planets: a bīja (epoch + rate, linear in centuries) on the Kerala tier's true planet against the dṛk tier ──
+// The form is the paramparā's bīja-saṃskāra (Govindasvāmin, Bhāskara II's Karaṇa-kutūhala: a linear-in-years seed on the mean
+// motion); the uploaded SSEA engine carries such a table with reconstructed verses [unverified]. Nothing is taken from it: the
+// amplitudes are measured here, on the TRUE longitude of each planet (so the śīghra's own errors remain), and reported only.
+const PLANETS = ['mangala', 'budha', 'guru', 'shukra', 'shani'];
+function planetBija(from, step, n) {
+  const out = {};
+  for (const key of PLANETS) {
+    let S0 = 0, ST = 0, STT = 0, SR = 0, SRT = 0; const res = [];
+    for (let i = 0; i < n; i++) { const jd = from + i * step, T = (jd - 2451545) / 36525;
+      const k = M.tierGrahaRows(jd, 'kerala').find((r) => r.key === key).longitude, d = M.tierGrahaRows(jd, 'drik').find((r) => r.key === key).longitude;
+      const r = wrap(k - d); res.push([T, r]); S0 += 1; ST += T; STT += T * T; SR += r; SRT += r * T; }
+    const det = S0 * STT - ST * ST, epoch = (SR * STT - ST * SRT) / det, rate = (S0 * SRT - ST * SR) / det;   // least squares r ≈ epoch + rate·T
+    const st = (a) => ({ mean: a.reduce((x, y) => x + y, 0) / a.length * 60, rms: Math.sqrt(a.reduce((x, y) => x + y * y, 0) / a.length) * 60, max: Math.max(...a.map(Math.abs)) * 60 });
+    out[key] = { before: st(res.map(([, r]) => r)), after: st(res.map(([T, r]) => r - epoch - rate * T)), epochDeg: -epoch, ratePerCentury: -rate, form: 'λ + (epoch + rate·T), T in Julian centuries from J2000, on the true longitude', provenance: 'bīja-saṃskāra form [paramparā]; the numbers measured here against the dṛk tier [measured]' };
+  }
+  return out;
+}
 /** The whole measurement as data (the page shows it with this provenance). */
 function result() {
   const spans = SPANS.map(([title, from, step, n]) => ({ title, fromJd: from, stepDays: step, samples: n, rows: Object.keys(CANDIDATES).map((name) => ({ name, ...score(name, from, step, n) })) }));
@@ -166,7 +184,8 @@ function result() {
     sunEpochArcmin, aryaSunAtEpoch, parameshvaraMoonDeg: rashiDeg(PAR_EP.value.moon), parahitaMoonAtEpoch: aryaMoonAtEpoch, textMoonAtEpoch: ssMoonAtEpoch,
     measured: { fittedOn: '1900-2100, every 97 days (753 samples); the 2026 span lies inside it', method: 'least squares of the Kerala tier\'s tropical residual against the dṛk tier on a constant plus the terms; the constant (the ayanāṃśa\'s business) is not applied',
       terms: Object.fromEntries(Object.entries(TERMS).map(([k, v]) => [k, { form: v.form, body: v.body, provenance: v.provenance }])),
-      candidates: Object.fromEntries(Object.entries(MEASURED).map(([k, fn]) => [k, { moonTerms: fn.fit.moonTerms, sunTerms: fn.fit.sunTerms, moonFit: fn.fit.moon, sunFit: fn.fit.sun }])) },
+      candidates: Object.fromEntries(Object.entries(MEASURED).map(([k, fn]) => [k, { moonTerms: fn.fit.moonTerms, sunTerms: fn.fit.sunTerms, moonFit: fn.fit.moon, sunFit: fn.fit.sun }])),
+      planets: { fittedOn: '1900-2100, every 97 days (753 samples)', unit: 'arcminutes (mean, rms, max); epoch in degrees, rate in degrees per Julian century', bodies: planetBija(SPANS_FIT[0], SPANS_FIT[1], SPANS_FIT[2]) } },
     candidates: { ss: 'the plain Sūrya-Siddhānta', par: "+ Parameśvara's Moon and node (the record)", 'par+ayanPhase': "+ Parameśvara's 15° as a phase shift alone (the morning's default of 2026-10-09; it breaks Āryabhaṭa's zero by 57.6′: superseded)", 'par+ayanAmp': "+ the same single record as an amplitude change alone (within a minute of the three-record fit)", 'par+ayan3': "+ the libration fitted to the paramparā's three determinations — Āryabhaṭa's zero in Kali 3600, Nīlakaṇṭha's 14°26′, Parameśvara's 15° — on its phase and greatest value: THE DEFAULT TIER (adopted; residuals 0, −0.5, +0.5′)", 'par+keralaLin': "+ Nīlakaṇṭha's stated linear rule (14°26′ + 0.9′ a year) instead: it misses Āryabhaṭa's zero by 56′, kept as a cross-check", 'par+keralaLin+sunEpoch': "+ Parameśvara's epoch Sun as a shift of the text's (a canon difference, not a correction: not adopted)", kerala: "the Kerala tier: Parahita + Dṛggaṇita means, the text's epicycles, the line through the three determinations", 'kerala+vakyaMoon': 'the same with the Moon of candravakya.js (Mādhava\'s sine, the 31.5 epicycle [unverified])',
       'kerala+dvitiya': "the Kerala tier + Munjāla's second correction (the evection's argument), amplitude measured [paramparā form, measured amplitude]", 'kerala+dvitiya+var': '+ the variation (no Indian source) [standard form, measured amplitude]', 'kerala+dvitiya+var+annual': '+ the annual equation (no Indian source) [standard form, measured amplitude]',
       'kerala+manda': "the Kerala tier with a measured scale on each of the text's manda epicycles (14° Sun, 32° Moon) [measured]", 'kerala+all': 'all five measured forms together — what the sibling Kerala-corrections file (SSEA / sphuta / web) would do here, with every amplitude fitted, none typed [measured]' },
@@ -186,4 +205,4 @@ if (require.main === module) {
     for (const name of Object.keys(CANDIDATES)) { const s = score(name, from, step, n); console.log(`  ${name.padEnd(24)} Sun ${f(s.sun).padEnd(34)} Moon ${f(s.moon).padEnd(34)} Moon−Sun ${f(s.el).padEnd(34)} → tithi end ${(s.el.rms / 731.4 * 24).toFixed(2)} h rms | ayan ${f(s.ay)}`); }
   }
 }
-module.exports = { CANDIDATES, SPANS, score, sky, phase, amp, keralaLinear, sunEpochArcmin, result, keralaParts, measuredPlaces, TERMS };
+module.exports = { CANDIDATES, SPANS, score, sky, phase, amp, keralaLinear, sunEpochArcmin, result, keralaParts, measuredPlaces, TERMS, planetBija };

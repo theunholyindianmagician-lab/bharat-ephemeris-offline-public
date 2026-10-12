@@ -1712,6 +1712,24 @@ The fitted amplitudes are the values the forms are known to have — evection -1
 
 **Where it sits.** The forms are an option of the Kerala tier (`ss-tier.js opts.measured`, amplitudes passed from the record, never typed; `measuredFromRecord(record, candidate)`), reproduced to the micro-arcsecond against the script's formula. They are not the tier's default: the Kerala tier's identity is the paramparā's own numbers (Parahita, Parameśvara's record, the three determinations), and a sky-fitted amplitude, even on an Indian form, is a dṛk-saṃskāra in Parameśvara's spirit that the owner should turn on knowingly; turning it on changes the tier's 100,000-year manifest and every page that shows the tier. The research page §3 shows the forms, their provenance and the numbers. Not taken from the file at all: the modern typed amplitudes, the ecliptic reduction, the JPL-fitted secular constants and quadratics (the dṛk tier is this repository's sky; the text tiers do not carry foreign constants).
 
+### 24.14 The SSEA engine, uploaded and read (2026-10-12)
+
+The owner pushed the desktop engine as `ssea-engine-upload` of kaal-sacred-discovery (128 files). Nine readers on the small model catalogued it by file group (no refuters, at the owner's word), every quoted line re-checked here: 440 findings, 420 verbatim, 111 in-file derivations claimed; this repository's own 9 findings all verified (`corpus/research/ssea-audit.json`, research page §7). What it is: the bharat-substrate library shared with bharat-ephemeris-web and sphuta (the text's mean motions and epicycles, the four-step planets, a geo-heliocentric Kepler tier on modern Standish elements, the Kerala-corrections forms, fitted dṛk-śeṣa series evaluated by a Chebyshev approximator) plus the owner's framework layers (Pāṇini, Piṅgala, Mahāvidyā, Sphoṭa, the epics), scripts and tests.
+
+**Taken.** (1) The Mādhava-Chebyshev rational approximator — the owner's own derivation: the geometric tail of a Chebyshev series in closed form, c_{N+1}(T_{N+1} − βT_N)/(1 − 2βx + β²). Verified to 1e-11 (`mcra.test.js`), recorded in the derivations ledger (`mcra-tail`) with its proof (the Chebyshev generating function) and its limit (exact only for a geometric tail). It is the one derivation in the engine that is not a textbook restatement; the 44 others the readers flagged are mean motions from bhagaṇas, arcsin of a periphery ratio, Ketu = Rāhu + 180° and the like. No Kepler derivation of the owner's own exists in the engine: `planet-helpers.ts` carries the standard e⁴ equation-of-centre series and a Newton Kepler solve on modern elements. (2) The three Moon forms — already measured here on 2026-10-11; SSEA attributes their modern amplitudes to Karaṇa-kutūhala IV.7–12, which the owner's own later Moon dossier overturns; the attribution is not taken. (3) The bīja-saṃskāra form on the star-planets, measured here on the Kerala tier's true longitudes against the dṛk tier over 1900–2100 (`parampara-apply.json` → `measured.planets`, research page §3), reported, not wired:
+
+| graha | rms before | rms after | epoch | rate |
+|---|---|---|---|---|
+| mangala | 137′ | 92′ | +1.68° | +0.530°/cy |
+| budha | 161′ | 159′ | +0.31° | +0.253°/cy |
+| guru | 280′ | 49′ | -4.58° | -0.375°/cy |
+| shukra | 401′ | 400′ | +0.40° | +0.216°/cy |
+| shani | 373′ | 81′ | +6.04° | +1.086°/cy |
+
+Jupiter and Saturn gain fivefold, Mars by half, Mercury and Venus nothing — the pattern the tradition states (SSEA's `bija-samskara.ts` quotes Karaṇa-kutūhala to that effect, in verses it calls Pingree's reconstruction; unverified, not taken). Wiring a planet bīja changes the text tiers' planets and is the owner's call.
+
+**Found wanting in it** (all verified at their lines, in `ssea-audit.json` → `own`): Āryabhaṭa's civil-day count 1,577,917,500 used with the Sūrya-Siddhānta's bhagaṇas (a canon mix; this repository keeps the two apart); the Sun's apogee moving 54″ a year (not the text's 387 revolutions a kalpa; near the precession rate); modern Moon amplitudes labelled Karaṇa-kutūhala; a true-node oscillation 1.5°·sin 2(λ☉ − Ω) labelled Karaṇa-kutūhala that the file itself calls a 20th-century reconstruction (the modern principal term; a candidate here once a true-node reference exists — the dṛk tier carries the mean node); reconstructed Sanskrit verses in `bija-samskara.ts`; the planets on modern elements labelled Bhāratīya; its own benchmark 59′ Sun and 316′ Moon against Drik values, where this repository's Kerala tier stands at 12′ and 82′ rms over 1900–2100, 3.3′ and 17′ with the measured forms. The readers' 306 "candidates" are mostly fixes to SSEA itself (a table lookup bug at 90° in `aryabhata.ts`, three incompatible Venus accuracy figures, header residuals that disagree with the code); they are in the record for the owner.
+
 ### 24.7 Left for the owner
 
 - Seal DRAFT BE-S13 as revised (four choices; the default's ayanāṃśa zero from `PAR-ayanamsha-4536`).
