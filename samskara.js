@@ -292,7 +292,7 @@
   function lunarEclipse(M, t0) {
     const tm = syzygy(M, t0, 180);
     const b = { sun: M.motion(tm, "sun"), moon: M.motion(tm, "moon") };
-    const discs = GH.discsFrom(b), grahya = discs.moon, grahaka = discs.shadow, rate = b.moon - b.sun;
+    const discs = (M.discsFrom || GH.discsFrom)(b), grahya = discs.moon, grahaka = discs.shadow, rate = b.moon - b.sun;   // M.discsFrom: a tier's measured shadow scale (ss-tier modelOf)
     const beta = M.places(tm).latitude, halfSum = (grahya + grahaka) / 2;
     const E = { middle: tm, latitude: beta, halfSum, discs: { moon: grahya, shadow: grahaka }, rate, possible: Math.abs(beta) < halfSum,
       magnitude: (halfSum - Math.abs(beta)) / grahya, sparsha: null, moksha: null };
@@ -330,13 +330,17 @@
   const textModels = new WeakMap();
   const textModelOf = (M) => { let M0 = textModels.get(M.ctx); if (!M0) { M0 = buildModel(M.ctx, {}); textModels.set(M.ctx, M0); } return M0; };
   function solarOnModel(M, E0) {
-    const k0 = E0._k, nati = (t) => k0.trueLat(t) - k0.latFn(t);             // 5.10-5.12 at the text's values, held
+    // M.parallaxScale { nati, lambana }: a tier's measured scales on the text's nati and on the middle's lambana (ss-tier modelOf);
+    // absent, both are the text's own (held at the text's value)
+    const ps = M.parallaxScale || null, natiScale = ps && Number.isFinite(ps.nati) ? ps.nati : 0, lamScale = ps && Number.isFinite(ps.lambana) ? ps.lambana : 0;
+    const k0 = E0._k, nati = (t) => (1 + natiScale) * (k0.trueLat(t) - k0.latFn(t));   // 5.10-5.12 at the text's values (× the measured scale)
     const M0 = textModelOf(M);
     const c0 = syzygy(M0, E0.parva.days, 0), shift = syzygy(M, c0, 0) - c0;  // the conjunction on each model (4.8)
-    const tm = E0.middle + shift;
+    const extra = -lamScale * (E0.lambana && Number.isFinite(E0.lambana.middle) ? E0.lambana.middle : 0) / 60;   // the middle's lambana (5.9, ghaṭikās) × the scale: tm = parva − (1 + s)·L/60 to first order
+    const tm = E0.middle + shift + extra;
     const geom = (MM, t) => {
       const b = { sun: MM.motion(t, "sun"), moon: MM.motion(t, "moon") }, d = GH.discsFrom(b);
-      const beta = MM.places(t).latitude - nati(t - (MM === M0 ? 0 : shift));
+      const beta = MM.places(t).latitude - nati(t - (MM === M0 ? 0 : shift + extra));
       const halves = GH.ardhas(d.sun, d.moon, beta, b.moon - b.sun);
       return { beta, halfSum: (d.sun + d.moon) / 2, sthiti: halves.sthiti, vimarda: halves.vimarda, grahya: d.sun };
     };
@@ -346,14 +350,14 @@
       if (c === "madhya") return tm;
       if (!E0.contacts || !Number.isFinite(E0.contacts[c])) return null;
       const s = (c === "sparsha" || c === "nimilana") ? -1 : 1;
-      const t0 = E0.contacts[c], g0 = geom(M0, t0), g = geom(M, t0 + shift);
+      const t0 = E0.contacts[c], g0 = geom(M0, t0), g = geom(M, t0 + shift + extra);
       const duration = (c === "nimilana" || c === "unmilana") ? "vimarda" : "sthiti";
       if (!(g[duration] > 0) || !(g0[duration] > 0)) return null;
       const d = g[duration] - g0[duration];     // nāḍīs; inner contacts use vimarda (SS 6.20–22)
-      return t0 + shift + s * d / 60;
+      return t0 + shift + extra + s * d / 60;
     };
     const g = geom(M, tm);
-    return { middle: tm, shift, at, channa: g.halfSum - Math.abs(g.beta), halfSum: g.halfSum, latitude: g.beta, grahya: g.grahya };
+    return { middle: tm, shift, lambanaShift: extra, at, channa: g.halfSum - Math.abs(g.beta), halfSum: g.halfSum, latitude: g.beta, grahya: g.grahya };
   }
   const solarText = new Map();
   function textSolar(near, site, id) {

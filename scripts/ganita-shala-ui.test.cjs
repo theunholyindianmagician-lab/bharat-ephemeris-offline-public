@@ -146,7 +146,10 @@ const num = (s) => Number(String(s).replace('′', '').replace('°', '').replace
     assert.ok(Math.abs(Math.abs(parseFloat(measured[5].cells[4])) - 12.8) < 1 && Math.abs(Math.abs(parseFloat(measured[6].cells[4])) - 6.9) < 1, 'the joint fit recovers the sky\'s second harmonic and reduction');
     await page.waitForFunction(() => document.body.dataset.validation === 'done', null, { timeout: 60000 });
     const holdouts = await page.$$eval('#validation-out tr[data-holdout]', (trs) => trs.map((tr) => ({ k: tr.dataset.holdout, cells: [...tr.children].map((td) => td.textContent) })));
-    assert.deepEqual(holdouts.map((h) => h.k), ['holdoutInterleaved', 'holdoutBefore', 'holdoutAfter', 'plainTierOnHoldout']); assert.ok(parseFloat(holdouts[0].cells[2]) < 1.5 && parseFloat(holdouts[3].cells[2]) > 50, 'the Moon out of sample vs the bare paramparā');
+    assert.deepEqual(holdouts.map((h) => h.k), ['holdoutInterleaved', 'edgeFirstYear', 'edgeLastYear', 'plainTierOnHoldout']); assert.ok(parseFloat(holdouts[0].cells[2]) < 1.5 && parseFloat(holdouts[3].cells[2]) > 50, 'the Moon out of sample vs the bare paramparā');
+    const ecl = await page.$eval('#eclipse-scales', (p) => ({ shadow: +p.dataset.shadow, nati: +p.dataset.nati, lambana: +p.dataset.lambana }));
+    assert.ok(Number.isFinite(ecl.shadow) && Number.isFinite(ecl.nati) && Number.isFinite(ecl.lambana), 'the eclipse scales on the page');
+    const dn = await page.$eval('#drik-node-series', (p) => +p.dataset.holdout); assert.ok(dn > 0 && dn < 5, `the dṛk node series holdout ${dn}′`);
     const bija = await page.$$eval('#measured-out tr[data-bija]', (trs) => trs.map((tr) => tr.dataset.bija)); assert.deepEqual(bija, ['sunMean', 'sunApogee', 'moonMean', 'moonApogee', 'node']);
     assert.ok((await page.$$eval('#parampara-out table.parampara-span tbody tr', (trs) => trs.map((tr) => tr.children[0].textContent))).some((n) => n.startsWith('kerala+all')));
     const planets = await page.$$eval('#measured-out tr[data-graha]', (trs) => trs.map((tr) => ({ g: tr.dataset.graha, cells: [...tr.children].map((td) => td.textContent) })));

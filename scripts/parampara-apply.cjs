@@ -19,7 +19,7 @@
  *                   Moon, apogee and node, the text's epicycles on them, the Kerala linear ayanāṃśa
  *   kerala+vakyaMoon the same with the Moon of candravakya.js (canon 'parahita': Mādhava's sine, the 31.5 epicycle [unverified])
  *
- *   node scripts/parampara-apply.cjs            2026 every 5 days, 1900-2100 every 97 days, and the fit grid 1862-2138 every 97 days
+ *   node scripts/parampara-apply.cjs            2026 every 5 days, 1900-2100 and 1862-2138 every 97 days, and the fit grid 1850-2150 every 97 days
  *   node scripts/parampara-apply.cjs --write    the same, written to corpus/research/parampara-apply.json for ganita-shala.html
  */
 'use strict';
@@ -122,11 +122,34 @@ function fitTerms(names, body, from, step, n) {
 }
 const FIT_SPAN = 1;                                                                           // fitted on the long span; scored on both
 const fitted = (names, body) => fitTerms(names, body, SPANS_FIT[0], SPANS_FIT[1], SPANS_FIT[2]);
-const SPANS_FIT = [2401141.5, 97, 1039];                                                 // 1862-01-01 (JD 2401141.5) + 97 d × 1039 → 2137.9; the dṛk tier serves 1850-2150, the edges are temporal holdouts
+const SPANS_FIT = [2396773.5, 97, 1130];
+// ── the dṛk tier's true node as a series on its own mean angles, measured against its crossing method ──
+// The dṛk tier's rows carry the mean node (the pañcāṅga convention); its true node is read where the Moon's latitude crosses the
+// ecliptic (siddhanta-tier.js trueNode, ~90 Moon evaluations). For the rows a series on the tier's own mean angles is fitted here
+// against that reading: standard forms (integer arguments on D, g, g′, F), every amplitude measured, a holdout midway between the
+// samples. The rows then carry both (math-core drikTrueNodeSeries); the crossing method stays the reference and the API.
+const DRIK_NODE_FORMS = [[2, 0, 0, -2], [0, 0, 1, 0], [0, 1, 0, 0], [2, 0, 0, 0], [0, 0, 0, 2], [0, 2, 0, -2], [2, 1, 0, -2], [0, 1, 0, -2], [2, 0, 1, -2], [4, 0, 0, -4]];
+function drikTrueNodeFit(from, step, n) {
+  const ST_D = require(path.join(ROOT, 'siddhanta-tier.js')), SDK = require(path.join(ROOT, 'siddhanta-drik.js')).core, S = ST_D.series();
+  const read = (jd) => { const r = ST_D.grahas(jd, { speed: false }), A = SDK.angles(S, r.jdTT - 2451545), d = 180 / Math.PI;
+    return { jd, mean: r.rahu, args: [A.L_M - A.L_E + Math.PI, A.L_M - A.P_M, A.L_E - A.P_E, A.L_M - A.N_M].map((x) => x * d), dev: wrap(ST_D.trueNode(jd).ascending - r.rahu) }; };
+  const fit = [], hold = [];
+  for (let i = 0; i < n; i++) { fit.push(read(from + i * step)); if (i < n - 1) hold.push(read(from + step / 2 + i * step)); }
+  const model = (q, s) => { let v = 0; for (let j = 0; j < DRIK_NODE_FORMS.length; j++) { const th = DRIK_NODE_FORMS[j].reduce((a, k, m) => a + k * s.args[m], 0) * Math.PI / 180; v += (q[2 * j] || 0) * Math.sin(th) + (q[2 * j + 1] || 0) * Math.cos(th); } return v; };
+  const resOn = (q, set) => set.map((s) => wrap(s.dev - model(q, s)));
+  const q = lm((x) => resOn(x, fit), new Array(2 * DRIK_NODE_FORMS.length).fill(0));
+  const st = (a) => ({ mean: a.reduce((x, y) => x + y, 0) / a.length * 60, rms: Math.sqrt(a.reduce((x, y) => x + y * y, 0) / a.length) * 60, max: Math.max(...a.map(Math.abs)) * 60 });
+  return { basis: ['D', 'g', 'gp', 'F'], terms: DRIK_NODE_FORMS.map((k, j) => ({ k, sin: q[2 * j], cos: q[2 * j + 1], amplitudeDeg: Math.hypot(q[2 * j], q[2 * j + 1]) })),
+    fittedOn: `JD ${from} + ${step} d × ${n} (1850-2150)`, samples: fit.length, before: st(resOn([], fit)), after: st(resOn(q, fit)),
+    holdout: { grid: 'midway between the fit samples, no amplitude fitted on it', samples: hold.length, before: st(resOn([], hold)), after: st(resOn(q, hold)) },
+    reference: 'siddhanta-tier.js trueNode: the Moon\'s latitude crossings bisected, the node linear between them',
+    unit: 'arcminutes (mean, rms, max) of (true node − mean node) − series; amplitudes in degrees, on the tier\'s own mean angles D = L_M − (L_E + 180°), g = L_M − P_M, g′ = L_E − P_E, F = L_M − N_M',
+    note: 'standard forms, every amplitude measured here, none typed; the rows\' trueLongitude for Rāhu and Ketu on the dṛk tier (math-core drikTrueNodeSeries)' };
+}                                                 // 1850-01-16 (JD 2396773.5) + 97 d × 1130 → 2149.9: the whole span the dṛk tier serves, 15 d in from each edge (the crossing method needs a bracket inside the span)
 /** The Kerala tier's places with given amplitudes of the forms (degrees for the three sines, scales for the two manda terms): the one
  *  formula the tier's `measured` option must reproduce (ss-tier.js placesOf). */
 function measuredPlaces(jd, amplitudes) {
-  amplitudes = Object.fromEntries(Object.entries(amplitudes).filter(([k]) => k !== 'planets'));   // the planets' bīja is applied in ss-tier through fourSteps, not here
+  amplitudes = Object.fromEntries(Object.entries(amplitudes).filter(([k]) => k !== 'planets' && !ST.ECLIPSE_KEYS.includes(k)));   // the planets' bīja is applied in ss-tier through fourSteps, the eclipse scales in the eclipse model, not here
   const k = keralaParts(jd); let dm = 0, ds = 0;
   for (const [nm, a] of Object.entries(amplitudes)) { if (!TERMS[nm]) throw new RangeError(`unknown form ${nm}`); if (TERMS[nm].body === 'moon') dm += a * TERMS[nm].of(k); else ds += a * TERMS[nm].of(k); }
   const sun = mod(k.sun + ds, 360), moon = mod(k.moon + dm, 360);
@@ -178,7 +201,7 @@ function score(name, from, step, n) {
   const st = (a) => { const mean = a.reduce((x, y) => x + y) / a.length, rms = Math.sqrt(a.reduce((x, y) => x + y * y, 0) / a.length); return { mean, rms, max: Math.max(...a.map(Math.abs)) }; };
   return { sun: st(d.sun), moon: st(d.moon), el: st(d.el), ay: st(d.ay) };
 }
-const SPANS = [['2026, every 5 days', 2461041.5, 5, 73], ['1900-2100, every 97 days', 2415020.5, 97, 753], ['1862-2138, every 97 days (the fit grid)', 2401141.5, 97, 1039]];
+const SPANS = [['2026, every 5 days', 2461041.5, 5, 73], ['1900-2100, every 97 days', 2415020.5, 97, 753], ['1862-2138, every 97 days', 2401141.5, 97, 1039], ['1850-2150, every 97 days (the fit grid: the whole span the dṛk tier serves, 15 d in from each edge)', 2396773.5, 97, 1130]];
 // ── the five star-planets: a bīja (epoch + rate, linear in centuries) on the Kerala tier's true planet against the dṛk tier ──
 // The form is the paramparā's bīja-saṃskāra (Govindasvāmin, Bhāskara II's Karaṇa-kutūhala: a linear-in-years seed on the mean
 // motion); the uploaded SSEA engine carries such a table with reconstructed verses [unverified]. Nothing is taken from it: the
@@ -307,11 +330,14 @@ function jointMeasured(from, step, n) {
     const jd = (lo + hi) / 2, lon = moonAt(jd).lon; crossings.push({ jd, t: tOf(jd), node: b > a ? lon : mod(lon + 180, 360) }); break; } a = b; } }
   const NODE_TERMS = ['nodeTrue2SF', 'nodeTrueG', 'nodeTrueGp', 'nodeTrue2G', 'nodeTrue2SFmG'];
   const nodeOf = (q) => ({ ...latOf(latQ), ...Object.fromEntries(NODE_TERMS.map((k, i) => [k, q[i] || 0])) });
-  const nodeRes = (q) => { const pl = ST.placesOf(KER.mean, ST.measuredOf(nodeOf(q))); return crossings.map((c) => wrap(pl(c.t).rahuTrue - c.node)); };
+  // the node's own holdout: the forms are fitted on every other crossing (even index) and measured on the rest, which no amplitude touched
+  const nodeFitX = crossings.filter((_, i) => i % 2 === 0), nodeHoldX = crossings.filter((_, i) => i % 2 === 1);
+  const nodeResOn = (q, set) => { const pl = ST.placesOf(KER.mean, ST.measuredOf(nodeOf(q))); return set.map((c) => wrap(pl(c.t).rahuTrue - c.node)); };
+  const nodeRes = (q) => nodeResOn(q, nodeFitX);
   const nodeQ = lm(nodeRes, [...lm(nodeRes, [...lm(nodeRes, [0]), 0, 0]), 0, 0]);
   const fullAll = nodeOf(nodeQ);
   // ── the generic measured terms: a greedy scan of integer arguments on the residual (the tier's own rates for the period
-  //    filter: 5 d < period < 60 y — slower terms are the bīja's over 1862-2138), then the kept amplitudes fitted jointly
+  //    filter: 5 d < period < 60 y — slower terms are the bīja's over 1850-2150), then the kept amplitudes fitted jointly
   //    through the tier. The Moon on [D, g, g′, F]; each planet on the six mean longitudes, applied to its heliocentric place.
   const combosOf = (ranges) => { const out = []; const rec = (i, cur) => { if (i === ranges.length) { if (cur.some((x) => x) && cur.find((x) => x) > 0) out.push(cur.slice()); return; } for (let v = -ranges[i]; v <= ranges[i]; v++) { cur.push(v); rec(i + 1, cur); cur.pop(); } }; rec(0, []); return out; };
   const linfit = (X, y) => { const k = X[0].length, A = Array.from({ length: k }, () => new Array(k).fill(0)), b = new Array(k).fill(0);
@@ -349,7 +375,7 @@ function jointMeasured(from, step, n) {
   const moonSel = selectTerms(moonRes0, moonLs, moonRates, combosOf([4, 3, 2, 2]).filter((c) => c[3] % 2 === 0), 0.2, 10, resOfSet(fullAll, 'moon', 'candra', holdout), moonLsOf(holdout));
   const moonTermQ = moonSel.length ? lm((q) => resOf({ ...fullAll, moonTerms: termsTo(moonSel, q) }, 'moon', 'candra'), moonSel.flatMap((t) => [t.sin, t.cos])) : [];
   const moonTerms = termsTo(moonSel, moonTermQ), withMoonTerms = { ...fullAll, moonTerms };
-  const moonTermsFit = { basis: ['D', 'g', 'gp', 'F'], terms: moonTerms.map((t) => ({ ...t, amplitudeArcmin: Math.hypot(t.sin, t.cos) * 60 })), before: stLat(moonRes0), after: stLat(resOf(withMoonTerms, 'moon', 'candra')), holdout: { before: stLat(resOfSet(fullAll, 'moon', 'candra', holdout)), after: stLat(resOfSet(withMoonTerms, 'moon', 'candra', holdout)), grid: 'midway between the fit samples, 1038 instants, no amplitude fitted on it' }, note: 'the Moon\'s tropical residual after every form above, 1862-2138 (arcmin); terms kept by a greedy scan of integer arguments (|k| ≤ 4, 3, 2, 2; F even), then fitted jointly through the tier' };
+  const moonTermsFit = { basis: ['D', 'g', 'gp', 'F'], terms: moonTerms.map((t) => ({ ...t, amplitudeArcmin: Math.hypot(t.sin, t.cos) * 60 })), before: stLat(moonRes0), after: stLat(resOf(withMoonTerms, 'moon', 'candra')), holdout: { before: stLat(resOfSet(fullAll, 'moon', 'candra', holdout)), after: stLat(resOfSet(withMoonTerms, 'moon', 'candra', holdout)), grid: 'midway between the fit samples, 1129 instants, no amplitude fitted on it' }, note: 'the Moon\'s tropical residual after every form above, 1850-2150 (arcmin); terms kept by a greedy scan of integer arguments (|k| ≤ 4, 3, 2, 2; F even), then fitted jointly through the tier' };
   // the planets: arguments from the six mean longitudes (text means), rates from the text's mean motions; applied to the heliocentric place
   const PB = ['mercury', 'venus', 'sun', 'mars', 'jupiter', 'saturn'];
   const planetLsOf = (set) => set.map((s) => { const a = G.meanPlaces(s.t); return [a.mercury.sighrocca, a.venus.sighrocca, a.sun, a.mars.mean, a.jupiter.mean, a.saturn.mean]; });
@@ -368,16 +394,16 @@ function jointMeasured(from, step, n) {
     const sel = selectTerms(res0, planetLs, planetRates, combos, 0.3, 10, resWithH([]), planetLsH);
     const q = sel.length ? lm((qq) => resWith(termsTo(sel, qq)), sel.flatMap((t) => [t.sin, t.cos])) : [];
     const terms = termsTo(sel, q);
-    bodies[key] = { ...b, terms, termBasis: PB, termsFit: { before: stat(res0), after: stat(resWith(terms)), holdout: { before: stat(resWithH([])), after: stat(resWithH(terms)), grid: 'midway between the fit samples, 1038 instants, no amplitude fitted on it' }, terms: terms.map((t) => ({ ...t, amplitudeArcmin: Math.hypot(t.sin, t.cos) * 60 })), note: 'the residual after the form above; terms kept by a greedy scan of integer arguments of the six mean longitudes (5 d < period < 60 y), fitted jointly through the tier; applied to the heliocentric place' }, after: stat(resWith(terms)), afterNoTerms: b.after };
+    bodies[key] = { ...b, terms, termBasis: PB, termsFit: { before: stat(res0), after: stat(resWith(terms)), holdout: { before: stat(resWithH([])), after: stat(resWithH(terms)), grid: 'midway between the fit samples, 1129 instants, no amplitude fitted on it' }, terms: terms.map((t) => ({ ...t, amplitudeArcmin: Math.hypot(t.sin, t.cos) * 60 })), note: 'the residual after the form above; terms kept by a greedy scan of integer arguments of the six mean longitudes (5 d < period < 60 y), fitted jointly through the tier; applied to the heliocentric place' }, after: stat(resWith(terms)), afterNoTerms: b.after };
   }
   return { candidate: { moonTerms: MOON_TERMS, sunTerms: SUN_TERMS, latTerms: LAT_TERMS, nodeTerms: NODE_TERMS, moonFit: { amplitudes: Object.fromEntries(MOON_TERMS.map((k) => [k, full[k]])) }, sunFit: { amplitudes: Object.fromEntries(SUN_TERMS.map((k) => [k, full[k]])) },
-    latFit: { amplitudes: Object.fromEntries(LAT_TERMS.map((k) => [k, fullAll[k]])), before: stLat(latRes([])), after: stLat(latRes(latQ)), note: 'the Moon\'s latitude against the dṛk latitude, 1862-2138 (arcmin)' },
-    nodeFit: { amplitudes: Object.fromEntries(NODE_TERMS.map((k) => [k, fullAll[k]])), crossings: crossings.length, before: stLat(nodeRes([])), after: stLat(nodeRes(nodeQ)), note: 'the tier\'s Rāhu (mean node; before) and its true node (the mean with the forms; after) against the node read at the dṛk Moon\'s latitude crossings (arcmin)' },
+    latFit: { amplitudes: Object.fromEntries(LAT_TERMS.map((k) => [k, fullAll[k]])), before: stLat(latRes([])), after: stLat(latRes(latQ)), note: 'the Moon\'s latitude against the dṛk latitude, 1850-2150 (arcmin)' },
+    nodeFit: { amplitudes: Object.fromEntries(NODE_TERMS.map((k) => [k, fullAll[k]])), crossings: crossings.length, fittedOnCrossings: nodeFitX.length, before: stLat(nodeRes([])), after: stLat(nodeRes(nodeQ)), holdout: { crossings: nodeHoldX.length, grid: 'every other crossing (odd index), no amplitude fitted on it', before: stLat(nodeResOn([], nodeHoldX)), after: stLat(nodeResOn(nodeQ, nodeHoldX)) }, note: 'the tier\'s Rāhu (mean node; before) and its true node (the mean with the forms; after) against the node read at the dṛk Moon\'s latitude crossings (arcmin); fitted on the even-index crossings, measured on the odd-index ones (holdout)' },
     moonTermsFit,
     bija: { sunMean: full.sunMean, sunApogee: full.sunApogee, moonMean: full.moonMean, moonApogee: full.moonApogee, node: full.node }, planets: true,
     method: 'Levenberg–Marquardt through ss-tier placesOf on the tropical residual against the dṛk tier: the node first (linear bīja on Rāhu), then the Sun (mean and apogee bīja, epicycle scale, second harmonic), then the Moon (mean and apogee bīja, the five forms, the second manda harmonic, the reduction, then the five small terms) with the Sun and node held; the planets through ss-tier planetWithBija in both forms, the better kept per graha', isDefault: true,
     score: { before: score(a0), after: score(withMoonTerms), afterWithoutTerms: score(full) },
-    holdout: { grid: 'midway between the fit samples (JD 2401190 + 97 d × 1038), no amplitude fitted on it', before: scoreSet(a0, holdout), after: scoreSet(withMoonTerms, holdout) } }, bodies };
+    holdout: { grid: 'midway between the fit samples (JD 2396822 + 97 d × 1129), no amplitude fitted on it', before: scoreSet(a0, holdout), after: scoreSet(withMoonTerms, holdout) } }, bodies };
 }
 // ── the bīja done as the paramparā does it: on the MEANS, through the text's own four-step model ──────────────────────
 // For each star-planet the mean (the planet's own for Mars, Jupiter, Saturn; the Sun's for Mercury, Venus) and the śīghrocca
@@ -420,15 +446,17 @@ function planetBijaMeans(from, step, n) {
 /** The whole measurement as data (the page shows it with this provenance). */
 function result() {
   const joint = jointMeasured(SPANS_FIT[0], SPANS_FIT[1], SPANS_FIT[2]);
+  const drikNode = drikTrueNodeFit(SPANS_FIT[0], 29, 3778);                      // a 29-day grid: the node's 173-day term is not aliased by a 97-day one
   CANDIDATES['kerala+all+bija'] = (jd) => { const t = tOf(jd), a = KER.ayanamshaAt(t), p = ST.placesOf(KER.mean, ST.measuredOf({ ...joint.candidate.moonFit.amplitudes, ...joint.candidate.sunFit.amplitudes, ...joint.candidate.bija }))(t); return { sun: p.sun + a, moon: p.moon + a, ayan: a, sid: { sun: p.sun, moon: p.moon } }; };
   const spans = SPANS.map(([title, from, step, n]) => ({ title, fromJd: from, stepDays: step, samples: n, rows: Object.keys(CANDIDATES).map((name) => ({ name, ...score(name, from, step, n) })) }));
   return { generatedBy: 'node scripts/parampara-apply.cjs --write', frame: 'candidate minus the Modern Bhāratīya (dṛk) tier in the tropical frame (each candidate with its own ayanāṃśa); the ayanāṃśa column is candidate minus Citrā-pakṣa', unit: 'arcminutes',
     record: { moonArcmin: rec.moonArcmin, nodeArcmin: rec.nodeArcmin, epochKali: rec.epochKali }, phaseDeg: phase, amplitudeDeg: amp, keralaLinear2026: keralaLinear(tOf(2461322.5)), citra2026: M.tierAyanamsha(2461322.5, 'drik').deg,
     sunEpochArcmin, aryaSunAtEpoch, parameshvaraMoonDeg: rashiDeg(PAR_EP.value.moon), parahitaMoonAtEpoch: aryaMoonAtEpoch, textMoonAtEpoch: ssMoonAtEpoch,
-    measured: { fittedOn: '1862-2138, every 97 days (1039 samples); the 2026 and 1900-2100 spans lie inside it', method: 'least squares of the Kerala tier\'s tropical residual against the dṛk tier on a constant plus the terms; the constant (the ayanāṃśa\'s business) is not applied',
+    measured: { fittedOn: '1850-2150, every 97 days (1130 samples): the whole span the dṛk tier serves; the 2026, 1900-2100 and 1862-2138 spans lie inside it', method: 'least squares of the Kerala tier\'s tropical residual against the dṛk tier on a constant plus the terms; the constant (the ayanāṃśa\'s business) is not applied',
       terms: Object.fromEntries(Object.entries(TERMS).map(([k, v]) => [k, { form: v.form, body: v.body, provenance: v.provenance }])),
       candidates: { ...Object.fromEntries(Object.entries(MEASURED).map(([k, fn]) => [k, { moonTerms: fn.fit.moonTerms, sunTerms: fn.fit.sunTerms, moonFit: fn.fit.moon, sunFit: fn.fit.sun, planets: k === 'kerala+all' }])), 'kerala+all+bija': joint.candidate },
-      planets: { fittedOn: '1862-2138, every 97 days (1039 samples)', unit: 'arcminutes (mean, rms, max); epoch in degrees, rate in degrees per Julian century; scales and radial terms dimensionless; manda2 and the series in degrees', parameters: PLANET_PARAMS, method: 'Levenberg–Marquardt on the dṛk residual through ss-tier planetWithBija, in two forms per graha, staged — the text\'s four steps: the mean and śīghrocca bīja (4), + the mandocca bīja (6), + the two epicycle scales (8), + the second manda harmonic (9), + the radial variation (11); Nīlakaṇṭha\'s placement: the bīja (6), + the śīghra scale and the first series term (8), + the series (10), + the radial variation (13); the better form kept per graha (`form`)', bodies: joint.bodies, meansOnlyGaussNewton: planetBijaMeans(SPANS_FIT[0], SPANS_FIT[1], SPANS_FIT[2]), trueLongitudeFit: planetBija(SPANS_FIT[0], SPANS_FIT[1], SPANS_FIT[2]) } },
+      drikTrueNode: drikNode,
+      planets: { fittedOn: '1850-2150, every 97 days (1130 samples)', unit: 'arcminutes (mean, rms, max); epoch in degrees, rate in degrees per Julian century; scales and radial terms dimensionless; manda2 and the series in degrees', parameters: PLANET_PARAMS, method: 'Levenberg–Marquardt on the dṛk residual through ss-tier planetWithBija, in two forms per graha, staged — the text\'s four steps: the mean and śīghrocca bīja (4), + the mandocca bīja (6), + the two epicycle scales (8), + the second manda harmonic (9), + the radial variation (11); Nīlakaṇṭha\'s placement: the bīja (6), + the śīghra scale and the first series term (8), + the series (10), + the radial variation (13); the better form kept per graha (`form`)', bodies: joint.bodies, meansOnlyGaussNewton: planetBijaMeans(SPANS_FIT[0], SPANS_FIT[1], SPANS_FIT[2]), trueLongitudeFit: planetBija(SPANS_FIT[0], SPANS_FIT[1], SPANS_FIT[2]) } },
     candidates: { ss: 'the plain Sūrya-Siddhānta', par: "+ Parameśvara's Moon and node (the record)", 'par+ayanPhase': "+ Parameśvara's 15° as a phase shift alone (the morning's default of 2026-10-09; it breaks Āryabhaṭa's zero by 57.6′: superseded)", 'par+ayanAmp': "+ the same single record as an amplitude change alone (within a minute of the three-record fit)", 'par+ayan3': "+ the libration fitted to the paramparā's three determinations — Āryabhaṭa's zero in Kali 3600, Nīlakaṇṭha's 14°26′, Parameśvara's 15° — on its phase and greatest value: THE DEFAULT TIER (adopted; residuals 0, −0.5, +0.5′)", 'par+keralaLin': "+ Nīlakaṇṭha's stated linear rule (14°26′ + 0.9′ a year) instead: it misses Āryabhaṭa's zero by 56′, kept as a cross-check", 'par+keralaLin+sunEpoch': "+ Parameśvara's epoch Sun as a shift of the text's (a canon difference, not a correction: not adopted)", kerala: "the Kerala tier: Parahita + Dṛggaṇita means, the text's epicycles, the line through the three determinations", 'kerala+vakyaMoon': 'the same with the Moon of candravakya.js (Mādhava\'s sine, the 31.5 epicycle [unverified])',
       'kerala+dvitiya': "the Kerala tier + Munjāla's second correction (the evection's argument), amplitude measured [paramparā form, measured amplitude]", 'kerala+dvitiya+var': '+ the variation (no Indian source) [standard form, measured amplitude]', 'kerala+dvitiya+var+annual': '+ the annual equation (no Indian source) [standard form, measured amplitude]',
       'kerala+manda': "the Kerala tier with a measured scale on each of the text's manda epicycles (14° Sun, 32° Moon) [measured]", 'kerala+all': 'all five measured forms together — what the sibling Kerala-corrections file (SSEA / sphuta / web) would do here, with every amplitude fitted, none typed [measured]',

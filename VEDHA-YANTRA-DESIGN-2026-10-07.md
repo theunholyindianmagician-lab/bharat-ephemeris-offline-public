@@ -1905,7 +1905,44 @@ Venus and Saturn still degrade in the twelve unfitted years at each edge (7.8–
 
 **The joint numbers on the widened span:** Sun 3.41′ → 0.45′, Moon 17.79′ → 0.55′, Moon − Sun 19.72′ → 0.68′, Rāhu 2.54′ → 0.20′, and the same on the holdout; the true node at 1039 crossings, 16.0′ rms; the Moon's latitude 1.00′. The planets, Nīlakaṇṭha's placement on the tier's true Sun: Mars 2.49′, Mercury 3.38′, Jupiter 1.47′, Venus 2.71′, Saturn 3.30′ in sample, 2.50 / 3.43 / 1.46 / 2.69 / 3.28 on the holdout [measured]. The 100,000-year Kerala manifest was rerun on the new record (0 failures, 1233 s).
 
-**Still open, named:** the text's shadow and parallax (above); the dṛk rows' Rāhu is the mean node (the true node only through `tierTrueNode`); the node's forms were fitted without a holdout of their own; the Venus and Saturn edge terms beyond 1862–2138.
+**Still open, named (closed the same day, §24.21):** the text's shadow and parallax (above); the dṛk rows' Rāhu is the mean node (the true node only through `tierTrueNode`); the node's forms were fitted without a holdout of their own; the Venus and Saturn edge terms beyond 1862–2138.
+
+### 24.21 The circle closed: the four open items done (2026-10-13, the owner's eighth ask)
+
+The owner's word on §24.20's "still open" list: these were fixed before and keep coming back; join everything into one circle. Each of the four is now measured, carried by the default, and tested — none is listed as open.
+
+**1. The fit covers the whole span the dṛk tier serves.** The grid is 1850–2150 every 97 days (1130 samples, 15 days in from each edge because the crossing method needs a bracket inside the span). The out-of-sample measure is the interleaved holdout midway between the samples (1129 instants) — the edge degradation of §24.20 (Venus and Saturn at 8–9.5′ in unfitted years) was an artefact of fitting narrower than the tier; no instant the dṛk tier serves is now outside the fit, and outside 1850–2150 nothing changes (the bounded constants, §24.19). On the holdout: Sun 0.45′, Moon 0.56′, Moon − Sun 0.68′, Rāhu 0.20′, the Moon's latitude 0.95′; Mars 3.12′, Mercury 3.48′, Jupiter 1.49′, Venus 2.63′, Saturn 3.71′ (in sample 3.05 / 3.32 / 1.53 / 2.66 / 3.72) [measured]. The text's own mean-Sun centre stays the worse variant (Mars 12.6′, Mercury 15.4′, Jupiter 4.3′, Venus 7.3′, Saturn 5.7′), recorded.
+
+**2. The node's forms have their own holdout.** The five forms are fitted on the even-index crossings (565 of 1130) and measured on the odd ones: 71.4′ → 16.6′ in sample, 71.6′ → 16.6′ on the holdout [measured]. The in-sample number of §24.18 was not a tuning.
+
+**3. The dṛk rows carry the true node.** `siddhanta-tier.js nodeArguments` gives the tier's own mean angles (D = L_M − (L_E + 180°), g, g′, F); `scripts/parampara-apply.cjs drikTrueNodeFit` fits ten standard forms on them against the crossing method (`trueNode`, the reference) on a 29-day grid (3778 instants; a 97-day grid would alias the node's 173-day term) with a holdout midway: 68.2′ → 3.43′ rms, holdout 68.2′ → 3.44′; the principal term 1.594° on sin 2(λ☉ − Ω), then 0.150° on sin g′, 0.079° on sin 2(g − F) [measured]. `math-core drikTrueNodeSeries` applies the record's amplitudes; every dṛk row for Rāhu and Ketu carries `trueLongitude` and `trueNodeMethod` beside the mean node (the pañcāṅga convention keeps `longitude` the mean), and `tierTrueNode('drik')` reports the series beside the crossing method. The test checks the rows against the crossing method at six instants (< 10′).
+
+**4. The text's shadow and the chapter-5 parallax are measured.** `scripts/measure-eclipses.cjs` (new) measures three scales against the dṛk tier's eclipses at Ujjain over 1900–2100, each on alternate eclipses with the rest held out, on the Kerala default's places without the scales (a rerun cannot measure them against themselves):
+- `shadowScale` on the text's tamas (SS 4.4–4.5): the lunar magnitude is linear in it at the middle, so the least-squares scale is closed-form on 142 of the 284 matched eclipses: +0.0091 (the text's shadow is 0.9 % too small; the real umbra is enlarged by the atmosphere); magnitude rms 0.0619 → 0.0607, holdout 0.0638 → 0.0624 [measured]. Small, because the remaining magnitude difference is the latitude's and the middle's, not the shadow's.
+- `natiScale` on the nati (5.10–5.12) and `lambanaScale` on the middle's lambana (5.8–5.9): at every new moon where either tier has a solar eclipse at the site (178), the model's covered fraction against the dṛk local magnitude, a grid over the two scales refined twice: nati × 1.205, lambana × 1.000 exactly (the grid's best is the text's own value — the text's lambana is right, its nati a fifth too small); rms 0.160 → 0.091, holdout 0.157 → 0.120; the eclipses both tiers see at Ujjain 162 → 172 of 176 [measured].
+The scales ride the joint candidates through `measuredFromRecord`; `ss-tier modelOf` passes them to `samskara.js` (`M.discsFrom` scales the shadow in `lunarEclipse`; `M.parallaxScale` scales the nati and shifts the middle by the lambana's scale in `solarOnModel`); the eclipse rows' `method` says so. The test checks that a 2026 lunar eclipse's magnitude moves by exactly s·shadow/(2·disc) and the middle not at all.
+
+**The validation, rerun with the scales applied** (`corpus/research/validate-oos.json`; the interleaved holdout, the span's first and last years, root-found tithi ends, the eclipses):
+
+| body | holdout between the fit samples (1850–2150) | 1850, the first year (every 7 d) | 2149, the last year | bare paramparā, same holdout |
+|---|---|---|---|---|
+| Sun | 0.45′ | 0.46′ | 0.49′ | 11.93′ |
+| Moon | 0.56′ | 0.49′ | 0.75′ | 82.45′ |
+| Moon − Sun | 0.68′ | 0.66′ | 0.94′ | 82.60′ |
+| Rāhu | 0.20′ | 0.17′ | 0.25′ | 2.76′ |
+| Moon latitude | 0.94′ | 1.03′ | 0.87′ | 28.62′ |
+| Mercury | 3.48′ | 3.58′ | 3.18′ | 161.68′ |
+| Venus | 2.63′ | 8.67′ | 7.90′ | 385.07′ |
+| Mars | 3.12′ | 2.46′ | 2.52′ | 138.21′ |
+| Jupiter | 1.49′ | 1.73′ | 2.06′ | 280.40′ |
+| Saturn | 3.71′ | 0.68′ | 8.00′ | 377.38′ |
+
+**Tithi ends** by root-finding, instant against instant: 2026, 359 ends, 1.29 min rms (max 4.3); 1850, 359 ends, 1.27 min rms (max 3.5); 2149, 359 ends, 2.03 min rms (max 5.9). **Eclipses 1900–2100 at Ujjain, with the scales applied:** lunar, 284 of the dṛk tier's 288 umbral eclipses matched, middles 6.2 min rms (max 12.7), magnitudes 0.062 rms apart with mean −0.002 (the shadow scale removed the bias; the spread is the latitude's and the middle's); the same four grazing partials unmatched. Solar at Ujjain: 46 of the dṛk tier's 75 seen matched among the 104 the Kerala default lists (18.0 min rms), 20 dṛk-seen missing (27 before the scales), 1 listed that the dṛk path misses [measured].
+
+**The residual's structure, measured, so that a single year's number is not misread.** Venus's and Saturn's single-year figures (0.7′ to 8.7′) depend on the synodic phase that year samples, not on the year's place in the span: binned over 30 years on the interleaved holdout, Venus is 1.5–3.8′ in every bin from 1850 to 2150, Mars 2.4–4.0′, Mercury 2.6–4.4′, Jupiter 0.8–2.2′, Saturn 1.7–6.3′ [measured, 2026-10-13]. Saturn's bins are highest where its mean residual runs −5.3′ (1850–1860), −3.8′ (1860–1890), +3.1′ (1890–1920), then within ±3′ to 2150: a slow term of a few arcminutes and a period of the order of sixty years that the scan's filter (periods under 60 years, the kept amplitude above the threshold) did not take, the one specific defect this validation names. Jupiter − 3 Saturn has a 57-year period on the tier's rates and is in the scanned range; whether it is that term is a measurement for the next fit, not a guess to type here.
+
+
+**What this round did not do, said plainly:** the series' amplitudes for the dṛk node are measured against the crossing method's linear interpolation between crossings, which is the API's definition; the series' 3.4′ is its distance from that definition, not from an osculating node. The parallax scales are two numbers on the text's forms; the text's lambana/nati geometry (a mean-motion approximation) is kept, not replaced. The 100,000-year Kerala manifest was rerun on the final record (0 failures).
 
 ## Appendix A. The three designs and the three judges
 

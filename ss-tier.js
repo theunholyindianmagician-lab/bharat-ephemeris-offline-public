@@ -18,8 +18,9 @@
  *   'kerala': the Kerala paramparā (Parahita + Dṛggaṇita) on the same geocentric model — the mean Sun, Moon, apogee and
  *       node of the Parahita karaṇa … (below); SINCE 2026-10-12 the tier's DEFAULT carries the joint measurement of
  *       corpus/research/parampara-apply.json (candidate kerala+all+bija: bīja on the means, the Moon's forms and terms, the five
- *       star-planets on Nīlakaṇṭha's placement with measured series — every number fitted against the dṛk tier, none typed;
- *       validated out of sample in corpus/research/validate-oos.json); opts.measured: false gives the bare paramparā. Then:
+ *       star-planets on Nīlakaṇṭha's placement with measured series, the text's eclipse shadow and chapter-5 parallax scaled —
+ *       every number fitted against the dṛk tier over the whole span it serves, none typed; validated out of sample in
+ *       corpus/research/validate-oos.json); opts.measured: false gives the bare paramparā. Then:
  *       node of parahita-madhyama.js (Āryabhaṭa's integers, Haridatta's Śakābda-saṃskāra, Parameśvara's fractions),
  *       counted from sunrise at Laṅkā as Āryabhaṭa's day is [reading; measured: his epoch Moon reproduced to 0.3′];
  *       Āryabhaṭa's Sun apogee 78° (registry ABH-apsides-G9); the text's epicycles on those means [reading: no local
@@ -258,7 +259,8 @@
   /** Σ sin·sin(arg) + cos·cos(arg), arg = Σ k_i L_i, with the text's sine (degrees). */
   const termSum = (terms, L) => { let s = 0; for (const t of terms) { let a = 0; for (let i = 0; i < t.k.length; i++) if (t.k[i]) a += t.k[i] * L[i]; s += t.sin * sinD(a) + t.cos * cosD(a); } return s; };
   const BIJA_KEYS = Object.freeze(["sunMean", "sunApogee", "moonMean", "moonApogee", "node"]);                                   // {epochDeg, ratePerCentury} on a mean
-  const MEASURED_KEYS = Object.freeze([...AMPLITUDE_KEYS, ...BIJA_KEYS, ...TERM_KEYS, "planets"]);
+  const ECLIPSE_KEYS = Object.freeze(["shadowScale", "natiScale", "lambanaScale"]);                                          // the eclipse model: a scale on the text's shadow (SS 4.4-4.5) and on the ch.5 nati and lambana, measured against the dṛk eclipses (scripts/measure-eclipses.cjs)
+  const MEASURED_KEYS = Object.freeze([...AMPLITUDE_KEYS, ...BIJA_KEYS, ...TERM_KEYS, ...ECLIPSE_KEYS, "planets"]);
   const PLANET_EN = Object.freeze({ mangala: "mars", budha: "mercury", guru: "jupiter", shukra: "venus", shani: "saturn" });
   const PLANET_PARTS = Object.freeze(["mean", "sighrocca", "mandocca", "node"]), PLANET_SCALARS = Object.freeze(["mandaScale", "sighraScale", "manda2", "radialOwn", "radialSun", "latScale", "lat2"]);
   const PLANET_FORMS = Object.freeze(["text", "nilakantha"]), PLANET_FIELDS = Object.freeze([...PLANET_PARTS, ...PLANET_SCALARS, "form", "centre", "series", "radial", "terms"]);
@@ -311,7 +313,8 @@
     if (!c) throw new RangeError(`ss-tier: the measurement record has no candidate "${candidate}"`);
     const bodies = record.measured.planets && record.measured.planets.bodies;
     const planets = c.planets && bodies ? Object.fromEntries(Object.entries(bodies).map(([g, b]) => [g, Object.fromEntries(PLANET_FIELDS.filter((k) => b[k] !== undefined && (k !== "form" || PLANET_FORMS.includes(b[k]))).map((k) => [k, b[k]]))])) : undefined;
-    return measuredOf({ ...(c.moonFit ? c.moonFit.amplitudes : {}), ...(c.sunFit ? c.sunFit.amplitudes : {}), ...(c.latFit ? c.latFit.amplitudes : {}), ...(c.nodeFit ? c.nodeFit.amplitudes : {}), ...(c.bija || {}), ...(c.moonTermsFit ? { moonTerms: c.moonTermsFit.terms } : {}), ...(planets ? { planets } : {}) });
+    const eclipses = c.planets && record.measured.eclipses && record.measured.eclipses.amplitudes ? record.measured.eclipses.amplitudes : {};   // the joint candidates carry the eclipse scales
+    return measuredOf({ ...eclipses, ...(c.moonFit ? c.moonFit.amplitudes : {}), ...(c.sunFit ? c.sunFit.amplitudes : {}), ...(c.latFit ? c.latFit.amplitudes : {}), ...(c.nodeFit ? c.nodeFit.amplitudes : {}), ...(c.bija || {}), ...(c.moonTermsFit ? { moonTerms: c.moonTermsFit.terms } : {}), ...(planets ? { planets } : {}) });
   }
   let measuredLoaded = null;
   /** Give the tier the measurement record (corpus/research/parampara-apply.json, or an object carrying its `measured` block): the
@@ -632,7 +635,7 @@
           out.push({ kind, middleJd: jdOfDays(E.middle), middle: E.middle, possible: E.possible, total: E.magnitude >= 1, magnitude: E.magnitude, channa, latitude: E.latitude,
             contactsJd: { sparsha: jdOrNull(E.sparsha), madhya: jdOfDays(E.middle), moksha: jdOrNull(E.moksha), nimilana: null, unmilana: null },
             seenAtSite: E.possible ? seenOver(kind, E.sparsha, E.moksha, channa > threshold) : false, aboveAtMiddle: aboveAtMiddle(T, kind, E.middle, st), seenRule,
-            method: "SS 4 on the saṃskāra model (samskara.js lunarEclipse)" });
+            method: `SS 4 on the saṃskāra model (samskara.js lunarEclipse${M.discsFrom ? "; the text's shadow scaled by the measured shadowScale" : ""})` });
         } else {
           let E;
           try { E = SK.solarEclipseOnModel(M, x, st); } catch (e) { continue; }          // the text gives no solar parva here
@@ -642,7 +645,7 @@
           out.push({ kind, middleJd: jdOfDays(E.middle), middle: E.middle, possible, total: E.channa >= E.grahya, magnitude: E.channa / E.grahya, channa: E.channa, latitude: E.latitude,
             contactsJd: { sparsha, madhya: jdOfDays(E.middle), moksha, nimilana: jdOrNull(at("nimilana")), unmilana: jdOrNull(at("unmilana")) },
             seenAtSite: possible ? seenOver(kind, sp, mo, E.channa > GH.TEXT.sunUnseenArcmin) : false, aboveAtMiddle: aboveAtMiddle(T, kind, E.middle, st), seenRule,
-            method: "SS 4 with 5 on the saṃskāra model (samskara.js solarEclipseOnModel; the ch.5 parallax held at the text's value)" });
+            method: `SS 4 with 5 on the saṃskāra model (samskara.js solarEclipseOnModel; the ch.5 parallax ${M.parallaxScale ? "at the text's form scaled by the measured natiScale and lambanaScale" : "held at the text's value"})` });
         }
       }
     }
@@ -659,6 +662,10 @@
         const places = (t) => { const q = T.places(t); return { sun: q.sun, moon: q.moon, node: q.rahu, latitude: q.moonLatitude * 60, mean: q.mean }; };
         const motion = (t, body) => { const a = places(t - 0.5), b = places(t + 0.5); return wrapArcmin((b[body] - a[body]) * 60); };
         T.model = { ...base, places, motion, mean: (t) => T.places(t).mean, sayanaSun: (t) => mod(places(t).sun + base.ayanamsha(t), 360) };
+        // the measured eclipse scales: the text's shadow (4.4-4.5) × (1 + shadowScale) through samskara.js lunarEclipse's discs; the ch.5
+        // nati × (1 + natiScale) and the middle's lambana × (1 + lambanaScale) through solarOnModel [measured, scripts/measure-eclipses.cjs]
+        const sc = T.measured.shadowScale || 0, nati = T.measured.natiScale || 0, lam = T.measured.lambanaScale || 0;
+        if (sc || nati || lam) T.model = { ...T.model, discsFrom: (b) => { const d = GH.discsFrom(b); return { ...d, shadow: d.shadow * (1 + sc), yojana: { ...d.yojana, tamas: d.yojana.tamas * (1 + sc) } }; }, parallaxScale: { nati, lambana: lam } };
       }
     }
     return T.model;
@@ -676,7 +683,7 @@
   }
 
   return Object.freeze({
-    MERIDIAN_DEG, KALI_JD0, LANKA_OFFSET, SPAN_YEARS, EPSILON_DEG, SAMSKARAS, DEFAULT_SAMSKARA, SUNRISE_DAY, MEASURED_KEYS, AMPLITUDE_KEYS, BIJA_KEYS, TERM_KEYS, MOON_BASIS, PLANET_BASIS, DEFAULT_CANDIDATE, BIJA_SPAN_CENTURIES, measuredOf, measuredFromRecord, planetWithBija, placesOf, centuriesOf, useMeasured, measuredRecord,
+    MERIDIAN_DEG, KALI_JD0, LANKA_OFFSET, SPAN_YEARS, EPSILON_DEG, SAMSKARAS, DEFAULT_SAMSKARA, SUNRISE_DAY, MEASURED_KEYS, AMPLITUDE_KEYS, BIJA_KEYS, TERM_KEYS, ECLIPSE_KEYS, MOON_BASIS, PLANET_BASIS, DEFAULT_CANDIDATE, BIJA_SPAN_CENTURIES, measuredOf, measuredFromRecord, planetWithBija, placesOf, centuriesOf, useMeasured, measuredRecord,
     daysOfJd, jdOfDays, spandasOfJd, meanAtDays, siteOf, useParampara, correction, label,
     calendar: (opts) => T_(opts).calendar, places: (t, opts) => T_(opts).places(t), ayanamshaAt: (t, opts) => T_(opts).ayanamsha(t), dasha: (opts) => T_(opts).dasha, utsava: (opts) => T_(opts).utsava, muhurta: (opts) => T_(opts).muhurta,
     model: (opts) => { const T = T_(opts); if (!T.correction) return null; const SK = samskaraModule ? samskaraModule() : null; if (!SK) throw new Error("ss-tier: the model needs samskara.js loaded"); return modelOf(T, SK); },

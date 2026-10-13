@@ -394,7 +394,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     }),
     kerala: Object.freeze({
       id: "kerala", family: "ss", samskara: "kerala", default: false,
-      accuracyNote: "measured against the dṛk tier in corpus/research/parampara-apply.json (in-sample and holdout) and corpus/research/validate-oos.json (temporal holdouts 1850-1862 and 2138-2150, root-found tithi ends, eclipses); the research page §3 shows the numbers; outside 1850-2150 the tier is the bare paramparā plus bounded constants (design §24.19)",
+      accuracyNote: "measured against the dṛk tier over the whole span it serves (1850-2150) in corpus/research/parampara-apply.json (in-sample and a holdout midway between the samples; the node's forms, the dṛk true-node series and the eclipse shadow and parallax each with their own holdout) and corpus/research/validate-oos.json (the interleaved holdout, the span's first and last years, root-found tithi ends, the eclipses of 1900-2100); the research page §3 shows the numbers; outside 1850-2150 the tier is the bare paramparā plus bounded constants (design §24.21)",
       label: "Kerala paramparā (Parahita + Dṛggaṇita)", labelSa: "केरल-परम्परा (परहित + दृग्गणित)",
       engine: "the Kerala line of the same geocentric model (ss-tier.js, samskara 'kerala'): the mean Sun, Moon, apogee and node of the Parahita karaṇa — Āryabhaṭa's integers over 1,577,917,500 civil days with Haridatta's Śakābda-saṃskāra — carried to Parameśvara's Dṛggaṇita by his fractions 4/5, 1 and 11/12 (parahita-madhyama.js, exact), counted from sunrise at Laṅkā as Āryabhaṭa's day is; Āryabhaṭa's Sun apogee 78° (Gītikā 9); the text's epicycles (SS 2.34-2.38) on those means [reading: no local edition attests Āryabhaṭa's]; the five star-planets are the text's (their Parahita integers are in the registry, PH-yugabhoga; their epicycles are not); since 2026-10-12 (owner) the tier's default carries the joint measurement of corpus/research/parampara-apply.json (candidate kerala+all+bija): a bīja on the Sun's, Moon's, apogees' and node's means, the Moon's second inequalities, and the five star-planets with bīja, revised epicycles and, where it measures better, Nīlakaṇṭha's placement — every number fitted against the dṛk tier, none typed; { measured: false } gives the plain paramparā",
       ayanamsha: Object.freeze({ name: "Kerala linear, through the three determinations", source: "a line by least squares through Āryabhaṭa's zero in Kali 3600 (registry ABH-no-ayanacalana-3600), Nīlakaṇṭha's 14°26′ at Kali day 1,643,524 (NIL-ayanamsha-rate) and Parameśvara's 15° complete in Kali 4536 (PAR-ayanamsha-4536) [reading]; Nīlakaṇṭha's stated rule of 0.9′ a year is kept as a cross-check" }),
@@ -779,13 +779,25 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
    *  trueNode: the latitude's zero crossings bisected, the node linear between them; null outside its span); the Kerala tier
    *  its measured true node (rahuTrue: the mean node with the forms fitted at the dṛk Moon's crossings); the plain text tiers
    *  the mean node (the text has no other). Returns { tier, jd, rahu, ketu, mean, method }. */
+  /** The dṛk tier's true node by its measured series: the mean node + Σ (sin·sin + cos·cos) of integer arguments on the tier's own
+   *  mean angles (siddhanta-tier.js nodeArguments), the amplitudes measured in corpus/research/parampara-apply.json → measured.drikTrueNode
+   *  against the crossing method (siddhanta-tier.js trueNode, the reference). null when the record is not loaded. */
+  function drikTrueNodeSeries(jd, meanNode, opts) {
+    let rec = null; try { rec = ssTier().measuredRecord(); } catch (e) { rec = null; }
+    const fit = rec && rec.measured && rec.measured.drikTrueNode;
+    if (!fit || !Array.isArray(fit.terms)) return null;
+    const a = sdFn("nodeArguments")(jd, opts && opts.timeScale === "TT" ? { timeScale: "TT" } : undefined); if (!a) return null;
+    const L = [a.D, a.g, a.gp, a.F]; let v = 0;
+    for (const t of fit.terms) { let th = 0; for (let i = 0; i < 4; i++) th += (t.k[i] || 0) * L[i]; th *= Math.PI / 180; v += t.sin * Math.sin(th) + t.cos * Math.cos(th); }
+    return { value: mod360(meanNode + v), deviation: v, method: `the mean node with the measured series on the tier's own mean angles (${fit.terms.length} terms, corpus/research/parampara-apply.json → measured.drikTrueNode; ${fit.after ? fit.after.rms.toFixed(1) : "?"}′ rms against the crossing method, holdout ${fit.holdout && fit.holdout.after ? fit.holdout.after.rms.toFixed(1) : "?"}′)` };
+  }
   function tierTrueNode(jd, tier = "ss") {
     requireFinite(jd, "Julian day");
     const id = resolveTier(tier);
     if (TIERS[id].family === "drik") {
       drikGuard(jd, "the true node");
-      const n = drikCall(sdFn("trueNode")(jd), jd, "the true node");
-      return { tier: id, jd, rahu: n.ascending, ketu: n.descending, mean: drikRows(jd, {}).rahu.longitude, method: n.method, crossings: n.crossings };
+      const n = drikCall(sdFn("trueNode")(jd), jd, "the true node"), mean = drikRows(jd, {}).rahu.longitude, s = drikTrueNodeSeries(jd, mean);
+      return { tier: id, jd, rahu: n.ascending, ketu: n.descending, mean, method: n.method, crossings: n.crossings, series: s ? s.value : null, seriesMethod: s ? s.method : null };
     }
     const g = textGrahas(jd, TIERS[id].samskara);
     return { tier: id, jd, rahu: g.rahuTrue, ketu: g.ketuTrue, mean: g.rahu, method: g.rahuTrue === g.rahu ? "the text's mean node (no true node in the text)" : "the mean node with the measured forms of the Kerala tier (ss-tier.js, measured at the dṛk Moon's latitude crossings)" };
@@ -2018,8 +2030,10 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     if (TIERS[id].family === "drik") {
       if (opts && opts.timeScale !== undefined && opts.timeScale !== "TT" && opts.timeScale !== "UT") throw new RangeError(`Unknown time scale '${opts.timeScale}'`);
       const rows = drikCall(drikRows(jd, opts), jd, "the grahas");
+      const tn = drikTrueNodeSeries(jd, rows.rahu.longitude, opts);                       // the true node on the rows (measured series); the rows' longitude stays the mean node
       return GRAHAS.map((g) => ({ ...g, longitude: rows[g.key].longitude, mean: null, latitudeDeg: rows[g.key].latitude, speedDegDay: rows[g.key].speed,
-        detail: { source: rows[g.key].source, engine: "siddhanta-tier.js" }, tier: id, source: rows[g.key].source }));
+        detail: { source: rows[g.key].source, engine: "siddhanta-tier.js" }, tier: id, source: rows[g.key].source,
+        ...(g.key === "rahu" || g.key === "ketu" ? { trueLongitude: tn ? mod360(tn.value + (g.key === "ketu" ? 180 : 0)) : null, trueNodeMethod: tn ? tn.method : "the measurement record is not loaded (corpus/research/parampara-apply.json → measured.drikTrueNode)" } : {}) }));
     }
     const sam = TIERS[id].samskara, gr = textGrahas(jd, sam);
     return GRAHAS.map((g) => {

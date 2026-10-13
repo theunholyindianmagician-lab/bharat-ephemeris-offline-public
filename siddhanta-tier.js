@@ -643,7 +643,7 @@
     sunrise: "The Sun's upper limb on the horizon with 34′ refraction (centre at −50′) [convention]; apparent sidereal time IAU 2006.",
     moonrise: "The Moon's centre at a net +7′ horizon [convention, as before].",
     lagna: "Lagna and madhya-lagna from apparent sidereal time (IAU 2006) and the true obliquity, minus the same Citrā-pakṣa ayanāṃśa; UT1 = UTC assumed.",
-    rahu: "Mean node: the series' fitted node line; Ketu = Rāhu + 180°.",
+    rahu: "Mean node (the pañcāṅga convention): the series' fitted node line; Ketu = Rāhu + 180°. The true node: trueNode (the Moon's latitude crossings) and, on math-core's rows, trueLongitude from the measured series on nodeArguments.",
     eclipses: "Eclipses searched on this tier's own Sun and Moon (drik-grahana.js): lunar with Danjon's shadow (Earth's radius + 1/85, oblateness 1/594), solar by the shadow cone of the Sun and Moon on the IERS 2010 ellipsoid; k = 0.2725076 (0.272281 for the umbral contacts).",
     range: "Ours 1850.0–2150.0. Agreement with NASA-JPL DE440s: λ ≤ 0.9″ (dense check, 1850–2150). This is not independent of JPL, because our N-body is restarted from DE440s states every 720 days. Outside 1850–2150: refused.",
     refusal: "आधुनिक भारतीय (दृक्) — our derivations are valid 1850.0–2150.0 only; outside that span this tier refuses (no foreign substitute).",
@@ -694,6 +694,17 @@
     const ascending = n360(before.node + dn * f);
     return { jd, ascending, descending: n360(ascending + 180), crossings: [before, after], method: "the Moon's latitude crossings bisected to 1e-7 d, the node linear between them (siddhanta-tier.js trueNode)" };
   });
+  /** The arguments of the true node's series on the tier's own mean angles at jd: { jdTT, D, g, gp, F } in degrees — D = L_M − (L_E + 180°) (L_E is the Earth's heliocentric mean longitude),
+   *  g = L_M − P_M, g′ = L_E − P_E, F = L_M − N_M (siddhanta-drik.js angles: the linear angles with their secular and long-period parts).
+   *  The amplitudes are not here: corpus/research/parampara-apply.json → measured.drikTrueNode carries them, measured against
+   *  trueNode (math-core drikTrueNodeSeries). null outside the span. */
+  const nodeArguments = guarded(function (jd, opts) {
+    requireFinite(jd, "nodeArguments", "the Julian day");
+    const o = optsOf(opts), SD = getSD(); if (!SD) return null;
+    const jdTT = ttOf(jd, o, "nodeArguments"); if (jdTT === null) return null;
+    const A = SD.core.angles(SD.series, jdTT - J2000), d = 180 / Math.PI;
+    return { jd, jdTT, D: n360((A.L_M - A.L_E) * d + 180), g: n360((A.L_M - A.P_M) * d), gp: n360((A.L_E - A.P_E) * d), F: n360((A.L_M - A.N_M) * d) };
+  });
   function series() { const SD = getSD(); return SD ? SD.series : null; }
   root.SiddhantaTier = {
     available: () => Boolean(getSD()),
@@ -702,7 +713,7 @@
     spanJdUT, inSpan, inSpanTT, deltaTSeconds, utOfTT,
     // jdTTofUT(jd): the TT Julian day of a UT one (ΔT above); no options; TypeError when jd is not a finite number
     jdTTofUT: (jd) => requireFinite(jd, "jdTTofUT", "the Julian day (UT)") + deltaTSeconds(jd) / 86400,
-    ayanamsha, tropicalGrahas, grahas, sun, sunMoon, trueNode, gast, lagna, riseSet, sunEvents, moonEvents,
+    ayanamsha, tropicalGrahas, grahas, sun, sunMoon, trueNode, nodeArguments, gast, lagna, riseSet, sunEvents, moonEvents,
     syzygy, sankrantisBetween, lunarMonth, table, eclipses,
     eclipseKernel: ECLIPSE_KERNEL,
     series, bhaganas: () => { const S = series(); return S ? S.bhaganas : null; },

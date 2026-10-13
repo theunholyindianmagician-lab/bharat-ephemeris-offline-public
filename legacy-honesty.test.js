@@ -335,7 +335,7 @@ test('[TIER-5] every label a legacy page shows for a tier is read from M.TIERS (
 test('[TIER-6] parampara-record.js is the corpus record, value for value (node parampara-record.js --write regenerates it)', () => {
   const rec = require('./parampara-record.js');
   const m = JSON.parse(read('corpus/research/parampara-apply.json')).measured;
-  assert.deepEqual(rec, { registry: JSON.parse(read('corpus/parampara/registry.json')), samskara: JSON.parse(read('corpus/parampara/samskara.json')), measured: { candidates: m.candidates, planets: m.planets, fittedOn: m.fittedOn, method: m.method } });
+  assert.deepEqual(rec, { registry: JSON.parse(read('corpus/parampara/registry.json')), samskara: JSON.parse(read('corpus/parampara/samskara.json')), measured: { candidates: m.candidates, planets: m.planets, fittedOn: m.fittedOn, method: m.method, drikTrueNode: m.drikTrueNode || null, eclipses: m.eclipses || null } });
   const P = require('./parampara.js').load(rec).samskaraParameshvara();
   assert.equal(P.offered, true);
 });
