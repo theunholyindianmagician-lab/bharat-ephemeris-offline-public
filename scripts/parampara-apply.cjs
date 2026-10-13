@@ -145,7 +145,7 @@ function drikTrueNodeFit(from, step, n) {
     reference: 'siddhanta-tier.js trueNode: the Moon\'s latitude crossings bisected, the node linear between them',
     unit: 'arcminutes (mean, rms, max) of (true node − mean node) − series; amplitudes in degrees, on the tier\'s own mean angles D = L_M − (L_E + 180°), g = L_M − P_M, g′ = L_E − P_E, F = L_M − N_M',
     note: 'standard forms, every amplitude measured here, none typed; the rows\' trueLongitude for Rāhu and Ketu on the dṛk tier (math-core drikTrueNodeSeries)' };
-}                                                 // 1850-01-16 (JD 2396773.5) + 97 d × 1130 → 2149.9: the whole span the dṛk tier serves, 15 d in from each edge (the crossing method needs a bracket inside the span)
+}                                                 // 1850-01-30 (JD 2396773.5) + 97 d × 1130 → 2149.87: 16 d after the span's start and 46 d before its end (the crossing method needs a bracket inside the span, which sets the margins)
 /** The Kerala tier's places with given amplitudes of the forms (degrees for the three sines, scales for the two manda terms): the one
  *  formula the tier's `measured` option must reproduce (ss-tier.js placesOf). */
 function measuredPlaces(jd, amplitudes) {

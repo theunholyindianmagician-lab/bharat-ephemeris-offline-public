@@ -15,3 +15,4 @@ Two generated files, read by `ganita-shala.html` (गणित-शाला) and
 - **`generator-2-search.json`** — the search for any basis for a doubling (generator-2) daśā or transit rule: readers over the ten editions, the repository's research and its code, three refuters per positive claim, every quoted line re-checked, every stated daśā/tārā/transit order tested against x ↦ 2x and x ↦ x + 1; the doubling cycles of ℤ/9 and ℤ/27 from `sukshma-kala.js generatorOrbits`.
 
 All carry their `generatedBy`. A figure on the page is never retyped from memory: it is this data or a live computation.
+- **`validate-dense.json`** — `node scripts/validate-dense.cjs`: the Kerala default against the dṛk tier every 7 days across the whole span (15,654 instants), per half-century and whole-span rms, the worst Venus instants. It is the check the 97-day holdout cannot be: the holdout understated Venus (2.6′ against 6.5′).
