@@ -1672,7 +1672,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     const bhujaPhala = bhuja * p / 360;
     const kotiPhala = koti * p / 360;
     const magnitude = Math.asin(Math.max(-1, Math.min(1, bhujaPhala / R))) * 180 / Math.PI;
-    /* SANKALP BE-S09 (2026-08-17, user-sealed): manda-phala sign corrected (kendra 0-180 → subtract). */
+    /* BE-S09 (2026-08-17, user-sealed): manda-phala sign corrected (kendra 0-180 → subtract). */
     const correction = kendra <= 180 ? -magnitude : magnitude;
     return { kind: "manda", place, centre: mandocca, kendra, paridhi: p, bhuja, koti, bhujaPhala, kotiPhala, magnitude, correction };
   }
@@ -5320,7 +5320,7 @@ function chartPrecision(
   // Sūrya-Siddhānta's own descendants; dṛk-saṃskāra is their own tradition).
   // Sun and Moon only: the documented, exactly-coefficiented terms. Planets
   // beyond bīja drift are honestly declared pending — never faked.
-  /* ═══ दृग्गणित-संस्कार kernel v2 (SANKALP BE-S10 · 2026-08-17) ═══
+  /* ═══ दृग्गणित-संस्कार kernel v2 (BE-S10 · 2026-08-17) ═══
      Sovereign path: classical sphuṭa (BE-S09 sign-correct) + चन्द्र par
      Mañjula-layer (evection/variation/annual/reduction, perigee-anomaly) +
      per-graha linear saṃskāra Δ(T)=a0+a1·T fitted 1900-2100 against the

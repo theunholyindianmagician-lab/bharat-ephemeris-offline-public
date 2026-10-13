@@ -56,4 +56,4 @@ On 9 October 2026, the unmodified PR #5 head `2de0c80` passed all 57 then-regist
 
 ## Source and release records
 
-`SANKALP.md` records owner decisions and seals; preserve it append-only. `VEDHA-YANTRA-DESIGN-2026-10-07.md`, `corpus/parampara/`, the executable tests and `MATHEMATICAL-AUDIT.md` provide evidence and limitations. The public exporter is `scripts/export-public.cjs`; scan exported content before publishing. No claim of global priority or universal perfection is established by this repository.
+`` records owner decisions and seals; preserve it append-only. `VEDHA-YANTRA-DESIGN-2026-10-07.md`, `corpus/parampara/`, the executable tests and `MATHEMATICAL-AUDIT.md` provide evidence and limitations. The public exporter is `scripts/export-public.cjs`; scan exported content before publishing. No claim of global priority or universal perfection is established by this repository.

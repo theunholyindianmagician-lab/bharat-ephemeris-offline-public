@@ -526,7 +526,7 @@ test("dates: proleptic Gregorian/Julian by kala-dvara.js, astronomical years, si
 test("panchangAtJd fixed-JD regression vector (2026-08-10 12:00 IST)", () => {
   // Pinned 2026-08-10 12:00 IST (JD 2461262.7694) against the shared engine.
   // Value-level == (not tolerance) so a real drift breaks loudly.
-  // RE-PINNED under SANKALP BE-S09 (manda-sign fix): Swiss Ephemeris confirms
+  // RE-PINNED under BE-S09 (manda-sign fix): Swiss Ephemeris confirms
   // the real tithi that noon WAS त्रयोदशी (idx 27) — the old pin (द्वादशी 26)
   // had enshrined the inverted-manda output. Model now matches the sky here.
   // RE-DERIVED 2026-10-08 (D2/D3) from the sovereign modules at the text's day count: Panchanga.limbsAt gives tithi 28

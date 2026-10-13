@@ -1120,7 +1120,7 @@
     }
   }
 
-  // Kerala dṛk-saṃskāra overlay (Mādhava–Nīlakaṇṭha) — off by default per SANKALP BE-S03. math-core keralaDrikSphuta: the
+  // Kerala dṛk-saṃskāra overlay (Mādhava–Nīlakaṇṭha) — off by default per BE-S03. math-core keralaDrikSphuta: the
   // base is the plain Sūrya-Siddhānta tier, the saṃskṛta value is base + its fitted correction (never the dṛk value), and
   // the dṛk column is the Modern Bhāratīya tier's own place (null outside 1850–2150). The fit's own RMS/max figures are
   // claims of a retired pipeline, shown as such beside the live residual against the dṛk tier.

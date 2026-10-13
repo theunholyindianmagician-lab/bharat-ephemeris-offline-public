@@ -1548,7 +1548,7 @@ The owner's decisions of 2026-10-08, after the ShunyaBheda map (seven ayanāṃ�
 A1 finite and physical-domain guards (`dhruva.js`, `panchanga.checkSite`); A2 one ε in the text tier (done by delegation); A3 the north-line and solstice-pair records in the vedha ledger, shown beside the text's values as a preview only.
 
 ### 23.4 Left for the owner
-- Seal DRAFT BE-S13 (SANKALP-DRAFTS.md): the three choices supersede BE-S02's default frame.
+- Seal DRAFT BE-S13 (): the three choices supersede BE-S02's default frame.
 - Ujjayinī's meridian: the site uses 75.7885°; TRUTH-AUDIT §3.4 has 75.7683°; Parameśvara quotes Āryabhaṭa's "1/15 of the circle north of Laṅkā" for its latitude (registry UJJAYINI-fifteenth).
 - SS 1.55 saṃvatsara: reading A (remainder 0 = Vijaya) is the default; reading B is one index back.
 - Which Caitra opens a year that ends with an adhika Caitra [unverified convention].

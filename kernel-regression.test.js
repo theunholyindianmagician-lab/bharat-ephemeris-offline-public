@@ -72,8 +72,8 @@ const LEGACY_ROUNDED_ANCHORS = Object.freeze({
 // anchor moved. Re-derived by scripts/refreeze-text-tier.cjs as mod360(sphuta.js / ss-graha.js longitude at
 // t = jd − 588465.5 + 75.7885/360 + bijaDeltaDeg(key, jd, 'empirical-2026-08-29')), and cross-checked against the
 // independent path (math-core.js of 68905b9, ΔT cancelled, epoch moved to Laṅkā, its three-term Moon removed): max |Δ|
-// 1.07e-6° over the fixture epochs and this anchor. Owner seal: SANKALP BE-S08 lets anchors change only byte-identically;
-// this re-pin is D2's, sealed by the owner as SANKALP BE-S08b (2026-10-09). Numerical regression, not accuracy evidence.
+// 1.07e-6° over the fixture epochs and this anchor. Owner seal: BE-S08 lets anchors change only byte-identically;
+// this re-pin is D2's, sealed by the owner as BE-S08b (2026-10-09). Numerical regression, not accuracy evidence.
 // Previous (2026-10-05) anchors, for audit:
 //   surya 119.86240065735433, candra 173.77049354272822, mangala 69.4334005645494, budha 111.51530066841423,
 //   guru 106.14523304561624, shukra 164.0931569841573, shani 350.35614056129725, rahu 305.8671423179045, ketu 125.8671423179045
