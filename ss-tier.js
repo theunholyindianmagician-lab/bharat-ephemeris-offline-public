@@ -16,6 +16,10 @@
  *       phase of the text's libration (sphuta.js ayanamshaSS(spandas, phaseDeg)); the Moon's apogee would move only if
  *       the record named it. The Sun and the five star-planets are the text's.
  *   'kerala': the Kerala paramparā (Parahita + Dṛggaṇita) on the same geocentric model — the mean Sun, Moon, apogee and
+ *       node of the Parahita karaṇa … (below); SINCE 2026-10-12 the tier's DEFAULT carries the joint measurement of
+ *       corpus/research/parampara-apply.json (candidate kerala+all+bija: bīja on the means, the Moon's forms and terms, the five
+ *       star-planets on Nīlakaṇṭha's placement with measured series — every number fitted against the dṛk tier, none typed;
+ *       validated out of sample in corpus/research/validate-oos.json); opts.measured: false gives the bare paramparā. Then:
  *       node of parahita-madhyama.js (Āryabhaṭa's integers, Haridatta's Śakābda-saṃskāra, Parameśvara's fractions),
  *       counted from sunrise at Laṅkā as Āryabhaṭa's day is [reading; measured: his epoch Moon reproduced to 0.3′];
  *       Āryabhaṭa's Sun apogee 78° (registry ABH-apsides-G9); the text's epicycles on those means [reading: no local
@@ -257,7 +261,7 @@
   const MEASURED_KEYS = Object.freeze([...AMPLITUDE_KEYS, ...BIJA_KEYS, ...TERM_KEYS, "planets"]);
   const PLANET_EN = Object.freeze({ mangala: "mars", budha: "mercury", guru: "jupiter", shukra: "venus", shani: "saturn" });
   const PLANET_PARTS = Object.freeze(["mean", "sighrocca", "mandocca", "node"]), PLANET_SCALARS = Object.freeze(["mandaScale", "sighraScale", "manda2", "radialOwn", "radialSun", "latScale", "lat2"]);
-  const PLANET_FORMS = Object.freeze(["text", "nilakantha"]), PLANET_FIELDS = Object.freeze([...PLANET_PARTS, ...PLANET_SCALARS, "form", "series", "radial", "terms"]);
+  const PLANET_FORMS = Object.freeze(["text", "nilakantha"]), PLANET_FIELDS = Object.freeze([...PLANET_PARTS, ...PLANET_SCALARS, "form", "centre", "series", "radial", "terms"]);
   const DEFAULT_CANDIDATE = "kerala+all+bija";                                                      // the Kerala tier's default (owner, 2026-10-12)
   const cosD = (x) => S.jya(x + 90) / S.R;
   const centuriesOf = (t) => (Number(t) + KALI_JD0 - LANKA_OFFSET - 2451545) / 36525;          // Julian centuries from J2000 at the text's day count
@@ -278,6 +282,7 @@
       const o = {}; for (const part of PLANET_PARTS) o[part] = bijaOf(v[part] || {}, `measured.planets.${g}.${part}`);
       for (const k of PLANET_SCALARS) o[k] = finite(v[k] === undefined ? 0 : v[k], `measured.planets.${g}.${k}`);
       o.form = v.form === undefined ? "text" : v.form; if (!PLANET_FORMS.includes(o.form)) throw new RangeError(`ss-tier: measured.planets.${g}.form is "text" or "nilakantha"`);
+      o.centre = v.centre === undefined ? "true" : v.centre; if (o.centre !== "true" && o.centre !== "mean") throw new RangeError(`ss-tier: measured.planets.${g}.centre is "true" (the tier's true Sun) or "mean" (the text's mean Sun, TS 2.70, 2.73-74)`);
       o.series = Object.freeze([0, 1, 2].map((i) => finite(v.series && v.series[i] !== undefined ? v.series[i] : 0, `measured.planets.${g}.series[${i}]`)));
       o.radial = Object.freeze([0, 1].map((i) => finite(v.radial && v.radial[i] !== undefined ? v.radial[i] : 0, `measured.planets.${g}.radial[${i}]`)));
       o.terms = termsOf(v.terms, PLANET_BASIS.length, `measured.planets.${g}.terms`);
@@ -341,7 +346,8 @@
       // TRUE Sun where the text takes the mean Sun (रविमध्य, 2.70, 2.73-74) — this repository's measured choice, not the text's; the epicycle's
       // size varying with the planet's and the Earth's distances [measured]. The latitude on the manda-true place: Yuktidīpikā 1003 [text: commentary].
       // the centre is the tier's true Sun, carrying the bīja of the Sun's role (the mean for Mercury and Venus, the śīghrocca for the outer three)
-      const helioMean = p.inner ? m.sighrocca : m.mean, centre = sun ? shiftBy(sun.lambda, p.inner ? bija.mean : bija.sighrocca, T) : (p.inner ? m.mean : m.sighrocca), sr = bija.series, rd = bija.radial;
+      const helioMean = p.inner ? m.sighrocca : m.mean, sr = bija.series, rd = bija.radial;
+      const centre = sun && bija.centre !== "mean" ? shiftBy(sun.lambda, p.inner ? bija.mean : bija.sighrocca, T) : (p.inner ? m.mean : m.sighrocca);   // "mean": the text's रविमध्य (TS 2.70, 2.73-74), the SS mean Sun with its bīja
       const mu = mod(helioMean - m.mandocca, 360), eq = sr[0] * sinD(mu) + sr[1] * sinD(2 * mu) + sr[2] * sinD(3 * mu), nu = mod(mu + eq, 360);
       let helio = mod(helioMean + eq, 360);
       if (bija.terms && bija.terms.length) {                                       // the measured terms on the heliocentric place: arguments from the means of all six bodies

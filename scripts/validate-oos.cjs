@@ -17,11 +17,12 @@ function residuals(jds, opts) {
   return Object.fromEntries(Object.entries(r).map(([k, v]) => [k, stat(v)]));
 }
 const grid = (from, step, n) => Array.from({ length: n }, (_, i) => from + i * step);
-const out = { frame: 'arcminutes; Sun/Moon/Rāhu tropical (each tier its own ayanāṃśa), planets sidereal, Moon latitude; candidate minus the dṛk tier', fitGrid: 'JD 2415020.5 + 97 d × 753 (1900-2100)' };
-out.holdoutInterleaved = { grid: 'JD 2415069 + 97 d × 752 (1900-2100), midway between the fit samples', ...residuals(grid(2415069, 97, 752), {}) };
-out.holdoutBefore = { grid: '1850-1900 every 29 d', ...residuals(grid(2396758.5, 29, 630), {}) };
-out.holdoutAfter = { grid: '2100-2150 every 29 d', ...residuals(grid(2488069.5, 29, 630), {}) };
-out.plainTierOnHoldout = { grid: 'the interleaved grid, the bare paramparā (measured: false)', ...residuals(grid(2415069, 97, 752), { measured: false }) };
+if (require.main === module) {
+const out = { frame: 'arcminutes; Sun/Moon/Rāhu tropical (each tier its own ayanāṃśa), planets sidereal, Moon latitude; candidate minus the dṛk tier', fitGrid: 'JD 2401141.5 + 97 d × 1039 (1862-2138); the dṛk tier serves 1850-2150' };
+out.holdoutInterleaved = { grid: 'JD 2401190 + 97 d × 1038 (1862-2138), midway between the fit samples', ...residuals(grid(2401190, 97, 1038), {}) };
+out.holdoutBefore = { grid: '1850-1862 every 7 d (outside the fit span)', ...residuals(grid(2396758.5, 7, 626), {}) };
+out.holdoutAfter = { grid: '2138-2150 every 7 d (outside the fit span)', ...residuals(grid(2501950.5, 7, 626), {}) };
+out.plainTierOnHoldout = { grid: 'the interleaved grid, the bare paramparā (measured: false)', ...residuals(grid(2401190, 97, 1038), { measured: false }) };
 // tithi ends: root-find the instant the elongation crosses each multiple of 12° on each tier, by bisection on a 1 h scan
 function tithiEnds(fromJd, days, elongOf) {
   const ends = []; let prev = elongOf(fromJd), t = fromJd;
@@ -40,6 +41,25 @@ function compareTithi(fromJd, days, label) {
   const dk = pair(dr, kr), dp = pair(dr, pl);
   return { label, tithiEndsFound: dr.length, matched: dk.length, keralaDefaultMinusDrikMinutes: stat(dk), plainParamparaMinusDrikMinutes: stat(dp) };
 }
-out.tithiEnds = [compareTithi(2461041.5, 365, '2026 (inside the fit span)'), compareTithi(2407650.5, 365, '1880 (before it)'), compareTithi(2495280.5, 365, '2120 (after it)')];
+out.tithiEnds = [compareTithi(2461041.5, 365, '2026 (inside the fit span)'), compareTithi(2396758.5, 365, '1850 (before it)'), compareTithi(2501950.5, 365, '2138 (after it)')];
+// eclipses: the Kerala default's eclipse search (the measured places on the saṃskāra model) against the dṛk tier's, 1900-2100, at Ujjain —
+// lunar eclipses matched by middle instant within 0.1 d (times in minutes, magnitudes as such); solar ones where both tiers list them as seen at the site
+function compareEclipses(fromJd, toJd) {
+  const site = [23.18, 75.78], win = 3600, lists = { kerala: [], drik: [] };
+  for (let a = fromJd; a < toJd; a += win) for (const t of ['kerala', 'drik']) lists[t].push(...M.tierEclipses(a, Math.min(a + win, toJd), site[0], site[1], t).list);
+  const uniq = (L) => L.filter((e, i) => !L.slice(0, i).some((f) => f.kind === e.kind && Math.abs(f.middleJd - e.middleJd) < 0.01));
+  const K = uniq(lists.kerala), D = uniq(lists.drik);
+  const lunarD = D.filter((e) => e.kind === 'lunar' && !e.penumbral), lunarK = K.filter((e) => e.kind === 'lunar');
+  const dt = [], dmag = [], unmatched = [];
+  for (const d of lunarD) { const k = lunarK.find((x) => Math.abs(x.middleJd - d.middleJd) < 0.1); if (!k) { unmatched.push(d.middleJd); continue; } dt.push((k.middleJd - d.middleJd) * 1440); if (d.magnitude !== null && k.magnitude !== null) dmag.push(k.magnitude - d.magnitude); }
+  const solarD = D.filter((e) => e.kind === 'solar' && e.seenAtSite), solarK = K.filter((e) => e.kind === 'solar');
+  const st = [], sMissing = [];
+  for (const d of solarD) { const k = solarK.find((x) => Math.abs(x.middleJd - d.middleJd) < 0.1); if (!k) { sMissing.push(d.middleJd); continue; } st.push((k.middleJd - d.middleJd) * 1440); }
+  return { span: `${fromJd}-${toJd} at Ujjain`, lunar: { drikUmbral: lunarD.length, keralaListed: lunarK.length, matched: dt.length, keralaMinusDrikMiddleMinutes: stat(dt), magnitudeDifference: stat(dmag), unmatchedDrikMiddles: unmatched.slice(0, 10) },
+    solar: { drikSeenAtSite: solarD.length, keralaListed: solarK.length, matched: st.length, keralaMinusDrikMiddleMinutes: st.length ? stat(st) : null, drikSeenNotInKerala: sMissing.slice(0, 20) },
+    note: 'the Kerala tier\'s lunar magnitude is the text\'s shadow (SS 4.4-4.11) on the measured places — the shadow itself is not measured; the solar list is the text\'s site rule (6.13, the Sun above the horizon) on the saṃskāra model with the ch.5 parallax held at the text\'s value' };
+}
+out.eclipses = compareEclipses(2415020.5, 2488069.5);
 console.log(JSON.stringify(out, null, 1));
 if (process.argv.includes('--write')) { require('fs').writeFileSync(path.join(ROOT, 'corpus', 'research', 'validate-oos.json'), JSON.stringify(out, null, 1) + '\n'); console.log('wrote corpus/research/validate-oos.json'); }
+}

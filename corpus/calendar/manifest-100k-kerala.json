@@ -27,11 +27,11 @@
   "ss-graha.js": "04e8aada697e9ab17eff64e8ea0a2e158e884a883e7fc279d280c4df6c0859c0",
   "ss-ahargana.js": "c9905976e4653f2ea3b65d4474d47edf918b3e8068cb15a7d235dd2c96224cbf",
   "scripts/calendar-100k.cjs": "ba08975ea30c52b413001c1309de6b2e07138d1e7517c8c1d122c4ffb3326d30",
-  "ss-tier.js": "00cf3f90a46aeb1e8bb6f83d068fb6bb69a889d5d7e14ccc25fb083bd482523e",
+  "ss-tier.js": "660620eb39ab530e021cfbc55b0e7d252397a967906055c3e57f52df5ac3df39",
   "parahita-madhyama.js": "78f53d3c2b00a015dc565b767b1630632953e77dadadf97487c96fecec3ecb21",
   "parampara.js": "e0eed11d4d328fd41717a00bda6b8775b778dbb5f5133aa0d6fda9ffa4652ed6",
-  "corpus/parampara/registry.json": "15a6989dc4978d5e232c9a7ea96e1d852838370c4aa4dc86f67fcb3985c460a5",
-  "corpus/research/parampara-apply.json": "a4cc8e0fd43ac9190141045c1c14d44915f8652426ea468777eebec9929743be"
+  "corpus/parampara/registry.json": "373e41e577817bbc567299d4040239fcb9855b7cb94d6ed40d895d45c780a6ed",
+  "corpus/research/parampara-apply.json": "c1044fb83bd8229c451a9432954c31477b56e12db3a7dbc16a0c6a659a2c1eaf"
  },
  "node": "v22.22.0",
  "sine": "madhava",
@@ -45,21 +45,21 @@
  },
  "years": 99997,
  "months": 1236845,
- "adhika": 38020,
- "kshaya": 1139,
+ "adhika": 38018,
+ "kshaya": 1137,
  "adhikaMinusKshaya": 36881,
  "expectedByTextRate": 36881.671,
  "years13": 36881,
- "finalAdhikaCaitra": 2786,
+ "finalAdhikaCaitra": 2782,
  "monthLengthDays": {
-  "min": 29.270526,
-  "max": 29.835117
+  "min": 29.270535,
+  "max": 29.835237
  },
  "sankrantiIntervalDays": {
   "min": 29.433073,
-  "max": 31.468196
+  "max": 31.468202
  },
- "minMarginMinutes": 0.008,
+ "minMarginMinutes": 0.01,
  "samvatsaraSkips": 2332,
  "samvatsaraSkipsMeaning": "Kali years holding two mean-Jupiter sign changes, so one saṃvatsara name is current at no year start",
  "yearStartRule": "nija Caitra new moon (the amānta month holding the Meṣa saṅkrānti); an adhika Caitra closes the previous year [unverified convention: no local text says which Caitra opens the year]",
@@ -69,823 +69,823 @@
    "kaliFrom": -46897,
    "kaliTo": -46001,
    "file": "kali_-46897_-46001.ndjson.gz",
-   "sha256": "8e097922153d734798dcbb6141c2c0d859a8525a5f93d4def97fe0c45156005e",
+   "sha256": "e67f6da5de759bc0ae0580539491c08fd8c6a495a969d0fd13bf8180e0135349",
    "lines": 897
   },
   {
    "kaliFrom": -46000,
    "kaliTo": -45001,
    "file": "kali_-46000_-45001.ndjson.gz",
-   "sha256": "8a4d9bd98c3ca5c9996a1cde9f2c791581a46414472152d93287d7a6ee567126",
+   "sha256": "22b1bc5b7dfc6477fb244dd8f9831a55269d00cc06103c8edcf4dc53c63bce6b",
    "lines": 1000
   },
   {
    "kaliFrom": -45000,
    "kaliTo": -44001,
    "file": "kali_-45000_-44001.ndjson.gz",
-   "sha256": "58dc31d32e2fbc26cd479dcf11cf562baac11cc80792efad8650752f5d128174",
+   "sha256": "bae466cb38af6ffb6f7ee076c72bb46252f4ebab3b80f71c53c5ab1ab7dcd570",
    "lines": 1000
   },
   {
    "kaliFrom": -44000,
    "kaliTo": -43001,
    "file": "kali_-44000_-43001.ndjson.gz",
-   "sha256": "4085e388baeaefd4137d9b1f25c13e2dc8f6e466a08afe02a977ff54bfc40615",
+   "sha256": "c5ed24866825cb5d7551407466cfdc95e868dfbdde060de844599312df125149",
    "lines": 1000
   },
   {
    "kaliFrom": -43000,
    "kaliTo": -42001,
    "file": "kali_-43000_-42001.ndjson.gz",
-   "sha256": "2737850f96f4cdee939d3b965c7f1a66cf44bf49f507d6c6cd769f67cc2cdb1c",
+   "sha256": "df2d8fa4a47c2908fe44359e3eb0da669112a11e4cdc24a0cb120d4c3efa8ec4",
    "lines": 1000
   },
   {
    "kaliFrom": -42000,
    "kaliTo": -41001,
    "file": "kali_-42000_-41001.ndjson.gz",
-   "sha256": "1f94a5e390f101d2247c95e99c1329f2904162ab55d116b4e1a9e43861c45620",
+   "sha256": "cd60dba2441c2259aed5183854fbd1e5d572b9072e0ae9d3ddd9d40f6b18157b",
    "lines": 1000
   },
   {
    "kaliFrom": -41000,
    "kaliTo": -40001,
    "file": "kali_-41000_-40001.ndjson.gz",
-   "sha256": "d3512fdf77e20769b00da8e3d7982781644b77e3155600575c08341b75b19961",
+   "sha256": "46ead53859d8f832f6f92de9e43eebbf20a05c71734bafab2812f92fa600e3b6",
    "lines": 1000
   },
   {
    "kaliFrom": -40000,
    "kaliTo": -39001,
    "file": "kali_-40000_-39001.ndjson.gz",
-   "sha256": "143025c02b1d3a97378e738cce19fe4ec9e2be56339772801f68d68f511c0990",
+   "sha256": "5ae69258dbc9cb647c267a9c8ce5e0500e63bdb4ffa92f6bfe0ab869b82eb2f9",
    "lines": 1000
   },
   {
    "kaliFrom": -39000,
    "kaliTo": -38001,
    "file": "kali_-39000_-38001.ndjson.gz",
-   "sha256": "32cbea718cc86adc9cf5734d6bdd39c10489c51409fde8d45b44e0eb9e8c7a74",
+   "sha256": "048a28e7cd6d43ac79115070a4413fb2dac5a838e7db175bf7698a506399d0dd",
    "lines": 1000
   },
   {
    "kaliFrom": -38000,
    "kaliTo": -37001,
    "file": "kali_-38000_-37001.ndjson.gz",
-   "sha256": "6abdb15a4dbe6d07bfd54297f3845d6a4b5e50273caed1d32eee8330d5bc974b",
+   "sha256": "2489f39dc9bc3ad43cf0258ad051b8d496718818b6b0c34cfae3ace38048a0b4",
    "lines": 1000
   },
   {
    "kaliFrom": -37000,
    "kaliTo": -36001,
    "file": "kali_-37000_-36001.ndjson.gz",
-   "sha256": "05b15d32ca70eaeab0d2ba51dd309d93b4fd04b1ac6e28e05c84122956168f8e",
+   "sha256": "3141f73221dab95db3106204ace326a607beb835f9b337ee05030cce26412df8",
    "lines": 1000
   },
   {
    "kaliFrom": -36000,
    "kaliTo": -35001,
    "file": "kali_-36000_-35001.ndjson.gz",
-   "sha256": "84607d974ce3e8b74eff5b2278939bd8e2153299064ebcce8305a1e340bdf7e0",
+   "sha256": "dbf4cc45ddab8d85aba52e0c0500868c212dc53f6bce1db6c32c51c1dbaff391",
    "lines": 1000
   },
   {
    "kaliFrom": -35000,
    "kaliTo": -34001,
    "file": "kali_-35000_-34001.ndjson.gz",
-   "sha256": "b4e19c1296ce16c658e31533e230baff40ec20f438285c0827758c9a40797a20",
+   "sha256": "a986190b1b10ca05597f4009f7ce13a2d29dfd9e2bb00760d3690df8c033b360",
    "lines": 1000
   },
   {
    "kaliFrom": -34000,
    "kaliTo": -33001,
    "file": "kali_-34000_-33001.ndjson.gz",
-   "sha256": "7421be7f9b79c76c2695846b5da35685fdf2778037f308a562342bbbd7e40a0c",
+   "sha256": "2640d1a17f202b520ccc5617769a15a32e449ad11bb9e673ba5a9b35fb694657",
    "lines": 1000
   },
   {
    "kaliFrom": -33000,
    "kaliTo": -32001,
    "file": "kali_-33000_-32001.ndjson.gz",
-   "sha256": "ea6a110ea8391bc7e98b0ef03203ff7313ef87ee37dd3216a5154d578dfaf0b0",
+   "sha256": "ec10d5a5396862b752ca39b57e705ccc28cb0bb62c490b3f44dc8ad198db310f",
    "lines": 1000
   },
   {
    "kaliFrom": -32000,
    "kaliTo": -31001,
    "file": "kali_-32000_-31001.ndjson.gz",
-   "sha256": "f9c03b54a6489481a718f2623ef4e5cb8d012eb753a462784f7eea40b2228f8c",
+   "sha256": "0dfe70c3fb05ef72048fe2a947df29acf9eecb1d45d8e2f237bf1d4bbe38a996",
    "lines": 1000
   },
   {
    "kaliFrom": -31000,
    "kaliTo": -30001,
    "file": "kali_-31000_-30001.ndjson.gz",
-   "sha256": "23fa7bd46da9a989f4f9152ecf2f8e9a5f77597bfcafe478a1a4d349a5216421",
+   "sha256": "6a533757ab43cdabb93c783687fa50e2f7f723f401f3cf2db1f9155b115fb564",
    "lines": 1000
   },
   {
    "kaliFrom": -30000,
    "kaliTo": -29001,
    "file": "kali_-30000_-29001.ndjson.gz",
-   "sha256": "01a69b7d3bb3b0529d9358ade02aab3eff73e76c6b873f1eb873abc2020b59ae",
+   "sha256": "e367845e494419c6475f19ca5d6fc42f0f2fb59679647cef347e35ade65ebcb0",
    "lines": 1000
   },
   {
    "kaliFrom": -29000,
    "kaliTo": -28001,
    "file": "kali_-29000_-28001.ndjson.gz",
-   "sha256": "ae80d35147f2a18ed2854d37209bf4f571cae8460750e4fbb14691acadfab4e3",
+   "sha256": "22b234cf541e9737d12be4b1f30f162b63a8bbc4a4cc8d53966277e5c26c9333",
    "lines": 1000
   },
   {
    "kaliFrom": -28000,
    "kaliTo": -27001,
    "file": "kali_-28000_-27001.ndjson.gz",
-   "sha256": "680b740e700ed33134b8275dad27a8207e053024198b8deb6f2b88f25c72ebde",
+   "sha256": "547cbfb173a485d756b43fc868eaa3abf50622cac9d0430c41d677dc47a63140",
    "lines": 1000
   },
   {
    "kaliFrom": -27000,
    "kaliTo": -26001,
    "file": "kali_-27000_-26001.ndjson.gz",
-   "sha256": "182563a3b11333dcd0216354f4fd9984f8c26513da2ff1b8afde8ae603470a76",
+   "sha256": "a6631f70a6a2d2a067bdb077512cbd713d325683f3b4096a24b30008354721da",
    "lines": 1000
   },
   {
    "kaliFrom": -26000,
    "kaliTo": -25001,
    "file": "kali_-26000_-25001.ndjson.gz",
-   "sha256": "7b2d22fe6c7b20139651393a70f6bf765b05392ed3e78211c9d108a5e2fa96d8",
+   "sha256": "251742371cbf5c54d412ec55724b9013eac6460f5c7280e358ba33c483956921",
    "lines": 1000
   },
   {
    "kaliFrom": -25000,
    "kaliTo": -24001,
    "file": "kali_-25000_-24001.ndjson.gz",
-   "sha256": "ac36332248b76f664ba629d03ee822f116026017f186a6d64b911b3832d3839e",
+   "sha256": "9c7bf927b6d3bd64e7d5487bfc1812264da8f2f2ba41d257b9f13a30c93f3e72",
    "lines": 1000
   },
   {
    "kaliFrom": -24000,
    "kaliTo": -23001,
    "file": "kali_-24000_-23001.ndjson.gz",
-   "sha256": "e438341e4b5afcb90e342ca7d291339e5b07070af8ab56c67088809da862683a",
+   "sha256": "8e27ed7bb5daee6c1548395d9381035088a423f68e31bb79c65f7a702596d2ac",
    "lines": 1000
   },
   {
    "kaliFrom": -23000,
    "kaliTo": -22001,
    "file": "kali_-23000_-22001.ndjson.gz",
-   "sha256": "903ef5e8d23b664e1e32b55138ef15507f32566847d903f6269f579f8535ff45",
+   "sha256": "cf7a8a86f6c90edf64d8410d8599bb2494d0e1cffdcb76a931d0376258453545",
    "lines": 1000
   },
   {
    "kaliFrom": -22000,
    "kaliTo": -21001,
    "file": "kali_-22000_-21001.ndjson.gz",
-   "sha256": "d67101748f6c4c6e27ee22ad2643b73250bfcef9eccc1e43ac57bb855da6d94a",
+   "sha256": "532663e6caf6fea152d09e26626bced984713979d53586bfdd4a4c556b518990",
    "lines": 1000
   },
   {
    "kaliFrom": -21000,
    "kaliTo": -20001,
    "file": "kali_-21000_-20001.ndjson.gz",
-   "sha256": "35c97046b7ad88fda0505e4b3a154f14a446f82dd7cecc05a703573cfbbde71d",
+   "sha256": "2f2f9cc1836f16b10616b6937ac50c42c058357d3972c2d167eda1635b030bc2",
    "lines": 1000
   },
   {
    "kaliFrom": -20000,
    "kaliTo": -19001,
    "file": "kali_-20000_-19001.ndjson.gz",
-   "sha256": "b3ca3002438c317785b2d67549e8954b5ec2259854cd74f477faa2858056dd2e",
+   "sha256": "03603d47c32d97df64866df1af693b7b84c9abc5cd0f221c060c665f506893dc",
    "lines": 1000
   },
   {
    "kaliFrom": -19000,
    "kaliTo": -18001,
    "file": "kali_-19000_-18001.ndjson.gz",
-   "sha256": "cd7130eed43153635eba2bd6bef3481864d29d1e1181338311221393687eb5a5",
+   "sha256": "b51ca352f8273345028fe6d212d51ea704344ffaafa047b4566c4a1d9464c98e",
    "lines": 1000
   },
   {
    "kaliFrom": -18000,
    "kaliTo": -17001,
    "file": "kali_-18000_-17001.ndjson.gz",
-   "sha256": "e86f5565b6cc773941ecbb21467af76ebe15a690ce41668ec0049074ea665efc",
+   "sha256": "25e55a52c8db02082b19ee614f819ffc0d3105f88eaa1bf686f1642bd1b3cf87",
    "lines": 1000
   },
   {
    "kaliFrom": -17000,
    "kaliTo": -16001,
    "file": "kali_-17000_-16001.ndjson.gz",
-   "sha256": "fe7c804a4d3b31766537d9eddc24795aa1c3dd1e093e4e03f033a7efdc425c25",
+   "sha256": "d5c9a63efde55811e402cadb359b84c6e34f2cb7ad2ccc3d0a7b1496e975b081",
    "lines": 1000
   },
   {
    "kaliFrom": -16000,
    "kaliTo": -15001,
    "file": "kali_-16000_-15001.ndjson.gz",
-   "sha256": "35bde2ad1bd4b3cbafb66c7cac6374ffd88364b9ea0d56cb98432e0852c68c35",
+   "sha256": "02d562d4353f108808aa4191fc2883d81978f4495fb82c83937c35b54051b5fe",
    "lines": 1000
   },
   {
    "kaliFrom": -15000,
    "kaliTo": -14001,
    "file": "kali_-15000_-14001.ndjson.gz",
-   "sha256": "f95fd1158f296ebd245068ba3b66f57b178366c04dd15af1ec3fda221edff5bd",
+   "sha256": "b9afb5d8a74e36f8d385039f0225828617d477503abc8df761c77fb1be1d3d1a",
    "lines": 1000
   },
   {
    "kaliFrom": -14000,
    "kaliTo": -13001,
    "file": "kali_-14000_-13001.ndjson.gz",
-   "sha256": "d4413129bf15e4bd565a05a60b24603ca6d78737f0cd98a0c51456321f305a66",
+   "sha256": "22e05a9597ccc08beeed2c2bdb33928c922f7b2a902ac2fc64b182430581566d",
    "lines": 1000
   },
   {
    "kaliFrom": -13000,
    "kaliTo": -12001,
    "file": "kali_-13000_-12001.ndjson.gz",
-   "sha256": "e74b9bfca38529dad966ecb596117233d589aeef704a237f75c86ddb4b9d663b",
+   "sha256": "93fccd4eb6b7bfee6594085169277bad064d53297a61a51f7b0652159c4c28d4",
    "lines": 1000
   },
   {
    "kaliFrom": -12000,
    "kaliTo": -11001,
    "file": "kali_-12000_-11001.ndjson.gz",
-   "sha256": "3a84a00d2fcab95772da79066a6b88451a5e575fc5ba67587e2ceeff723af02a",
+   "sha256": "e0da3124fe89c545b344e5f1e3054295c91d187baa4640a210c5607a50b3b4f0",
    "lines": 1000
   },
   {
    "kaliFrom": -11000,
    "kaliTo": -10001,
    "file": "kali_-11000_-10001.ndjson.gz",
-   "sha256": "bc72307aa0a57aa485e14acc3addc4aa3fa1c1ffd885e6cd22007191cb8b1484",
+   "sha256": "89014f8f2929511516f1ac3a58b1397d32e5cd95a2b0c436fb958ac6897f0c09",
    "lines": 1000
   },
   {
    "kaliFrom": -10000,
    "kaliTo": -9001,
    "file": "kali_-10000_-9001.ndjson.gz",
-   "sha256": "2b87adecc7c06cede61d209d06bf1e46a71a2b808ede6f824bc1519ef2b7fd55",
+   "sha256": "6edd86b09d777070d1b7e9888c9125f866dfcf2f46f422b9fa76dbe807f734c1",
    "lines": 1000
   },
   {
    "kaliFrom": -9000,
    "kaliTo": -8001,
    "file": "kali_-9000_-8001.ndjson.gz",
-   "sha256": "d8bf91e1a3603af32be1064a4f60e0e72e3d5582eca017c7f7eab82025e4840b",
+   "sha256": "1b150d8679f5b0bf698652c59c3cb32ebaaf4950554bd912a9f8b75907118be3",
    "lines": 1000
   },
   {
    "kaliFrom": -8000,
    "kaliTo": -7001,
    "file": "kali_-8000_-7001.ndjson.gz",
-   "sha256": "20ab09163fce3818fa8e4f3c9b451e6d95424374d8c4f35f16b82908fe2af872",
+   "sha256": "a5c2bf83987234fa069636da3607572d67700c6db595e382d8ba1b3f01a4c20c",
    "lines": 1000
   },
   {
    "kaliFrom": -7000,
    "kaliTo": -6001,
    "file": "kali_-7000_-6001.ndjson.gz",
-   "sha256": "c5f87c1955a716e646d072428a20c13bb1dfdd0bd107a3d1e89c1e589e5603d0",
+   "sha256": "1658e199298d4a164304292c98def466f620d5a4c9fd0e4dfe0ce5cc9f407c8f",
    "lines": 1000
   },
   {
    "kaliFrom": -6000,
    "kaliTo": -5001,
    "file": "kali_-6000_-5001.ndjson.gz",
-   "sha256": "892cf633507d6c839b2803ab3f1c242776dbeaf517d8b6a14d21cf16ef140020",
+   "sha256": "76843b179b62895cf2cd5680b0966ee3eb68f3f7e8f125dfa9c819563c77839b",
    "lines": 1000
   },
   {
    "kaliFrom": -5000,
    "kaliTo": -4001,
    "file": "kali_-5000_-4001.ndjson.gz",
-   "sha256": "dfb5834644abc4d10564fd1f909ad0256dc82826ec2158b0fd00f8fee8e9fbe2",
+   "sha256": "5f0c5d25689a5da6f7959b031300ca5588cba1e1ccd8f96562c2bb1171ada78e",
    "lines": 1000
   },
   {
    "kaliFrom": -4000,
    "kaliTo": -3001,
    "file": "kali_-4000_-3001.ndjson.gz",
-   "sha256": "911145b98e05c763ec537c6e7bf157e719a219bcb0e92b027b3cfcc523641233",
+   "sha256": "cd526f151c53b484d58b8c3471b00f85fb1c6b73b8eca01ad294b9dbaa838fde",
    "lines": 1000
   },
   {
    "kaliFrom": -3000,
    "kaliTo": -2001,
    "file": "kali_-3000_-2001.ndjson.gz",
-   "sha256": "bd7d80ec6b09cd9506abad5154317abdbb193612125dd328152fdb9ce6a7cf94",
+   "sha256": "554f4ca281bb67317dc94d98ba4dc9eb208bd00743c5d5627e8b2c870c127488",
    "lines": 1000
   },
   {
    "kaliFrom": -2000,
    "kaliTo": -1001,
    "file": "kali_-2000_-1001.ndjson.gz",
-   "sha256": "673159d3bc50ee16807f72569ccef7c3a9eb391c3a3c48a2be70f388b2a50a85",
+   "sha256": "c0bd6228e3a9b50804a30d9343886fa7440a24d5122864508abd5d6286de9f0a",
    "lines": 1000
   },
   {
    "kaliFrom": -1000,
    "kaliTo": -1,
    "file": "kali_-1000_-1.ndjson.gz",
-   "sha256": "ad66877f1b58e47175f2241b1139c62a28127c6ed2b781a2e65675ce468f1c5c",
+   "sha256": "15e5f81f56f0eea8bbb265c2cd8c1ab62697d854338001f2856ba517d8236179",
    "lines": 1000
   },
   {
    "kaliFrom": 0,
    "kaliTo": 999,
    "file": "kali_0_999.ndjson.gz",
-   "sha256": "91d6f2a0df01f40acee26a6aa31543f193b9b72547a209da041086eaebd47dfc",
+   "sha256": "d19691646f12122357c23386ec858c1d55bb3e9bd157ae7cec088cc131b63772",
    "lines": 1000
   },
   {
    "kaliFrom": 1000,
    "kaliTo": 1999,
    "file": "kali_1000_1999.ndjson.gz",
-   "sha256": "c5c5c08a4955c79526870e5ee89db05e9e2be31a1fd78debeea265461eb0191d",
+   "sha256": "fa094aae4e0d11fd7fd9b18f7a9082af2d1da12590985d18c558590c902a4215",
    "lines": 1000
   },
   {
    "kaliFrom": 2000,
    "kaliTo": 2999,
    "file": "kali_2000_2999.ndjson.gz",
-   "sha256": "184ab493444390bf6eb75c72580634dd61b9f32f5c544265824d16b8e3c17b7e",
+   "sha256": "c09d57a96de9ecea7e3b8862c68380986f712819f98e69e69b93d197a0bc030c",
    "lines": 1000
   },
   {
    "kaliFrom": 3000,
    "kaliTo": 3999,
    "file": "kali_3000_3999.ndjson.gz",
-   "sha256": "8b1ed2c94ad4af2ae478daa454cc6f2bd3c40dfea40a1f17aef4c9a13d33b2e0",
+   "sha256": "149eeb0775a5cabbe08aeac44c34f54073ff5d4c95df0032fbf0cea170bfed62",
    "lines": 1000
   },
   {
    "kaliFrom": 4000,
    "kaliTo": 4999,
    "file": "kali_4000_4999.ndjson.gz",
-   "sha256": "c5c8a9dc479cc14224b4de85d377f4c0539bbb83ec084acd157a5890ff4e92f7",
+   "sha256": "9dc1d2504323c71690dab0551d677af045ef687c829d4c20439d202dc9a9dfb5",
    "lines": 1000
   },
   {
    "kaliFrom": 5000,
    "kaliTo": 5999,
    "file": "kali_5000_5999.ndjson.gz",
-   "sha256": "3fd2ef2eb55ae6037403e19ea391c0bcbfbcc5a6b614d15689cc4eca59b89ae9",
+   "sha256": "590300e7056a391a3e91c3986c2053d77c25ae7851c7fa576ebf694c08e410b7",
    "lines": 1000
   },
   {
    "kaliFrom": 6000,
    "kaliTo": 6999,
    "file": "kali_6000_6999.ndjson.gz",
-   "sha256": "4c65f3c74d492b5941fb67b5e0255020efc42f99ee838230f52514972ea733db",
+   "sha256": "710841d7e60c56c430f1418378e05fc27dfa8b22aae11fe7a8b997bf037260f1",
    "lines": 1000
   },
   {
    "kaliFrom": 7000,
    "kaliTo": 7999,
    "file": "kali_7000_7999.ndjson.gz",
-   "sha256": "edb505dc7b0de4eb42a1b3cd4d7fcbfa7bc19ef4871dd45454ccc461dd22febb",
+   "sha256": "b361f16e52ce3d1afe4d1f256699df12765aca3573a14e4ec5d323288730d3be",
    "lines": 1000
   },
   {
    "kaliFrom": 8000,
    "kaliTo": 8999,
    "file": "kali_8000_8999.ndjson.gz",
-   "sha256": "1078e6044a6e8bd6106a48f255757055ed34829904404754d8740ad5b210e33e",
+   "sha256": "2df6cc66ce120f85ba2128e38a9414f3a3f40f133ada78737f18b4290b6c7edd",
    "lines": 1000
   },
   {
    "kaliFrom": 9000,
    "kaliTo": 9999,
    "file": "kali_9000_9999.ndjson.gz",
-   "sha256": "dd23e3460c6cb93832cc687fd77569d9ec2e28bf256cf4504b59a64bad6fcf59",
+   "sha256": "200ef2aca42e4519ea509579c725ea939f13343967ea96eab9c51caddb206e6f",
    "lines": 1000
   },
   {
    "kaliFrom": 10000,
    "kaliTo": 10999,
    "file": "kali_10000_10999.ndjson.gz",
-   "sha256": "0c10e4f521da3136b62b23e7a35477e382aff7ae7689e0273ef1ce768b71acd6",
+   "sha256": "db8181d10a35390fe9802800bd27b7e25606d2500790731047440e08d4949208",
    "lines": 1000
   },
   {
    "kaliFrom": 11000,
    "kaliTo": 11999,
    "file": "kali_11000_11999.ndjson.gz",
-   "sha256": "221e88b02392971079b0be3bcc216c4f1f5c0026349dd578b37ff48f71bdb16f",
+   "sha256": "6b10490595ea01a933bb6fcfde8b2927af81254c69a80cfb366c7d1f9d5c4746",
    "lines": 1000
   },
   {
    "kaliFrom": 12000,
    "kaliTo": 12999,
    "file": "kali_12000_12999.ndjson.gz",
-   "sha256": "c9a26e1e14166e850c885651d16fe876861ccff414494a10ac9de98e0e629ff6",
+   "sha256": "6d2060be7e03889074f5d7ad7ce468e531cd02d4de8a81ef1c8470dac8ee09dc",
    "lines": 1000
   },
   {
    "kaliFrom": 13000,
    "kaliTo": 13999,
    "file": "kali_13000_13999.ndjson.gz",
-   "sha256": "f49bf21aa17a91325b02f6f4ff5cbb8936cf41fe6a5f82ff193103ca72749ff5",
+   "sha256": "3fe0b98bdd867b9ce9fe2256c327c53b92d7bbb273d4768c067ffbc836e1f4cf",
    "lines": 1000
   },
   {
    "kaliFrom": 14000,
    "kaliTo": 14999,
    "file": "kali_14000_14999.ndjson.gz",
-   "sha256": "1d4ade69e353175b2cac67f5d4b05f8a29255c067f3d23ab8292b09fdb87c879",
+   "sha256": "32f51eefc59bcc61eb2bde61c811bc52a42523c2ca0884c0532793ce7e6244ae",
    "lines": 1000
   },
   {
    "kaliFrom": 15000,
    "kaliTo": 15999,
    "file": "kali_15000_15999.ndjson.gz",
-   "sha256": "c49fc96e264dba7557c6bcdaf7bce8997d3a13646efecb291e6009daa7b42401",
+   "sha256": "8e84814661d9d2f942122a930e35dc43017ac217b703e9b7f2419f212f2b3dd5",
    "lines": 1000
   },
   {
    "kaliFrom": 16000,
    "kaliTo": 16999,
    "file": "kali_16000_16999.ndjson.gz",
-   "sha256": "e27a6824744b435933e1bc052aa651bea7e37c9367f8842b170bdb105187b22a",
+   "sha256": "62656be9fc79dbe8b68fe5b00c24ff0c3a94155074d44ac443883167c35aaa8c",
    "lines": 1000
   },
   {
    "kaliFrom": 17000,
    "kaliTo": 17999,
    "file": "kali_17000_17999.ndjson.gz",
-   "sha256": "390baa6c0cc5e546b1f5ccd42bb0a19c597ba265fd4fc3c8279bceb66d53a2ba",
+   "sha256": "e935e2f4ef022cbd5c82a3f51d74009e0e2949c093d47c9c89cb044950db6712",
    "lines": 1000
   },
   {
    "kaliFrom": 18000,
    "kaliTo": 18999,
    "file": "kali_18000_18999.ndjson.gz",
-   "sha256": "26c10ebfe0dcda48cb2db97917a5583e75085895cf296c610fbd47aece6508c7",
+   "sha256": "4e3ee0b89d1b8490b56159d2a385b9dcb451f363aaa4ae531ecf8e549c7f692d",
    "lines": 1000
   },
   {
    "kaliFrom": 19000,
    "kaliTo": 19999,
    "file": "kali_19000_19999.ndjson.gz",
-   "sha256": "5b6085d72c1d41b939f19d9685315c10c4ec6d95fbac5cefd91433ae88dbbfaf",
+   "sha256": "2f26fab7b74595e23b62adaef33644dd2f89daee35f1ac9ec15ed055a290763a",
    "lines": 1000
   },
   {
    "kaliFrom": 20000,
    "kaliTo": 20999,
    "file": "kali_20000_20999.ndjson.gz",
-   "sha256": "a8ffa1b39ff3b4dbfc1f7941348dbbae04c1e51e5c957e0dafb6255f2c336adb",
+   "sha256": "0e55af182263c4afbc48b7e71309f8f46c3df78ac1ec2291dc078a073c5e6ab6",
    "lines": 1000
   },
   {
    "kaliFrom": 21000,
    "kaliTo": 21999,
    "file": "kali_21000_21999.ndjson.gz",
-   "sha256": "2fc9e5474c0cc906ce2b6a4b793bbabba1895cb9a8bbcaf5836655ab9b37c009",
+   "sha256": "a8717efd591b757b672b30d3b4a8eb3f435d1a7b7c992b1d0ed458d828a20199",
    "lines": 1000
   },
   {
    "kaliFrom": 22000,
    "kaliTo": 22999,
    "file": "kali_22000_22999.ndjson.gz",
-   "sha256": "7e11f478f150f4960408a5072508037c7d7a5a279ec61c78b8786a5643a7f18e",
+   "sha256": "7d0bf18b76169de63307d1d99eb0327a5a9a0b876903b8747c2b73ac5df5898e",
    "lines": 1000
   },
   {
    "kaliFrom": 23000,
    "kaliTo": 23999,
    "file": "kali_23000_23999.ndjson.gz",
-   "sha256": "808b26a8d549b410dfea2821b7c7efce19f4e0300e6382e6eb98424188c2e5af",
+   "sha256": "f87ba8c460034bd1baa9189bf9cd4bc82c56ed5ef6bda58537995c22d3ed0f0c",
    "lines": 1000
   },
   {
    "kaliFrom": 24000,
    "kaliTo": 24999,
    "file": "kali_24000_24999.ndjson.gz",
-   "sha256": "67f28eb5ccb3ccaec0058ae484b9226b6e62f5831930a47a30a232b164408005",
+   "sha256": "3c82f40a9e0bf41e813195410d1a10019c9f0534913b2c016c0f43e8a4f76b1c",
    "lines": 1000
   },
   {
    "kaliFrom": 25000,
    "kaliTo": 25999,
    "file": "kali_25000_25999.ndjson.gz",
-   "sha256": "cab497acb1f09660652f42c4590860f55e715ff3d40c715aef4926bbf359b41f",
+   "sha256": "a949a12f6cdfbe1a29fc222e2eba6f055b42e827190d14f07ddcfd2800ca0fbe",
    "lines": 1000
   },
   {
    "kaliFrom": 26000,
    "kaliTo": 26999,
    "file": "kali_26000_26999.ndjson.gz",
-   "sha256": "531816fe8ddfd44b09f49857098e6e82b323554b376449cfe5bad7771bcf3dae",
+   "sha256": "40ef45df4f06eb75cb55b5b299beeece1eb99562c40b713c1f176794d928c724",
    "lines": 1000
   },
   {
    "kaliFrom": 27000,
    "kaliTo": 27999,
    "file": "kali_27000_27999.ndjson.gz",
-   "sha256": "c5bf77e6aa57852ae34a8f88a7d30962d286a31ffbd051583b1ea191799de119",
+   "sha256": "db4cfca4062554d53a1cea37445799f27b210b29645858d84099137aee61353f",
    "lines": 1000
   },
   {
    "kaliFrom": 28000,
    "kaliTo": 28999,
    "file": "kali_28000_28999.ndjson.gz",
-   "sha256": "ce67c94eb05ec26a36239bdf7c021b81f3d14096ef28156709436cadd1d88468",
+   "sha256": "2ca0f4778baf338406226d8888cb37281398aba77c193dc2a0899776c4b89a70",
    "lines": 1000
   },
   {
    "kaliFrom": 29000,
    "kaliTo": 29999,
    "file": "kali_29000_29999.ndjson.gz",
-   "sha256": "a89ceb4762f1d4ede3c6db33f2c0fd56a62693b1a90576c903ff0a401de56e8b",
+   "sha256": "9627c0ed4da51aedb4773d71f18e3bce82f3faec3d266c7ee7fb69c034705df2",
    "lines": 1000
   },
   {
    "kaliFrom": 30000,
    "kaliTo": 30999,
    "file": "kali_30000_30999.ndjson.gz",
-   "sha256": "88ec00c5f07af88ce76ff870436b50dfad5561b3269d323a7b9f079823cd90c1",
+   "sha256": "6f8128cf6993743a03e369ffbb55392b05521e0cedd8f928423d4bfd8817eb4e",
    "lines": 1000
   },
   {
    "kaliFrom": 31000,
    "kaliTo": 31999,
    "file": "kali_31000_31999.ndjson.gz",
-   "sha256": "f168d9f3fc10135bf65bd929b0b861d113709fcaa319891fe7b176555c66f8fd",
+   "sha256": "ea4f04e6c328a1f37b714c9c6c4ce3a3e35680d81f7ae27a23014b7a26fa62c6",
    "lines": 1000
   },
   {
    "kaliFrom": 32000,
    "kaliTo": 32999,
    "file": "kali_32000_32999.ndjson.gz",
-   "sha256": "d7e9c7846f82ed95d2ebd9afcd647a22a4ce40ed5a6eb6a1cae4386ecf665bff",
+   "sha256": "a0cea2d7427cc61c4697bac0c6e96bee0e03203f988f371e29657db24c4e91c0",
    "lines": 1000
   },
   {
    "kaliFrom": 33000,
    "kaliTo": 33999,
    "file": "kali_33000_33999.ndjson.gz",
-   "sha256": "7019c6092ba9f7fa332baa564b9cecc479f260744d05fdf80459699bd7563ff4",
+   "sha256": "887c350681c9db5fdb9b86553a23ff61bb1158898c6c9cc8af817e6dd479b5a9",
    "lines": 1000
   },
   {
    "kaliFrom": 34000,
    "kaliTo": 34999,
    "file": "kali_34000_34999.ndjson.gz",
-   "sha256": "a833be279dc187bce0400ca9c4b857bf7a53cbd5111a38e34df53092551284d8",
+   "sha256": "69ff646d5399383f5c7ea994f4d3a3d391ead563b61c9e0945ec17094fee4003",
    "lines": 1000
   },
   {
    "kaliFrom": 35000,
    "kaliTo": 35999,
    "file": "kali_35000_35999.ndjson.gz",
-   "sha256": "0c31044fc90a770325887df0be93ee39f3fcba8c7414f964569b0cf1145b0b79",
+   "sha256": "162db01a98c035d5761daa27853ae3d07546772b875f0b70f22f6a93808862aa",
    "lines": 1000
   },
   {
    "kaliFrom": 36000,
    "kaliTo": 36999,
    "file": "kali_36000_36999.ndjson.gz",
-   "sha256": "66975795df6693fdbdf11559d74745fe64ea082d77f86e636be1d1f48785d303",
+   "sha256": "6bad08dcc8053a83b37733b6579a3a9e21b59bcb4ab32e7007a970aafef546a2",
    "lines": 1000
   },
   {
    "kaliFrom": 37000,
    "kaliTo": 37999,
    "file": "kali_37000_37999.ndjson.gz",
-   "sha256": "c7a454c8e6b909e30a36ffe6c3bbe77ad836811fae555d35bc1fb343223bdbf0",
+   "sha256": "97a0ba925b1b9f379803b40daeacfe5f7d9b43f887a66a13a4e1dfa6ef3f43ed",
    "lines": 1000
   },
   {
    "kaliFrom": 38000,
    "kaliTo": 38999,
    "file": "kali_38000_38999.ndjson.gz",
-   "sha256": "c9e2b67ad7c0ff657f13d74857ff06da3291f6a48f1962c4954ab4fb47664934",
+   "sha256": "69fcacb40162fc8b18d020167e50e81760d05375633dcf6235974330deaaea15",
    "lines": 1000
   },
   {
    "kaliFrom": 39000,
    "kaliTo": 39999,
    "file": "kali_39000_39999.ndjson.gz",
-   "sha256": "f3bc5ef1a53469d72b4459af5b185df4a76abff207082631cca058a9ab470376",
+   "sha256": "75b8c845c1bb5f6ded1dc946313a63253a89afe013acb77e2f794fdaa0b695bc",
    "lines": 1000
   },
   {
    "kaliFrom": 40000,
    "kaliTo": 40999,
    "file": "kali_40000_40999.ndjson.gz",
-   "sha256": "751f59b8fd01ddbcd6a68b3644a1583c40192715f5e7908746fd89bbde1844d5",
+   "sha256": "1735201f0705382644fb2491f5d81d4cc765291bf17175635951ee610ac5225c",
    "lines": 1000
   },
   {
    "kaliFrom": 41000,
    "kaliTo": 41999,
    "file": "kali_41000_41999.ndjson.gz",
-   "sha256": "1fb42bca6a41293d86d80b5bb742027a79b3edfc60ffbbd0976dacf4e8b1fdfc",
+   "sha256": "adda0d510fd02e53270b5fb3eef0764fa5cd61fc2b7977ccb2bc6cac5bf03657",
    "lines": 1000
   },
   {
    "kaliFrom": 42000,
    "kaliTo": 42999,
    "file": "kali_42000_42999.ndjson.gz",
-   "sha256": "b826dca611786be53d2aeaba3ae47f2015816504df79869b58038d93b6a682b3",
+   "sha256": "1ae5d8b3d0901b485028e96e7fe2b3096b035de612c75bffa3a7c29fa1472c81",
    "lines": 1000
   },
   {
    "kaliFrom": 43000,
    "kaliTo": 43999,
    "file": "kali_43000_43999.ndjson.gz",
-   "sha256": "4245aa6e932057384c6776c731f1a446af304e13c46d385627b18dfdb8322023",
+   "sha256": "d46597e79c1ebd88c8c79e6350361e205113fa33536b651ec8381244792ac1e9",
    "lines": 1000
   },
   {
    "kaliFrom": 44000,
    "kaliTo": 44999,
    "file": "kali_44000_44999.ndjson.gz",
-   "sha256": "bbc3aaf835d053d161e42c58d29f5a64b5f43209af3ea195e1169ac678eb9654",
+   "sha256": "b76e4c4d2630b4cc6d826b58e116f630a5203bdd186ce4484c82797f4391bedc",
    "lines": 1000
   },
   {
    "kaliFrom": 45000,
    "kaliTo": 45999,
    "file": "kali_45000_45999.ndjson.gz",
-   "sha256": "f8dfbe92f0ba22380c9c840e9eb8d98091c5aa12cf6cff51d6a086601a934779",
+   "sha256": "386f36ccd08d2ac9e63439414687a1b9c95181fc29c0000c0b90ee7348429b57",
    "lines": 1000
   },
   {
    "kaliFrom": 46000,
    "kaliTo": 46999,
    "file": "kali_46000_46999.ndjson.gz",
-   "sha256": "c0c151ee91ad42fe5dd6c7836903e417f4be3d12a4463fcc96b7ed08adb8c4df",
+   "sha256": "fe0870d7acd5fe1d784b8f74a215ce6dddb3e4b53afeab0d60ea6b583e8c6ddf",
    "lines": 1000
   },
   {
    "kaliFrom": 47000,
    "kaliTo": 47999,
    "file": "kali_47000_47999.ndjson.gz",
-   "sha256": "96808b482835f80f59da053e9eb1655eec077901de8ff30728d034b4ddb7ce53",
+   "sha256": "23a4b905c290165d088d1bf5e5977bd43f1de9cd028557d515c1552100d01686",
    "lines": 1000
   },
   {
    "kaliFrom": 48000,
    "kaliTo": 48999,
    "file": "kali_48000_48999.ndjson.gz",
-   "sha256": "6dcb94ed02577bef9940c7f1522f4decd40a030f0f372e78a38a91e1755fb971",
+   "sha256": "1b0f26490447a1960897d41ed025af78608a3681dbae7bd45ef09aeb4d4f6a06",
    "lines": 1000
   },
   {
    "kaliFrom": 49000,
    "kaliTo": 49999,
    "file": "kali_49000_49999.ndjson.gz",
-   "sha256": "55701e0e9051c08fc733c7447ff885bbe614cf50b7b5e39208b87a733e3982c2",
+   "sha256": "f9b99fb9f94a7b86e8e55a989298aae2b5c699412214765262994ce1fdd69f5d",
    "lines": 1000
   },
   {
    "kaliFrom": 50000,
    "kaliTo": 50999,
    "file": "kali_50000_50999.ndjson.gz",
-   "sha256": "00fd82959caab0cc131d74a4bc2a428b151c7a3740fce68076ceb7ac188214fa",
+   "sha256": "e3cffc6b9ef6d89b7d47f781153f537b13fe69b3ad3f331c29d55578850e54c9",
    "lines": 1000
   },
   {
    "kaliFrom": 51000,
    "kaliTo": 51999,
    "file": "kali_51000_51999.ndjson.gz",
-   "sha256": "518191872ef572692e561634883bb5e3d53a28dac1a1cc5507aa9e4b656c3cdf",
+   "sha256": "86e84b6ed5d65e23d63df1cce80ca8e15a2f228793cdc6c8da6180c234644de9",
    "lines": 1000
   },
   {
    "kaliFrom": 52000,
    "kaliTo": 52999,
    "file": "kali_52000_52999.ndjson.gz",
-   "sha256": "f13fcfb9bbeb09ad7c1ff06213c72002e72a6f84a94dc58ebe873a1e887daabb",
+   "sha256": "3d034243dc7ace16f999530217622faa82fea0df60666794facd81f063cb47ff",
    "lines": 1000
   },
   {
    "kaliFrom": 53000,
    "kaliTo": 53099,
    "file": "kali_53000_53099.ndjson.gz",
-   "sha256": "b6642aadc63b3c4aa259352cc694fca2c8bfe6c983daec81dcd6c2a19a8d6e2e",
+   "sha256": "541bd8915e1b0a3629a84738836398ba5634da1892e56bfc28eb5c96ceceefee",
    "lines": 100
   }
  ],
  "sampleHashes": {
-  "0": "dc75c155e8aa8f8825f4abed64afbf303f4e3a6a71315d7b628ebf851310c1db",
-  "101": "7eb1dfbd6e799b4ca42d9d3b7a8d12c9df44acf4409301b896762bc64ffa0424",
-  "1101": "1c382b19c03a22c728f4e2c4f94275e389ace870468f1a7c5ec3d3472e8a418c",
-  "2101": "9948d360555cc758849bf3e5e76da626f2360f7e199a08657736185cfddc62f4",
-  "3101": "4f62f6404c1a4f95e82afb7d86f7e90db84199f65c49dedb06b9c32b4c34ff00",
-  "4101": "7163aa97a3f7aac0f69544194ec60e5878182d45856846a577b121470c4702bf",
-  "4683": "d214b91dd2cbb4729eeda0ca2b786cc7ed8d577334cd8c993165c43ddb4240be",
-  "5101": "4cdbc15d550953878df6bd6600484290c91529a2804fda12cf8dbaa584a50774",
-  "5127": "b9aa76bb9aa394be7b7d79aa8114074709e4a1d7cae82efb101479aeddc57f8f",
-  "5129": "f2e37e2663501339534fb765022a3b6a89fd94a712f32c26151b3cc517d63eac",
-  "6101": "2c25ec0a166ce9311df9d108a5d87dfe9bf9b1db26403d36a7f0e6c41ba7e347",
-  "7101": "968c7604db74f863f890994ad5ed7aea1c668853cca32e626ad5a995cd1fc05e",
-  "8101": "fd15c153cd37909d374b578778473a976c829be96344b425c107e7582092501c",
-  "9101": "32c9479e131f7569c16bb3fda0bcd87d7eef1d736d85ca0726a39cd92c125baa",
-  "10100": "d520d92aa9d1d5ad0818f4da479bf737a66283d8c1475ca2e5a76f6e4edb710a",
-  "11100": "c1c790b8e672ec28cb0350d71a484cea63c01a3ea6b21f8cae01e5a3099e3a56",
-  "12100": "4a9e526f0d27298bb8159b41380ecc1dd7987f7128a4c507b82e1cfc80af9d5b",
-  "13100": "d50f03628c38e2249b7cb9ecb56d67b2cf0e2cecec8aa288c05f2247ef6070e6",
-  "14100": "edd12e28f2137686003c94c98321880932722430c94d5e35154223f5e42df787",
-  "15100": "50767975123c46ccab773479de2f25e89b64c696c06d5ff78f9714313bec0f83",
-  "16100": "12e605156b7042125b9887c3a5b6723eed277e3e1f5c4e58e869fe902f3b0685",
-  "17100": "46740be711340ebed2d23cc1271dd158297ed2aa6decc904096a2888bd180417",
-  "18100": "1e8e441ad91905ff864550cebed39a4b38b72a5c4b35dc759925fd6882751ffc",
-  "19100": "e3a1e561a1462b47c79f24b4b009d0aecbf35ba2769435046988679fe29d14e7",
-  "20100": "ee98993a6ec556c0bf1d6e208cf42689b36674c39ca519f32e25c7244a1a0f9a",
-  "21100": "de9f38a21634a6e1c5f27cca285444d239c57d35b6720c57bd18a488a34da5c7",
-  "22100": "7b21b0b00304f0d0b30324f45f23cc4d7e04d1b9910a0d151ae28411eb4c1fdb",
-  "22966": "c3e09867682ddaa31d025b09dcdb00ee532d80fbb6456f278f8fd42af273718d",
-  "23100": "88c788a767e090dd3b89d7e41b43fa284fd073bdf6bd635c37034cd17f035d6f",
-  "24100": "9db64200648f4d0e93be57ce072032491fa3a7792cacc2ff416f249364f6cf5d",
-  "25100": "c69b2acbdb8e93ab6fce027a688b2dd4e54f734b0fd71b0654c92faa19892b11",
-  "26100": "f0c83506f756fe322af8eefd8a86d455f74720be4b26c590bab369263ec057f7",
-  "27100": "59913dcb7107244d05902d7f305d8447f0f1305088dd2fb9541e0a0dd853d6d4",
-  "28100": "c645b3fc939488b3d4c866c8ffd166ff624e7c0db3af777e4b2b058859f3aa41",
-  "29100": "3235f174423e87338e6e24780522bae4bc00aa3193b9cb6255e4115ffcac50e5",
-  "30100": "3f0047cd49d391a9845e0c809a02f81f49d73313a9c6aa1bbc944e896d163d88",
-  "31100": "3f3795e8f46a85a3453b9bddf961aa94d33ee17f885a2b1aa0dbcad6d2e4a535",
-  "32100": "8626c55976c94d047ca041962972be8ade8440306cd35bdf2083e7232c2fead7",
-  "33099": "1ded42af345f97da123ff44b7796ee69f0062500ddbdf6cf1ed43aca6f78c625",
-  "34099": "951b218eacb2c0b9d4059a4ccc6f08763549e15051af02ccda0ec8bba95f0795",
-  "35099": "1c57c380070424a0a045fe378f9e5840906dc7b20cf43db477de31c5c213e79e",
-  "36099": "fd5cabf3f1da6ce28224684b4b10fc013b086e29a66eea1d79f59b4392009e6e",
-  "37099": "d1dc16cc2e1e5a398481fbd415c58aaf4b8f789646178f6a304a0ea7f2328d3d",
-  "38099": "25a1fe8463bd5b7dc839ad7a3e556362850012f9db1f4394687cee5a043d8439",
-  "39099": "d8d5b16f092aff5e2ee6770b40749ce270cc493fc67f0a971bb5884be4bdd5e3",
-  "40099": "6c6625de0f05805dc12d28dcc2aa37fa742f90e258d71586e5bafdaaac14f311",
-  "41099": "a53c17f7996ccfda2e2f2500f53f448214c671f83e49419c7718e33c751ad965",
-  "42099": "5db5256701ef0665fc07785b9dd8f60033e918cdf53e34be8d3827027e4b0a48",
-  "43099": "9dcb6344cbdbc99c6167e2898f480da693debb5c56bd3a2083acbf59e880a300",
-  "44099": "5292bd7f11e32a046ef79b5edb27572ac7b38978aa7573bc90b4e7eea2a26e8e",
-  "45099": "459cc568d4c89760405394b2b9b868d8df3a4320b90b046386f62ebc2b119c1c",
-  "46099": "d66afb7129d047d49e3f31f1ccb8f45931ae9708be3fbda15e0091c83943c535",
-  "47099": "5eea24e458a8789e296910ebd7ef5b4979528c1ed94ddae4b7f647971deb8c2f",
-  "48099": "08bcbc86d7149dd95661be4650a25ff7896bfecb3e3b3321beecfd48a60f6cbf",
-  "49099": "c7ed49cab934f049bdc5fab9a86564f7073a4bdde61565f420a05ca01ff53c9c",
-  "50099": "4b6921f3a950b700d1dc9570664db6842aebe76dd7ea4d4d5038af2e15006c3a",
-  "51099": "1cf8165b49b81274a80d7ebc6f7ec92c5afec335156a12671d2d3afbe405dd97",
-  "52099": "d03735e6ff03866f66790203e26584dc244f3152bfad2ee52cf733fc0c763812",
-  "53099": "e17521eb974706a615fd2abee925e7db507e076fa26bcbca79a3fbd88437ad52",
-  "-46897": "9b1167cfa9765661a5d98f24bfde847247311cbf764eed14869aa38b827a6b21",
-  "-45897": "4e07c11074986afda84e013f47f0e348b2755c26c4ea9bc39266beac9a493c93",
-  "-44897": "ea2ceef58f3065561d101026f7a28b3df7d0d67530b886d67f195ad591408a44",
-  "-43897": "c82a85d45df1de515dca36f2197ef2cc07c2d4e8abbfd0bc6fc36de0dbbf12cf",
-  "-42897": "d6844f53e5f795d08027f0843c464fec451903d1e9033d409b0f79c97ba47a9b",
-  "-41897": "a3e0736c010b38b45e779613d35ad1691e678ac7569b18facfea8746a6dd060b",
-  "-40897": "3897f1445ca86877ad948073814dd91aec3d47d87b30db9c5961a03adc68ecb3",
-  "-39897": "5e95386b306c9b47a99286dbec2059d3f84473064bf5c07256364521b29ccfad",
-  "-38897": "9a96780066f095d5e007187887785824a9820ef22584427e7fff62e90680eedd",
-  "-37897": "6f760afeef7e99afa5719ed2a42e6f79d372c7f52638437dd6d0565070218ade",
-  "-36897": "eb51ccc2b5842f817b73905a2cb21031b50f1f991f66e122bb21c93c97b669c5",
-  "-35897": "718a8fbf29ac258348862f132aea4ee7595029022c1d314de2e2961f5fead73c",
-  "-34898": "0f4d61c9c779db7326db581d3bbcc3cbb61dfb529197956bd8e888c4049627b7",
-  "-33898": "c0952647db9266befddb8998d955bd26d8646d53cbe6db4f8613e310f8ab7a9e",
-  "-32898": "b525c6d27158b0c293dc13166b0e0fc4a0bc4b22a61fbd7362e971250d65e061",
-  "-31898": "2cbf670fbf23d5ede39fd0fc7236fca71d14cf8084d28d1df7270e46b4a2329a",
-  "-30898": "78d783a1e58db4089eda278013c4cc37c27089edbc5e8d731186f526c466d6ab",
-  "-29898": "e9d5ac4d47d6d33a97d97923a548df4a67f796a3b270affdb4d70ec078d77601",
-  "-28898": "9a18c02654ab4f221d6b8928b80abc43dc2fddefb03f6fecea6f4b93d8a91a41",
-  "-27898": "3feeac9686d501ff3b568ec40f623f4a473cc168ddd7f78cbbb53f7f0f70c2af",
-  "-26898": "1eb68eea4bf954dd9d14e07b5ca4718ce3500193703c50ce3c6e5bddf3af9e46",
-  "-25898": "d80e00e2aa1d8132d4e7dd5d4c6321b79de4be6fc733674458f5f26df7857a8b",
-  "-24898": "231fc2f58321e6a491cc74c78daa86ed7745f003de88d5896997f1a2833bbbb5",
-  "-23898": "414d0ff2cd9e32e25556abc1636a23a0826168f129e3b7a090fb82dcf171413b",
-  "-22966": "3387ae8edc461f9af567de713327a8c524fb618a50fcdbadf1ac7ed4b5256b96",
-  "-22898": "8fbc70790f56711e79db866484d76736070b90625976e1ef37abbde804df5d21",
-  "-21898": "769538127b4f734c4e22b4997b5669bee7f050ba49376a5ebcc0f8654e6a729c",
-  "-20898": "ae6cddd1a3fd08b0b63f8a449dd8b2efa3d76000fc80db41a58fddf81886b7a1",
-  "-19898": "15a05e0e83f9cae3e6f973104fd820bafb4c4f1fee0bbc66e9730410321da845",
-  "-18898": "8614a75047905d885d2df6f1b12207410401276739cb55f6b4d3ac5568aeb283",
-  "-17898": "7fd75efbead003c6ecae63d90af5a7c91e87f34ab70aac1bb225d4597e523492",
-  "-16898": "35b5fff151a6857b8ea49ad48bae92bf75f5dd94991e6fe548ce239df51c95b6",
-  "-15898": "48f903618469578a8f9dc8c940ded8721419bc96357984211dae22a47b512c3e",
-  "-14898": "77b472f8104a4712e8d7da5aeefdfd360bdfc0c61dd92b0cf72655ca348dbfa8",
-  "-13898": "7f19d6b34d1779719e86eb9e4ed06c77455190635ed40523feb5b39103803ce9",
-  "-12898": "a949eda13d8981fc66ed729f7d050368212c5462e27711c233a7fd93b1022817",
-  "-11899": "f26cfd1d6c7972a2bf347e783b8bac3e2b165db99dde1280a3b8a371ba84f23b",
-  "-10899": "fea3a779f7b077889b2ca146aea1e85518b5308dc90f355c2a9915e556a66bb3",
-  "-9899": "79ff63a22eb9d72d7476d6abcd455524d3e0bb7cefd7ac22121ece3ad771faef",
-  "-8899": "5a0b1f900a423c62952c00edba8808308613f3540d5fcbf9c649d47cc59dae5e",
-  "-7899": "b9c6b1bf85a361500f58f323030c06b22f63780b9a173a7c475a46a55e21e328",
-  "-6899": "b0318a4930dc686369d2e916b67bb9d7e77cb3dc600b02a4820d45d44a89d824",
-  "-5899": "f447a30edee681172b15f7bdcf67b31b799e5bcbd62c0972935c5aec8b95a320",
-  "-4899": "54f9d589b5b4de530a429e82c8cae56bf21b214c69cae4b4341fc66632c1def9",
-  "-3899": "44a495dc58cb2ac459364c3b8774e754e2bcf7e5d5749c8368ec6694a4c16bc2",
-  "-2899": "8f6ad8ac3d53eb3d74b0aaae2af63b1455a3ebd912065c275bfbff6e718ecf33",
-  "-1899": "66061e7870e25cfa5008f315328b79866c4b1e5736ed2ea72be3dcf937bd3b27",
-  "-1612": "b9a8cb06bd634a3e057483b157bfb65e4be0e5dab6d9b54a98c8233cf1717607",
-  "-1611": "44949fc5b8797c56252c29bce4fa4e01c4248b1abdeec1467362523ae9dff650",
-  "-899": "55750e6dda11ba8672a8faff4b73269ecfac4a3f5f0213d713ecf1391ae5b757"
+  "0": "5e6ed3a225ee33fdb9e9805eeec6e76143854a4d0430edca2ea4a3d77f5467a9",
+  "101": "b8ca24d28057fea043e84b57bb898d7eb129fd185eaefcfc7c58d248a6155660",
+  "1101": "a65f28464bcc91e7e2909ecb0fbaec881fa5f1fa8bd1d92c925d947a29c3acba",
+  "2101": "9f26a9821c7e752dc4378befd1ee0e418b21f7a1dd83a7ac04387743f79bc08e",
+  "3101": "12c4c40e0a638648ad16432b00e3315f24388e1377f862ead8bb0121da3fd1b6",
+  "4101": "2632534b90ca964223066f5139093f4758cd741e3fdf38902673c891c297c459",
+  "4683": "e3ccbafff41dadc440b7d66d5d744d21ea335dca25ad3b3ce2fc1e49be259f5c",
+  "5101": "60ea848f92bb996bfa8b15b8d6ea7706d3a6f3edf8df6590e8d2849c239ca92c",
+  "5127": "85fb644e723520140383fb16ab82dc8671925b4279d2f828f1eb27a7be9af91d",
+  "5129": "63427c5d49119efcf4b03a9df87988626b3f18dbe0b03f719969216976d93fff",
+  "6101": "3945ccbbf9b4c0125d9d5c583e384ce06b450a7eafaa0c84891d2913fea7502b",
+  "7101": "92b6a1f9474f008fb053d9ce434c87a26f946aa7cdc3a694a47ff915d9adcf55",
+  "8101": "06d729e24b1a487aea86b2a36f76e1ad09b9a4c686416188f60eb62cebd694bd",
+  "9101": "6bb140d709a9727023159ef1ea1f1d0680932226b2d5f1242d4032ba2546833b",
+  "10100": "7236cb86177578fe02f008d67c625ee299bca21179dce08ec069e0c5c246f9e4",
+  "11100": "1b466ccd5ed6c3bb53b37770e95318e2bb9a964f9d7d50bcc6927993a88f5b1a",
+  "12100": "8ca61db6d316912234f9ea90a5b378ceb93f88d67f20b7d804222152c062eb4a",
+  "13100": "80bd46aef9220060a2d0be0e7621a41a0d91d007ec9fac2a0a7973074bd14bd1",
+  "14100": "ba783a54ae8e7735a8258f3c632ebc126dddd1f207103e846b7d9982cbfd010f",
+  "15100": "36dece7f97f234eeaf8c0a0421edc2677e7974084f16aa1481cb7520bc898fca",
+  "16100": "1a960374dd46206d0c077f3d14f8d231cbae025daba83f825b5ccd89da151538",
+  "17100": "599edfb65d284233a4ac6c5eb00d715380cfac1890897e600407422abb44502f",
+  "18100": "4e9da065de06bcd8caa257eb5caa91ed5b2cfccb3107e2383609fd8d260cc742",
+  "19100": "3f668ad91602a41e0406c0073f6298e0a5ef7ab8db3c5e169be80ecce1ee33bc",
+  "20100": "7e29270883240f32127ac4257627fb341f08341ab421503c75fe7917bb82de66",
+  "21100": "76fa1543350ef3ea16900aebddb4df64bbc857dffdd40b9bb66f67bbbf348c8b",
+  "22100": "a94d25f885b035cc7d7933c4efe82c2968715cbeacb01ada6e736065454d9171",
+  "22966": "48d3ab54d13872c1c0118b6e4ecfaa96ba23e57c2a5bf80fb742e0af2b661eca",
+  "23100": "853a23fa238e2b22511b7466bc80f72f0116c1fc92b601be4d9284130567d530",
+  "24100": "65bced35bf9c2699b91246f5675554906562a82dc53158fff58b503451411295",
+  "25100": "0033d9db839f75bf40d899500855c15b9bbc93ee311e39e7fb3fb711e9e08b30",
+  "26100": "87d98e3f7a3718ac4e9c54d6487bfe461cb20330baac07d0bd182459903a6dd6",
+  "27100": "e99626419d7acf825444712ab05948525be33c665d362eb4d5538465f08a2875",
+  "28100": "4aae3b2d969c4fd4a906726e3ae26a5fca6533bbbbf0f3b19e765fc576fadbb7",
+  "29100": "cf0c7ee23d32c80dbc3f64942ba187de7fc1dac055c856e094aaabada8c348bf",
+  "30100": "8945495a077e914754f50b97bbd9f9a767abeda7df77d524025fc964b404d533",
+  "31100": "a1688dedd3d7a35e1957e1504ce956d45711090a23453e9b6568cd479f4c025d",
+  "32100": "345e04724a72fd56c7ccb724edd210c0e4a4a9cf03b4ffd5683e9e49ce915ccb",
+  "33099": "1ce0211bf64773734abc3e75c32a16bcb75bb6fda5a0feb71b592422e82b64c8",
+  "34099": "0172c69e4db4c618d6342364a026fa0cb447de7b5d3e393f19007f4616957f0f",
+  "35099": "29cf5b1eb64eb35cdca2b1c8a355cb343c56a8a93be80a976e4b09a965270694",
+  "36099": "91e549e127b49dbdc09fb707240a5dabb8567769fbda953fa83330625f92eeee",
+  "37099": "26f9b44b24035f7171321ec60200f94e24929a93d61dbe7a6b72009634a9751b",
+  "38099": "58fcf592bbce8dd49e453959b0ebb761e1a1671bdcd22214bc14145794229e90",
+  "39099": "88ed5eae1b6c3d03b8c31dc98b6a9427520dcd0b234adce21d4752b3aba4d8c2",
+  "40099": "84325487a58bd899a31c5c6a79e9126d58b52c29bcbff21f14977f80c3c7d126",
+  "41099": "fad4ea21ed8ca2d88d25dfe39e76922f6c2180066a3db2ed5540159328453f22",
+  "42099": "1a58f2f2d063bdc5d0bb9060150f20bb752a17a9cd30f36ce0e6189be40d9251",
+  "43099": "9c3e3a85083c89c1fdfc6c76d2c6c537b61dcc2246b68ca81a3a9455f8fe24d3",
+  "44099": "fd64c6e0ca0589cd8da62c62b6a76e582ec2522349d4bf6181bf4eb73004253e",
+  "45099": "a28dd7961e161dcad9653803a31989ffb6566a8ee3ff6aaa1900be1c63c7f19c",
+  "46099": "e8815e74b5150b0ff37acd52d27730a88a591b2b19df34ff8ea3d31a743a5a2c",
+  "47099": "3546101422d2b25f35b7206789cb914258e0a86ab79a7325dfc2a37621ce61b9",
+  "48099": "c88d1929b88c1a4dd92b41db39f966dbf27186456284240b77c5f42aecf3d3da",
+  "49099": "8c706708671e3c862e359a83fed3389eeadaf020275b6838ea5e4f3757ae6deb",
+  "50099": "e83591d9b76ffa20a9420cff03989d4f4cdcc94d27accf38abb565ce0155aa74",
+  "51099": "2f835a42c94c4cffd9f090d0499b994bc15f7aab61c4ad134534833a7fd1f989",
+  "52099": "8ed0c8aea815249a49fa3563796367a7b972aacab3f02c2bb862b7b221458bc2",
+  "53099": "55822c7ae46ce455b06f6dc0ac1d67726310eea2e8ff0443b96999baa3f8ccef",
+  "-46897": "4ee052c1a1cbf272685c3dc843c681c0877411e1946fe48a6f8c4076a0e64a5b",
+  "-45897": "ef0d91e7f48f497461109a924c29291f63dea7f529a68496d999f8faea0030a5",
+  "-44897": "2df25c8f06cafb5d3ae6d7250e12277dc8c1c815a2fa0be0b22922cfc19a835f",
+  "-43897": "23c2a47b21a3c5687816a21fec1c03aa229c5c76917e5b3032280243ef44103a",
+  "-42897": "690a2bca5e4428df923c0dab78a8ba5a7ad2ae52d161aa8f51b120a074b2f219",
+  "-41897": "3f056adfcb847e58995b1542f08fb453e55cee291670948fac09e0b06cb97582",
+  "-40897": "7c4d681fcc9239ae6515f86223f79343a22c316c439d946b43bb70c3787ac301",
+  "-39897": "abb87408a8fc30e6289cd1eb8792ad7c6671c4288badda2bb385bef25e87ea19",
+  "-38897": "ac3532b20d8361bcffef95f161a44313a977db921a80d6c86732f4d58197f6fc",
+  "-37897": "3dc5aea03d18de33c12088acfa7382aa9082988c09c0ca7b2784ecf8e373215b",
+  "-36897": "d694d2da3041acb7a341657c40c6ff5ba0493d4b1d3158d91a950c8ce5943985",
+  "-35897": "0e5eff7e2865c4ea2f5ec82bc212bbf1833d40f4c4184f4e7cd57e15c279716c",
+  "-34898": "ec64663f10806aba2f18a8f3dc95212c9c1cc9d059c1f310c19762cbcdd992b8",
+  "-33898": "e16ebb081de5f30b588e3c8cef7ba23711f72319bed52249c4d26bfb9eaf05d5",
+  "-32898": "b3e43c364b352dd01656821c56c76725a47e00288f0a38f62db48a5d38386947",
+  "-31898": "4b15f9e0e01788bda9b7f55dd3fd531383467a56f54b365aeecb1ae23988acc2",
+  "-30898": "422a1076dbbef2cc00400fa9193d9c0032a8751ccd9cd01d22955fcd455b21ca",
+  "-29898": "e45265baf148c7ea97e8ea7048379c2d4578d267226dd695f213df939f46bbbb",
+  "-28898": "6c3981fd749ff044b50db7105fe69644eb8452bd7cedd6a7cf70ee8c47fab632",
+  "-27898": "ef70852478a575cd2e0e140507831895ea63d5971fc636a2dd5e517e2b69c5ae",
+  "-26898": "6da9e885358e375f5a8a2218b3b5cd09365f4f318e0354ca79d3f2729de86c88",
+  "-25898": "dd288d37b902ae8999d197ba3cf95d390db2bcd065f70b2d96f0d0c914c382de",
+  "-24898": "b814b4f1eb0f9d92e3e62f2db926b40c8412134ea28e6543146c200cb26317c7",
+  "-23898": "079b3fd84633b8ebcdaecc873dda6a54f9a55f34068d6d81da3c8b9e77e1b76f",
+  "-22966": "708f7d68715e9c349ae2c515d8398368db2427e56966c54011eaa0afe3cb66ac",
+  "-22898": "fd9bebe89ab5271ec78d3f4205de823ec68a96ce0cb378995dfcf7bacc7d2b21",
+  "-21898": "4196c45228f966dba8b9af961a03f9f9211bf8c28b97f67c2ba873cc906cc950",
+  "-20898": "dedb1a201fc6a3563262a0e08b5be55041d910e57403f57efbd55f5378f40aa6",
+  "-19898": "bebc0b06ace5f637d16ddc9e9fa4330e0ac81be6fcb08227ea7b4e7b245d01f0",
+  "-18898": "d483925edc2972c2ceb5950d1454082207e10da4c7064042f174a672bf27ed45",
+  "-17898": "c968ad251081d8540e4cecbef637c9210c89a42258afba564b15ec8e5d17106e",
+  "-16898": "1860aae1def7c0cf834a3a484b3ad2e00888dbd286124b5fd5fdb9ae438bd4bb",
+  "-15898": "654685887749597770e0497a5cca07e8697f759c2ccb0b416ba8083ae600551f",
+  "-14898": "81b589e81b14a7f6eb21d67434041ec18a68b6cf97cd97f8c587bc6e97834b88",
+  "-13898": "0c93eeda5bcfaaf669c3a922a596d70c1e1d42d3cade447585a9d977ca52e744",
+  "-12898": "ff5a1766d41ddab79b957a1f335468d7d5d352e49a3694e4bff7a99fd261b7a6",
+  "-11899": "e34d6ff63c367d219a2445f97d5029ca4a7f221c2469f99dfdc4ac47e43667e8",
+  "-10899": "b0bdf43da4c5314c0b07397c859455d5463c2170a3d5c2904ed582146052a88e",
+  "-9899": "f9e4bd1f0332193d0c41e9546cd1b82e775446f68a2e5d706adf1d30b04633e5",
+  "-8899": "1813f872571bec104c46adf0df4666f61491f7b8943959ab44b9a83469857779",
+  "-7899": "935966b3b11fc4c014ba7255866df38aa46f83e7ddf44838a21f35525c9ef4dc",
+  "-6899": "c923f200d6a26be2b5d112c5d81cf8c2bf2cf12c3de659f72dcc4b4d0fe6276e",
+  "-5899": "82cff624e903f3efd706611d178b7a1ec2698dd65c1601e5167abfe840f57530",
+  "-4899": "7288076c2447ec63e2fc5c9c761b36257eaceea951757a7e537091e1ae32d029",
+  "-3899": "cc003c298fd9d9fce40ba99cc97e028215994b9d0d193f730f9f77a2d2f3535d",
+  "-2899": "723e97728a266e1008163ddc21b51590f14d8ffae921ba944091cf31cea97f4b",
+  "-1899": "2aac1448d6459acf12c9ed6c495a40094cb5d2f512f4dc172b6fd3e834142cd1",
+  "-1612": "59d065a1c52bac647c5b73b8844dba33fc24c940ae67ab29fe7446ddf3c2d6dd",
+  "-1611": "f60c4f101ef9e39c0138fb9668d2e28ec9c9a1b6c1a832d709f629bb4fbb2267",
+  "-899": "8e5859f20c7e8883b4cf82db15b451431819a7f108986cfcc659a0ee0566eabc"
  },
  "hashOf": "sha256 of the uncompressed UTF-8 text: a shard is its year lines joined by \\n with a final \\n; a sample is one year line without the \\n",
- "runtimeSeconds": 797.6,
+ "runtimeSeconds": 1233.3,
  "workers": 4,
- "msPerYearPerWorker": 31.9
+ "msPerYearPerWorker": 49.33
 }

@@ -213,6 +213,19 @@
     }
     document.body.dataset.measured = String(Object.keys(m.terms).length);
   }
+  /** §3b: the Kerala default measured OUT OF SAMPLE (corpus/research/validate-oos.json): never on the fit's own grid. */
+  function renderValidation(V) {
+    const out = $("validation-out"); if (!out) return; out.textContent = "";
+    out.appendChild(el("p", "src", `${V.frame}. The fit's grid: ${V.fitGrid}. Nothing below was fitted on the instants it is measured at.`));
+    const rows = [["holdoutInterleaved", "midway between the fit samples"], ["holdoutBefore", V.holdoutBefore.grid], ["holdoutAfter", V.holdoutAfter.grid], ["plainTierOnHoldout", "the bare paramparā on the interleaved grid"]];
+    const keys = [["sun", "Sun"], ["moon", "Moon"], ["el", "Moon − Sun"], ["rahu", "Rāhu"], ["moonLat", "Moon latitude"], ["budha", "Mercury"], ["shukra", "Venus"], ["mangala", "Mars"], ["guru", "Jupiter"], ["shani", "Saturn"]];
+    const t = el("table"); const th = el("thead"), hr = el("tr"); hr.appendChild(el("th", null, "rms (′)")); for (const [, nm] of keys) hr.appendChild(el("th", null, nm)); th.appendChild(hr); t.appendChild(th);
+    const tb = el("tbody"); for (const [k, label] of rows) { const tr = el("tr"); tr.dataset.holdout = k; tr.appendChild(el("td", null, label)); for (const [kk] of keys) tr.appendChild(el("td", "num", V[k][kk] ? V[k][kk].rms.toFixed(2) : "—")); tb.appendChild(tr); }
+    t.appendChild(tb); const d = el("div", "tbl"); d.appendChild(t); out.appendChild(d);
+    out.appendChild(el("p", "src", `Tithi ends by root-finding the elongation on each tier, every tithi of a year, instant against instant (minutes): ${V.tithiEnds.map((x) => `${x.label}: ${x.matched} ends, the Kerala default ${x.keralaDefaultMinusDrikMinutes.rms.toFixed(2)} min rms (max ${x.keralaDefaultMinusDrikMinutes.max.toFixed(1)}), the bare paramparā ${(x.plainParamparaMinusDrikMinutes.rms / 60).toFixed(1)} h rms`).join("; ")}.`));
+    if (V.eclipses) { const E = V.eclipses; out.appendChild(el("p", "src", `Eclipses ${E.span}: lunar — the dṛk tier's ${E.lunar.drikUmbral} umbral eclipses, ${E.lunar.matched} matched by the Kerala default within 0.1 d, middles ${E.lunar.keralaMinusDrikMiddleMinutes.rms.toFixed(1)} min rms (max ${E.lunar.keralaMinusDrikMiddleMinutes.max.toFixed(1)}), magnitudes ${E.lunar.magnitudeDifference.rms.toFixed(3)} rms apart; solar seen at Ujjain — ${E.solar.drikSeenAtSite} in the dṛk tier, ${E.solar.matched} matched${E.solar.keralaMinusDrikMiddleMinutes ? `, middles ${E.solar.keralaMinusDrikMiddleMinutes.rms.toFixed(1)} min rms` : ""}. ${E.note}`)); }
+    document.body.dataset.validation = "done";
+  }
   function renderParampara(data) {
     renderMeasured(data);
     const out = $("parampara-out"); out.textContent = "";
@@ -412,6 +425,7 @@
     try { renderTower(); } catch (e) { $("tower-note").textContent = `the tower table could not be computed: ${e.message}`; }
     try { renderGranthas(await get("corpus/research/library-sweep.json")); }
     catch (e) { $("granthas-out").appendChild(el("p", "refusal", `corpus/research/library-sweep.json could not be read: ${e.message}`)); document.body.dataset.granthas = "missing"; }
+    try { renderValidation(await get("corpus/research/validate-oos.json")); } catch (e) { const o = $("validation-out"); if (o) { o.textContent = `the validation record could not be read: ${e && e.message ? e.message : e}`; o.className = "refusal"; } }
     try { renderSsea(await get("corpus/research/ssea-audit.json")); }
     catch (e) { $("ssea-out").appendChild(el("p", "refusal", `corpus/research/ssea-audit.json could not be read: ${e.message}`)); document.body.dataset.ssea = "missing"; }
     try { renderGenerator(await get("corpus/research/generator-2-search.json")); }

@@ -2,17 +2,18 @@
 
 Free public browser tools for exploring Indian astronomical texts, observing the sky, and comparing explicit mathematical models. Calculations run locally. The service worker supports subsequent offline use; verify the release cache before distributing an offline copy.
 
-## The three current choices
+## The four current choices
 
 | ID | Model | Computation and boundary |
 |---|---|---|
 | `ss+parameshvara` | Sūrya-Siddhānta with Parameśvara saṃskāra — default | Text equations with observation-derived Moon and node epoch corrections. The correction record, assumptions and rejected observations remain inspectable in `corpus/parampara/`. |
 | `ss` | Plain Sūrya-Siddhānta | The text's own constants, sine geometry, time convention and ayanāṃśa; no modern ephemeris seeds this path. |
+| `kerala` | Kerala paramparā (Parahita + Dṛggaṇita) with the joint measurement — default of that tier since 2026-10-12 | The same geocentric model on the Parahita karaṇa's constants, with bīja on the means, the Moon's measured forms and terms, and the five star-planets on Nīlakaṇṭha's placement (Tantrasaṅgraha 2.68b–74) with measured series — every number fitted against the dṛk tier over 1862–2138 (`corpus/research/parampara-apply.json`) and validated out of sample (`corpus/research/validate-oos.json`). `measured: false` gives the bare paramparā. Outside 1850–2150 the bounded constants are held (design §24.19). |
 | `drik` | Modern Bhāratīya dṛk | A locally implemented physical calculation and fitted series with DE440s initial conditions, modern reference frames and ΔT assumptions. Supported interval: 1850–2150; out-of-range requests are rejected. |
 
-`math-core.js` selects these models and `ss-tier.js` binds the two text models. `siddhanta-tier.js` supplies the current modern model. Historical VSOP/ELP modules remain for development and legacy regression checks; they are not the current three-choice selector's modern backend.
+`math-core.js` selects these models and `ss-tier.js` binds the text and Kerala models. `siddhanta-tier.js` supplies the current modern model. Historical VSOP/ELP modules remain for development and legacy regression checks; they are not the current three-choice selector's modern backend.
 
-The home observatory, Panchang, museum, research engine and dashboard expose the three choices. The library presents text and executable examples. `siddhanta-panchanga.html` and `vedha.html` remain dedicated text/observation instruments: do not infer that every instrument switches all three models.
+The home observatory, Panchang, museum, research engine and dashboard expose the choices. The library presents text and executable examples. `siddhanta-panchanga.html` and `vedha.html` remain dedicated text/observation instruments: do not infer that every instrument switches all models.
 
 ## What the evidence establishes
 

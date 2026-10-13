@@ -1,256 +1,256 @@
 {
  "frame": "arcminutes; Sun/Moon/Rāhu tropical (each tier its own ayanāṃśa), planets sidereal, Moon latitude; candidate minus the dṛk tier",
- "fitGrid": "JD 2415020.5 + 97 d × 753 (1900-2100)",
+ "fitGrid": "JD 2401141.5 + 97 d × 1039 (1862-2138); the dṛk tier serves 1850-2150",
  "holdoutInterleaved": {
-  "grid": "JD 2415069 + 97 d × 752 (1900-2100), midway between the fit samples",
+  "grid": "JD 2401190 + 97 d × 1038 (1862-2138), midway between the fit samples",
   "sun": {
-   "n": 752,
-   "mean": 0.001,
-   "rms": 0.429,
-   "max": 1.22
+   "n": 1038,
+   "mean": 0,
+   "rms": 0.446,
+   "max": 1.28
   },
   "moon": {
-   "n": 752,
-   "mean": -0.002,
-   "rms": 0.539,
-   "max": 2.53
+   "n": 1038,
+   "mean": -0.001,
+   "rms": 0.552,
+   "max": 1.97
   },
   "el": {
-   "n": 752,
-   "mean": -0.003,
-   "rms": 0.655,
-   "max": 2.43
+   "n": 1038,
+   "mean": -0.001,
+   "rms": 0.681,
+   "max": 2.3
   },
   "rahu": {
-   "n": 752,
+   "n": 1038,
    "mean": 0,
    "rms": 0.203,
-   "max": 0.32
+   "max": 0.33
   },
   "mangala": {
-   "n": 752,
-   "mean": 0.028,
-   "rms": 4.159,
-   "max": 23.98
+   "n": 1038,
+   "mean": 0.047,
+   "rms": 2.5,
+   "max": 12.94
   },
   "budha": {
-   "n": 752,
-   "mean": 0.061,
-   "rms": 3.482,
-   "max": 10.02
+   "n": 1038,
+   "mean": 0.044,
+   "rms": 3.425,
+   "max": 10.18
   },
   "guru": {
-   "n": 752,
-   "mean": -0.043,
-   "rms": 3.446,
-   "max": 10.96
+   "n": 1038,
+   "mean": -0.078,
+   "rms": 1.462,
+   "max": 4.87
   },
   "shukra": {
-   "n": 752,
-   "mean": -0.19,
-   "rms": 2.6,
-   "max": 9.28
+   "n": 1038,
+   "mean": 0.086,
+   "rms": 2.685,
+   "max": 10.04
   },
   "shani": {
-   "n": 752,
-   "mean": -0.592,
-   "rms": 2.217,
-   "max": 5.54
+   "n": 1038,
+   "mean": 0.21,
+   "rms": 3.283,
+   "max": 13.34
   },
   "moonLat": {
-   "n": 752,
-   "mean": 0.001,
-   "rms": 0.931,
-   "max": 2.73
+   "n": 1038,
+   "mean": -0.001,
+   "rms": 0.981,
+   "max": 2.85
   }
  },
  "holdoutBefore": {
-  "grid": "1850-1900 every 29 d",
+  "grid": "1850-1862 every 7 d (outside the fit span)",
   "sun": {
-   "n": 630,
-   "mean": 0.011,
-   "rms": 0.49,
-   "max": 1.44
+   "n": 626,
+   "mean": 0.053,
+   "rms": 0.489,
+   "max": 1.41
   },
   "moon": {
-   "n": 630,
-   "mean": 0.281,
-   "rms": 0.615,
-   "max": 2.26
+   "n": 626,
+   "mean": -0.082,
+   "rms": 0.54,
+   "max": 2.3
   },
   "el": {
-   "n": 630,
-   "mean": 0.27,
-   "rms": 0.759,
-   "max": 2.97
+   "n": 626,
+   "mean": -0.135,
+   "rms": 0.714,
+   "max": 2.46
   },
   "rahu": {
-   "n": 630,
-   "mean": -0.001,
+   "n": 626,
+   "mean": 0.048,
    "rms": 0.206,
    "max": 0.32
   },
   "mangala": {
-   "n": 630,
-   "mean": -0.202,
-   "rms": 4.198,
-   "max": 26.8
+   "n": 626,
+   "mean": 0.169,
+   "rms": 2.63,
+   "max": 15.29
   },
   "budha": {
-   "n": 630,
-   "mean": 0.141,
-   "rms": 3.37,
-   "max": 9.8
+   "n": 626,
+   "mean": 0.054,
+   "rms": 3.387,
+   "max": 10.01
   },
   "guru": {
-   "n": 630,
-   "mean": 2.367,
-   "rms": 4.198,
-   "max": 13.67
+   "n": 626,
+   "mean": 2.366,
+   "rms": 2.753,
+   "max": 6.93
   },
   "shukra": {
-   "n": 630,
-   "mean": 0.033,
-   "rms": 6.647,
-   "max": 34.15
+   "n": 626,
+   "mean": -0.073,
+   "rms": 7.787,
+   "max": 33.08
   },
   "shani": {
-   "n": 630,
-   "mean": -5.772,
-   "rms": 8.352,
-   "max": 18.17
+   "n": 626,
+   "mean": -8.289,
+   "rms": 9.523,
+   "max": 15.74
   },
   "moonLat": {
-   "n": 630,
-   "mean": -0.012,
-   "rms": 0.964,
-   "max": 3.11
+   "n": 626,
+   "mean": -0.009,
+   "rms": 0.953,
+   "max": 2.65
   }
  },
  "holdoutAfter": {
-  "grid": "2100-2150 every 29 d",
+  "grid": "2138-2150 every 7 d (outside the fit span)",
   "sun": {
-   "n": 630,
-   "mean": -0.204,
-   "rms": 0.523,
-   "max": 1.36
+   "n": 626,
+   "mean": -0.24,
+   "rms": 0.536,
+   "max": 1.32
   },
   "moon": {
-   "n": 630,
-   "mean": -0.663,
-   "rms": 0.885,
-   "max": 2.86
+   "n": 626,
+   "mean": -0.626,
+   "rms": 0.833,
+   "max": 2.53
   },
   "el": {
-   "n": 630,
-   "mean": -0.459,
-   "rms": 0.867,
-   "max": 2.81
+   "n": 626,
+   "mean": -0.385,
+   "rms": 0.834,
+   "max": 3.05
   },
   "rahu": {
-   "n": 630,
-   "mean": -0.059,
-   "rms": 0.21,
-   "max": 0.36
+   "n": 626,
+   "mean": -0.117,
+   "rms": 0.223,
+   "max": 0.35
   },
   "mangala": {
-   "n": 630,
-   "mean": 0.164,
-   "rms": 4.25,
-   "max": 23.49
+   "n": 626,
+   "mean": 0.537,
+   "rms": 2.814,
+   "max": 13
   },
   "budha": {
-   "n": 630,
-   "mean": -0.029,
-   "rms": 3.394,
-   "max": 9.49
+   "n": 626,
+   "mean": -0.102,
+   "rms": 3.502,
+   "max": 10.12
   },
   "guru": {
-   "n": 630,
-   "mean": 0.03,
-   "rms": 3.384,
-   "max": 10
+   "n": 626,
+   "mean": -1.093,
+   "rms": 1.586,
+   "max": 3.65
   },
   "shukra": {
-   "n": 630,
-   "mean": -0.154,
-   "rms": 7.106,
-   "max": 34.46
+   "n": 626,
+   "mean": -0.297,
+   "rms": 8.204,
+   "max": 32.7
   },
   "shani": {
-   "n": 630,
-   "mean": 0.372,
-   "rms": 4.923,
-   "max": 10.75
+   "n": 626,
+   "mean": 6.269,
+   "rms": 7.826,
+   "max": 13.83
   },
   "moonLat": {
-   "n": 630,
-   "mean": 0.017,
-   "rms": 0.929,
-   "max": 2.9
+   "n": 626,
+   "mean": 0.007,
+   "rms": 0.948,
+   "max": 2.89
   }
  },
  "plainTierOnHoldout": {
   "grid": "the interleaved grid, the bare paramparā (measured: false)",
   "sun": {
-   "n": 752,
-   "mean": 2.837,
-   "rms": 11.904,
-   "max": 19.73
+   "n": 1038,
+   "mean": 2.811,
+   "rms": 11.92,
+   "max": 19.97
   },
   "moon": {
-   "n": 752,
-   "mean": -12.065,
-   "rms": 82.484,
-   "max": 208.39
+   "n": 1038,
+   "mean": -11.98,
+   "rms": 82.639,
+   "max": 207.33
   },
   "el": {
-   "n": 752,
-   "mean": -14.902,
-   "rms": 82.637,
-   "max": 207.86
+   "n": 1038,
+   "mean": -14.791,
+   "rms": 82.788,
+   "max": 205.1
   },
   "rahu": {
-   "n": 752,
-   "mean": 0.565,
-   "rms": 1.887,
-   "max": 3.72
+   "n": 1038,
+   "mean": 0.558,
+   "rms": 2.543,
+   "max": 4.86
   },
   "mangala": {
-   "n": 752,
-   "mean": -100.197,
-   "rms": 136.099,
-   "max": 719.95
+   "n": 1038,
+   "mean": -101.16,
+   "rms": 138.479,
+   "max": 717.36
   },
   "budha": {
-   "n": 752,
-   "mean": -18.148,
-   "rms": 161.198,
-   "max": 518.83
+   "n": 1038,
+   "mean": -19.837,
+   "rms": 161.412,
+   "max": 513.46
   },
   "guru": {
-   "n": 752,
-   "mean": 274.905,
-   "rms": 279.546,
-   "max": 409.82
+   "n": 1038,
+   "mean": 275.412,
+   "rms": 280.362,
+   "max": 423.68
   },
   "shukra": {
-   "n": 752,
-   "mean": -10.374,
-   "rms": 365.31,
-   "max": 1541.01
+   "n": 1038,
+   "mean": -20.177,
+   "rms": 390.277,
+   "max": 1627.6
   },
   "shani": {
-   "n": 752,
-   "mean": -362.284,
-   "rms": 373.112,
-   "max": 573.74
+   "n": 1038,
+   "mean": -361.738,
+   "rms": 374.736,
+   "max": 598.96
   },
   "moonLat": {
-   "n": 752,
-   "mean": 0.853,
-   "rms": 28.607,
-   "max": 49.65
+   "n": 1038,
+   "mean": 0.028,
+   "rms": 28.64,
+   "max": 50.33
   }
  },
  "tithiEnds": [
@@ -260,9 +260,9 @@
    "matched": 359,
    "keralaDefaultMinusDrikMinutes": {
     "n": 359,
-    "mean": 0.028,
-    "rms": 1.254,
-    "max": 4.51
+    "mean": -0.12,
+    "rms": 1.271,
+    "max": 4.41
    },
    "plainParamparaMinusDrikMinutes": {
     "n": 359,
@@ -272,38 +272,98 @@
    }
   },
   {
-   "label": "1880 (before it)",
-   "tithiEndsFound": 358,
-   "matched": 358,
+   "label": "1850 (before it)",
+   "tithiEndsFound": 359,
+   "matched": 359,
    "keralaDefaultMinusDrikMinutes": {
-    "n": 358,
-    "mean": -1.013,
-    "rms": 1.608,
-    "max": 4.35
+    "n": 359,
+    "mean": 0.474,
+    "rms": 1.251,
+    "max": 3.38
    },
    "plainParamparaMinusDrikMinutes": {
-    "n": 358,
-    "mean": 17.343,
-    "rms": 157.279,
-    "max": 354.38
+    "n": 359,
+    "mean": 27.279,
+    "rms": 154.624,
+    "max": 363
    }
   },
   {
-   "label": "2120 (after it)",
+   "label": "2138 (after it)",
    "tithiEndsFound": 358,
    "matched": 358,
    "keralaDefaultMinusDrikMinutes": {
     "n": 358,
-    "mean": 0.801,
-    "rms": 1.426,
-    "max": 3.51
+    "mean": 0.51,
+    "rms": 1.34,
+    "max": 3.36
    },
    "plainParamparaMinusDrikMinutes": {
     "n": 358,
-    "mean": 37.92,
-    "rms": 171.048,
-    "max": 375.11
+    "mean": 33.844,
+    "rms": 161.487,
+    "max": 378.61
    }
   }
- ]
+ ],
+ "eclipses": {
+  "span": "2415020.5-2488069.5 at Ujjain",
+  "lunar": {
+   "drikUmbral": 288,
+   "keralaListed": 295,
+   "matched": 284,
+   "keralaMinusDrikMiddleMinutes": {
+    "n": 284,
+    "mean": -0.294,
+    "rms": 6.202,
+    "max": 12.9
+   },
+   "magnitudeDifference": {
+    "n": 284,
+    "mean": -0.014,
+    "rms": 0.063,
+    "max": 0.14
+   },
+   "unmatchedDrikMiddles": [
+    2426257.296404354,
+    2432340.3022200647,
+    2434053.52732681,
+    2440638.854231509
+   ]
+  },
+  "solar": {
+   "drikSeenAtSite": 75,
+   "keralaListed": 109,
+   "matched": 48,
+   "keralaMinusDrikMiddleMinutes": {
+    "n": 48,
+    "mean": -0.46,
+    "rms": 18.933,
+    "max": 52
+   },
+   "drikSeenNotInKerala": [
+    2416053.861374905,
+    2419331.605796742,
+    2423318.6330883536,
+    2425562.955174375,
+    2425740.757662737,
+    2428338.6696487847,
+    2432680.54820373,
+    2437345.8816688643,
+    2442898.0140332086,
+    2445318.946931558,
+    2447061.5550191784,
+    2447238.5372349573,
+    2451047.5132374973,
+    2454679.9869825896,
+    2455211.8343008687,
+    2459878.005561423,
+    2462653.743030382,
+    2466640.0643547648,
+    2466994.5499370573,
+    2469239.1083613406
+   ]
+  },
+  "note": "the Kerala tier's lunar magnitude is the text's shadow (SS 4.4-4.11) on the measured places — the shadow itself is not measured; the solar list is the text's site rule (6.13, the Sun above the horizon) on the saṃskāra model with the ch.5 parallax held at the text's value"
+ }
 }

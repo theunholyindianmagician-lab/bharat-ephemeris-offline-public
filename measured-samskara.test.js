@@ -7,8 +7,8 @@ const path = require('node:path');
 const ST = require('./ss-tier.js');
 const REC = require('./corpus/research/parampara-apply.json');
 
-test('the record: five candidates fitted on 1900-2100 with provenance per form; the amplitudes agree with the values the forms are known to have (the measurement is physical, not a tuning)', () => {
-  const m = REC.measured; assert.ok(m && m.terms && m.candidates); assert.match(m.fittedOn, /1900-2100/);
+test('the record: five candidates fitted on 1862-2138 with provenance per form; the amplitudes agree with the values the forms are known to have (the measurement is physical, not a tuning)', () => {
+  const m = REC.measured; assert.ok(m && m.terms && m.candidates); assert.match(m.fittedOn, /1862-2138/);
   for (const k of ['dvitiya', 'variation', 'annual', 'moonManda', 'sunManda']) { assert.ok(m.terms[k].form); assert.ok(m.terms[k].provenance.length > 30); }
   assert.match(m.terms.dvitiya.provenance, /Munjāla/); assert.match(m.terms.variation.provenance, /no Indian source/); assert.match(m.terms.annual.provenance, /no Indian source/);
   const all = ST.measuredFromRecord(REC, 'kerala+all'); assert.ok(all.planets, 'kerala+all carries the planets\' bīja');
@@ -62,7 +62,7 @@ test('the planets\' bīja on the means (the paramparā\'s form through the text\
   }
   const b = REC.measured.planets.bodies; assert.ok(b.shukra.after.rms * 30 < b.shukra.before.rms && b.guru.after.rms * 40 < b.guru.before.rms && b.shani.after.rms * 40 < b.shani.before.rms, 'Venus, Jupiter, Saturn within 11′'); assert.ok(b.budha.after.rms < b.budha.before.rms && b.mangala.after.rms * 3 < b.mangala.before.rms);
   for (const g of Object.keys(b)) assert.ok(b[g].after.rms <= Math.min(b[g].afterText.rms, b[g].afterNilakantha.rms) + 1e-9 && b[g].afterText.rms <= b[g].afterScales.rms + 1e-9 && b[g].afterScales.rms <= b[g].afterBija.rms + 1e-9 && b[g].afterBija.rms <= b[g].afterMeansOnly.rms + 1e-9, `${g}: each stage keeps the gain`);
-  assert.ok(b.budha.after.rms < 8 && b.mangala.after.rms < 12 && b.shukra.after.rms < 8 && b.guru.after.rms < 8 && b.shani.after.rms < 8, 'every star-planet within 12′ rms over 1900-2100: ' + Object.entries(b).map(([k, v]) => `${k} ${v.after.rms.toFixed(1)}`).join(', '));
+  assert.ok(b.budha.after.rms < 8 && b.mangala.after.rms < 12 && b.shukra.after.rms < 8 && b.guru.after.rms < 8 && b.shani.after.rms < 8, 'every star-planet within 12′ rms over 1862-2138: ' + Object.entries(b).map(([k, v]) => `${k} ${v.after.rms.toFixed(1)}`).join(', '));
   assert.throws(() => ST.grahas(2451545, { samskara: 'kerala', measured: { planets: { pluto: {} } } }), /unknown graha/);
   assert.throws(() => ST.grahas(2451545, { samskara: 'kerala', measured: { planets: { guru: { mean: { epochDeg: NaN } } } } }), /finite/);
 });
@@ -78,7 +78,7 @@ test('the joint candidate (kerala+all+bija): the record\'s scores are what the t
   // the tier reproduces the record's scores on the record's own grid (the measurement is of the tier, not of a copy)
   const M = require('./math-core.js'), KER = ST.correction('kerala'), tOf = (jd) => jd - 588465.5 + 75.7885 / 360, wrap = (x) => ((x + 540) % 360) - 180;
   const r = { sun: [], moon: [], rahu: [] };
-  for (let i = 0; i < 753; i++) { const jd = 2415020.5 + i * 97, rows = M.tierGrahaRows(jd, 'drik'), ayD = M.tierAyanamsha(jd, 'drik').deg, g = ST.grahas(jd, { samskara: 'kerala', measured: m }), ayK = KER.ayanamshaAt(tOf(jd));
+  for (let i = 0; i < 1039; i++) { const jd = 2401141.5 + i * 97, rows = M.tierGrahaRows(jd, 'drik'), ayD = M.tierAyanamsha(jd, 'drik').deg, g = ST.grahas(jd, { samskara: 'kerala', measured: m }), ayK = KER.ayanamshaAt(tOf(jd));
     for (const [k, key] of [['sun', 'surya'], ['moon', 'candra'], ['rahu', 'rahu']]) r[k].push(wrap(g[key] + ayK - rows.find((x) => x.key === key).longitude - ayD)); }
   for (const k of ['sun', 'moon', 'rahu']) { const rms = Math.sqrt(r[k].reduce((x, y) => x + y * y, 0) / r[k].length) * 60; assert.ok(Math.abs(rms - c.score.after[k].rms) < 0.02, `${k}: tier ${rms} vs record ${c.score.after[k].rms}`); }
   // the plain candidate is untouched by the new keys
@@ -148,11 +148,11 @@ test('the generic measured terms: the Moon\'s on [D, g, g′, F] and each planet
   assert.ok(c.moonTermsFit && c.moonTermsFit.terms.length >= 3 && c.moonTermsFit.after.rms < 1.0 && c.moonTermsFit.after.rms < c.moonTermsFit.before.rms, `Moon terms ${c.moonTermsFit.before.rms} → ${c.moonTermsFit.after.rms}`);
   assert.ok(c.score.after.moon.rms < 1.0 && c.score.after.el.rms < 1.2, `Moon ${c.score.after.moon.rms}, elongation ${c.score.after.el.rms}`);
   for (const g of Object.keys(b)) { assert.ok(b[g].termsFit && b[g].after.rms <= b[g].afterNoTerms.rms + 1e-9, `${g}: terms keep the gain`); assert.deepEqual(b[g].termBasis, ['mercury', 'venus', 'sun', 'mars', 'jupiter', 'saturn']); }
-  assert.ok(b.budha.after.rms < 3.6 && b.shukra.after.rms < 3 && b.shani.after.rms < 2.5 && b.mangala.after.rms < 5 && b.guru.after.rms < 4, Object.entries(b).map(([k, v]) => `${k} ${v.after.rms.toFixed(2)}`).join(', '));
+  assert.ok(b.budha.after.rms < 3.6 && b.shukra.after.rms < 3 && b.shani.after.rms < 3.6 && b.mangala.after.rms < 5 && b.guru.after.rms < 4, Object.entries(b).map(([k, v]) => `${k} ${v.after.rms.toFixed(2)}`).join(', '));
   const m = ST.measuredFromRecord(REC, 'kerala+all+bija'); assert.ok(m.moonTerms.length === c.moonTermsFit.terms.length && m.planets.shani.terms.length === b.shani.terms.length);
   // the tier reproduces the record's Moon score on the record's grid with the terms
   const M = require('./math-core.js'), KER = ST.correction('kerala'), tOf = (jd) => jd - 588465.5 + 75.7885 / 360, wrap = (x) => ((x + 540) % 360) - 180, r = [];
-  for (let i = 0; i < 753; i += 3) { const jd = 2415020.5 + i * 97, rows = M.tierGrahaRows(jd, 'drik'), ayD = M.tierAyanamsha(jd, 'drik').deg, g = ST.grahas(jd, { samskara: 'kerala' }); r.push(wrap(g.candra + KER.ayanamshaAt(tOf(jd)) - rows.find((x) => x.key === 'candra').longitude - ayD)); }
+  for (let i = 0; i < 1039; i += 3) { const jd = 2401141.5 + i * 97, rows = M.tierGrahaRows(jd, 'drik'), ayD = M.tierAyanamsha(jd, 'drik').deg, g = ST.grahas(jd, { samskara: 'kerala' }); r.push(wrap(g.candra + KER.ayanamshaAt(tOf(jd)) - rows.find((x) => x.key === 'candra').longitude - ayD)); }
   const rms = Math.sqrt(r.reduce((x, y) => x + y * y, 0) / r.length) * 60; assert.ok(rms < 1.2, `the default tier's Moon on a third of the grid: ${rms.toFixed(2)}′`);
   assert.throws(() => ST.grahas(2451545, { samskara: 'kerala', measured: { moonTerms: [{ k: [1, 0, 0], sin: 1 }] } }), /4 integers/);
   assert.throws(() => ST.grahas(2451545, { samskara: 'kerala', measured: { planets: { guru: { terms: [{ k: [1, 0, 0, 0, 0, 0.5], sin: 1 }] } } } }), /6 integers/);
@@ -164,7 +164,7 @@ test('out of sample (the owner\'s audit point): every measured term was kept onl
   assert.ok(c.holdout && c.holdout.after && c.moonTermsFit.holdout, 'holdout scores recorded');
   for (const k of ['sun', 'moon', 'el', 'rahu']) assert.ok(c.holdout.after[k].rms < Math.max(1.5 * c.score.after[k].rms, c.score.after[k].rms + 0.1), `${k}: holdout ${c.holdout.after[k].rms} vs in-sample ${c.score.after[k].rms}`);
   for (const g of Object.keys(b)) { const h = b[g].termsFit.holdout; assert.ok(h.after.rms <= h.before.rms + 1e-9, `${g}: the terms do not worsen the holdout`); assert.ok(h.after.rms < 1.5 * b[g].after.rms + 0.3, `${g}: holdout ${h.after.rms.toFixed(2)} vs in-sample ${b[g].after.rms.toFixed(2)}`); }
-  assert.ok(b.shani.termsFit.holdout.after.rms < 3, `Saturn out of sample ${b.shani.termsFit.holdout.after.rms.toFixed(2)}′ (it was 10′ before the holdout rule)`);
+  assert.ok(b.shani.termsFit.holdout.after.rms < 3.6, `Saturn out of sample ${b.shani.termsFit.holdout.after.rms.toFixed(2)}′ (it was 10′ before the holdout rule)`);
   const V = require('./corpus/research/validate-oos.json'); assert.ok(V.tithiEnds.length === 3 && V.tithiEnds.every((t) => t.matched > 350 && t.keralaDefaultMinusDrikMinutes.rms < 3), 'tithi ends by root-finding within 3 min rms in 1880, 2026 and 2120');
   for (const k of ['holdoutInterleaved', 'holdoutBefore', 'holdoutAfter']) { assert.ok(V[k].sun.rms < 1 && V[k].moon.rms < 1.2 && V[k].rahu.rms < 0.5, `${k}`); for (const g of ['mangala', 'budha', 'guru', 'shukra', 'shani']) assert.ok(V[k][g].rms < 12, `${k} ${g} ${V[k][g].rms}`); }
 });
