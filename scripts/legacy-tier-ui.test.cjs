@@ -1,7 +1,7 @@
 'use strict';
 /* legacy-tier-ui.test.cjs — the legacy pages (index, panchang, museum, library, the dashboard) driven through the three
  * tiers in a browser (owner, 2026-10-08):
- *   - every page opens in each choice ('ss+parameshvara' the default, 'ss', 'drik') with no page error and no console
+ *   - every page opens in each choice ('drik' the default today, which an empty query opens; 'ss+parameshvara', 'ss', 'kerala' chosen with ?tier=) with no page error and no console
  *     error, shows the tier's labels (read from M.TIERS) and computes with that tier: the values shown equal
  *     math-core's own panchangExtended / tierGrahaRows / vimshottariTier for the same instant, site and tier;
  *   - the dṛk choice refuses outside 1850.0–2150.0 (TierSpanError), says so plainly and offers the text choices;
@@ -105,7 +105,7 @@ async function labelsShown(page, tier, selector = 'details.tier-labels') {
   try {
     // ── index: the select, the labels, the values = math-core's at the same instant and tier ──
     for (const tier of TIERS) {
-      const o = await open('index.html', { query: tier === 'ss+parameshvara' ? '' : `?tier=${encodeURIComponent(tier)}` });
+      const o = await open('index.html', { query: tier === 'drik' ? '' : `?tier=${encodeURIComponent(tier)}` });
       const r = await o.page.evaluate((tier) => {
         const M = window.ShunyaMath, s = window.LiveBoard.lastState();
         if (!s) return { why: 'no state' };
@@ -158,7 +158,7 @@ async function labelsShown(page, tier, selector = 'details.tier-labels') {
 
     // ── panchang: every field from one panchangExtended(…, tier); the comparison row; the refusal; the exporters ──
     for (const tier of TIERS) {
-      const o = await open('panchang.html', { query: tier === 'ss+parameshvara' ? '' : `?tier=${encodeURIComponent(tier)}` });
+      const o = await open('panchang.html', { query: tier === 'drik' ? '' : `?tier=${encodeURIComponent(tier)}` });
       const r = await o.page.evaluate((tier) => {
         const M = window.ShunyaMath, $ = (id) => document.getElementById(id);
         $('pauseButton').click();
@@ -226,7 +226,7 @@ async function labelsShown(page, tier, selector = 'details.tier-labels') {
 
     // ── the dashboard: the strip and the HUD read the same object (PG-12); the shared key from another page ──
     for (const tier of TIERS) {
-      const o = await open('shoonya_sovereign_dashboard.html', { query: tier === 'ss+parameshvara' ? '' : `?tier=${encodeURIComponent(tier)}` });
+      const o = await open('shoonya_sovereign_dashboard.html', { query: tier === 'drik' ? '' : `?tier=${encodeURIComponent(tier)}` });
       const r = await o.page.evaluate((tier) => {
         const M = window.ShunyaMath, $ = (id) => document.getElementById(id), p = window.PageLive.last();
         const rows = M.tierGrahaRows(p.jd, tier);
@@ -258,7 +258,7 @@ async function labelsShown(page, tier, selector = 'details.tier-labels') {
       const c = await open('shoonya_sovereign_dashboard.html', { context: ctx, query: '?tier=bogus' });
       const bogus = await c.page.evaluate(() => ({ loc: document.getElementById('pls-loc').textContent, tier: window.PageLive.last().tier,
         stored: JSON.parse(localStorage.getItem(window.ShunyaMath.YANTRA_STATE_KEY)).tier }));
-      assert.match(bogus.loc, /bogus/); assert.equal(bogus.tier, 'ss+parameshvara'); assert.equal(bogus.stored, 'drik', 'the crafted value is not stored; the earlier choice stays');
+      assert.match(bogus.loc, /bogus/); assert.equal(bogus.tier, 'drik'); assert.equal(bogus.stored, 'drik', 'the crafted value is not stored; the earlier choice stays');
       await clean(c, 'dashboard ?tier=bogus');
       await ctx.close();
       ok('the tier is one shared key across pages; a crafted ?tier=bogus is reported, computes with the default and is not stored');
@@ -276,7 +276,7 @@ async function labelsShown(page, tier, selector = 'details.tier-labels') {
 
     // ── library: the strip in each tier ──
     for (const tier of TIERS) {
-      const o = await open('library.html', { query: tier === 'ss+parameshvara' ? '' : `?tier=${encodeURIComponent(tier)}` });
+      const o = await open('library.html', { query: tier === 'drik' ? '' : `?tier=${encodeURIComponent(tier)}` });
       const r = await o.page.evaluate((tier) => {
         const M = window.ShunyaMath, p = window.PageLive.last();
         const q = M.panchangExtended(p.jd, 23.1765, 75.7885, 5.5, tier);
@@ -291,7 +291,7 @@ async function labelsShown(page, tier, selector = 'details.tier-labels') {
 
     // ── museum: the exhibit is the plain text; the daśā/bhāva drawer follows the tier; the dṛk refusal in the past ──
     for (const tier of TIERS) {
-      const o = await open('museum.html', { query: tier === 'ss+parameshvara' ? '' : `?tier=${encodeURIComponent(tier)}` });
+      const o = await open('museum.html', { query: tier === 'drik' ? '' : `?tier=${encodeURIComponent(tier)}` });
       const r = await o.page.evaluate(async (tier) => {
         const M = window.ShunyaMath, $ = (id) => document.getElementById(id), sleep = (ms) => new Promise((res) => setTimeout(res, ms));
         toggleDrawer('dDasha'); await sleep(300); renderBhavaChakra();

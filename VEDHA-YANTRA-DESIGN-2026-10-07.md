@@ -1548,7 +1548,7 @@ The owner's decisions of 2026-10-08, after the ShunyaBheda map (seven ayanāṃ�
 A1 finite and physical-domain guards (`dhruva.js`, `panchanga.checkSite`); A2 one ε in the text tier (done by delegation); A3 the north-line and solstice-pair records in the vedha ledger, shown beside the text's values as a preview only.
 
 ### 23.4 Left for the owner
-- Seal DRAFT BE-S13 (): the three choices supersede BE-S02's default frame.
+- The three choices supersede BE-S02's default frame (the sealed-decisions files were removed by the owner on 2026-10-14).
 - Ujjayinī's meridian: the site uses 75.7885°; TRUTH-AUDIT §3.4 has 75.7683°; Parameśvara quotes Āryabhaṭa's "1/15 of the circle north of Laṅkā" for its latitude (registry UJJAYINI-fifteenth).
 - SS 1.55 saṃvatsara: reading A (remainder 0 = Vijaya) is the default; reading B is one index back.
 - Which Caitra opens a year that ends with an adhika Caitra [unverified convention].
@@ -1943,6 +1943,20 @@ The scales ride the joint candidates through `measuredFromRecord`; `ss-tier mode
 
 
 **What this round did not do, said plainly:** the series' amplitudes for the dṛk node are measured against the crossing method's linear interpolation between crossings, which is the API's definition; the series' 3.4′ is its distance from that definition, not from an osculating node. The parallax scales are two numbers on the text's forms; the text's lambana/nati geometry (a mean-motion approximation) is kept, not replaced. The 100,000-year Kerala manifest was rerun on the final record (0 failures).
+
+### 24.22 The default by date: the dṛk tier where it is served (2026-10-14, the owner's decision)
+
+**The owner's decision.** The most accurate engine is the default. The owner asked for it twice and, offered the choice between making dṛk the default everywhere and making it the default by date, chose by date.
+
+**The measured reason.** The dṛk tier agrees with NASA-JPL DE440s to λ ≤ 0.84″ and β ≤ 0.67″ on the 1096-epoch geometric fixture and 0.81″ on 180 apparent epochs (`drik-bharatiya.test.js`, re-run 2026-10-14) [measured]. The caveat stands: its N-body is restarted from DE440s states every 720 days, so this is agreement with DE440s, not independence from it. The text tiers differ from the sky by arcminutes to degrees (§4.5 of the end-to-end review).
+
+**The rule.** `defaultTierFor(jd)` in `math-core.js`: the dṛk tier when the year (2000 + (jd − 2451545)/365.25) lies within the dṛk span 1850–2150, else `ss+parameshvara`. `pageTier(stateTier, pageDefault, jd)` returns a stored or linked choice as it is; with none chosen it returns `pageDefault` when the caller gives one, else the default for `jd`, and for now when `jd` is omitted. `DEFAULT_TIER` stays `ss+parameshvara`: it is the default outside the dṛk span and the fallback of the API.
+
+**What changed in the pages.** A visitor who has chosen nothing is shown the dṛk tier for any date within 1850–2150 and the text default for any other date. The shunyabheda, siddhanta-panchanga and vedha pages re-resolve the default when the date changes, until the visitor chooses; a choice is stored and never replaced. The home and legacy pages resolve it for the current instant. `page-live.js` now always stores a choice, where it used to store "" for the default, because "" now means "none chosen". The select labels say "default for 1850–2150" and "default outside 1850–2150" (`tierDefaultNote`).
+
+**What did not change.** The API defaults (a call without a tier is the plain text), the dṛk refusal outside its span with the one-click text choices, and the Kerala tier's own default (the joint measurement).
+
+**Tests.** The three assertions that encoded a single default now state the dated rule on 2026 and 1700 (`engine-mode.test.js`, `legacy-honesty.test.js`, `tier-unity.test.js`); no tolerance was loosened.
 
 ## Appendix A. The three designs and the three judges
 

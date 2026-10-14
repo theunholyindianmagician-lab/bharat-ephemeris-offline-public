@@ -144,8 +144,9 @@ const TIERS = M.TIERS;
     assert.deepEqual(await page.$$eval('#tier-pick input[name="tier"]', (xs) => xs.map((x) => x.value)), M.TIER_IDS);
     const pickText = await text(page, '#tier-pick');
     for (const id of M.TIER_IDS) assert.ok(pickText.includes(TIERS[id].labelSa) && pickText.includes(TIERS[id].label), `the choice ${id} named by M.TIERS`);
-    assert.equal(await page.inputValue('#tier-pick input[name="tier"]:checked'), 'ss+parameshvara', 'the default is Sūrya-Siddhānta + Parameśvara\'s saṃskāra');
-    assert.equal(await page.evaluate(() => document.body.dataset.tier), 'ss+parameshvara');
+    assert.equal(await page.inputValue('#tier-pick input[name="tier"]:checked'), M.pageTier(''), 'with none chosen the page shows the default for its date (today: the dṛk tier)');
+    assert.equal(await page.evaluate(() => document.body.dataset.tier), M.pageTier(''));
+    await setTier(page, 'ss+parameshvara');   // the rest of this block describes the Parameśvara choice, chosen explicitly
     assert.equal(await page.evaluate(() => document.body.dataset.parampara), 'ready', 'the paramparā record is read');
     assert.ok((await text(page, '#tier-note')).includes(ST.label(SAM).caption), 'the saṃskāra\'s caption is the record\'s');
     const iso = await page.inputValue('#date');
@@ -156,7 +157,7 @@ const TIERS = M.TIERS;
     assert.equal(await page.inputValue('#city'), 'ujjain');
     assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(13, 18, 32)', 'dark theme');
     await labelsOf(page, 'ss+parameshvara');
-    console.log('PASS three choices named from M.TIERS; the default is Sūrya-Siddhānta + Parameśvara\'s saṃskāra, its record read on the page, every block labelled from M.TIERS');
+    console.log('PASS three choices named from M.TIERS; the default for today is the dṛk tier, and chosen explicitly Sūrya-Siddhānta + Parameśvara\'s saṃskāra has its record read on the page, every block labelled from M.TIERS');
 
     // the default choice's day at Ujjayinī, as ss-tier.js's calendar gives it
     {
@@ -438,7 +439,7 @@ const TIERS = M.TIERS;
       const bad = await open({ viewport: { width: 1280, height: 900 } });
       await bad.page.goto(base + '/siddhanta-panchanga.html?tier=bogus');
       await ready(bad.page);
-      assert.equal(await bad.page.evaluate(() => document.body.dataset.tier), 'ss+parameshvara');
+      assert.equal(await bad.page.evaluate(() => document.body.dataset.tier), M.pageTier(''));
       assert.match(await text(bad.page, '#msg'), /not one of the choices/);
       assert.equal(await bad.page.evaluate(() => JSON.parse(localStorage.getItem('bharat-ephemeris-yantra-state-v1') || '{}').tier || ''), '', 'the bad choice is not stored');
       await bad.context.close();
@@ -447,7 +448,7 @@ const TIERS = M.TIERS;
     {
       // served, but not the record (a 404 would also log a console error, which this test counts)
       const nr = await open({ viewport: { width: 1280, height: 900 } }, (r, u) => (/corpus\/parampara\//.test(u.pathname) ? r.fulfill({ status: 200, contentType: 'application/json', body: 'not the record' }) : r.continue()));
-      await nr.page.goto(base + '/siddhanta-panchanga.html');
+      await nr.page.goto(base + '/siddhanta-panchanga.html?tier=ss%2Bparameshvara');   // the choice that needs the record, chosen explicitly
       await ready(nr.page);
       assert.equal(await nr.page.evaluate(() => document.body.dataset.parampara), 'unavailable');
       assert.match(await text(nr.page, '#msg'), /needs the paramparā record/);
@@ -458,25 +459,28 @@ const TIERS = M.TIERS;
     }
     console.log('PASS a bad ?tier= link shows the default and stores nothing; without the paramparā record the default choice says so and the plain text still serves');
 
-    // 390 px, light theme, the default choice
-    const small = await open({ viewport: { width: 390, height: 844 }, colorScheme: 'light' });
-    await small.page.goto(base + '/siddhanta-panchanga.html');
-    await ready(small.page);
-    assert.equal(await small.page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(243, 245, 247)', 'light theme');
-    assert.ok(await overflow(small.page) <= 0, 'no horizontal overflow at 390 px');
-    await small.page.fill('#b-date', '1990-05-17'); await small.page.click('#b-go'); await small.page.waitForSelector('#dasha-table');
-    await small.page.locator('#dasha-table details').first().evaluate((d) => { d.open = true; });
-    await small.page.locator('#kala-out details').first().evaluate((d) => { d.open = true; });
-    await small.page.locator('details.tl').first().evaluate((d) => { d.open = true; });
-    await eclipsesDone(small.page);
-    assert.ok(await overflow(small.page) <= 0, 'no horizontal overflow at 390 px with the daśā, the muhūrtas, the labels and the eclipses open');
-    await small.page.click('#theme');
-    assert.equal(await small.page.evaluate(() => document.documentElement.getAttribute('data-theme')), 'light');
-    await small.page.click('#theme');
-    assert.equal(await small.page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(13, 18, 32)', 'the dark theme by choice');
-    const timings = await small.page.evaluate(() => window.__siddhantaTimings);
-    console.log(`PASS 390 px: no horizontal overflow, light and dark themes; timings on this machine (ms): ${JSON.stringify(timings)}`);
-    await small.context.close();
+    // 390 px, light theme: the default for today (the dṛk tier, an empty query) and the Parameśvara choice (chosen with ?tier=)
+    for (const [label, query] of [['default for today', ''], ['ss+parameshvara', '?tier=ss%2Bparameshvara']]) {
+      const small = await open({ viewport: { width: 390, height: 844 }, colorScheme: 'light' });
+      await small.page.goto(base + '/siddhanta-panchanga.html' + query);
+      await ready(small.page);
+      assert.equal(await small.page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(243, 245, 247)', 'light theme');
+      assert.ok(await overflow(small.page) <= 0, 'no horizontal overflow at 390 px');
+      await small.page.fill('#b-date', '1990-05-17'); await small.page.click('#b-go'); await small.page.waitForSelector('#dasha-table');
+      await small.page.locator('#dasha-table details').first().evaluate((d) => { d.open = true; });
+      if (query === '') assert.match(await text(small.page, '#kala-out'), /Not computed in this choice/, 'the dṛk choice says plainly which day-parts it does not compute');
+      else await small.page.locator('#kala-out details').first().evaluate((d) => { d.open = true; });
+      await small.page.locator('details.tl').first().evaluate((d) => { d.open = true; });
+      await eclipsesDone(small.page);
+      assert.ok(await overflow(small.page) <= 0, 'no horizontal overflow at 390 px with the daśā, the muhūrtas, the labels and the eclipses open');
+      await small.page.click('#theme');
+      assert.equal(await small.page.evaluate(() => document.documentElement.getAttribute('data-theme')), 'light');
+      await small.page.click('#theme');
+      assert.equal(await small.page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(13, 18, 32)', 'the dark theme by choice');
+      const timings = await small.page.evaluate(() => window.__siddhantaTimings);
+      console.log(`PASS 390 px [${label}]: no horizontal overflow, light and dark themes; timings on this machine (ms): ${JSON.stringify(timings)}`);
+      await small.context.close();
+    }
 
     assert.deepEqual(outside, [], 'no request left the local server');
     assert.deepEqual(errors, []);

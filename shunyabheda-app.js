@@ -82,7 +82,7 @@
       const option = document.createElement("option");
       option.value = id;
       const span = T.family === "drik" ? `${T.span.years[0]}–${T.span.years[1]} only` : `${T.span.years[0]} … ${T.span.years[1]}`;
-      option.textContent = `${T.labelSa} · ${T.label}${T.default ? " — default" : ""} (${span})`;
+      option.textContent = `${T.labelSa} · ${T.label}${M.tierDefaultNote(T.id) ? " — " + M.tierDefaultNote(T.id) : ""} (${span})`;
       select.appendChild(option);
     }
   }
@@ -1113,7 +1113,7 @@
     for (const id of M.TIER_IDS) {
       const T = M.TIERS[id];
       const dt = document.createElement("dt");
-      dt.textContent = `${T.labelSa} · ${T.label}${T.default ? " (default)" : ""}`;
+      dt.textContent = `${T.labelSa} · ${T.label}${M.tierDefaultNote(T.id) ? " (" + M.tierDefaultNote(T.id) + ")" : ""}`;
       const dd = document.createElement("dd");
       dd.textContent = `${T.engine} · ayanāṃśa: ${T.ayanamsha.name} · span ${T.span.years[0]} … ${T.span.years[1]} (${T.span.basis}) · ${T.provenance}`;
       list.append(dt, dd);
@@ -1230,9 +1230,13 @@
       error.control = errors[0].control;
       throw error;
     }
-    const tier = selectedTier();
+    let tier = selectedTier();
     const timeText = controls.time.value.length === 5 ? `${controls.time.value}:00` : controls.time.value;
     const jd = M.civilToJd(civil, timeText, timezone);
+    if (!tierExplicit && linkedTierText === null) {       // no tier chosen: the default for this date (dṛk within 1850–2150, else the text default)
+      const dflt = M.pageTier("", undefined, jd);
+      if (dflt !== tier) { tier = dflt; controls.tier.value = dflt; }
+    }
     return { civil, calendar, timeText, timezone, latitude, longitude, site: { latitude, longitude }, tier, jd };
   }
 

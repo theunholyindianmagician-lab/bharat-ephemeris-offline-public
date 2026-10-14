@@ -46,13 +46,19 @@ function instants(n = 200) {
 const JDS = instants();
 
 // ── the tiers and their labels ─────────────────────────────────────────────────────────────────────────────────────
-test('four tiers, one default: ss+parameshvara is the page default, API parameters default to the plain text', () => {
+test('four tiers, a default by date: dṛk within its span (1850–2150), ss+parameshvara outside it; API parameters default to the plain text', () => {
   assert.deepEqual(Object.keys(M.TIERS), ['ss+parameshvara', 'ss', 'kerala', 'drik']);
   assert.deepEqual([...M.TIER_IDS], ['ss+parameshvara', 'ss', 'kerala', 'drik']);
   assert.equal(M.DEFAULT_TIER, 'ss+parameshvara');
   assert.deepEqual(Object.values(M.TIERS).filter((t) => t.default).map((t) => t.id), ['ss+parameshvara']);
-  assert.equal(M.pageTier(''), 'ss+parameshvara');
-  assert.equal(M.pageTier(undefined), 'ss+parameshvara');
+  assert.equal(M.pageTier('', undefined, 2341972.5), 'ss+parameshvara');
+  assert.equal(M.pageTier(undefined, undefined, 2341972.5), 'ss+parameshvara');
+  assert.equal(M.pageTier('', undefined, 2461041.5), 'drik');
+  assert.equal(M.defaultTierFor(2396758.5 + 1), 'drik'); assert.equal(M.defaultTierFor(2396758.5 - 400), 'ss+parameshvara');   // the span's edges: 1850.0 and 2150.0
+  assert.equal(M.defaultTierFor(2506332.5 - 1), 'drik'); assert.equal(M.defaultTierFor(2506332.5 + 400), 'ss+parameshvara');
+  assert.equal(M.pageTier('', 'ss', 2461041.5), 'ss', 'a caller-given page default still wins');
+  assert.equal(M.pageTier('ss', undefined, 2461041.5), 'ss', 'a chosen tier is never replaced');
+  assert.match(M.tierDefaultNote('drik'), /1850–2150/); assert.match(M.tierDefaultNote('ss+parameshvara'), /outside/); assert.equal(M.tierDefaultNote('kerala'), '');
   assert.equal(M.pageTier('drik'), 'drik');
   for (const id of Object.keys(M.TIERS)) {
     const T = M.TIERS[id];

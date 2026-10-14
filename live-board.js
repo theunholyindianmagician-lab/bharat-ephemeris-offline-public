@@ -25,7 +25,7 @@
   ];
 
   let lastGrahaSig = "";
-  let lastTier = M.DEFAULT_TIER;
+  let lastTier = M.pageTier("");
   let lastBhavaSig = "";
   let lastLabelKey = "";
   let warnedRmaxOnce = false;

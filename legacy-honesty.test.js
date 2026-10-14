@@ -221,7 +221,8 @@ test('[R-15] a crafted ?tier=bogus (or ?engineMode=bogus) link is not persisted;
     g.location = { search: '' };
     assert.equal(M.pageTier(M.yantraState().get().tier), 'ss', 'a later clean visit keeps the stored choice');
     store.clear();
-    assert.equal(M.pageTier(M.yantraState().get().tier), 'ss+parameshvara', 'with nothing stored: the page default');
+    assert.equal(M.pageTier(M.yantraState().get().tier, undefined, 2341972.5), 'ss+parameshvara', 'with nothing stored, a date outside the dṛk span: the text default');
+    assert.equal(M.pageTier(M.yantraState().get().tier, undefined, 2461041.5), 'drik', 'with nothing stored, a date inside it: the dṛk tier');
   } finally {
     if (saved.localStorage === undefined) delete g.localStorage; else g.localStorage = saved.localStorage;
     if (saved.location === undefined) delete g.location; else g.location = saved.location;

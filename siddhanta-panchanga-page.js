@@ -885,6 +885,10 @@
     try { pl = readPlace(); N = selectedN(); }
     catch (e) { $("date-help").textContent = DATE_HELP; notComputed(e.message); return; }
     $("date-help").textContent = dateHelp(N);
+    if (!tierChosen()) {                                  // none chosen: the default for this date (dṛk within 1850–2150, else the text default)
+      const dflt = MC.pageTier("", undefined, midnightJd(N, pl) + 0.25);
+      if (dflt !== tier) { tier = dflt; cache.yearKey = cache.monthKey = cache.eclKey = cache.yearShown = cache.varshaKey = null; $("dasha-out").innerHTML = ""; showTierNote(); }
+    }
     if (TIERS[tier].samskara && record.state === "loading") { say("Reading the paramparā record…"); await recordReady; if (g !== gen) return; }
     try { Eng = engineOf(tier); } catch (e) { notComputed(e.message); return; }
     say(linkNote);
@@ -983,6 +987,7 @@
     const yearsDrik = T.family === "drik";
     $("b-year").disabled = yearsDrik; $("b-bal").disabled = yearsDrik;
   }
+  const tierChosen = () => { try { return String(shared.get().tier || "").trim() !== ""; } catch (e) { return false; } };
   function chooseTier(id) {
     tier = MC.resolveTier(id);
     try { shared.set({ tier }); } catch (e) { /* not kept: the page still works */ }
@@ -993,7 +998,7 @@
     run();
   }
 
-  $("tier-pick").innerHTML = TIER_IDS.map((id) => `<label><input type="radio" name="tier" value="${esc(id)}"> <span><b>${esc(TIERS[id].labelSa)}</b> · ${esc(TIERS[id].label)}${TIERS[id].default ? " <span class=\"muted\">(default)</span>" : ""}</span></label>`).join("");
+  $("tier-pick").innerHTML = TIER_IDS.map((id) => `<label><input type="radio" name="tier" value="${esc(id)}"> <span><b>${esc(TIERS[id].labelSa)}</b> · ${esc(TIERS[id].label)}${MC.tierDefaultNote(id) ? " <span class=\"muted\">(" + esc(MC.tierDefaultNote(id)) + ")</span>" : ""}</span></label>`).join("");
   fillCitySelect($("city"), true);
   fillCitySelect($("b-city"), true);
   $("b-year").innerHTML = Object.keys(P0 && window.Dasha ? window.Dasha.YEAR : {}).map((k) => `<option value="${esc(k)}">${esc(k)}: ${esc((Number(window.Dasha.YEAR[k].num) / Number(window.Dasha.YEAR[k].den)).toFixed(4))} days</option>`).join("");

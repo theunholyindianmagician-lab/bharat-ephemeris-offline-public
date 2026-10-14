@@ -148,7 +148,7 @@ function assertClean(text, where) {
     assert.equal(await page.locator('#date').inputValue(), '2026-09-07');
     assert.equal(await page.locator('#timezone').inputValue(), '2');
     assert.deepEqual(await page.locator('#tier option').evaluateAll((xs) => xs.map((x) => x.value)), M.TIER_IDS.slice());
-    assert.equal(await page.locator('#tier').inputValue(), M.DEFAULT_TIER, 'the page default is the default tier');
+    assert.equal(await page.locator('#tier').inputValue(), M.pageTier(''), 'the page opens on the default for its date (today: the dṛk tier, served within 1850–2150)');
     const optionTexts = await page.locator('#tier option').evaluateAll((xs) => xs.map((x) => x.textContent));
     M.TIER_IDS.forEach((id, i) => { assert.ok(optionTexts[i].includes(M.TIERS[id].label) && optionTexts[i].includes(M.TIERS[id].labelSa), `option ${id} carries M.TIERS labels`); });
     const runtime = await page.evaluate(() => ({ DrikTier: typeof window.DrikTier, Vsop: typeof window.ShunyaVsop87, Elp: typeof window.ShunyaElp, Precision: typeof window.KaalPrecisionEphemeris,
@@ -368,7 +368,7 @@ function assertClean(text, where) {
     await page.evaluate((key) => localStorage.removeItem(key), M.YANTRA_STATE_KEY);
     await page.goto(base + '/shunyabheda.html?engineMode=classical');
     await page.waitForFunction(() => /COMPUTATION COMPLETE/.test(document.querySelector('#status').textContent), null, { timeout: 90000 });
-    assert.equal(await page.locator('#tier').inputValue(), M.DEFAULT_TIER, "an old ?engineMode=classical link opens the page default");
+    assert.equal(await page.locator('#tier').inputValue(), M.pageTier(''), "an old ?engineMode=classical link opens the page default for its date");
     console.log('PASS ?tier=bogus is reported and not stored; ?engineMode=calibrated → drik; ?engineMode=classical → the page default');
 
     assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
@@ -376,7 +376,7 @@ function assertClean(text, where) {
     assert.deepEqual(foreignRequests, [], 'no request leaves the page\'s origin');
     console.log('PASS no page error, no console error, no outside request');
 
-    // 9. without the paramparā record the default tier says so plainly and offers the other two (a fresh visitor,
+    // 9. without the paramparā record the tier that needs it says so plainly and offers the other two (a fresh visitor,
     //    the record's two files blocked); the plain text then computes. (Its own page: the blocked fetches are expected.)
     const context = await browser.newContext();
     const p2 = await context.newPage();
@@ -386,7 +386,7 @@ function assertClean(text, where) {
       const u = new URL(route.request().url());
       return u.hostname === '127.0.0.1' && !u.pathname.startsWith('/corpus/parampara/') ? route.continue() : route.abort();
     });
-    await p2.goto(base + '/shunyabheda.html?date=2026-10-08');
+    await p2.goto(base + '/shunyabheda.html?date=2026-10-08&tier=ss%2Bparameshvara');   // the tier that needs the record, chosen explicitly (the default for 2026 is the dṛk tier, which does not)
     await p2.waitForFunction(() => /NOT COMPUTED|COMPUTATION COMPLETE/.test(document.querySelector('#status').textContent), null, { timeout: 90000 });
     assert.match(await p2.locator('#status').textContent(), /NOT COMPUTED.*paramparā record/);
     assert.deepEqual(await p2.locator('#tier-refusal-actions button').evaluateAll((bs) => bs.map((b) => b.dataset.tier)), M.TIER_IDS.filter((id) => M.TIERS[id].samskara !== 'parameshvara'));

@@ -2933,7 +2933,8 @@ function renderDasha(){
 /* the drawers' tier: the select (shared yantraState key), the labels from M.TIERS, a redraw on change */
 function syncMuseumTier(){
   const LT=globalThis.LegacyTier;if(!LT)return;
-  const sel=document.getElementById('museumTierSelect');if(sel)sel.value=LT.current();
+  if(LT.setInstant)LT.setInstant(()=>2451545.0+T);   // none chosen: the default for the simulated instant (dṛk within 1850–2150, else the text default)
+  const sel=document.getElementById('museumTierSelect');if(sel){if(sel.showTier)sel.showTier(LT.current());else sel.value=LT.current();}
   LT.renderLabels(document.getElementById('museumTierLabels'),LT.current(),2451545.0+T);
   if(dashaOpen){renderDasha();renderBhavaChakra();}
 }

@@ -1123,7 +1123,8 @@
       const offset = offsetMinutes($('offsetInput').value);
       const jd = jdOfMs(ms);
       const temple = state.temple;
-      const tier = LT.current();
+      const tier = LT.current(jd);
+      const tierSel = $('tierSelect'); if (tierSel && tierSel.showTier && tierSel.value !== tier) tierSel.showTier(tier);   // none chosen: the default for this date
       const site = { latitude: temple.lat, longitude: temple.lon };
       const civil = civilLabel(ms, offset);
       const zone = offsetLabel(offset);
@@ -1835,6 +1836,7 @@ ${limbHtml}
     const fatalBox = $('fatalError');
     if (fatalBox) fatalBox.hidden = true;
     renderTemplePresets();
+    LT.setInstant(() => jdOfMs(state.instantMs));
     LT.mountSelect($('tierSelect'), () => { state.labelKey = null; state.lunarKey = null; updateText(state.instantMs, true); if (state.visible) drawCanvas(); });
     $('calendarInput').value = state.calendar;
     $('calendarInput').addEventListener('change', () => {

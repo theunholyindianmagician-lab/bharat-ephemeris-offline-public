@@ -106,7 +106,8 @@ function yuti(places, N, star, ms) {
     assert.deepEqual(await page.$$eval('#moon-tier input[name="moon-tier"]', (xs) => xs.map((x) => x.value)), M.TIER_IDS);
     const pick = await text('#moon-tier');
     for (const id of M.TIER_IDS) assert.ok(pick.includes(TIERS[id].labelSa) && pick.includes(TIERS[id].label), `the choice ${id} named by M.TIERS`);
-    assert.equal(await page.inputValue('#moon-tier input:checked'), 'ss+parameshvara', 'the default is Sūrya-Siddhānta + Parameśvara\'s saṃskāra');
+    assert.equal(await page.inputValue('#moon-tier input:checked'), M.pageTier(''), 'with none chosen the page shows the default for its date (today: the dṛk tier)');
+    await setTier('ss+parameshvara');   // the rest of this block describes the Parameśvara choice, chosen explicitly
     assert.ok((await text('#moon-tier-note')).includes(ST.label(SAM).caption), 'the saṃskāra\'s caption is the record\'s');
     const ms = { latitude: 23.18, deshantara: 0, palabha: V.placeOf({ latitude: 23.18, deshantara: 0 }, 12).palabha };
     await page.fill('#site-name', 'Ujjayinī test'); await page.fill('#site-lat', '23.18'); await page.fill('#site-desh', '0');
@@ -407,7 +408,7 @@ function yuti(places, N, star, ms) {
       const { c, p } = await fresh({ viewport: { width: 390, height: 844 }, colorScheme: 'light' });
       await p.goto(base + '/vedha.html?tier=bogus');
       await p.waitForFunction(() => document.body.dataset.ready === '1', null, { timeout: 120000 });
-      assert.equal(await p.inputValue('#moon-tier input:checked'), 'ss+parameshvara', 'a bad link shows the default');
+      assert.equal(await p.inputValue('#moon-tier input:checked'), M.pageTier(''), 'a bad link shows the default');
       assert.match(await p.locator('#moon-tier-note').textContent(), /not one of the choices/);
       assert.equal(await p.evaluate(() => JSON.parse(localStorage.getItem('bharat-ephemeris-yantra-state-v1') || '{}').tier || ''), '', 'the bad choice is not stored');
       const over = () => p.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
@@ -423,7 +424,7 @@ function yuti(places, N, star, ms) {
     // the paramparā record unreadable: the default choice says so and the page stays usable; the plain text predicts
     {
       const { c, p } = await fresh({ viewport: { width: 1280, height: 900 } }, (r, u) => (/corpus\/parampara\//.test(u.pathname) ? r.fulfill({ status: 200, contentType: 'application/json', body: 'not the record' }) : r.continue()));
-      await p.goto(base + '/vedha.html');
+      await p.goto(base + '/vedha.html?tier=ss%2Bparameshvara');   // the choice that needs the record, chosen explicitly
       await p.waitForFunction(() => document.body.dataset.ready === '1', null, { timeout: 120000 });
       assert.equal(await p.evaluate(() => document.body.dataset.parampara), 'unavailable');
       assert.match(await p.locator('#msg').textContent(), /needs the paramparā record/);

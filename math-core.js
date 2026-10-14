@@ -438,9 +438,26 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
   }
   const tierFamily = (tier) => TIERS[resolveTier(tier)].family;
   const samskaraOfTier = (tier) => TIERS[resolveTier(tier)].samskara;
-  /** The tier a page shows: its stored or linked choice, else the page default ('ss+parameshvara'). */
-  function pageTier(stateTier, pageDefault = DEFAULT_TIER) {
-    return resolveTier(stateTier === undefined || stateTier === null || String(stateTier).trim() === "" ? pageDefault : stateTier);
+  /** The tier a visitor who has chosen none is shown for the instant jd (default: now): the dṛk tier where it is served
+   *  (the years of TIERS.drik.span, by the series' year rule to within the seconds of ΔT), else the text default
+   *  ('ss+parameshvara', which is served over ±50,000 years). The dṛk tier is the one measured against NASA-JPL DE440s
+   *  (λ within 1″ over its span); outside the span only the text tiers exist. */
+  function defaultTierFor(jd) {
+    const j = Number.isFinite(jd) ? jd : Date.now() / 86400000 + 2440587.5;
+    const span = TIERS.drik.span.years, year = 2000 + (j - 2451545) / 365.25;
+    return year >= span[0] && year <= span[1] ? "drik" : DEFAULT_TIER;
+  }
+  /** What a tier's "default" label says: the dṛk tier is the default inside its span, 'ss+parameshvara' outside it; "" for the rest. */
+  function tierDefaultNote(id) {
+    const span = TIERS.drik.span.years, range = `${span[0]}–${span[1]}`;
+    return id === "drik" ? `default for ${range}` : id === "ss+parameshvara" ? `default outside ${range}` : "";
+  }
+  /** The tier a page shows: its stored or linked choice; if there is none, pageDefault when the caller gives one, else the
+   *  default for the instant jd (defaultTierFor: dṛk within 1850–2150, else 'ss+parameshvara'; jd omitted = now). */
+  function pageTier(stateTier, pageDefault, jd) {
+    const unchosen = stateTier === undefined || stateTier === null || String(stateTier).trim() === "";
+    if (!unchosen) return resolveTier(stateTier);
+    return pageDefault !== undefined && pageDefault !== null ? resolveTier(pageDefault) : defaultTierFor(jd);
   }
   /** Refusal of the dṛk tier outside its span. */
   class TierSpanError extends RangeError {
@@ -3153,7 +3170,7 @@ function chartPrecision(
     latitude: "23.1765",
     longitude: "75.7885",
     calendar: "gregorian",
-    tier: "",                       // '' = the page default (pageTier(): 'ss+parameshvara')
+    tier: "",                       // '' = none chosen: the default for the date (pageTier(): dṛk within 1850–2150, else 'ss+parameshvara')
     applyBija: "false",
   });
   /* 2026-10-08: 'ayanamsha' and 'engineMode' are gone (a tier carries its own ayanāṃśa). A stored or linked engineMode is
@@ -7502,6 +7519,8 @@ function quantumBijaCorrection(graha, t) {
     TIERS,
     TIER_IDS,
     DEFAULT_TIER,
+    defaultTierFor,
+    tierDefaultNote,
     resolveTier,
     tierFamily,
     pageTier,

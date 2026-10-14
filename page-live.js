@@ -23,16 +23,22 @@
 
   /** The tier this page shows: the stored or linked choice, else the page default (M.pageTier). An unknown value in a
    *  crafted link is reported (problem()) and the default is shown; it is never stored (math-core R-15). */
-  function current() {
+  let instantFn = null;
+  /** A page whose computation follows a date registers it: with no tier chosen, current() is then the default for that
+   *  instant (the dṛk tier within 1850–2150, else the text default). fn() returns the page's Julian day. */
+  function setInstant(fn) { instantFn = typeof fn === "function" ? fn : null; }
+  function current(jd) {
     let raw = "";
     try { raw = st().get().tier; } catch (e) { raw = ""; }
-    try { linkProblem = null; return M.pageTier(raw); }
-    catch (e) { linkProblem = `गणना-तह '${raw}' अज्ञात — मूल चुनाव दिखाया गया / unknown tier '${raw}': the page default is shown`; return M.pageTier(""); }
+    let at = jd;
+    if (at === undefined && instantFn) { try { at = instantFn(); } catch (e) { at = undefined; } }
+    try { linkProblem = null; return M.pageTier(raw, undefined, at); }
+    catch (e) { linkProblem = `गणना-तह '${raw}' अज्ञात — मूल चुनाव दिखाया गया / unknown tier '${raw}': the page default is shown`; return M.pageTier("", undefined, at); }
   }
   const problem = () => linkProblem;
   function set(id) {
     const tier = M.resolveTier(id);
-    st().set({ tier: tier === M.DEFAULT_TIER ? "" : tier });
+    st().set({ tier });                                   // a choice is always stored; "" means none chosen (the default for the date)
     return tier;
   }
   const isRefusal = (e) => Boolean(e && e.code === "TIER_OUT_OF_SPAN");
@@ -106,12 +112,13 @@
    *  after a choice (stored on the shared bus). Also follows a choice made in another tab. */
   function mountSelect(select, onChange) {
     if (!select || !doc) return null;
-    select.replaceChildren(...M.TIER_IDS.map((id) => { const o = el("option", `${M.TIERS[id].labelSa} / ${M.TIERS[id].label}${M.TIERS[id].default ? " (मूल / default)" : ""}`); o.value = id; return o; }));
+    select.replaceChildren(...M.TIER_IDS.map((id) => { const o = el("option", `${M.TIERS[id].labelSa} / ${M.TIERS[id].label}${M.tierDefaultNote(id) ? " (" + M.tierDefaultNote(id) + ")" : ""}`); o.value = id; return o; }));
     select.value = current();
     if (!select.getAttribute("aria-label")) select.setAttribute("aria-label", "गणना-तह / tier");
     // One path for every change — this select, a refusal's text-tier button, another tab: the shared state's listener
     // syncs the select and recomputes once.
     let last = select.value, listening = false;
+    select.showTier = (id) => { last = id; select.value = id; };   // the page shows a tier it resolved itself (the default for its date) without storing it
     try {
       st().on(() => { const now = current(); if (now !== last) { last = now; select.value = now; if (typeof onChange === "function") onChange(now); } });
       listening = true;
@@ -136,7 +143,7 @@
   /** "[-]YYYY-MM-DD" of a civil date (signed, at least four digits). */
   const isoOf = (c) => `${c.year < 0 ? "-" : ""}${String(Math.abs(c.year)).padStart(4, "0")}-${String(c.month).padStart(2, "0")}-${String(c.day).padStart(2, "0")}`;
 
-  root.LegacyTier = Object.freeze({ current, set, problem, isRefusal, name, short, measured, labels, renderLabels, renderRefusal, mountSelect, parseCivil, isoOf });
+  root.LegacyTier = Object.freeze({ current, setInstant, set, problem, isRefusal, name, short, measured, labels, renderLabels, renderRefusal, mountSelect, parseCivil, isoOf });
 
   // ── the live strip (library, the dashboard) ─────────────────────────────────────────────────────────────
   if (!doc || !doc.body || doc.body.getAttribute("data-page-live") !== "strip") {

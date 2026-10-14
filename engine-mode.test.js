@@ -127,7 +127,8 @@ test('yantraState: tier and calendar replace engineMode and ayanamsha; a stored 
   try {
     assert.deepEqual(Object.keys(M.YANTRA_STATE_DEFAULTS).sort(), ['applyBija', 'calendar', 'date', 'latitude', 'longitude', 'tier', 'time', 'timezone']);
     assert.equal(M.YANTRA_STATE_DEFAULTS.tier, '');
-    assert.equal(M.pageTier(M.YANTRA_STATE_DEFAULTS.tier), 'ss+parameshvara', 'the page default');
+    assert.equal(M.pageTier(M.YANTRA_STATE_DEFAULTS.tier, undefined, 2461041.5), 'drik', 'none chosen, 2026: the dṛk tier, which is served there');
+    assert.equal(M.pageTier(M.YANTRA_STATE_DEFAULTS.tier, undefined, 2341972.5), 'ss+parameshvara', 'none chosen, 1700: the text default, since dṛk is not served there');
     g.location = { search: '?engineMode=calibrated' };
     assert.equal(M.yantraState().get().tier, 'drik');
     store.clear(); g.location = { search: '' };
@@ -135,9 +136,10 @@ test('yantraState: tier and calendar replace engineMode and ayanamsha; a stored 
     // it records no choice, so the visitor gets the owner's page default, not the plain text (review 2026-10-08)
     store.set(M.YANTRA_STATE_KEY, JSON.stringify({ engineMode: 'classical', ayanamsha: 'effective_49' }));
     const s = M.yantraState().get();
-    assert.equal(s.tier, ''); assert.equal(M.pageTier(s.tier), 'ss+parameshvara'); assert.equal(s.engineMode, undefined); assert.equal(s.ayanamsha, undefined);
+    assert.equal(s.tier, ''); assert.equal(M.pageTier(s.tier, undefined, 2341972.5), 'ss+parameshvara'); assert.equal(M.pageTier(s.tier, undefined, 2461041.5), 'drik'); assert.equal(s.engineMode, undefined); assert.equal(s.ayanamsha, undefined);
     store.clear(); g.location = { search: '?date=2026-08-09&engineMode=classical&ayanamsha=effective_49' };
-    assert.equal(M.pageTier(M.yantraState().get().tier), 'ss+parameshvara', 'an old shared link opens on the page default');
+    assert.equal(M.pageTier(M.yantraState().get().tier, undefined, 2341972.5), 'ss+parameshvara', 'an old shared link opens on the default for its date (1700: the text default)');
+    assert.equal(M.pageTier(M.yantraState().get().tier, undefined, 2461041.5), 'drik', 'and on the dṛk tier within its span (2026)');
     store.clear(); g.location = { search: '?engineMode=classical&tier=ss' };
     assert.equal(M.yantraState().get().tier, 'ss', 'an explicit tier wins');
     store.clear(); g.location = { search: '?tier=ss+parameshvara' };               // '+' decodes to a space in a query

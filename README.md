@@ -6,10 +6,10 @@ Free public browser tools for exploring Indian astronomical texts, observing the
 
 | ID | Model | Computation and boundary |
 |---|---|---|
-| `ss+parameshvara` | Sūrya-Siddhānta with Parameśvara saṃskāra — default | Text equations with observation-derived Moon and node epoch corrections. The correction record, assumptions and rejected observations remain inspectable in `corpus/parampara/`. |
+| `ss+parameshvara` | Sūrya-Siddhānta with Parameśvara saṃskāra — default outside 1850–2150 | Text equations with observation-derived Moon and node epoch corrections. The correction record, assumptions and rejected observations remain inspectable in `corpus/parampara/`. |
 | `ss` | Plain Sūrya-Siddhānta | The text's own constants, sine geometry, time convention and ayanāṃśa; no modern ephemeris seeds this path. |
 | `kerala` | Kerala paramparā (Parahita + Dṛggaṇita) with the joint measurement — default of that tier since 2026-10-12 | The same geocentric model on the Parahita karaṇa's constants, with bīja on the means, the Moon's measured forms and terms, and the five star-planets on Nīlakaṇṭha's placement (Tantrasaṅgraha 2.68b–74) with measured series — every number fitted against the dṛk tier over the whole span it serves, 1850–2150 (`corpus/research/parampara-apply.json`), with the text's eclipse shadow and chapter-5 parallax measured against the dṛk eclipses, and validated out of sample (`corpus/research/validate-oos.json`). `measured: false` gives the bare paramparā. Outside 1850–2150 the bounded constants are held (design §24.19). |
-| `drik` | Modern Bhāratīya dṛk | A locally implemented physical calculation and fitted series with DE440s initial conditions, modern reference frames and ΔT assumptions. Supported interval: 1850–2150; out-of-range requests are rejected. |
+| `drik` | Modern Bhāratīya dṛk — default within 1850–2150 | A locally implemented physical calculation and fitted series with DE440s initial conditions, modern reference frames and ΔT assumptions. Supported interval: 1850–2150; out-of-range requests are rejected. |
 
 `math-core.js` selects these models and `ss-tier.js` binds the text and Kerala models. `siddhanta-tier.js` supplies the current modern model. Historical VSOP/ELP modules remain for development and legacy regression checks; they are not the current three-choice selector's modern backend.
 
@@ -56,4 +56,4 @@ On 9 October 2026, the unmodified PR #5 head `2de0c80` passed all 57 then-regist
 
 ## Source and release records
 
-`` records owner decisions and seals; preserve it append-only. `VEDHA-YANTRA-DESIGN-2026-10-07.md`, `corpus/parampara/`, the executable tests and `MATHEMATICAL-AUDIT.md` provide evidence and limitations. The public exporter is `scripts/export-public.cjs`; scan exported content before publishing. No claim of global priority or universal perfection is established by this repository.
+`VEDHA-YANTRA-DESIGN-2026-10-07.md`, `corpus/parampara/`, the executable tests and `MATHEMATICAL-AUDIT.md` provide evidence and limitations. The public exporter is `scripts/export-public.cjs`; scan exported content before publishing. No claim of global priority or universal perfection is established by this repository.

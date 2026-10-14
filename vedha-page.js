@@ -752,6 +752,7 @@
   function refresh() {
     try {
       const N = kaliOfDate($("day").value);
+      if (!tierChosen()) { const dflt = MC.pageTier("", undefined, ST.KALI_JD0 + N + 0.25); if (dflt !== moonTier) { moonTier = dflt; showMoonTier(); } }   // none chosen: the default for this date
       $("day-help").textContent = dayHelp(N);
       lastPred = predictDay(N);
       showPrediction(lastPred);
@@ -785,8 +786,9 @@
   // ── start ───────────────────────────────────────────────────────────────────────────────────────────
   const today = dateOfKali(todayKali());
   $("day").value = today; $("rec-day").value = today;
-  $("moon-tier").innerHTML = TIER_IDS.map((id) => `<label><input type="radio" name="moon-tier" value="${esc(id)}"> <span><b>${esc(TIERS[id].labelSa)}</b> · ${esc(TIERS[id].label)}${TIERS[id].default ? ` <span class="muted">(default)</span>` : ""}</span></label>`).join("");
+  $("moon-tier").innerHTML = TIER_IDS.map((id) => `<label><input type="radio" name="moon-tier" value="${esc(id)}"> <span><b>${esc(TIERS[id].labelSa)}</b> · ${esc(TIERS[id].label)}${MC.tierDefaultNote(id) ? ` <span class="muted">(${esc(MC.tierDefaultNote(id))})</span>` : ""}</span></label>`).join("");
   showMoonTier();
+  const tierChosen = () => { try { return String(shared.get().tier || "").trim() !== ""; } catch (e) { return false; } };
   function chooseMoonTier(id) {
     moonTier = MC.resolveTier(id); linkNote = "";
     try { shared.set({ tier: moonTier }); } catch (e) { /* not kept: the page still works */ }
